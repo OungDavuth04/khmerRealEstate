@@ -23,10 +23,28 @@ class PaymentCheckoutController extends Controller
 
     public function checkout(Request $request)
     {
+
         try{
+            $price = 5;
+            $pay = '';
+            if($request->day == 1){
+                $pay =   $price *100;
+            }else if($request->day == 2){
+                $pay =   $price* 2 *100;
+            }else if($request->day == 3){
+                $pay =   $price* 3 *100;
+            }else if($request->day == 4){
+                 $pay =   $price* 4 *100;
+            }else if($request->day == 5){
+                $pay =   $price* 5 *100;
+            }else if($request->day == 6){
+                $pay =   $price* 6 *100;
+            }else if($request->day == 7){
+                 $pay =   $price* 7 *100;
+            }
             Stripe::setApiKey(env('STRIPE_SECRET'));
            $charge = Charge::create(array(
-               'amount' =>  $request->price*100,
+               'amount' =>  $pay,
                 'currency' => 'USD',
                'source' => $request->stripeToken,
                 'description' => 'Description goes here',
@@ -42,7 +60,7 @@ class PaymentCheckoutController extends Controller
             }
              FeaturAd::create([
                 'UpId' => $request->id,
-                'price' => $request->price,
+                'price' => $pay,
                 'day' => $request->day,
                  'uid' => $getid
             ]);

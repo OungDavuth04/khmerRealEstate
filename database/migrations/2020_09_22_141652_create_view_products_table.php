@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateUserspromote extends Migration
+class CreateViewProductsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,13 +13,10 @@ class CreateUserspromote extends Migration
      */
     public function up()
     {
-        Schema::create('userspromote', function (Blueprint $table) {
-            $table->bigIncrements('promoteId');
-            $table->string('UpId');
-            $table->string('price');
-            $table->string('day');
-            $table->string('uid');
-            $table->string('disable')->default('true');
+        Schema::create('view_products', function (Blueprint $table) {
+            $table->bigIncrements('Vid');
+            $table->integer('UpId');
+            $table->integer('viewer');
             $table->timestamps();
         });
     }
@@ -31,6 +28,6 @@ class CreateUserspromote extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('userspromote');
+        Schema::dropIfExists('view_products');
     }
 }

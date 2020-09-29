@@ -45,6 +45,16 @@ Route::get('getcategory/{cat}', 'API\V1\ProductController@procategory');
 Route::get('promote', 'API\V1\ProductController@Promote');
 
 Route::post('/checkout', 'PaymentCheckoutController@checkout');
+Route::post('getfavorite', 'API\V1\ProductController@getfavorite');
+Route::post('userdata', 'API\V1\ProductController@userdata');
+Route::get('checkuserdata/{id}', 'API\V1\ProductController@checkuserdata');
 
-Route::post('/gggggg', 'PaymentCheckoutController@checkout');
+//Promote
+Route::get('AdvertiseDefault', 'API\V1\ProductController@AdvertiseDefault');
+Route::get('AdvertiseUser/{uid}', 'API\V1\ProductController@AdvertiseUser');
+Route::get('viewers/{id}', 'API\V1\ProductController@viewer');
 
+Route::get('viewer/avg', 'API\V1\ProductController@viewerAvg');
+
+///Admin
+Route::get('userlist', 'AdminController@UserList');

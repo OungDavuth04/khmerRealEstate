@@ -85,6 +85,9 @@
                         <router-link to="/">
                             <h5 style="color: #0d47a1;">Back Home To Page</h5>
                         </router-link>
+                        <router-link to="/login">
+                            <h5 style="color: #0d47a1;">Log In</h5>
+                        </router-link>
                     </div>
                 </div>
         </div>
@@ -156,6 +159,7 @@
         margin:0 auto;
     }
     body{
+
         background-color: #07579a;
         width: 100%;
         height: 100%;

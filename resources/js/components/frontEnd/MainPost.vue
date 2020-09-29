@@ -157,7 +157,6 @@
         },
        data(){
            return{
-
                data:{
                    temp: [],
                    temp_id: 0,
@@ -254,7 +253,6 @@
                     reader.readAsDataURL(image);
                     reader.onload = e =>{
                         //this.employeeData.photo = e.target.result;
-
                         this.data.temp.push({id: this.data.temp_id, img: e.target.result});
                         this.data.temp_id++;
                     }

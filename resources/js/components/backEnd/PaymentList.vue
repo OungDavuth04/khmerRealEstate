@@ -1,13 +1,13 @@
 <template>
-<router-view></router-view>
+    <div>
+        Payment List
+    </div>
+
 </template>
 
 <script>
     export default {
-        name: "ProductMaster",
-        created() {
-
-        }
+        name: "PaymentList"
     }
 </script>
 

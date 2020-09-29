@@ -17,6 +17,7 @@
         "laravel/passport": "^9.3",
         "laravel/tinker": "^2.0",
         "laravel/ui": "^2.1",
+        "nesbot/carbon": "^2.40",
         "pusher/pusher-php-server": "~4.0",
         "stripe/stripe-php": "^7.45"
     },

@@ -7,6 +7,7 @@
 
             <div id="Checkout" class="inline">
                 <h1>Pay Invoice</h1>
+
                 <div class="card-row">
                     <span class="visa"></span>
                     <span class="mastercard"></span>
@@ -21,7 +22,7 @@
                     @submit.prevent="pay()"
                     novalidate
                 >
-
+                    <p> Note: One day Will Charge 5$</p>
                     <label for="exampleFormControlSelect1">Promote Day</label>
                     <select class="form-control" id="exampleFormControlSelect1" style="width: 150px;" name="day">
                         <option value="1">1 Day</option>
@@ -32,21 +33,7 @@
                         <option value="6">6 Day</option>
                         <option value="7">7 Day</option>
                     </select>
-                    <div class="form-group">
-                        <label for="inputPrice"
-                        >Price
-                            <span class="text-danger font-weight-bold">*</span></label
-                        >
-                        <input
-                            type="number"
-                            class="form-control"
-                            id="inputPrice"
-                            aria-describedby="emailHelp"
-                            name="price"
-                            required
-                        />
-                        <div class="invalid-feedback">Name on Card is required!</div>
-                    </div>
+
                     <!-- CSRF Field -->
                     <input type="hidden" name="_token" :value="csrf" />
 
@@ -160,7 +147,7 @@
                     </div>
 
                     <div class="text-center mt-4 mb-3">
-                        <button type="submit" class="c-btn-main">Submit Payment</button>
+                        <button type="submit" class=" btn-pay">Submit Payment</button>
                     </div>
                 </form>
             </div>
@@ -262,6 +249,17 @@
     };
 </script>
 <style>
+    .btn-pay{
+        background-color: #0d47a1;
+        color: white;
+        border: none;
+        font-family: "Agency FB";
+        padding: 10px;
+        border-radius: 5px;
+    }
+    .btn-pay:hover{
+        background-color: orange;
+    }
     body {
         background: #FEF8F8;
     }

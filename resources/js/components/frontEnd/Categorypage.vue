@@ -17,7 +17,7 @@
                                 <span>Price : {{item.price}}</span>
                                 <p class="card-text">{{item.description}}</p>
                             </div>
-                            <button class="bnt btn-primary" @click="Detail(item.upId)"> View Detail</button>
+                            <button class="bnt btn-primary" @click="Detail(item.upId,item.cat_name)"> View Detail</button>
                         </div>
                     </div>
                 </template>
@@ -40,7 +40,7 @@
             this.QueryCat();
         },
         methods:{
-            Detail(pid){
+            Detail(pid,cat){
                 this.$store.commit('setDetail',pid);
                 this.$router.push({name:'product.detail'})
             },

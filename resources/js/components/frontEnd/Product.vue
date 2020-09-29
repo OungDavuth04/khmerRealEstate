@@ -1,8 +1,8 @@
 <template >
-    <div>
-        <div class="content">
+    <div style="background: rgb(110 191 255 / 83%)">
+
             <!--navbar-->
-            <nav class="navbar navbar-expand-lg navbar-light bg-primary " >
+        <nav class="navbar navbar-expand-lg navbar-light bg-navbar " >
             <a class="navbar-brand" href="#">
                 <img src="storage/icon/logo.jpg"  style="width: 40px; height: 40px">
             </a>
@@ -33,16 +33,10 @@
                 </form>
             </div>
         </nav>
-
-
-            <nav class="navbar navbar-expand-lg navbar-toggle bg-info " style="margin-top: 15px;">
-
-
+            <nav class="navbar navbar-expand-lg navbar-toggle bg-navbar " style="margin-top: 15px;">
                 <div class="collapse navbar-collapse" >
                     <ul class="navbar-nav mr-auto"></ul>
                     <form class="form-inline my-2 my-lg-0">
-
-
                         <div class="form-group mr-sm-2">
                             <select v-model="data.provinceSelected" id="provinces" class="form-control" @change="getDistricts">
                                 <option v-for="province in allProvinces" :value="province.pro_id">{{ province.ProvinceName }}</option>
@@ -55,7 +49,7 @@
                                 <div class="spinner-border text-success" role="status"></div>
                             </div>
                             <!--End Loading Indicator-->
-                            <div v-if="!data.provinceSelected" class="form-control bg-primary "> Select Province</div>
+                            <div v-if="!data.provinceSelected" class="form-control " style="background-color: gold;color: black; cursor: pointer"> Select Province</div>
                             <select v-if="!loadingDistricts && data.provinceSelected" v-model="data.districtSelected" id="districts" class="form-control" @change="getCommunes">
                                 <option v-for="district in allDistricts" :value="district.dis_id">{{ district.DistrictName }}</option>
                             </select>
@@ -67,7 +61,7 @@
                                 <div class="spinner-border text-success" role="status"></div>
                             </div>
                             <!--End Loading Indicator-->
-                            <div v-if="!data.districtSelected" class="form-control bg-primary ">Select District</div>
+                            <div v-if="!data.districtSelected" class="form-control " style="background-color: gold;color: black;cursor: pointer">Select District</div>
                             <select v-if="!progressing.loadingCommunes && data.districtSelected" v-model="data.communeSelected "id="communes" class="form-control">
                                 <option v-for="commune in allCommunes" :value="commune.com_id">{{ commune.CommuneName }}</option>
                             </select>
@@ -81,11 +75,11 @@
                             <div class="form-group">
                                 <section id="team" class="pb-5">
                                     <div class="container">
-                                        <h5 class="section-title h1">ALL CATEGORY</h5>
+                                        <h5 class="section-title h1" style="color: gold">ALL CATEGORY</h5>
                                         <div class="row">
 
                                             <!-- Team member -->
-                                            <div class="  col-md-3">
+                                            <div class="card-menu">
                                                 <div class="image-flip" ontouchstart="this.classList.toggle('hover');">
                                                     <div class="mainflip">
                                                         <div class="frontside">
@@ -100,7 +94,7 @@
                                                         </div>
                                                         <div class="backside">
                                                             <div class="card">
-                                                                <div class="card-body text-center mt-4">
+                                                                <div class="card-body text-center ">
                                                                     <h4 class="card-title">House</h4>
                                                                     <hr>
                                                                     <div class="btn-holder">
@@ -122,7 +116,7 @@
                                             </div>
                                             <!-- ./Team member -->
                                             <!-- Team member -->
-                                            <div class="col-md-3">
+                                            <div class="card-menu">
                                                 <div class="image-flip" ontouchstart="this.classList.toggle('hover');">
                                                     <div class="mainflip">
                                                         <div class="frontside">
@@ -136,7 +130,7 @@
                                                         </div>
                                                         <div class="backside">
                                                             <div class="card">
-                                                                <div class="card-body text-center mt-4">
+                                                                <div class="card-body text-center">
                                                                     <h4 class="card-title">Land</h4>
                                                                     <hr>
                                                                     <div class="btn-holder">
@@ -157,7 +151,7 @@
                                             </div>
                                             <!-- ./Team member -->
                                             <!-- Team member -->
-                                            <div class="col-md-3">
+                                            <div class="card-menu">
                                                 <div class="image-flip" ontouchstart="this.classList.toggle('hover');">
                                                     <div class="mainflip">
                                                         <div class="frontside">
@@ -172,7 +166,7 @@
 
                                                         <div class="backside">
                                                             <div class="card">
-                                                                <div class="card-body text-center mt-4">
+                                                                <div class="card-body text-center ">
                                                                     <h4 class="card-title">Condo & Apartment</h4>
                                                                     <hr>
                                                                     <div class="btn-holder">
@@ -194,7 +188,7 @@
                                             <!-- ./Team member -->
 
                                             <!-- Team member -->
-                                            <div class="col-md-3">
+                                            <div class="card-menu">
                                                 <div class="image-flip" ontouchstart="this.classList.toggle('hover');">
                                                     <div class="mainflip">
                                                         <div class="frontside">
@@ -208,7 +202,7 @@
                                                         </div>
                                                         <div class="backside">
                                                             <div class="card">
-                                                                <div class="card-body text-center mt-4">
+                                                                <div class="card-body text-center ">
                                                                     <h4 class="card-title">Commercial</h4>
                                                                     <hr>
                                                                     <div class="btn-holder">
@@ -229,7 +223,7 @@
                                             </div>
                                             <!-- ./Team member -->
                                             <!-- Team member -->
-                                            <div class="col-md-3">
+                                            <div class="card-menu">
                                                 <div class="image-flip" ontouchstart="this.classList.toggle('hover');">
                                                     <div class="mainflip">
                                                         <div class="frontside">
@@ -243,7 +237,7 @@
                                                         </div>
                                                         <div class="backside">
                                                             <div class="card">
-                                                                <div class="card-body text-center mt-4">
+                                                                <div class="card-body text-center ">
                                                                     <h4 class="card-title">Room</h4>
                                                                     <hr>
                                                                     <div class="btn-holder">
@@ -263,8 +257,6 @@
                                         </div>
                                     </div>
                                 </section>
-
-
                             </div>
                             <!--end menu-->
                             <div class="container">
@@ -272,98 +264,70 @@
                                 <h2>Popular Ads</h2>
                                 <div class="form-group ">
                                     <div class="row">
-
-                                    </div>
-                                </div> 
-
-                                <h2>Feature Ads</h2>
-                                <div class="form-group bg-primary">
-                                    <div class="row mx-auto my-auto">
-                                        <div id="myCarousel" class="carousel slideInLeft  w-100" data-ride="carousel" style="padding: 5px;">
-                                            <div class="carousel-inner w-100" role="listbox">
-                                                <div class="carousel-item active">
-                                                    <div class="col-lg-3 ">
-                                                        <div class="card" style="width: 16rem;">
-                                                            <img class="card-img-top" src="http://placehold.it/350x180?text=1" alt="Card image cap">
-                                                            <div class="card-body">
-                                                                <h5 class="card-title">Card title 1</h5>
-                                                                <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                                                                <a href="#" class="btn btn-primary">Go somewhere</a>
+                                        <template v-for=" item in topviewer ">
+                                            <div class="page-inner">
+                                                <div class="el-wrapper">
+                                                    <div class="box-up" @click="Detail(item.upId,item.cat_name,item.province,item.district,item.commune)" style="cursor:pointer;">
+                                                        <img :src="item.images.length>0?item.images[0].image:''">
+                                                        <div class="img-info">
+                                                            <div class="info-inner">
+                                                                <span class="p-name" style="color: orange">{{item.title}}</span>
+                                                                <span class="p-company">Yeezy</span>
                                                             </div>
-                                                        </div>
-
-                                                    </div>
-                                                </div>
-                                                <div class="carousel-item">
-                                                    <div class="col-lg-3 ">
-                                                        <div class="card" style="width: 16rem;">
-                                                            <img class="card-img-top" src="http://placehold.it/350x180?text=2" alt="Card image cap">
-                                                            <div class="card-body">
-                                                                <h5 class="card-title">Card title 2</h5>
-                                                                <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                                                                <a href="#" class="btn btn-primary">Go somewhere</a>
-                                                            </div>
+                                                            <div class="a-size">Description : <span class="size">{{item.description}}</span></div>
                                                         </div>
                                                     </div>
-                                                </div>
-                                                <div class="carousel-item">
-                                                    <div class="col-lg-3 ">
-                                                        <div class="card" style="width: 16rem;">
-                                                            <img class="card-img-top" src="http://placehold.it/350x180?text=3" alt="Card image cap">
-                                                            <div class="card-body">
-                                                                <h5 class="card-title">Card title 3</h5>
-                                                                <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                                                                <a href="#" class="btn btn-primary">Go somewhere</a>
-                                                            </div>
+                                                    <div class="box-down">
+                                                        <div class="h-bg">
+                                                            <div class="h-bg-inner"></div>
                                                         </div>
+                                                        <a class="cart" href="#">
+                                                            <span class="price">${{item.price}}</span>
+                                                            <span class="add-to-cart">
+                                                        <span class="txt"  @click="Detail(item.upId,item.cat_name,item.province,item.district,item.commune)">View Detail</span></span>
+                                                        </a>
                                                     </div>
-                                                </div>
-                                                <div class="carousel-item">
-                                                    <div class="col-lg-3 ">
-                                                        <div class="card" style="width: 16rem;">
-                                                            <img class="card-img-top" src="http://placehold.it/350x180?text=4" alt="Card image cap">
-                                                            <div class="card-body">
-                                                                <h5 class="card-title">Card title 4</h5>
-                                                                <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                                                                <a href="#" class="btn btn-primary">Go somewhere</a>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="carousel-item">
-                                                    <div class="col-lg-3 ">
-                                                        <div class="card" style="width: 16rem;">
-                                                            <img class="card-img-top" src="http://placehold.it/350x180?text=5" alt="Card image cap">
-                                                            <div class="card-body">
-                                                                <h5 class="card-title">Card title 5</h5>
-                                                                <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                                                                <a href="#" class="btn btn-primary">Go somewhere</a>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="carousel-item">
-                                                    <div class="col-lg-3 ">
-                                                        <div class="card" style="width: 16rem;">
-                                                            <img class="card-img-top" src="http://placehold.it/350x180?text=6" alt="Card image cap">
-                                                            <div class="card-body">
-                                                                <h5 class="card-title">Card title 6</h5>
-                                                                <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                                                                <a href="#" class="btn btn-primary">Go somewhere</a>
-                                                            </div>
-                                                        </div>
-                                                    </div>
+                                                    <span style="margin-top: 5px;font-size: 12px;">{{item.timer}}</span>
+                                                    <span style="margin-top: 5px;font-size: 12px; margin-left: 12px;"  >{{item.viewers==null?0:item.viewers}} Viewer</span>
                                                 </div>
                                             </div>
-                                            <a class="carousel-control-prev bg-dark w-auto" href="#myCarousel" role="button" data-slide="prev">
-                                                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                                                <span class="sr-only">Previous</span>
-                                            </a>
-                                            <a class="carousel-control-next bg-dark w-auto" href="#myCarousel" role="button" data-slide="next">
-                                                <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                                                <span class="sr-only">Next</span>
-                                            </a>
-                                        </div>
+                                        </template>
+
+                                    </div>
+                                </div>
+
+                                <h2>Feature Ads</h2>
+                                <div class="form-group ">
+                                    <div class="row">
+                                        <template v-for=" item in advertise ">
+                                            <div class="page-inner">
+                                                <div class="el-wrapper">
+                                                    <div class="box-up" @click="Detail(item.upId,item.cat_name,item.province,item.district,item.commune)" style="cursor:pointer;">
+                                                        <img :src="item.images.length>0?item.images[0].image:''">
+                                                        <div class="img-info">
+                                                            <div class="info-inner">
+                                                                <span class="p-name" style="color: orange">{{item.title}}</span>
+                                                                <span class="p-company">Yeezy</span>
+                                                            </div>
+                                                            <div class="a-size">Description : <span class="size">{{item.description}}</span></div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="box-down">
+                                                        <div class="h-bg">
+                                                            <div class="h-bg-inner"></div>
+                                                        </div>
+                                                        <a class="cart" href="#">
+                                                            <span class="price">${{item.price}}</span>
+                                                            <span class="add-to-cart">
+                                                        <span class="txt"  @click="Detail(item.upId,item.cat_name,item.province,item.district,item.commune)">View Detail</span></span>
+                                                        </a>
+                                                    </div>
+                                                    <span style="margin-top: 5px;font-size: 12px;">{{item.timer}}</span>
+                                                    <span style="margin-top: 5px;font-size: 12px; margin-left: 12px;"  >{{item.viewers==null?0:item.viewers}} Viewer</span>
+                                                </div>
+                                            </div>
+                                        </template>
+                                        <!-- /.card-group -->
                                     </div>
                                 </div>
                                 <h2>Last Ads</h2>
@@ -372,62 +336,41 @@
                                 <div class="row">
 
                                     <template v-if="getproduct.length > 0" v-for=" item in queriedData ">
-                                        <div class="col-xs-12 col-sm-6 col-md-3" >
-                                            <article class="card-wrapper">
-                                                <div class="image-holder">
-                                                    <a href="#" class="image-holder__link" @click="Detail(item.upId,item.cat_name,item.province,item.district,item.commune)"></a>
-                                                    <div class="image-liquid image-holder--original" >
+                                        <div class="page-inner">
+                                                <div class="el-wrapper">
+                                                    <div class="box-up" @click="Detail(item.upId,item.cat_name)" style="cursor:pointer;">
                                                         <img :src="item.images.length>0?item.images[0].image:''">
+                                                        <div class="img-info">
+                                                            <div class="info-inner">
+                                                                <span class="p-name" style="color: orange">{{item.title}}</span>
+                                                            </div>
+                                                            <div class="a-size">Description : <span class="size">{{item.description}}</span></div>
+                                                        </div>
                                                     </div>
-                                                </div>
-
-                                                <div class="product-description">
-                                                    <!-- title -->
-                                                    <h1 class="product-description__title">
-                                                        <a href="#">
-                                                           {{item.title}}
+                                                    <div class="box-down">
+                                                        <div class="h-bg">
+                                                            <div class="h-bg-inner"></div>
+                                                        </div>
+                                                        <a class="cart" >
+                                                            <span class="price">${{item.price}}</span>
+                                                            <span class="add-to-cart">
+                                                        <span class="txt"  @click="Detail(item.upId,item.cat_name)">View Detail</span></span>
                                                         </a>
-                                                    </h1>
-
-                                                    <!-- category and price -->
-                                                    <div class="row">
-                                                        <div class="col-xs-12 col-sm-8 product-description__category secondary-text">
-                                                            Price
-                                                        </div>
-                                                        <div class="col-xs-12 col-sm-4 product-description__price">
-                                                            {{item.price}}
-                                                        </div>
                                                     </div>
-
-                                                    <!-- divider -->
-                                                    <hr />
-
-                                                    <!-- sizes -->
-                                                    <div class="sizes-wrapper">
-                                                        <b>Discription</b>
-                                                        <br />
-                                                        <span class="secondary-text text-uppercase">
-                                                            {{item.description}}
-                                                        </span>
-                                                    </div>
+                                                    <span style="margin-top: 5px;font-size: 12px;">{{item.timer}}</span>
+                                                    <span style="margin-top: 5px;font-size: 12px; margin-left: 12px;"  >{{item.viewers==null?0:item.viewers}} Viewer</span>
                                                 </div>
-                                            </article>
-
-                                         </div>
+                                        </div>
                                     </template>
                                 </div>
+
                             </div>
-                            <footer-Page>
-
-                            </footer-Page>
-        </div>
+            <footer-Page>
+            </footer-Page>
     </div>
+
 </template>
-
 <script>
-
-
-
    import Footer from './footer'
     export default {
         name: "Product",
@@ -435,7 +378,6 @@
             'footer-Page' : Footer
         },
         data(){
-
             return{
                 data:{
                     provinceSelected: null,
@@ -443,7 +385,7 @@
                     communeSelected: null,
                 },
                 progressing:{
-                    loadingCommunes: false,
+                     loadingCommunes: false,
                 },
                 allProvinces: [],
                 allDistricts: [],
@@ -456,46 +398,155 @@
                 searchCat:'',
                 searchPro:'',
                 searchDist:'',
-                searchComm:''
+                searchComm:'',
+                advertise:[],
+                topviewer:[]
             }
-
         }
        ,
         created(){
-
         },
         mounted() {
-            this.promote();
-            this.notification();
-            const ClientToken = window.localStorage.getItem('userAccessToken');
-
-            if(ClientToken == null){
-                console.log('true');
-            }
-            else {
-
-            }
+            // this.promote();
+            //this.notification();
+            this.setTimeOut();
             this.productQuery();
             this.slider();
+            this.Advertise();
+            this.ProAvg();
             axios.get('api/province').then(response => {
                 if(response.status === 200){
                     this.allProvinces = response.data;
-
                     //console.log(response);
                 }
             }).catch(err => {
-
             });
-
         },
         methods:{
+            ProAvg(){
+                axios.get('api/viewer/avg').then(response => {
+                    console.log(response.data);
+                    this.topviewer = response.data;
+                }).catch(err => {
+                })
+            },
+            Advertise(){
+                axios.get('api/AdvertiseFavorit').then(response => {
+                    //console.log(response.data);
+                }).catch(err => {
+                })
+            },
+            Advertise(){
+                if(window.localStorage.getItem('userAccessToken') !== null) {
+                    const trustClientToken = window.localStorage.getItem('userAccessToken');
+                    axios.defaults.headers.common['Authorization'] = 'Bearer ' + trustClientToken;
+                    axios.get('api/user').then(response => {
+                        let uid = response.data.id;
+                        let cat = window.localStorage.getItem('catName');
+                        let data = {cat, pro, dist, com, uid};
+                        axios.get('api/AdvertiseUser/'+uid).then(response => {
+                           // console.log(response.data);
+                            this.advertise = response.data
+                        }).catch(err => {
+                        })
+
+                    }).catch(err => {
+                        console.log(err);
+                    });
+                }else {
+                    axios.get('api/AdvertiseDefault').then(response => {
+                       // console.log(response.data);
+                        this.advertise = response.data
+                    }).catch(err => {
+                    })
+                }
+            },
+            productQuery(){
+                if(window.localStorage.getItem('userAccessToken') !== null) {
+                    const trustClientToken = window.localStorage.getItem('userAccessToken');
+                    axios.defaults.headers.common['Authorization'] = 'Bearer ' + trustClientToken;
+                    axios.get('api/user').then(response => {
+                        let uid = response.data.id;
+                        let cat = window.localStorage.getItem('catName');
+                        // let pro = window.localStorage.getItem('province');
+                        // let dist = window.localStorage.getItem('district');
+                        // let com = window.localStorage.getItem('commune');
+                        let data = {cat, uid};
+                        axios.post('api/getfavorite',data).then(response => {
+                            if(response.status === 200){
+                               // console.log(response.data);
+                               this.getproduct = response.data
+                            }
+                        }).catch(err => {
+                        });
+
+                    }).catch(err => {
+                        console.log(err);
+                    });
+                }else {
+                    axios.get('api/getproduct').then(response => {
+                        if(response.status === 200){
+                            this.getproduct = response.data;
+                            //console.log(response.data);
+                        }
+                    }).catch(err => {
+                    });
+                }
+            },
+            setTimeOut(){
+                setTimeout(function(){
+                    if(window.localStorage.getItem('userAccessToken') !== null) {
+                        const trustClientToken = window.localStorage.getItem('userAccessToken');
+                        axios.defaults.headers.common['Authorization'] = 'Bearer ' + trustClientToken;
+                        axios.get('api/user').then(response => {
+                            let uid = response.data.id;
+                            let cat = window.localStorage.getItem('catName');
+                            let data = {cat, uid};
+                            axios.get('api/chec kuserdata/'+uid).then(response => {
+                                if(response.data.length < 1 || response.data.length === undefined  ){
+                                    axios.post('api/userdata', data).then(response => {
+                                           // console.log(response.data);
+                                    }).catch(err => {
+                                    });
+                                }else {
+                                    response.data.forEach((item)=>{
+                                        if(item.catName === cat ){
+                                            console.log('true')
+                                        }else {
+                                            axios.post('api/userdata', data).then(response => {
+                                                console.log(response.data);
+                                            }).catch(err => {
+                                            });
+                                        }
+                                    });
+                                }
+                                console.log(data);
+
+                            }).catch(err => {
+                            });
+                        }).catch(err => {
+                            console.log(err);
+                        });
+                    }
+                }, 2*60*1000);
+            },
+            Detail(pid,cat){
+                this.$store.commit('setDetail',pid);
+                this.$router.push({name:'product.detail'});
+                window.localStorage.setItem('catName',cat);
+                axios.get('api/viewers/'+pid).then(response => {
+                    if(response.status === 200){
+                        //console.log(response.data);
+                    }
+                }).catch(err => {
+                })
+            },
             promote(){
                 axios.get('api/promote').then(response => {
                     if(response.status === 200){
-                        console.log(response.data);
+                       // console.log(response.data);
                     }
                 }).catch(err => {
-
                 })
             },
             category(cat){
@@ -503,6 +554,10 @@
                 this.$router.push({name:'Category'})
             },
             search(){
+                window.localStorage.setItem('catName',this.searchCat);
+                window.localStorage.setItem('province',this.data.provinceSelected);
+                window.localStorage.setItem('district',this.data.districtSelected);
+                window.localStorage.setItem('commune',this.data.communeSelected);
                 this.$store.commit('setSearchBox',this.searchBox);
                 this.$store.commit('setSearchCat',this.searchCat);
                 this.$store.commit('setSearchPro',this.data.provinceSelected);
@@ -512,7 +567,6 @@
             },
             notification(){
                 Pusher.logToConsole = true;
-
                 var pusher = new Pusher('66799a7de1a190499614', {
                     cluster: 'ap1'
                 });
@@ -521,20 +575,11 @@
                     app.alertMessage.push(JSON.stringify(data))  ;
                 });
             },
-
-            Detail(pid,cat,province,district,commune){
-                this.$store.commit('setDetail',pid);
-                this.$store.commit('setProvince',province);
-                this.$store.commit('setCommune',commune);
-                this.$store.commit('setDistrict',district);
-                this.$store.commit('setCatStore',cat);
-                this.$router.push({name:'product.detail'})
-            },
             getDistricts(e){
                 this.loadingDistricts = true;
                 axios.get('api/districts/'+ e.target.value).then(response => {
                     if(response.status === 200){
-                        console.log(response.data);
+                      //  console.log(response.data);
                         this.allDistricts = response.data;
                         this.loadingDistricts = false;
                     }
@@ -544,7 +589,6 @@
                 });
             },
             getCommunes(e){
-
                 this.progressing.loadingCommunes = true;
                 axios.get('api/communes/'+ e.target.value).then(response => {
                     if(response.status === 200){
@@ -557,31 +601,6 @@
                     this.progressing.loadingCommunes= false;
                 });
             },
-            getMac(){
-                axios.get('api/macadd').then(response => {
-                    if(response.status === 200){
-                        console.log(response.data);
-                        //console.log(response);
-                    }
-                }).catch(err => {
-
-                })
-            },
-            productQuery(){
-                axios.get('api/getproduct').then(response => {
-                    if(response.status === 200){
-                      this.getproduct = response.data;
-                       console.log(response.data);
-                    }
-                }).catch(err => {
-
-                }).finally(() => {
-
-                });
-            }
-            ,
-
-
             slider(){
                 $('#myCarousel').carousel({
                     interval: 1000
@@ -594,34 +613,312 @@
                         next = $(this).siblings(':first');
                     }
                     next.children(':first-child').clone().appendTo($(this));
-
                     for (let i = 0; i < minPerSlide; i++) {
                         next = next.next();
                         if (!next.length) {
                             next = $(this).siblings(':first');
                         }
-
                         next.children(':first-child').clone().appendTo($(this));
                     }
                 });
             }
-
-
         },
         computed:{
             queriedData(){
-
                 return this.getproduct;
             }
-
         }
-
-
-
     }
 </script>
 
 <style lang="scss">
+
+
+    .d-flex {
+        display: -webkit-box;
+        display: -ms-flexbox;
+        display: flex;
+    }
+    .align-center {
+        -webkit-box-align: center;
+        -ms-flex-align: center;
+        align-items: center;
+    }
+    .flex-centerY-centerX {
+        justify-content: center;
+        -webkit-box-pack: center;
+        -ms-flex-pack: center;
+        justify-content: center;
+        -webkit-box-align: center;
+        -ms-flex-align: center;
+        align-items: center;
+    }
+
+    body {
+        background-color: #f7f7f7;
+    }
+
+    .page-wrapper {
+        height: 100%;
+        display: table;
+    }
+
+    .page-wrapper .page-inner {
+        display: table-cell;
+        vertical-align: middle;
+    }
+
+    .el-wrapper {
+        width: 230px;
+
+        padding: 15px;
+        margin: 15px ;
+        background-color: #fff;
+    }
+
+    @media (max-width: 991px) {
+        .el-wrapper {
+            width: 345px;
+        }
+    }
+
+    @media (max-width: 767px) {
+        .el-wrapper {
+            width: 290px;
+            margin: 30px auto;
+        }
+    }
+
+    .el-wrapper:hover .h-bg {
+        left: 0px;
+    }
+
+    .el-wrapper:hover .price {
+        left: 20px;
+        -webkit-transform: translateY(-50%);
+        -ms-transform: translateY(-50%);
+        -o-transform: translateY(-50%);
+        transform: translateY(-50%);
+        color: #818181;
+    }
+
+    .el-wrapper:hover .add-to-cart {
+        left: 50%;
+    }
+
+    .el-wrapper:hover .img {
+        webkit-filter: blur(7px);
+        -o-filter: blur(7px);
+        -ms-filter: blur(7px);
+        filter: blur(7px);
+        filter: progid:DXImageTransform.Microsoft.Blur(pixelradius='7', shadowopacity='0.0');
+        opacity: 0.4;
+    }
+
+    .el-wrapper:hover .info-inner {
+        bottom: 155px;
+    }
+
+    .el-wrapper:hover .a-size {
+        -webkit-transition-delay: 300ms;
+        -o-transition-delay: 300ms;
+        transition-delay: 300ms;
+        bottom: 50px;
+        opacity: 1;
+    }
+
+    .el-wrapper .box-down {
+        width: 100%;
+        height: 60px;
+        position: relative;
+        overflow: hidden;
+    }
+    .el-wrapper .box-up {
+        width: 100%;
+        height: 220px;
+        position: relative;
+        overflow: hidden;
+        text-align: center;
+    }
+
+    .el-wrapper .img {
+        padding: 20px 0;
+        -webkit-transition: all 800ms cubic-bezier(0, 0, 0.18, 1);
+        -moz-transition: all 800ms cubic-bezier(0, 0, 0.18, 1);
+        -o-transition: all 800ms cubic-bezier(0, 0, 0.18, 1);
+        transition: all 800ms cubic-bezier(0, 0, 0.18, 1);
+        /* ease-out */
+        -webkit-transition-timing-function: cubic-bezier(0, 0, 0.18, 1);
+        -moz-transition-timing-function: cubic-bezier(0, 0, 0.18, 1);
+        -o-transition-timing-function: cubic-bezier(0, 0, 0.18, 1);
+        transition-timing-function: cubic-bezier(0, 0, 0.18, 1);
+        /* ease-out */
+    }
+
+    .h-bg {
+        -webkit-transition: all 800ms cubic-bezier(0, 0, 0.18, 1);
+        -moz-transition: all 800ms cubic-bezier(0, 0, 0.18, 1);
+        -o-transition: all 800ms cubic-bezier(0, 0, 0.18, 1);
+        transition: all 800ms cubic-bezier(0, 0, 0.18, 1);
+        /* ease-out */
+        -webkit-transition-timing-function: cubic-bezier(0, 0, 0.18, 1);
+        -moz-transition-timing-function: cubic-bezier(0, 0, 0.18, 1);
+        -o-transition-timing-function: cubic-bezier(0, 0, 0.18, 1);
+        transition-timing-function: cubic-bezier(0, 0, 0.18, 1);
+        /* ease-out */
+        width: 660px;
+        height: 100%;
+        background-color: #3f96cd;
+        position: absolute;
+        left: -659px;
+    }
+
+    .h-bg .h-bg-inner {
+        width: 50%;
+        height: 100%;
+        background-color: #464646;
+    }
+
+    .info-inner {
+        -webkit-transition: all 400ms cubic-bezier(0, 0, 0.18, 1);
+        -moz-transition: all 400ms cubic-bezier(0, 0, 0.18, 1);
+        -o-transition: all 400ms cubic-bezier(0, 0, 0.18, 1);
+        transition: all 400ms cubic-bezier(0, 0, 0.18, 1);
+        /* ease-out */
+        -webkit-transition-timing-function: cubic-bezier(0, 0, 0.18, 1);
+        -moz-transition-timing-function: cubic-bezier(0, 0, 0.18, 1);
+        -o-transition-timing-function: cubic-bezier(0, 0, 0.18, 1);
+        transition-timing-function: cubic-bezier(0, 0, 0.18, 1);
+        /* ease-out */
+        position: absolute;
+        width: 100%;
+        bottom: 25px;
+    }
+
+    .info-inner .p-name,
+    .info-inner .p-company {
+        display: block;
+    }
+
+    .info-inner .p-name {
+        font-family: 'PT Sans', sans-serif;
+        font-size: 18px;
+        color: #252525;
+    }
+
+    .info-inner .p-company {
+        font-family: 'Lato', sans-serif;
+        font-size: 12px;
+        text-transform: uppercase;
+        color: #8c8c8c;
+    }
+
+    .a-size {
+        -webkit-transition: all 300ms cubic-bezier(0, 0, 0.18, 1);
+        -moz-transition: all 300ms cubic-bezier(0, 0, 0.18, 1);
+        -o-transition: all 300ms cubic-bezier(0, 0, 0.18, 1);
+        transition: all 300ms cubic-bezier(0, 0, 0.18, 1);
+        /* ease-out */
+        -webkit-transition-timing-function: cubic-bezier(0, 0, 0.18, 1);
+        -moz-transition-timing-function: cubic-bezier(0, 0, 0.18, 1);
+        -o-transition-timing-function: cubic-bezier(0, 0, 0.18, 1);
+        transition-timing-function: cubic-bezier(0, 0, 0.18, 1);
+        /* ease-out */
+        position: absolute;
+        width: 100%;
+        bottom: -20px;
+        font-family: 'PT Sans', sans-serif;
+        color: #828282;
+        opacity: 0;
+    }
+
+    .a-size .size {
+        color: #252525;
+    }
+
+    .cart {
+        display: block;
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        top: 0;
+        left: 0;
+        font-family: 'Lato', sans-serif;
+        font-weight: 700;
+    }
+
+    .cart .price {
+        -webkit-transition: all 600ms cubic-bezier(0, 0, 0.18, 1);
+        -moz-transition: all 600ms cubic-bezier(0, 0, 0.18, 1);
+        -o-transition: all 600ms cubic-bezier(0, 0, 0.18, 1);
+        transition: all 600ms cubic-bezier(0, 0, 0.18, 1);
+        /* ease-out */
+        -webkit-transition-timing-function: cubic-bezier(0, 0, 0.18, 1);
+        -moz-transition-timing-function: cubic-bezier(0, 0, 0.18, 1);
+        -o-transition-timing-function: cubic-bezier(0, 0, 0.18, 1);
+        transition-timing-function: cubic-bezier(0, 0, 0.18, 1);
+        /* ease-out */
+        -webkit-transition-delay: 100ms;
+        -o-transition-delay: 100ms;
+        transition-delay: 100ms;
+        display: block;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        -webkit-transform: translate(-50%, -50%);
+        -ms-transform: translate(-50%, -50%);
+        -o-transform: translate(-50%, -50%);
+        transform: translate(-50%, -50%);
+        font-size: 16px;
+        color: #252525;
+    }
+
+    .cart .add-to-cart {
+        -webkit-transition: all 600ms cubic-bezier(0, 0, 0.18, 1);
+        -moz-transition: all 600ms cubic-bezier(0, 0, 0.18, 1);
+        -o-transition: all 600ms cubic-bezier(0, 0, 0.18, 1);
+        transition: all 600ms cubic-bezier(0, 0, 0.18, 1);
+        /* ease-out */
+        -webkit-transition-timing-function: cubic-bezier(0, 0, 0.18, 1);
+        -moz-transition-timing-function: cubic-bezier(0, 0, 0.18, 1);
+        -o-transition-timing-function: cubic-bezier(0, 0, 0.18, 1);
+        transition-timing-function: cubic-bezier(0, 0, 0.18, 1);
+        /* ease-out */
+        -webkit-transition-delay: 100ms;
+        -o-transition-delay: 100ms;
+        transition-delay: 100ms;
+        display: block;
+        position: absolute;
+        top: 50%;
+        left: 110%;
+        -webkit-transform: translate(-50%, -50%);
+        -ms-transform: translate(-50%, -50%);
+        -o-transform: translate(-50%, -50%);
+        transform: translate(-50%, -50%);
+    }
+
+    .cart .add-to-cart .txt {
+        font-size: 12px;
+        color: #fff;
+        letter-spacing: 0.045em;
+        text-transform: uppercase;
+        white-space: nowrap;
+    }
+
+    body{
+        background-color: #e1e8f0;
+    }
+    .bg-navbar{
+        -webkit-border-radius: 5px;
+        -moz-border-radius: 5px;
+        background: rgb(137,137,204);
+        background: linear-gradient(90deg, rgba(137,137,204,1) 0%, rgba(173,114,168,1) 49%, rgba(137,137,204,1) 100%);
+    }
+    .card-menu{
+        width: 190px;
+        height: 300px;
+        margin: 10px;
+    }
     .btn1{
         border: 0px;
         border-radius: 3px;
@@ -681,12 +978,6 @@
     .carousel-inner .carousel-item-left {
         transform: translateX(0);
     }
-
-
-
-
-
-
     :active, :hover, :focus {
         outline: 0!important;
         outline-offset: 0;
@@ -696,8 +987,6 @@
         position: absolute;
         content: "";
     }
-
-
     .btn-holder {
         display: flex;
         flex-wrap: wrap;
@@ -705,8 +994,6 @@
         max-width: 1000px;
         margin: 10px auto 35px;
     }
-
-
     .btn {
         position: relative;
         display: inline-block;
@@ -738,8 +1025,6 @@
     .btn-4 span:hover {
         color: rgb(54, 56, 55);
     }
-
-
     .btn.hover-border-6 span::before,
     .btn.hover-border-6 span::after {
         width: 0%; height: 0%;
@@ -764,9 +1049,6 @@
         opacity: 1;
         transition: height 0.2s 0.2s ease-in, width 0.2s 0.4s linear, opacity 0s 0.2s;
     }
-
-
-
     .btn.hover-border-7 span::before,
     .btn.hover-border-7 span::after {
         width: 0%; height: 0%;
@@ -791,9 +1073,6 @@
         opacity: 1;
         transition: height 0.2s 0.2s ease-in, width 0.2s 0.4s linear, opacity 0s 0.2s;
     }
-
-
-
     .btn.hover-border-8 span::before,
     .btn.hover-border-8 span::after {
         width: 0%; height: 0%;
@@ -823,8 +1102,6 @@
         opacity: 1;
         transition: height 0.15s 0.1s linear, width 0.2s 0.25s linear, opacity 0s 0.1s;
     }
-
-
     .btn.hover-border-9 span::before,
     .btn.hover-border-9 span::after {
         width: 0%; height: 0%;
@@ -913,7 +1190,6 @@
         width: 0%;
         transition: 0.2s 0.2s ease-out;
     }
-
     .btn.hover-border-11 span::before,
     .btn.hover-border-11 span::after {
         width: 2px; height: 100%;
@@ -935,7 +1211,6 @@
     #team {
         background: #eee !important;
     }
-
     .btn-primary:hover,
     .btn-primary:focus {
         background-color: #108d6f;
@@ -943,15 +1218,10 @@
         box-shadow: none;
         outline: none;
     }
-
     .btn-primary {
         color: #fff;
         background-color: #007b5e;
         border-color: #007b5e;
-    }
-
-    section {
-        padding: 60px 0;
     }
 
     section .section-title {
@@ -1007,6 +1277,8 @@
     }
 
     .backside {
+        width: 190px;
+        height: 300px;
         position: absolute;
         top: 0;
         left: 0;

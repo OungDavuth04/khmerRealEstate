@@ -59,10 +59,10 @@
                         <div class="col-md-3 col-sm-5 item" style="float: left;margin: 5px;">
                             <div class="card item-card card-block">
                                 <img src="storage/icon/hous.jpg" alt="Photo of sunset">
-                                <button type="button" class="btn-size green" @click="addPost(categoryName.home_forSell)">
+                                <button type="button" class="btn-size blue" @click="addPost(categoryName.home_forSell)">
                                     House For Sell
                                 </button>
-                                <button type="button" class="btn-size green" @click="addPost(categoryName.home_forRent)">
+                                <button type="button" class="btn-size blue" @click="addPost(categoryName.home_forRent)">
                                     House For Rent
                                 </button>
                             </div>
@@ -70,10 +70,10 @@
                         <div class="col-md-3 col-sm-5 item" style="float: left;margin: 5px;">
                             <div class="card item-card card-block">
                                 <img src="storage/icon/land.jpeg" alt="Photo of sunset" >
-                                <button type="button" class="btn-size green" @click="addPost(categoryName.land_forSell)">
+                                <button type="button" class="btn-size blue" @click="addPost(categoryName.land_forSell)">
                                     land For Sell
                                 </button>
-                                <button type="button" class="btn-size green" @click="addPost(categoryName.land_forRent)">
+                                <button type="button" class="btn-size blue" @click="addPost(categoryName.land_forRent)">
                                     land For Rent
                                 </button>
                             </div>
@@ -81,10 +81,10 @@
                         <div class="col-md-3 col-sm-5 item" style="float: left;margin: 5px;">
                             <div class="card item-card card-block">
                                 <img src="storage/icon/condo.jpg" alt="Photo of sunset">
-                                <button type="button" class="btn-size green" @click="addPost(categoryName.condo_forSell)">
+                                <button type="button" class="btn-size blue" @click="addPost(categoryName.condo_forSell)">
                                     Condo For Sell
                                 </button>
-                                <button type="button" class="btn-size green" @click="addPost(categoryName.apartment_forRent)">
+                                <button type="button" class="btn-size blue" @click="addPost(categoryName.apartment_forRent)">
                                     Apartment For Rent
                                 </button>
                             </div>
@@ -92,10 +92,10 @@
                         <div class="col-md-3 col-sm-5 item" style="float: left;margin: 5px;">
                             <div class="card item-card card-block">
                                 <img src="storage/icon/commercial.jpg" alt="Photo of sunset" @click="addPost(categoryName.commercial_forSell)">
-                                <button type="button" class="btn-size green">
+                                <button type="button" class="btn-size blue">
                                     commercial For Sell
                                 </button>
-                                <button type="button" class="btn-size green"@click="addPost(categoryName.commercial_forRent)">
+                                <button type="button" class="btn-size blue"@click="addPost(categoryName.commercial_forRent)">
                                     commercial For Rent
                                 </button>
                             </div>
@@ -104,10 +104,10 @@
                             <div class="card item-card card-block">
                                 <img src="storage/icon/room.jpg" alt="Photo of sunset">
 
-                                <button type="button" class="btn-size green" style="margin-bottom: 40px;" @click="addPost(categoryName.rome_forRent)">
+                                <button type="button" class="btn-size blue" style="margin-bottom: 40px;" @click="addPost(categoryName.rome_forRent)">
                                     Room For Rent
                                 </button>
-                              <p>The Best Website Easy to Find your Real Estate</p>
+                              <p style="color: gold;">The Best Website Easy to Find your Real Estate</p>
                             </div>
                         </div>
                     </center>
@@ -208,23 +208,8 @@
         margin: 0;
     }
 
-
-
-    .btn {
-        border-radius: 4px;
-        text-transform: uppercase;
-        position: relative;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        border: 1.5px solid black;
-        padding: 1rem 2rem;
-        font-size: 12px;
-        background-size: 300%;
-        transition: all 0.6s;
-
-    }
     .btn-size{
+        color:gold;
         width: 100%;
         height: 70px;
         display: flex;
@@ -236,7 +221,7 @@
         text-transform: uppercase;
         border-radius: 4px;
         position: relative;
-        border: 1px solid #1d68a7;
+        border: 1px solid #66ccff;
     }
     .black {
         color: black;
@@ -253,7 +238,7 @@
     }
 
     .blue{
-        color: blue;
+        color: orangered;
         background-image: linear-gradient(160deg, white 50%, blue 50%);
     }
 

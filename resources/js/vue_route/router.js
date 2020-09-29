@@ -21,6 +21,12 @@ import  admin from "../components/backEnd/admin"
 import PaymentCheckout from "../components/frontEnd/PaymentCheckout";
 import SearchPage from "../components/frontEnd/SearchPage";
 import Categorypage from "../components/frontEnd/Categorypage";
+import ManageUser from "../components/backEnd/ManageUser";
+import Dasboard from "../components/backEnd/Dasboard";
+import MgRealEstate from "../components/backEnd/MgRealEstate";
+import Report from "../components/backEnd/Report";
+import RealEstatePromoted from "../components/backEnd/RealEstatePromoted";
+import PaymentList from "../components/backEnd/PaymentList";
 
 
 const routes = [
@@ -30,7 +36,40 @@ const routes = [
         component:admin,
         meta:{
           requiresAdmin: true
-        }
+        },
+        children:[
+            {
+                path: '/admin',
+                component: Dasboard,
+                name:'Dasboard',
+            },
+            {
+                path: '/mgUser',
+                name: 'mgUser',
+                component: ManageUser
+            },
+            {
+                path: '/mgRealEstate',
+                name:'mgRealEstate',
+                component: MgRealEstate
+            },
+            {
+                path: '/doReport',
+                name:'doReport',
+                component: Report
+            },
+            {
+                path: '/promoted',
+                name:'promoted',
+                component: RealEstatePromoted
+            },
+            {
+                path: '/paylist',
+                name:'paylist',
+                component: PaymentList
+            }
+
+        ]
     },
     {
         path: '/',
@@ -162,7 +201,6 @@ router.beforeEach((to, from, next) => {
     }
     if(to.matched.some(record => record.meta.requiresVisitor)){
         next();
-
     }
     else{
         next();

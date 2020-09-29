@@ -5,6 +5,7 @@ namespace App\Http\Controllers\API\V1;
 use App\Commune;
 use App\DataUpload;
 use App\District;
+use App\FeaturAd;
 use App\Http\Controllers\Controller;
 use App\Notifications\InvoicePaid;
 use App\Province;
@@ -52,34 +53,41 @@ class UserController extends Controller
 
     public function delete($id){
         Upload::where('UpId', $id)->delete();
+        FeaturAd::where('UpId', $id)->delete();
         $image = Upload_Images::where('UpId',$id)->get();
-
-
         foreach ( $image as $img){
             Upload_Images::where('UpId',$id)->delete();
             $getImageNameOnly = explode('/', $img->image);
             Storage::delete("/public/images/".$getImageNameOnly[2]);
         }
-        return response()->json(['Deleted']);
-
-
+        return response()->json($id);
     }
     public function getpost( Request $request){
+        $values = Upload::where('uid',$request->user()->id)->orderBy('UpId', 'DESC')->get();
+        $promote = FeaturAd::where('uid',$request->user()->id)->get();
 
-        $values = Upload::where('uid',$request->user()->id)->get();
         $newArray = array();
         foreach ($values as $value){
-            $images = Upload_Images::where("UpId", $value->UpId)->get();
             $test = new NewData();
+            $isPromoted = false;
+            foreach ($promote as $promoted){
+                if($promoted->UpId == $value->UpId ){
+                    $isPromoted = true;
+                }
+            }
+
+
+            $images = Upload_Images::where("UpId", $value->UpId)->get();
+
             $test->upId = $value->UpId;
             $test->uid = $value->uid;
             $test->title = $value->title;
             $test->size = $value->size;
             $test->price = $value->price;
             $test->images = $images;
+            $test->promoted = $isPromoted;
             array_push($newArray, $test);
         }
-
 
         return response()->json($newArray);
     }
@@ -136,8 +144,6 @@ class UserController extends Controller
         return response()->json($request);
     }
     public function upload(Request $request){
-
-
         $upload = Upload::create([
             'uid' => $request->uid,
             'title' =>  $request->title,
@@ -157,7 +163,6 @@ class UserController extends Controller
             'commune' => $request->communeSelected,
             'cat_name' => $request->cat_name
          ]);
-
         $up_id = $upload->UpId;
         $photo = null;
         foreach ($request->temp as $item){
@@ -168,7 +173,6 @@ class UserController extends Controller
             $saveDirectory = storage_path() . '/app/public/images/' . $imageNameWithExtension;
             file_put_contents($saveDirectory, $decodedImage);
             $photo = 'storage/images/'.$imageNameWithExtension;
-
             Upload_Images::create([
                 'UpId' =>  $up_id,
                 'image' => $photo,
@@ -265,4 +269,5 @@ class NewData{
     public $district;
     public $commune;
     public $cat_name;
+    public $promoted;
 }

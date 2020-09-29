@@ -1,13 +1,12 @@
 <template>
-<router-view></router-view>
+    <div>
+        Mg user
+    </div>
 </template>
 
 <script>
     export default {
-        name: "ProductMaster",
-        created() {
-
-        }
+        name: "ManageUser"
     }
 </script>
 

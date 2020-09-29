@@ -1,69 +1,70 @@
 <template>
 <div class="container-fluid">
 
+    <aside>
+        <div class="sidebar" data-color="purple" data-background-color="white" style="z-index: 100;">
+            <div class="logo">
+                <a href="" class="simple-text logo-normal" style="color:gold;">
+                    KHMER REAL ESTATE
+                </a>
+            </div>
+                <div class="sidebar-wrapper">
+                    <ul class="nav">
+                        <li class="nav-item active  ">
+                            <router-link to="/" class="nav-link">
+                                <i class="material-icons">dashboard</i>
+                                <p>Home</p>
+                            </router-link>
+                        </li>
+                        <li class="nav-item ">
+                        <router-link to="/user" class="nav-link" v-if="checkLog === true">
+                            <i class="material-icons">person</i>
+                            <p>User Profile</p>
+                        </router-link>
+                        </li>
+                        <li class="nav-item " >
+                            <router-link to="/register" class="nav-link" v-if="checkLog === false">
+                                <i class="material-icons">person</i>
+                                <p>Register</p>
+                            </router-link>
+                        </li>
+                        <li class="nav-item " >
+                            <router-link to="/user" class="nav-link" v-if="checkLog === false">
+                                <i class="material-icons">person</i>
+                                <p>Log In</p>
+                            </router-link>
+                        </li>
+                        <li class="nav-item ">
+                            <a class="nav-link" href="./tables.html">
+                            <i class="material-icons">content_paste</i>
+                            <p>Table List</p>
+                            </a>
+                        </li>
+                        <li class="nav-item ">
+                            <router-link to="/addPost" class="nav-link">
+                            <i class="material-icons">library_books</i>
+                            <p>Add Post</p>
+                            </router-link>
+                        </li>
+                        <li class="nav-item ">
+                            <router-link to="/map" class="nav-link">
+                            <i class="material-icons">location_ons</i>
+                            <p>Find on Maps</p>
+                            </router-link>
+                        </li>
+                        <li class="nav-item ">
+                            <a class="nav-link" href="./notifications.html">
+                            <i class="material-icons">notifications</i>
+                            <p>Notifications</p>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+        </div>
+    </aside>
 
 
-<div class="sidebar" data-color="purple" data-background-color="white" style="z-index: 100;">
 
-    <div class="logo"><a href="" class="simple-text logo-normal">
-    KHMER REAL ESTATE
-    </a></div>
-<div class="sidebar-wrapper">
-    <ul class="nav">
-        <li class="nav-item active  ">
-            <router-link to="/" class="nav-link">
-                <i class="material-icons">dashboard</i>
-                <p>Home</p>
-            </router-link>
-        </li>
-        <li class="nav-item ">
-        <router-link to="/user" class="nav-link" v-if="checkLog === true">
-            <i class="material-icons">person</i>
-            <p>User Profile</p>
-        </router-link>
-        </li>
-        <li class="nav-item " >
-            <router-link to="/register" class="nav-link" v-if="checkLog === false">
-                <i class="material-icons">person</i>
-                <p>Register</p>
-            </router-link>
-        </li>
-        <li class="nav-item " >
-            <router-link to="/user" class="nav-link" v-if="checkLog === false">
-                <i class="material-icons">person</i>
-                <p>Log In</p>
-            </router-link>
-        </li>
-        <li class="nav-item ">
-            <a class="nav-link" href="./tables.html">
-            <i class="material-icons">content_paste</i>
-            <p>Table List</p>
-            </a>
-        </li>
-        <li class="nav-item ">
-            <router-link to="/addPost" class="nav-link">
-            <i class="material-icons">library_books</i>
-            <p>Add Post</p>
-            </router-link>
-        </li>
-
-        <li class="nav-item ">
-            <router-link to="/map" class="nav-link">
-            <i class="material-icons">location_ons</i>
-            <p>Find on Maps</p>
-            </router-link>
-
-        </li>
-        <li class="nav-item ">
-            <a class="nav-link" href="./notifications.html">
-            <i class="material-icons">notifications</i>
-            <p>Notifications</p>
-            </a>
-        </li>
-
-    </ul>
-</div>
-</div>
 <div class="main-panel" >
     <router-view></router-view>
 </div>
@@ -107,36 +108,12 @@
     // }
 </script>
 <style scoped >
-
-    .main-menu{
-        width: 100%;
-        padding: 1px;
-        height: 60px;
-        position: fixed;
-        background-color: #3490dc;
-        z-index: 100;
-    }
-    .menu-logo{
-        width: 25%;
-        height: 100%;
-        font-size: medium;
-        text-align: center;
-        float: left;
-        padding-top: 15px;
-    }
-    .menu-search{
-        width: 50%;
-        height: 100%;
-        float: left;
-    }
-    .menu-login{
-        width: 25%;
-        height: 100%;
-        float: left;
-        padding-left: 6%;
-        padding-top: 8px;
-    }
-
+    button:focus{outline:none}
+    aside{background:#1a1d23; width:250px;height:100vh; position:fixed; transition:.3s;left:-250px;top:0;transition-timing-function: cubic-bezier(0.9,0,1,1);}
+    aside.close{left:0;transition:.3s;transition-timing-function: cubic-bezier(0.9,0,1,1);}
+    nav a{display: block; color:#ddd; text-decoration:none;padding:10px}
+    nav a:hover{background:#313640}
+    aside button{border:none; background:none; position: absolute;right:-40px; top:7px; font-size:30px; transform:rotate(90deg); display:inline-block; cursor:pointer}
     .tim-typo {
         padding-left: 25%;
         margin-bottom: 40px;
@@ -10148,8 +10125,7 @@
         left: 0;
         z-index: 2;
         width: 260px;
-        background: #fff;
-        box-shadow: 0 16px 38px -12px rgba(0, 0, 0, 0.56), 0 4px 25px 0px rgba(0, 0, 0, 0.12), 0 8px 10px -5px rgba(0, 0, 0, 0.2);
+        background: #e1e8f0;
     }
 
     .sidebar .caret {

@@ -1,13 +1,12 @@
 <template>
-<router-view></router-view>
+    <div>
+        Promoted
+    </div>
 </template>
 
 <script>
     export default {
-        name: "ProductMaster",
-        created() {
-
-        }
+        name: "RealEstatePromoted"
     }
 </script>
 

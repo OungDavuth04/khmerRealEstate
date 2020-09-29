@@ -7,6 +7,8 @@ use App\Events\PaymentSummited;
 use App\FeaturAd;
 use App\Province;
 use App\Upload_Images;
+use App\UserData;
+use App\ViewProduct;
 use Carbon\Carbon;
 use App\Http\Controllers\Controller;
 use http\Env\Response;
@@ -14,42 +16,108 @@ use Illuminate\Http\Request;
 use phpDocumentor\Reflection\DocBlock\Tags\Reference\Url;
 use phpseclib\Crypt\Random;
 use App\Upload;
+use Stripe\ApiOperations\Create;
 
 class ProductController extends Controller
 {
+    public function viewer($id){
+        $vie = ViewProduct::where('UpId',$id)->get();
+        if($vie->isEmpty()){
+            ViewProduct::create([
+                'UpId'=> $id,
+                'viewer' => 1
+            ]);
+        }else{
+            foreach ($vie as $count){
+                ViewProduct::where('UpId',$id)->update([
+                    'viewer' => $count->viewer +1
+                ]);
+            }
 
-    public  function Promote(){
-//        $get =
-        $replace = [1,2,3,4,5,6,7];
+        }
 
-        $id = array(1,2,3,4,5,6,7);
-
-       $rand = array_rand($id,1);
-       if($rand == 1){
-           array_splice($id, 1, 1);
-       }else if($rand == 2){
-           array_splice($id, 2, 1);
-       }else if($rand == 3){
-           array_splice($id, 3, 1);
-       }else if($rand == 4){
-           array_splice($id, 4, 1);
-       }else if($rand == 5){
-           array_splice($id, 5, 1);
-       }else if($rand == 6){
-           array_splice($id, 6, 1);
-       }else if($rand == 7){
-           array_splice($id, 7, 1);
-       }
-
-        return response()->json($id);
+        return response()->json($vie);
 
     }
-    public function procategory($cat){
-        $dataCat =  Upload::where('cat_name',$cat)->get();
+    public  function AdvertiseDefault(){
+        $export = array();
+        $featurs = FeaturAd::where('disable','true')->get();
+        foreach ($featurs as $value){
+            $dataAll = Upload::where('UpId',$value->UpId)->get();
+            foreach ($dataAll as $data){
+                $imag = Upload_Images::where('UpId',$data->UpId)->get();
+                $view = ViewProduct::where('UpId',$data->UpId)->get();
+                $store = New TempData();
+                $store->title = $data->title;
+                $store->bedroom = $data->bedroom;
+                $store->bathroom = $data->bathroom;
+                $store->facing = $data->facing;
+                $store->size = $data->size;
+                $store->price = $data->price;
+                $store->description = $data->description;
+                $store->glat = $data->glat;
+                $store->glng = $data->glng;
+                $store->localdetail = $data->localdetail;
+                $store->email = $data->email;
+                $store->phone = $data->phone;
+                $store->province = $data->province;
+                $store->district = $data->district;
+                $store->commune = $data->commune;
+                $store->images = $imag;
+                $store->upId = $data->UpId;
+                $store->cat_name = $data->cat_nam;
+                $store->timer = $data->created_at->diffForHumans();
+                foreach ($view as $viewer){
+                    $store->viewers = $viewer->viewer;
+                }
+                array_push($export,$store);
+            }
+        }
+        return response()->json($export);
+    }
+    public function AdvertiseUser($uid){
+        $export = array();
+           $featurs = FeaturAd::where('disable','true')->get();
+            foreach ($featurs as $value){
+                $dataAll = Upload::where('UpId',$value->UpId)->get();
+                foreach ($dataAll as $data){
+                    $imag = Upload_Images::where('UpId',$data->UpId)->get();
+                    $store = New TempData();
+                    $store->title = $data->title;
+                    $store->bedroom = $data->bedroom;
+                    $store->bathroom = $data->bathroom;
+                    $store->facing = $data->facing;
+                    $store->size = $data->size;
+                    $store->price = $data->price;
+                    $store->description = $data->description;
+                    $store->glat = $data->glat;
+                    $store->glng = $data->glng;
+                    $store->localdetail = $data->localdetail;
+                    $store->email = $data->email;
+                    $store->phone = $data->phone;
+                    $store->province = $data->province;
+                    $store->district = $data->district;
+                    $store->commune = $data->commune;
+                    $store->images = $imag;
+                    $store->upId = $data->UpId;
+                    $store->cat_name = $data->cat_nam;
+                    array_push($export,$store);
+                }
 
+            }
+        return response()->json($export);
+
+    }
+    public  function getfavorite(Request $request){
+        $data = UserData::where('uid',$request->uid)->orderBy('dataId','DESC')->limit(3)->get();
+        foreach ($data as $value){
+            $lastGet[] = $value->catName;
+        }
+        $query = Upload::where( 'cat_name',$lastGet[0])
+            ->orWhere('cat_name',$lastGet[1])
+            ->orWhere('cat_name',$lastGet[2])->get();
         $allCat = array();
-        foreach ( $dataCat as $value){
-
+        foreach ( $query as $value){
             $img =  Upload_Images::where('UpId',$value->UpId)->get();
             $store = New TempData();
             $store->title = $value->title;
@@ -69,16 +137,61 @@ class ProductController extends Controller
             $store->commune = $value->commune;
             $store->images = $img;
             $store->upId = $value->UpId;
-            $store->cat_name = $value->catname;
+            $store->cat_name = $value->cat_name;
             array_push($allCat,  $store);
         }
         return response()->json($allCat);
     }
+    public function checkuserdata($id){
+        $data = UserData::where('uid',$id)->orderBy('dataId','DESC')->limit(1)->get();;
+        return response()->json($data);
+    }
+    public function userdata(Request $request){
+        UserData::create([
+            'uid' => $request->uid,
+            'catName' => $request->cat,
+            'province' => null,
+            'district' => null,
+            'commune' => null
+        ]);
+        return response()->json($request);
+    }
 
-
+    public  function Promote(){
+        $id = array(1,2,3,4,5,6,7);
+       $rand = array_rand($id,1);
+        return response()->json($rand);
+    }
+    public function procategory($cat){
+        $dataCat =  Upload::where('cat_name',$cat)->get();
+        $allCat = array();
+        foreach ( $dataCat as $value){
+            $img =  Upload_Images::where('UpId',$value->UpId)->get();
+            $store = New TempData();
+            $store->title = $value->title;
+            $store->bedroom = $value->bedroom;
+            $store->bathroom = $value->bathroom;
+            $store->facing = $value->facing;
+            $store->size = $value->size;
+            $store->price = $value->price;
+            $store->description = $value->description;
+            $store->glat = $value->glat;
+            $store->glng = $value->glng;
+            $store->localdetail = $value->localdetail;
+            $store->email = $value->email;
+            $store->phone = $value->phone;
+            $store->province = $value->province;
+            $store->district = $value->district;
+            $store->commune = $value->commune;
+            $store->images = $img;
+            $store->upId = $value->UpId;
+            $store->cat_name = $value->cat_name;
+            array_push($allCat,  $store);
+        }
+        return response()->json($allCat);
+    }
     public function search(Request $request){
            function searchData($pro,$dist,$com,$input,$cat){
-
                if($cat == null){
                    if($pro != null ){
                        if($dist != null ){
@@ -133,7 +246,6 @@ class ProductController extends Controller
                            ->orWhere('description','LIKE','%'.$input.'%')->get();
                    }
                }
-
                return $data;
            }
 
@@ -181,28 +293,32 @@ class ProductController extends Controller
             $store->commune = $result->commune;
             $store->images = $img;
             $store->upId = $result->UpId;
-            $store->cat_name = $result->catname;
+            $store->cat_name = $result->cat_name;
             array_push($allData,  $store);
         }
         return response()->json($allData);
     }
 
     public function getpromote(Request $request){
-
-        $getpromote = FeaturAd::where('uid',$request->user()->id)->get();
-        foreach ($getpromote as $item){
-            $gg[] = $item->UpId;
-        }
-        $all = array();
-        for ($i= 0; $i <= count($gg)-1; $i++){
-          $get[] =  Upload::where('UpId', $gg[$i])->get();
-        }
         $allData = array();
+        $date = [];
+        $getpromote = FeaturAd::where('uid',$request->user()->id)->where('disable','true')->get();
+        foreach ($getpromote as $item){
+//            array_push($date, Carbon::now()->toDateTimeString());
+            $dateNow = Carbon::now()->toDateTimeString();
+            $get[] =  Upload::where('UpId', $item->UpId)->get();
+
+//            $dateNow = Carbon::parse($date);//->format('d/m/Y');
+            $promoteDate = Carbon::parse($item->created_at);
+//            $totalDuration =  $dateNow->diff($promoteDate)->format('%H:%I:%S')." Minutes";
+        }
+
+
         foreach ($get as $item){
             foreach ($item as $data){
+                $store = New TempData();
                 $id = $data->UpId;
                 $img  = Upload_Images::where('UpId',$id)->get();
-                $store = New TempData();
                 $store->title = $data->title;
                 $store->bedroom = $data->bedroom;
                 $store->bathroom = $data->bathroom;
@@ -220,7 +336,8 @@ class ProductController extends Controller
                 $store->commune = $data->commune;
                 $store->images = $img;
                 $store->upId = $data->UpId;
-                $store->cat_name = $data->catname;
+                $store->cat_name = $data->cat_name;
+                $store->remainDay =  Carbon::now()->toDateTimeString();
                 array_push($allData,  $store);
             }
         }
@@ -250,7 +367,6 @@ class ProductController extends Controller
     public function map(){
         $map = Upload::all();
         $mapWithImages = [];
-
         foreach ($map as $item){
             $mapImage = Upload_Images::where('UpId', $item->UpId)->get();
             $item['images'] = $mapImage;
@@ -260,7 +376,6 @@ class ProductController extends Controller
     }
 
     public function getpro(){
-
             $UpId = [];
             $alldata = [];
             $date = Carbon::now()->toDateTimeString();
@@ -268,26 +383,23 @@ class ProductController extends Controller
             $getDateOnly = Carbon::parse($last->created_at)->format('d/m/Y');
             $lastInsertedItem = Carbon::createFromFormat('d/m/Y', $getDateOnly);
             $data = Upload::whereBetween('created_at', [$lastInsertedItem->subDay(10)->toDateString(), $date])->get();
-
             foreach ($data as $set){
              array_push($UpId,$set->UpId );
             }
             $random = array_rand($UpId,4);
-
             foreach ($random as $item) {
                 array_push($alldata,$UpId[$item]) ;
             }
-
             $data =  Upload::where('UpId',$alldata[0])
                 ->orWhere('UpId',$alldata[1])
                 ->orWhere('UpId',$alldata[2])
                 ->orWhere('UpId',$alldata[3])
                 ->get();
-
             $all = array();
             foreach ( $data as $value){
-
                 $img =  Upload_Images::where('UpId',$value->UpId)->get();
+                $view = ViewProduct::where('UpId',$value->UpId)->get();
+
                 $store = New TempData();
                 $store->title = $value->title;
                 $store->bedroom = $value->bedroom;
@@ -306,15 +418,53 @@ class ProductController extends Controller
                 $store->commune = $value->commune;
                 $store->images = $img;
                 $store->upId = $value->UpId;
-                $store->cat_name = $value->catname;
-                array_push($all,  $store);
+                $store->timer  = $value->created_at->diffForHumans();
+                $store->cat_name = $value->cat_name;
+                foreach ($view as $viewer){
+                    $store->viewers = $viewer->viewer;
+                }
+                array_push($all,$store);
             }
 //        event(new PaymentSummited($all));
         return response()->json($all);
-
-
     }
 
+    public function viewerAvg(){
+        $all = array();
+        $topViewer = ViewProduct::orderBy('viewer','DESC')->get();
+        foreach ($topViewer as $get ){
+            $up = Upload::where('UpId',$get->UpId)->get();
+            foreach ($up as $value){
+                $img =  Upload_Images::where('UpId',$value->UpId)->get();
+                $view = ViewProduct::where('UpId',$value->UpId)->get();
+                $store = New TempData();
+                $store->title = $value->title;
+                $store->bedroom = $value->bedroom;
+                $store->bathroom = $value->bathroom;
+                $store->facing = $value->facing;
+                $store->size = $value->size;
+                $store->price = $value->price;
+                $store->description = $value->description;
+                $store->glat = $value->glat;
+                $store->glng = $value->glng;
+                $store->localdetail = $value->localdetail;
+                $store->email = $value->email;
+                $store->phone = $value->phone;
+                $store->province = $value->province;
+                $store->district = $value->district;
+                $store->commune = $value->commune;
+                $store->images = $img;
+                $store->upId = $value->UpId;
+                $store->timer  = $value->created_at->diffForHumans();
+                $store->cat_name = $value->cat_name;
+                foreach ($view as $viewer){
+                    $store->viewers = $viewer->viewer;
+                }
+                array_push($all,$store);
+            }
+        }
+        return response()->json($all);
+    }
 }
 class TempData{
     public $upId;
@@ -336,4 +486,7 @@ class TempData{
     public $district;
     public $commune;
     public $cat_name;
+    public $remainDay;
+    public $timer;
+    public $viewers;
 }
