@@ -1,21 +1,19 @@
 <template >
     <div style="background: rgb(110 191 255 / 83%)">
-
-            <!--navbar-->
+        <!--navbar-->
         <nav class="navbar navbar-expand-lg navbar-light bg-navbar " >
-            <a class="navbar-brand" href="#">
+            <a class="" href="#">
                 <img src="storage/icon/logo.jpg"  style="width: 40px; height: 40px">
             </a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
-
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav mr-auto"></ul>
                 <form class="form-inline my-2 my-lg-0">
-                    <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" v-model="searchBox">
+                    <input class="form-controls mr-sm-2" type="search" placeholder="Search" aria-label="Search" v-model="searchBox">
                     <div class="form-group mr-sm-2">
-                        <select  class="form-control" v-model="searchCat">
+                        <select  class="form-controls" v-model="searchCat">
                             <option value="allCartegory" >All Category</option>
                             <option value="houseSale">House for Sale</option>
                             <option value="houseRent">House for Rent</option>
@@ -28,7 +26,6 @@
                             <option value="roomRent">Room for Rent</option>
                         </select>
                     </div>
-
                     <button class="btn btn-outline-success my-2 my-sm-0 bg-light" type="submit" @click="search()">Search</button>
                 </form>
             </div>
@@ -38,7 +35,7 @@
                     <ul class="navbar-nav mr-auto"></ul>
                     <form class="form-inline my-2 my-lg-0">
                         <div class="form-group mr-sm-2">
-                            <select v-model="data.provinceSelected" id="provinces" class="form-control" @change="getDistricts">
+                            <select v-model="data.provinceSelected" id="provinces" class="form-controls" @change="getDistricts">
                                 <option v-for="province in allProvinces" :value="province.pro_id">{{ province.ProvinceName }}</option>
                             </select>
                         </div>
@@ -49,8 +46,8 @@
                                 <div class="spinner-border text-success" role="status"></div>
                             </div>
                             <!--End Loading Indicator-->
-                            <div v-if="!data.provinceSelected" class="form-control " style="background-color: gold;color: black; cursor: pointer"> Select Province</div>
-                            <select v-if="!loadingDistricts && data.provinceSelected" v-model="data.districtSelected" id="districts" class="form-control" @change="getCommunes">
+                            <div v-if="!data.provinceSelected" class="form-controls " style="background-color: gold;color: black; cursor: pointer"> Select Province</div>
+                            <select v-if="!loadingDistricts && data.provinceSelected" v-model="data.districtSelected" id="districts" class="form-controls" @change="getCommunes">
                                 <option v-for="district in allDistricts" :value="district.dis_id">{{ district.DistrictName }}</option>
                             </select>
                         </div>
@@ -61,8 +58,8 @@
                                 <div class="spinner-border text-success" role="status"></div>
                             </div>
                             <!--End Loading Indicator-->
-                            <div v-if="!data.districtSelected" class="form-control " style="background-color: gold;color: black;cursor: pointer">Select District</div>
-                            <select v-if="!progressing.loadingCommunes && data.districtSelected" v-model="data.communeSelected "id="communes" class="form-control">
+                            <div v-if="!data.districtSelected" class="form-controls " style="background-color: gold;color: black;cursor: pointer">Select District</div>
+                            <select v-if="!progressing.loadingCommunes && data.districtSelected" v-model="data.communeSelected "id="communes" class="form-controls">
                                 <option v-for="commune in allCommunes" :value="commune.com_id">{{ commune.CommuneName }}</option>
                             </select>
                         </div>
@@ -74,10 +71,9 @@
                             <!--menu-->
                             <div class="form-group">
                                 <section id="team" class="pb-5">
-                                    <div class="container">
+                                    <div class="container-menu">
                                         <h5 class="section-title h1" style="color: gold">ALL CATEGORY</h5>
                                         <div class="row">
-
                                             <!-- Team member -->
                                             <div class="card-menu">
                                                 <div class="image-flip" ontouchstart="this.classList.toggle('hover');">
@@ -261,41 +257,6 @@
                             <!--end menu-->
                             <div class="container">
 
-                                <h2>Popular Ads</h2>
-                                <div class="form-group ">
-                                    <div class="row">
-                                        <template v-for=" item in topviewer ">
-                                            <div class="page-inner">
-                                                <div class="el-wrapper">
-                                                    <div class="box-up" @click="Detail(item.upId,item.cat_name,item.province,item.district,item.commune)" style="cursor:pointer;">
-                                                        <img :src="item.images.length>0?item.images[0].image:''">
-                                                        <div class="img-info">
-                                                            <div class="info-inner">
-                                                                <span class="p-name" style="color: orange">{{item.title}}</span>
-                                                                <span class="p-company">Yeezy</span>
-                                                            </div>
-                                                            <div class="a-size">Description : <span class="size">{{item.description}}</span></div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="box-down">
-                                                        <div class="h-bg">
-                                                            <div class="h-bg-inner"></div>
-                                                        </div>
-                                                        <a class="cart" href="#">
-                                                            <span class="price">${{item.price}}</span>
-                                                            <span class="add-to-cart">
-                                                        <span class="txt"  @click="Detail(item.upId,item.cat_name,item.province,item.district,item.commune)">View Detail</span></span>
-                                                        </a>
-                                                    </div>
-                                                    <span style="margin-top: 5px;font-size: 12px;">{{item.timer}}</span>
-                                                    <span style="margin-top: 5px;font-size: 12px; margin-left: 12px;"  >{{item.viewers==null?0:item.viewers}} Viewer</span>
-                                                </div>
-                                            </div>
-                                        </template>
-
-                                    </div>
-                                </div>
-
                                 <h2>Feature Ads</h2>
                                 <div class="form-group ">
                                     <div class="row">
@@ -316,11 +277,11 @@
                                                         <div class="h-bg">
                                                             <div class="h-bg-inner"></div>
                                                         </div>
-                                                        <a class="cart" href="#">
+                                                        <p class="cart" href="#">
                                                             <span class="price">${{item.price}}</span>
                                                             <span class="add-to-cart">
                                                         <span class="txt"  @click="Detail(item.upId,item.cat_name,item.province,item.district,item.commune)">View Detail</span></span>
-                                                        </a>
+                                                        </p>
                                                     </div>
                                                     <span style="margin-top: 5px;font-size: 12px;">{{item.timer}}</span>
                                                     <span style="margin-top: 5px;font-size: 12px; margin-left: 12px;"  >{{item.viewers==null?0:item.viewers}} Viewer</span>
@@ -328,6 +289,40 @@
                                             </div>
                                         </template>
                                         <!-- /.card-group -->
+                                    </div>
+                                </div>
+                                <h2>Popular Ads</h2>
+                                <div class="form-group ">
+                                    <div class="row">
+                                        <template v-for=" item in topviewer ">
+                                            <div class="page-inner">
+                                                <div class="el-wrapper">
+                                                    <div class="box-up" @click="Detail(item.upId,item.cat_name,item.province,item.district,item.commune)" style="cursor:pointer;">
+                                                        <img :src="item.images.length>0?item.images[0].image:''">
+                                                        <div class="img-info">
+                                                            <div class="info-inner">
+                                                                <span class="p-name" style="color: orange">{{item.title}}</span>
+                                                                <span class="p-company">Yeezy</span>
+                                                            </div>
+                                                            <div class="a-size">Description : <span class="size">{{item.description}}</span></div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="box-down">
+                                                        <div class="h-bg">
+                                                            <div class="h-bg-inner"></div>
+                                                        </div>
+                                                        <p class="cart" >
+                                                            <span class="price">${{item.price}}</span>
+                                                            <span class="add-to-cart">
+                                                        <span class="txt"  @click="Detail(item.upId,item.cat_name,item.province,item.district,item.commune)">View Detail</span></span>
+                                                        </p>
+                                                    </div>
+                                                    <span style="margin-top: 5px;font-size: 12px;">{{item.timer}}</span>
+                                                    <span style="margin-top: 5px;font-size: 12px; margin-left: 12px;"  >{{item.viewers==null?0:item.viewers}} Viewer</span>
+                                                </div>
+                                            </div>
+                                        </template>
+
                                     </div>
                                 </div>
                                 <h2>Last Ads</h2>
@@ -351,11 +346,11 @@
                                                         <div class="h-bg">
                                                             <div class="h-bg-inner"></div>
                                                         </div>
-                                                        <a class="cart" >
+                                                        <p class="cart" >
                                                             <span class="price">${{item.price}}</span>
                                                             <span class="add-to-cart">
                                                         <span class="txt"  @click="Detail(item.upId,item.cat_name)">View Detail</span></span>
-                                                        </a>
+                                                        </p>
                                                     </div>
                                                     <span style="margin-top: 5px;font-size: 12px;">{{item.timer}}</span>
                                                     <span style="margin-top: 5px;font-size: 12px; margin-left: 12px;"  >{{item.viewers==null?0:item.viewers}} Viewer</span>
@@ -632,7 +627,16 @@
 </script>
 
 <style lang="scss">
-
+    .form-controls{
+        font-family: math;
+        padding: 7px;
+        font-size: small;
+        border: none;
+    }
+    .container-menu{
+        margin-top: 2px;
+        padding: 18px;
+    }
 
     .d-flex {
         display: -webkit-box;
@@ -655,7 +659,7 @@
     }
 
     body {
-        background-color: #f7f7f7;
+        background-color: #b492c061;
     }
 
     .page-wrapper {
@@ -909,10 +913,8 @@
         background-color: #e1e8f0;
     }
     .bg-navbar{
-        -webkit-border-radius: 5px;
-        -moz-border-radius: 5px;
-        background: rgb(137,137,204);
-        background: linear-gradient(90deg, rgba(137,137,204,1) 0%, rgba(173,114,168,1) 49%, rgba(137,137,204,1) 100%);
+        height: 4rem;
+        background: #9c27b0;
     }
     .card-menu{
         width: 190px;
@@ -1003,7 +1005,7 @@
         border: none;
         cursor: pointer;
         margin: 0px 25px 15px;
-        min-width: 150px;
+        min-width: 79px;
     }
     .btn span {
         position: relative;
@@ -1331,10 +1333,7 @@
         height: 120px;
         border-radius: 50%;
     }
-    .container {
-        padding-top: 25px;
-        padding-bottom: 25px;
-    }
+
 
     img {
         max-width: 100%;

@@ -38,6 +38,7 @@
                     </div>
                 </div>
             </div>
+
             <div class="projects mb-4">
                 <div class="projects-inner">
                     <header class="projects-header">
@@ -50,7 +51,6 @@
         <body class="hm-gradient">
 
         <main>
-
             <!--MDB Tables-->
             <div class="container mt-4">
                 <div class="card mb-4">
@@ -69,20 +69,46 @@
                                 <th>Province</th>
                                 <th>Phone</th>
                                 <th>Action</th>
+                                <th>Disable</th>
                             </tr>
                             </thead>
                             <!--Table head-->
                             <!--Table body-->
-                            <tbody>
-                            <tr>
-                                <th scope="row">1</th>
-                                <td>Mark</td>
-                                <td>Otto</td>
-                                <td>@mdo</td>
-                                <td>Otto</td>
-                                <td>@mdo</td>
-                            </tr>
+                            <tbody >
+                            <template v-for="list in UserList ">
+                                <tr>
+                                    <th scope="row">{{list.id}}</th>
+                                    <td>{{list.disable}}</td>
+                                    <td>{{list.email}}</td>
+                                    <td>{{list.province}}</td>
+                                    <td>{{list.phone}}</td>
+                                    <td>
+                                        <a href="#popup" @click="getId(list.id)">
+                                            <i class="fas fa-trash-alt" style="margin-right: 20px; cursor: pointer" ></i>
+                                        </a>
+                                    </td>
+                                    <td>
+                                        <label class="toggleSwitch nolabel" >
+                                            <input :id="`${list.id}`" type="checkbox"  @click="check(list.id)">
+                                            <span>
+                                            <span>OFF</span>
+                                            <span>ON</span>
+                                            </span>
+                                            <a></a>
+                                        </label>
+                                    </td>
+                                </tr>
+                            </template>
 
+                            <div id="popup" class="overlay">
+                                <div class="popup">
+                                    <h6>Are Your Sure to delete!!!!!</h6>
+                                    <a href="#admin">
+                                        <button type="button" class="btn btn-primary btn-sm" @click="Dodelete(id)">Delete</button>
+                                    </a>
+                                    <a class="close" href="#admin">&times;</a>
+                                </div>
+                            </div>
                             </tbody>
                             <!--Table body-->
                         </table>
@@ -96,6 +122,7 @@
 
         </body>
 
+
     </div>
 </template>
 
@@ -103,25 +130,306 @@
     export default {
         data(){
             return{
-                UserList:[]
+                UserList:[],
+                list:[],
+                id:''
             }
         },
         mounted() {
+            this.Userlist()
+        },
+        computed:{
+
         },
         methods:{
-            UserList(){
+            getId(id){
+                this.id = id;
+            },
+            Dodelete(id){
+                axios.get('api/DeleteUser/'+id).then(response => {
+                    console.log(response.data)
+                    this.Userlist()
+                }).catch(err => {
+                    console.log(err);
+                });
+            },
+            check(id){
+                const checkbox = document.getElementById(`${id}`)
+                axios.get('api/disable/'+id+'/'+checkbox.checked).then(response => {
+                    console.log(response.data)
+                }).catch(err => {
+                    console.log(err);
+                });
+            },
+            Userlist(){
                 axios.get('api/userlist').then(response => {
-                    console.log(response);
+                     this.UserList = response.data;
+                    response.data.forEach((valueList)=>{
+                        if(valueList.disable == 'true'){
+                            const checkbox = document.getElementById(`${valueList.id}`)
+                            console.log(checkbox.checked)
+                        }else{
+                            const checkbox = document.getElementById(`${valueList.id}`)
+                            checkbox.checked = false
+                        }
+                    })
+
+                }).catch(err => {
+                    console.log(err);
+                });
+            },
+            deleteuser(id){
+                axios.get('api/userlist/'+id).then(response => {
+                   console.log(response.data)
                 }).catch(err => {
                     console.log(err);
                 });
             }
         }
-
     }
 </script>
 
 <style scoped lang="scss">
+
+    .box {
+        width: 40%;
+        margin: 0 auto;
+        background: rgba(255,255,255,0.2);
+        padding: 35px;
+        border: 2px solid #fff;
+        border-radius: 20px/50px;
+        background-clip: padding-box;
+        text-align: center;
+    }
+
+    .overlay {
+        position: fixed;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        background: rgba(0, 0, 0, 0.7);
+        transition: opacity 500ms;
+        visibility: hidden;
+        opacity: 0;
+    }
+    .overlay:target {
+        visibility: visible;
+        opacity: 1;
+    }
+
+    .popup {
+        margin: 70px auto;
+        padding: 20px;
+        background: #fff;
+        border-radius: 5px;
+        width: 30%;
+        position: relative;
+        transition: all 5s ease-in-out;
+    }
+
+    .popup h2 {
+        margin-top: 0;
+        color: #333;
+        font-family: Tahoma, Arial, sans-serif;
+    }
+    .popup .close {
+        position: absolute;
+        top: 20px;
+        right: 30px;
+        transition: all 200ms;
+        font-size: 30px;
+        font-weight: bold;
+        text-decoration: none;
+        color: #333;
+    }
+    .popup .close:hover {
+        color: #06D85F;
+    }
+    .popup .content {
+        max-height: 30%;
+        overflow: auto;
+    }
+
+    @media screen and (max-width: 700px){
+        .box{
+            width: 70%;
+        }
+        .popup{
+            width: 70%;
+        }
+    }
+
+
+
+
+    /*  Toggle Switch  */
+    .checkbox:checked ~ .switch {
+        background-color: blue;
+    }
+    .checkbox:not(:checked) ~ .switch {
+        background-color: gray;
+    }
+    .toggleSwitch span span {
+        display: none;
+    }
+    @media only screen {
+        .toggleSwitch {
+            display: inline-block;
+            height: 16px;
+            position: relative;
+            overflow: visible;
+            padding: 0;
+            cursor: pointer;
+            width: 40px
+        }
+        .toggleSwitch * {
+            -webkit-box-sizing: border-box;
+            -moz-box-sizing: border-box;
+            box-sizing: border-box;
+        }
+        .toggleSwitch label,
+        .toggleSwitch > span {
+            line-height: 20px;
+            height: 20px;
+            vertical-align: middle;
+        }
+        .toggleSwitch input:focus ~ a,
+        .toggleSwitch input:focus + label {
+            outline: none;
+        }
+        .toggleSwitch label {
+            position: relative;
+            z-index: 3;
+            display: block;
+            width: 100%;
+        }
+        .toggleSwitch input {
+            position: absolute;
+            opacity: 0;
+            z-index: 5;
+        }
+        .toggleSwitch > span {
+            position: absolute;
+            left: -50px;
+            width: 100%;
+            margin: 0;
+            padding-right: 50px;
+            text-align: left;
+            white-space: nowrap;
+        }
+        .toggleSwitch > span span {
+            position: absolute;
+            top: 0;
+            left: 0;
+            z-index: 5;
+            display: block;
+            width: 50%;
+            margin-left: 50px;
+            text-align: left;
+            font-size: 0.9em;
+            width: 100%;
+            left: 15%;
+            top: -1px;
+            opacity: 0;
+        }
+        .toggleSwitch a {
+            position: absolute;
+            right: 50%;
+            z-index: 4;
+            display: block;
+            height: 100%;
+            padding: 0;
+            left: 2px;
+            width: 18px;
+            background-color: #fff;
+            border: 1px solid #CCC;
+            border-radius: 100%;
+            -webkit-transition: all 0.2s ease-out;
+            -moz-transition: all 0.2s ease-out;
+            transition: all 0.2s ease-out;
+            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+        }
+        .toggleSwitch > span span:first-of-type {
+            color: #ccc;
+            opacity: 1;
+            left: 45%;
+        }
+        .toggleSwitch > span:before {
+            content: '';
+            display: block;
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            left: 50px;
+            top: -2px;
+            background-color: #fafafa;
+            border: 1px solid #ccc;
+            border-radius: 30px;
+            -webkit-transition: all 0.2s ease-out;
+            -moz-transition: all 0.2s ease-out;
+            transition: all 0.2s ease-out;
+        }
+        .toggleSwitch input:checked ~ a {
+            border-color: #fff;
+            left: 100%;
+            margin-left: -8px;
+        }
+        .toggleSwitch input:checked ~ span:before {
+            border-color: #0097D1;
+            box-shadow: inset 0 0 0 30px #0097D1;
+        }
+        .toggleSwitch input:checked ~ span span:first-of-type {
+            opacity: 0;
+        }
+        .toggleSwitch input:checked ~ span span:last-of-type {
+            opacity: 1;
+            color: #fff;
+        }
+        /* Switch Sizes */
+        .toggleSwitch.large {
+            width: 60px;
+            height: 27px;
+        }
+        .toggleSwitch.large a {
+            width: 27px;
+        }
+        .toggleSwitch.large > span {
+            height: 29px;
+            line-height: 28px;
+        }
+        .toggleSwitch.large input:checked ~ a {
+            left: 41px;
+        }
+        .toggleSwitch.large > span span {
+            font-size: 1.1em;
+        }
+        .toggleSwitch.large > span span:first-of-type {
+            left: 50%;
+        }
+        .toggleSwitch.xlarge {
+            width: 80px;
+            height: 36px;
+        }
+        .toggleSwitch.xlarge a {
+            width: 36px;
+        }
+        .toggleSwitch.xlarge > span {
+            height: 38px;
+            line-height: 37px;
+        }
+        .toggleSwitch.xlarge input:checked ~ a {
+            left: 52px;
+        }
+        .toggleSwitch.xlarge > span span {
+            font-size: 1.4em;
+        }
+        .toggleSwitch.xlarge > span span:first-of-type {
+            left: 50%;
+        }
+    }
+
+
     .hm-gradient {
         background-image: linear-gradient(to top, #f3e7e9 0%, #e3eeff 99%, #e3eeff 100%);
     }

@@ -58,3 +58,6 @@ Route::get('viewer/avg', 'API\V1\ProductController@viewerAvg');
 
 ///Admin
 Route::get('userlist', 'AdminController@UserList');
+Route::get('disable/{id}/{disable}', 'AdminController@disable');
+Route::get('DeleteUser/{id}', 'AdminController@DeleteUser');
+Route::get('estatelist', 'AdminController@estatelist');

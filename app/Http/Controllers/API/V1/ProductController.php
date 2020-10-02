@@ -42,6 +42,16 @@ class ProductController extends Controller
     public  function AdvertiseDefault(){
         $export = array();
         $featurs = FeaturAd::where('disable','true')->get();
+        foreach ($featurs as $getID){
+            $id[] = $getID->UpId;
+        }
+        $GetId = [];
+        $random = array_rand($id,1);
+//        foreach ($random as $item) {
+//            array_push($GetId,$id[$item]) ;
+//        }
+       // return Response()->json($random);
+
         foreach ($featurs as $value){
             $dataAll = Upload::where('UpId',$value->UpId)->get();
             foreach ($dataAll as $data){
@@ -55,8 +65,8 @@ class ProductController extends Controller
                 $store->size = $data->size;
                 $store->price = $data->price;
                 $store->description = $data->description;
-                $store->glat = $data->glat;
-                $store->glng = $data->glng;
+                $store->glat = $data->map_lat;
+                $store->glng = $data->map_lng;
                 $store->localdetail = $data->localdetail;
                 $store->email = $data->email;
                 $store->phone = $data->phone;
@@ -90,8 +100,8 @@ class ProductController extends Controller
                     $store->size = $data->size;
                     $store->price = $data->price;
                     $store->description = $data->description;
-                    $store->glat = $data->glat;
-                    $store->glng = $data->glng;
+                    $store->glat = $data->map_lat;
+                    $store->glng = $data->map_lng;
                     $store->localdetail = $data->localdetail;
                     $store->email = $data->email;
                     $store->phone = $data->phone;
@@ -127,8 +137,8 @@ class ProductController extends Controller
             $store->size = $value->size;
             $store->price = $value->price;
             $store->description = $value->description;
-            $store->glat = $value->glat;
-            $store->glng = $value->glng;
+            $store->glat = $value->map_lat;
+            $store->glng = $value->map_lng;
             $store->localdetail = $value->localdetail;
             $store->email = $value->email;
             $store->phone = $value->phone;
@@ -175,8 +185,8 @@ class ProductController extends Controller
             $store->size = $value->size;
             $store->price = $value->price;
             $store->description = $value->description;
-            $store->glat = $value->glat;
-            $store->glng = $value->glng;
+            $store->glat = $value->map_lat;
+            $store->glng = $value->map_lng;
             $store->localdetail = $value->localdetail;
             $store->email = $value->email;
             $store->phone = $value->phone;
@@ -283,8 +293,8 @@ class ProductController extends Controller
             $store->size = $result->size;
             $store->price = $result->price;
             $store->description = $result->description;
-            $store->glat = $result->glat;
-            $store->glng = $result->glng;
+            $store->glat = $result->map_lat;
+            $store->glng = $result->map_lng;
             $store->localdetail = $result->localdetail;
             $store->email = $result->email;
             $store->phone = $result->phone;
@@ -304,15 +314,8 @@ class ProductController extends Controller
         $date = [];
         $getpromote = FeaturAd::where('uid',$request->user()->id)->where('disable','true')->get();
         foreach ($getpromote as $item){
-//            array_push($date, Carbon::now()->toDateTimeString());
-            $dateNow = Carbon::now()->toDateTimeString();
             $get[] =  Upload::where('UpId', $item->UpId)->get();
-
-//            $dateNow = Carbon::parse($date);//->format('d/m/Y');
-            $promoteDate = Carbon::parse($item->created_at);
-//            $totalDuration =  $dateNow->diff($promoteDate)->format('%H:%I:%S')." Minutes";
         }
-
 
         foreach ($get as $item){
             foreach ($item as $data){
@@ -326,8 +329,8 @@ class ProductController extends Controller
                 $store->size = $data->size;
                 $store->price = $data->price;
                 $store->description = $data->description;
-                $store->glat = $data->glat;
-                $store->glng = $data->glng;
+                $store->glat = $data->map_lat;
+                $store->glng = $data->map_lng;
                 $store->localdetail = $data->localdetail;
                 $store->email = $data->email;
                 $store->phone = $data->phone;
@@ -374,7 +377,6 @@ class ProductController extends Controller
         }
         return response()->json($mapWithImages);
     }
-
     public function getpro(){
             $UpId = [];
             $alldata = [];
@@ -399,7 +401,6 @@ class ProductController extends Controller
             foreach ( $data as $value){
                 $img =  Upload_Images::where('UpId',$value->UpId)->get();
                 $view = ViewProduct::where('UpId',$value->UpId)->get();
-
                 $store = New TempData();
                 $store->title = $value->title;
                 $store->bedroom = $value->bedroom;
@@ -408,8 +409,8 @@ class ProductController extends Controller
                 $store->size = $value->size;
                 $store->price = $value->price;
                 $store->description = $value->description;
-                $store->glat = $value->glat;
-                $store->glng = $value->glng;
+                $store->glat = $value->map_lat;
+                $store->glng = $value->map_lng;
                 $store->localdetail = $value->localdetail;
                 $store->email = $value->email;
                 $store->phone = $value->phone;
@@ -445,8 +446,8 @@ class ProductController extends Controller
                 $store->size = $value->size;
                 $store->price = $value->price;
                 $store->description = $value->description;
-                $store->glat = $value->glat;
-                $store->glng = $value->glng;
+                $store->glat = $value->ma_lat;
+                $store->glng = $value->map_lng;
                 $store->localdetail = $value->localdetail;
                 $store->email = $value->email;
                 $store->phone = $value->phone;

@@ -52,7 +52,6 @@
                         <select id="sex" class="form-control browser-default custom-select" v-model="data.gender">
                             <option value="male">Male</option>
                             <option value="female">Female</option>
-                            <option value="unspesified">Unspecified</option>
                         </select>
                     </div>
                     <div class="col-sm-4 form-group">

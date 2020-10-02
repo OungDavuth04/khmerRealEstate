@@ -34,12 +34,12 @@
                                 <p>Log In</p>
                             </router-link>
                         </li>
-                        <li class="nav-item ">
-                            <a class="nav-link" href="./tables.html">
-                            <i class="material-icons">content_paste</i>
-                            <p>Table List</p>
-                            </a>
-                        </li>
+<!--                        <li class="nav-item ">-->
+<!--                            <a class="nav-link" href="./tables.html">-->
+<!--                            <i class="material-icons">content_paste</i>-->
+<!--                            <p>Table List</p>-->
+<!--                            </a>-->
+<!--                        </li>-->
                         <li class="nav-item ">
                             <router-link to="/addPost" class="nav-link">
                             <i class="material-icons">library_books</i>
@@ -52,12 +52,12 @@
                             <p>Find on Maps</p>
                             </router-link>
                         </li>
-                        <li class="nav-item ">
-                            <a class="nav-link" href="./notifications.html">
-                            <i class="material-icons">notifications</i>
-                            <p>Notifications</p>
-                            </a>
-                        </li>
+<!--                        <li class="nav-item ">-->
+<!--                            <a class="nav-link" href="./notifications.html">-->
+<!--                            <i class="material-icons">notifications</i>-->
+<!--                            <p>Notifications</p>-->
+<!--                            </a>-->
+<!--                        </li>-->
                     </ul>
                 </div>
         </div>

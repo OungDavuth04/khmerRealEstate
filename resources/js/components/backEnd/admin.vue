@@ -123,15 +123,7 @@
             }
         },
         mounted() {
-            const checkbox = document.querySelector('#checkbox')
 
-            checkbox.addEventListener('change', (e) => {
-                if (e.target.checked) {
-                    console.log('True')
-                } else {
-                    console.log('false')
-                }
-            })
         },
         components:{
 

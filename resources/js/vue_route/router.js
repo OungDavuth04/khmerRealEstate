@@ -22,7 +22,7 @@ import PaymentCheckout from "../components/frontEnd/PaymentCheckout";
 import SearchPage from "../components/frontEnd/SearchPage";
 import Categorypage from "../components/frontEnd/Categorypage";
 import ManageUser from "../components/backEnd/ManageUser";
-import Dasboard from "../components/backEnd/Dasboard";
+import Dashboard from "../components/backEnd/Dasboard";
 import MgRealEstate from "../components/backEnd/MgRealEstate";
 import Report from "../components/backEnd/Report";
 import RealEstatePromoted from "../components/backEnd/RealEstatePromoted";
@@ -40,8 +40,8 @@ const routes = [
         children:[
             {
                 path: '/admin',
-                component: Dasboard,
-                name:'Dasboard',
+                component: Dashboard,
+                name:'Dashboard',
             },
             {
                 path: '/mgUser',
