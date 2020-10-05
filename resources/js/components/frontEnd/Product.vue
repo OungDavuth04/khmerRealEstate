@@ -474,6 +474,7 @@
                                     this.getproduct = response.data
                                 }
                             }).catch(err => {
+
                             }).finally(()=>{
                                 this.Advertise();
                                 this.ProAvg();

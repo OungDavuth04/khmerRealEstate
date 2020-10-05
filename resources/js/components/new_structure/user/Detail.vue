@@ -144,12 +144,6 @@
         },
         mounted() {
             this.productQuery();
-            console.log(this.$store.getters.getDetail);
-            console.log(this.$store.getters.getProvince);
-            console.log(this.$store.getters.getDistrict);
-            console.log(this.$store.getters.getCommune);
-            console.log(this.$store.getters.categoryStore);
-
             axios.get('api/vieDetail/'+ this.$store.getters.getDetail).then(response =>{
                 console.log(response.data);
                 this.allDetail = response.data;

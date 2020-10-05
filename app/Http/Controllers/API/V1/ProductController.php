@@ -349,7 +349,6 @@ class ProductController extends Controller
     public  function Detail($id){
         $map = Upload::where('UpId',$id)->get();
         $mapWithImages = [];
-
         foreach ($map as $item){
             $mapImage = Upload_Images::where('UpId',$item->UpId)->get();
             $item['images'] = $mapImage;

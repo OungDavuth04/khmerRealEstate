@@ -83,23 +83,22 @@
             <div class="container grid-container">
                 <div class="row">
                     <template v-for="item in getproduct">
-                        <div class="col-12 col-md-6 col-lg-3">
-                            <div class="card">
+                        <div class="col-12 col-md-6 col-lg-3" style="cursor: pointer">
+                            <div class="card" @click="Detail(item.upId,item.cat_name)" >
                                 <img class="card-img-top" :src="item.images[0].image" alt="Card image cap">
                                 <div class="card-body">
-                                    <h5 class="card-title"> {{item.title}}</h5>s
+                                    <h5 class="card-title"> {{item.title}}</h5>
                                     <span>Price : {{item.price}}</span>
-                                    <p class="card-text">
-                                        This is a wider
+                                    <p class="card-text description">
+                                        {{item.description}}
                                     </p>
                                 </div>
                             </div>
                         </div>
-
                     </template>
                 </div>
             </div>
-        </div>s
+        </div>
     </div>
 </template>
 
@@ -111,7 +110,6 @@
                 allDetail:[],
                 test_images: []
             }
-
         },
         mounted() {
             this.productQuery();
@@ -119,29 +117,37 @@
                 this.allDetail = response.data;
                 this.allDetail.forEach(item => {
                     item.images.forEach(img => {
-                        console.log(img.image)
                         this.test_images.push({'img_name': 'http://localhost:8081/RealEstateProject/public/'+img.image});
                     })
                 })
                 //this.$router.push({name/:'userpagemaster.user'});
             }).catch(err =>{
-                //console.error(err);
+                console.error(err);
             });
             this.java();
         },
         methods:{
+            Detail(pid,cat){
+                this.$store.commit('setDetail',pid);
+                // this.$router.push({name:'product.detail'});
+                window.localStorage.setItem('catName',cat);
+                axios.get('api/viewers/'+pid).then(response => {
+                    if(response.status === 200){
+                        //console.log(response.data);
+                    }
+                }).catch(err => {
+                })
+                window.location.reload()
+            },
             productQuery(){
                 axios.get('api/getproduct').then(response => {
                     if(response.status === 200){
                         this.getproduct = response.data;
                     }
                 }).catch(err => {
-
                 }).finally(() => {
-
                 });
-            }
-            ,
+            },
             showList(e) {
                 let $gridCont = $('.grid-container');
                 e.preventDefault();
@@ -182,6 +188,26 @@
 </script>
 
 <style lang="scss" scoped>
+    .description {
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+    .card-title{
+        font-size: smaller ;
+        color: #0d47a1;
+    }
+    .btn-visit{
+        border: 0px;
+        border-radius: 3px;
+        padding: 8px;
+
+    }
+    .btn-visit:hover{
+        opacity: 4.0;
+    }
+
+
     .btn1{
         border: 0px;
         border-radius: 3px;

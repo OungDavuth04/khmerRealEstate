@@ -2469,6 +2469,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       id: ''
     };
   },
+  created: function created() {},
   mounted: function mounted() {
     this.Userlist();
   },
@@ -6211,7 +6212,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -6229,19 +6229,28 @@ __webpack_require__.r(__webpack_exports__);
 
       _this.allDetail.forEach(function (item) {
         item.images.forEach(function (img) {
-          console.log(img.image);
-
           _this.test_images.push({
             'img_name': 'http://localhost:8081/RealEstateProject/public/' + img.image
           });
         });
       }); //this.$router.push({name/:'userpagemaster.user'});
 
-    })["catch"](function (err) {//console.error(err);
+    })["catch"](function (err) {
+      console.error(err);
     });
     this.java();
   },
   methods: {
+    Detail: function Detail(pid, cat) {
+      this.$store.commit('setDetail', pid); // this.$router.push({name:'product.detail'});
+
+      window.localStorage.setItem('catName', cat);
+      axios.get('api/viewers/' + pid).then(function (response) {
+        if (response.status === 200) {//console.log(response.data);
+        }
+      })["catch"](function (err) {});
+      window.location.reload();
+    },
     productQuery: function productQuery() {
       var _this2 = this;
 
@@ -11003,7 +11012,7 @@ exports = module.exports = __webpack_require__(/*! ../../../../node_modules/css-
 
 
 // module
-exports.push([module.i, ".btn1[data-v-9f7d9f90] {\n  border: 0px;\n  border-radius: 3px;\n  padding: 8px;\n}\n.btn1[data-v-9f7d9f90]:hover {\n  opacity: 4;\n}\n.card[data-v-9f7d9f90] {\n  margin-bottom: 1rem;\n}\n.list-view .row > [class*=col-][data-v-9f7d9f90] {\n  max-width: 100%;\n  flex: 0 0 100%;\n}\n.list-view .card[data-v-9f7d9f90] {\n  flex-direction: row;\n}\n@media (max-width: 575.98px) {\n.list-view .card[data-v-9f7d9f90] {\n    flex-direction: column;\n}\n}\n.list-view .card > .card-img-top[data-v-9f7d9f90] {\n  width: 200px;\n  height: 200px;\n  -o-object-fit: cover;\n     object-fit: cover;\n}\n.list-view .card .card-body[data-v-9f7d9f90] {\n  display: inline-block;\n}\n.codepen-container[data-v-9f7d9f90] {\n  padding: 3em;\n}\n.content-container[data-v-9f7d9f90] {\n  display: flex;\n  margin: 0 auto;\n  background-color: white;\n  max-width: 960px;\n  width: 100%;\n}\n.product-image--container[data-v-9f7d9f90] {\n  margin: 0 2em;\n}\n.triangle-topleft[data-v-9f7d9f90] {\n  position: relative;\n  width: 0;\n  height: 0;\n  border-top: 100px solid #FFC500;\n  border-right: 100px solid transparent;\n  transition: all ease 0.25s;\n}\n.triangle-topleft[data-v-9f7d9f90]:hover {\n  border-top: 100px solid #ffd54d;\n  transition: all ease 0.25s;\n}\n.back-arrow[data-v-9f7d9f90] {\n  cursor: pointer;\n  position: absolute;\n  top: -90px;\n  left: 15px;\n  background-image: url(\"https://cdn2.iconfinder.com/data/icons/freecns-cumulus/16/519627-127_ArrowLeft-128.png\");\n  background-size: 35px 35px;\n  background-repeat: no-repeat;\n  width: 40px;\n  height: 40px;\n}\n.product-image--featured[data-v-9f7d9f90] {\n  max-width: 228px;\n  width: 100%;\n  max-height: 200px;\n  height: 100%;\n}\n.product-image--list[data-v-9f7d9f90] {\n  display: flex;\n  justify-content: space-between;\n  list-style-type: none;\n  padding: 0;\n}\n.product-image--list li[data-v-9f7d9f90] {\n  margin: 0 5px;\n  border: 2px solid #eaeaea;\n  border-radius: 5px;\n  transition: all ease 0.25s;\n}\n.product-image--list li.item-selected[data-v-9f7d9f90] {\n  box-shadow: 1px 1px 1px #888888;\n  border: 2px solid #FFC500;\n  transition: all ease 0.25s;\n}\n.product-image--item[data-v-9f7d9f90] {\n  max-width: 40px;\n  max-height: 40px;\n}\n.right-container[data-v-9f7d9f90] {\n  margin: 1em;\n}\n.title[data-v-9f7d9f90] {\n  margin: 0.5em 0 0 0;\n}\n.subtitle[data-v-9f7d9f90] {\n  font-size: 1.25em;\n}\n.subtitle-container[data-v-9f7d9f90] {\n  margin: 0.5em 0 0.5em 0;\n  opacity: 0.6;\n}\n.rating[data-v-9f7d9f90] {\n  overflow: hidden;\n  display: inline-block;\n  font-size: 0;\n  position: relative;\n}\n.rating-input[data-v-9f7d9f90] {\n  float: right;\n  width: 16px;\n  height: 16px;\n  padding: 0;\n  margin: 0 0 0 -16px;\n  opacity: 0;\n}\n.rating:hover .rating-star[data-v-9f7d9f90]:hover,\n.rating:hover .rating-star:hover ~ .rating-star[data-v-9f7d9f90],\n.rating-input:checked ~ .rating-star[data-v-9f7d9f90] {\n  background-position: 0 0;\n}\n.rating-star[data-v-9f7d9f90],\n.rating:hover .rating-star[data-v-9f7d9f90] {\n  position: relative;\n  float: right;\n  display: block;\n  width: 16px;\n  height: 16px;\n  background: url(\"http://kubyshkin.ru/samples/star-rating/star.png\") 0 -16px;\n}\n.reviews[data-v-9f7d9f90] {\n  text-decoration: none;\n}\na:hover.reviews[data-v-9f7d9f90] {\n  color: #365afc;\n  text-decoration: underline;\n}\n.emphasize[data-v-9f7d9f90] {\n  color: #b32600;\n  font-size: 1.5em;\n  letter-spacing: -2px;\n}\n.select-dropdown[data-v-9f7d9f90] {\n  max-width: 50px;\n  width: 100%;\n}\n.my-btn[data-v-9f7d9f90] {\n  background-color: #FFC500;\n  border-radius: 5px;\n  max-width: 275px;\n  width: 100%;\n  height: 50px;\n  transition: all ease 0.25s;\n}\n.my-btn[data-v-9f7d9f90]:hover {\n  box-shadow: 1px 1px 1px #888888;\n  background-color: #ffd54d;\n  transition: all ease 0.25s;\n}\n.flex-btn[data-v-9f7d9f90] {\n  display: flex;\n  align-items: center;\n}\n.cart-icon[data-v-9f7d9f90] {\n  margin: 2px;\n  width: 30px;\n  height: 30px;\n}\n.btn-text[data-v-9f7d9f90] {\n  font-weight: bold;\n  font-size: 1.5em;\n  margin: 0 auto;\n}", ""]);
+exports.push([module.i, ".description[data-v-9f7d9f90] {\n  white-space: nowrap;\n  overflow: hidden;\n  text-overflow: ellipsis;\n}\n.card-title[data-v-9f7d9f90] {\n  font-size: smaller;\n  color: #0d47a1;\n}\n.btn-visit[data-v-9f7d9f90] {\n  border: 0px;\n  border-radius: 3px;\n  padding: 8px;\n}\n.btn-visit[data-v-9f7d9f90]:hover {\n  opacity: 4;\n}\n.btn1[data-v-9f7d9f90] {\n  border: 0px;\n  border-radius: 3px;\n  padding: 8px;\n}\n.btn1[data-v-9f7d9f90]:hover {\n  opacity: 4;\n}\n.card[data-v-9f7d9f90] {\n  margin-bottom: 1rem;\n}\n.list-view .row > [class*=col-][data-v-9f7d9f90] {\n  max-width: 100%;\n  flex: 0 0 100%;\n}\n.list-view .card[data-v-9f7d9f90] {\n  flex-direction: row;\n}\n@media (max-width: 575.98px) {\n.list-view .card[data-v-9f7d9f90] {\n    flex-direction: column;\n}\n}\n.list-view .card > .card-img-top[data-v-9f7d9f90] {\n  width: 200px;\n  height: 200px;\n  -o-object-fit: cover;\n     object-fit: cover;\n}\n.list-view .card .card-body[data-v-9f7d9f90] {\n  display: inline-block;\n}\n.codepen-container[data-v-9f7d9f90] {\n  padding: 3em;\n}\n.content-container[data-v-9f7d9f90] {\n  display: flex;\n  margin: 0 auto;\n  background-color: white;\n  max-width: 960px;\n  width: 100%;\n}\n.product-image--container[data-v-9f7d9f90] {\n  margin: 0 2em;\n}\n.triangle-topleft[data-v-9f7d9f90] {\n  position: relative;\n  width: 0;\n  height: 0;\n  border-top: 100px solid #FFC500;\n  border-right: 100px solid transparent;\n  transition: all ease 0.25s;\n}\n.triangle-topleft[data-v-9f7d9f90]:hover {\n  border-top: 100px solid #ffd54d;\n  transition: all ease 0.25s;\n}\n.back-arrow[data-v-9f7d9f90] {\n  cursor: pointer;\n  position: absolute;\n  top: -90px;\n  left: 15px;\n  background-image: url(\"https://cdn2.iconfinder.com/data/icons/freecns-cumulus/16/519627-127_ArrowLeft-128.png\");\n  background-size: 35px 35px;\n  background-repeat: no-repeat;\n  width: 40px;\n  height: 40px;\n}\n.product-image--featured[data-v-9f7d9f90] {\n  max-width: 228px;\n  width: 100%;\n  max-height: 200px;\n  height: 100%;\n}\n.product-image--list[data-v-9f7d9f90] {\n  display: flex;\n  justify-content: space-between;\n  list-style-type: none;\n  padding: 0;\n}\n.product-image--list li[data-v-9f7d9f90] {\n  margin: 0 5px;\n  border: 2px solid #eaeaea;\n  border-radius: 5px;\n  transition: all ease 0.25s;\n}\n.product-image--list li.item-selected[data-v-9f7d9f90] {\n  box-shadow: 1px 1px 1px #888888;\n  border: 2px solid #FFC500;\n  transition: all ease 0.25s;\n}\n.product-image--item[data-v-9f7d9f90] {\n  max-width: 40px;\n  max-height: 40px;\n}\n.right-container[data-v-9f7d9f90] {\n  margin: 1em;\n}\n.title[data-v-9f7d9f90] {\n  margin: 0.5em 0 0 0;\n}\n.subtitle[data-v-9f7d9f90] {\n  font-size: 1.25em;\n}\n.subtitle-container[data-v-9f7d9f90] {\n  margin: 0.5em 0 0.5em 0;\n  opacity: 0.6;\n}\n.rating[data-v-9f7d9f90] {\n  overflow: hidden;\n  display: inline-block;\n  font-size: 0;\n  position: relative;\n}\n.rating-input[data-v-9f7d9f90] {\n  float: right;\n  width: 16px;\n  height: 16px;\n  padding: 0;\n  margin: 0 0 0 -16px;\n  opacity: 0;\n}\n.rating:hover .rating-star[data-v-9f7d9f90]:hover,\n.rating:hover .rating-star:hover ~ .rating-star[data-v-9f7d9f90],\n.rating-input:checked ~ .rating-star[data-v-9f7d9f90] {\n  background-position: 0 0;\n}\n.rating-star[data-v-9f7d9f90],\n.rating:hover .rating-star[data-v-9f7d9f90] {\n  position: relative;\n  float: right;\n  display: block;\n  width: 16px;\n  height: 16px;\n  background: url(\"http://kubyshkin.ru/samples/star-rating/star.png\") 0 -16px;\n}\n.reviews[data-v-9f7d9f90] {\n  text-decoration: none;\n}\na:hover.reviews[data-v-9f7d9f90] {\n  color: #365afc;\n  text-decoration: underline;\n}\n.emphasize[data-v-9f7d9f90] {\n  color: #b32600;\n  font-size: 1.5em;\n  letter-spacing: -2px;\n}\n.select-dropdown[data-v-9f7d9f90] {\n  max-width: 50px;\n  width: 100%;\n}\n.my-btn[data-v-9f7d9f90] {\n  background-color: #FFC500;\n  border-radius: 5px;\n  max-width: 275px;\n  width: 100%;\n  height: 50px;\n  transition: all ease 0.25s;\n}\n.my-btn[data-v-9f7d9f90]:hover {\n  box-shadow: 1px 1px 1px #888888;\n  background-color: #ffd54d;\n  transition: all ease 0.25s;\n}\n.flex-btn[data-v-9f7d9f90] {\n  display: flex;\n  align-items: center;\n}\n.cart-icon[data-v-9f7d9f90] {\n  margin: 2px;\n  width: 30px;\n  height: 30px;\n}\n.btn-text[data-v-9f7d9f90] {\n  font-weight: bold;\n  font-size: 1.5em;\n  margin: 0 auto;\n}", ""]);
 
 // exports
 
@@ -50865,39 +50874,58 @@ var render = function() {
           [
             _vm._l(_vm.getproduct, function(item) {
               return [
-                _c("div", { staticClass: "col-12 col-md-6 col-lg-3" }, [
-                  _c("div", { staticClass: "card" }, [
-                    _c("img", {
-                      staticClass: "card-img-top",
-                      attrs: {
-                        src: item.images[0].image,
-                        alt: "Card image cap"
-                      }
-                    }),
-                    _vm._v(" "),
-                    _c("div", { staticClass: "card-body" }, [
-                      _c("h5", { staticClass: "card-title" }, [
-                        _vm._v(" " + _vm._s(item.title))
-                      ]),
-                      _vm._v("s\n                                "),
-                      _c("span", [_vm._v("Price : " + _vm._s(item.price))]),
-                      _vm._v(" "),
-                      _c("p", { staticClass: "card-text" }, [
-                        _vm._v(
-                          "\n                                    This is a wider\n                                "
-                        )
-                      ])
-                    ])
-                  ])
-                ])
+                _c(
+                  "div",
+                  {
+                    staticClass: "col-12 col-md-6 col-lg-3",
+                    staticStyle: { cursor: "pointer" }
+                  },
+                  [
+                    _c(
+                      "div",
+                      {
+                        staticClass: "card",
+                        on: {
+                          click: function($event) {
+                            return _vm.Detail(item.upId, item.cat_name)
+                          }
+                        }
+                      },
+                      [
+                        _c("img", {
+                          staticClass: "card-img-top",
+                          attrs: {
+                            src: item.images[0].image,
+                            alt: "Card image cap"
+                          }
+                        }),
+                        _vm._v(" "),
+                        _c("div", { staticClass: "card-body" }, [
+                          _c("h5", { staticClass: "card-title" }, [
+                            _vm._v(" " + _vm._s(item.title))
+                          ]),
+                          _vm._v(" "),
+                          _c("span", [_vm._v("Price : " + _vm._s(item.price))]),
+                          _vm._v(" "),
+                          _c("p", { staticClass: "card-text description" }, [
+                            _vm._v(
+                              "\n                                    " +
+                                _vm._s(item.description) +
+                                "\n                                "
+                            )
+                          ])
+                        ])
+                      ]
+                    )
+                  ]
+                )
               ]
             })
           ],
           2
         )
       ])
-    ]),
-    _vm._v("s\n")
+    ])
   ])
 }
 var staticRenderFns = [

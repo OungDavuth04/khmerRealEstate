@@ -21,4 +21,4 @@ Route::post('/checkout', 'PaymentCheckoutController@checkout');
 Route::get('/', function () {
     return view('welcome');
 });
-
+Route::get('importExportView', 'ReportController@export');
