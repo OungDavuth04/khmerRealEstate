@@ -1,157 +1,168 @@
 <template>
-    <div>
-        <div class="content">
-            <div class="container-fluid">
-                <div id="user-profile-2" class="user-profile">
-                    <div class="tabbable">
-                        <div class="tab-content no-border padding-24">
-                            <div id="home" class="tab-pane in active">
-                                <div class="row">
-                                    <div class="col-xs-12 col-sm-3 center">
+    <div class="container-fluid">
+        <sidebar></sidebar>
+
+        <div class="main-panel">
+
+
+
+
+
+            <div>
+                <div class="content">
+                    <div class="container-fluid">
+                        <div id="user-profile-2" class="user-profile">
+                            <div class="tabbable">
+                                <div class="tab-content no-border padding-24">
+                                    <div id="home" class="tab-pane in active">
+                                        <div class="row">
+                                            <div class="col-xs-12 col-sm-3 center">
                                         <span class="profile-picture">
                                             <img class="editable img-responsive" alt=" Avatar" id="avatar2" src="http://bootdey.com/img/Content/avatar/avatar6.png">
                                         </span>
-                                        <div class="space space-4"></div>
-                                        <button class="btn-primary" @click="logout">
-                                            <span class="bigger-110">Log Out</span>
-                                        </button >
+                                                <div class="space space-4"></div>
+                                                <button class="btn-primary" @click="logout">
+                                                    <span class="bigger-110">Log Out</span>
+                                                </button >
 
-                                        <router-link to="/admin" class=" btn btn-primary" v-if="level === 'admin'"  style="margin: 10px;">
-                                            <span class="bigger-110">Visit Admin Dashboard</span>
-                                        </router-link >
-                                    </div><!-- /.col -->
-                                    <div class="col-xs-12 col-sm-9">
-                                        <h4 class="blue">
-                                            <span class="middle">{{name}}</span>
-                                        </h4>
-                                        <div class="profile-user-info">
-                                            <div class="profile-info-row">
-                                                <div class="profile-info-name"> Email </div>
+                                                <router-link to="/admin" class=" btn btn-primary" v-if="level === 'admin'"  style="margin: 10px;">
+                                                    <span class="bigger-110">Visit Admin Dashboard</span>
+                                                </router-link >
+                                            </div><!-- /.col -->
+                                            <div class="col-xs-12 col-sm-9">
+                                                <h4 class="blue">
+                                                    <span class="middle">{{name}}</span>
+                                                </h4>
+                                                <div class="profile-user-info">
+                                                    <div class="profile-info-row">
+                                                        <div class="profile-info-name"> Email </div>
 
-                                                <div class="profile-info-value">
-                                                    <span>{{email}}</span>
-                                                </div>
-                                            </div>
-                                            <div class="profile-info-row">
-                                                <div class="profile-info-name"> Location </div>
-
-                                                <div class="profile-info-value">
-                                                    <span>{{location}}</span>
-
-                                                </div>
-                                            </div>
-                                            <div class="profile-info-row">
-                                                <div class="profile-info-name"> Phone  </div>
-
-                                                <div class="profile-info-value">
-                                                    <span>{{phone}}</span>
-
-                                                </div>
-                                            </div>
-
-                                            <div class="profile-info-row">
-                                                <div class="profile-info-name"> Date Of Birth </div>
-
-                                                <div class="profile-info-value">
-                                                    <span>{{dob}}</span>
-                                                </div>
-                                            </div>
-
-                                            <div class="profile-info-row">
-                                                <div class="profile-info-name"> Joined </div>
-                                                <div class="profile-info-value">
-                                                    <span>{{newJoin}}</span>
-                                                </div>
-                                            </div>
-                                            <div class="profile-info-row">
-                                                <div class="profile-info-name"> Last Online </div>
-
-                                                <div class="profile-info-value">
-                                                    <span>3 hours ago</span>
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        <div class="hr hr-8 dotted"></div>
-
-                                    </div><!-- /.col -->
-                                </div><!-- /.row -->
-                                <div class="space-20"></div>
-                            </div><!-- /#home -->
-                        </div>
-                     </div>
-                    </div>
-                </div>
-    <!--  end user infor-->
-        <hr>
-            <div style="padding: 2%;"></div>
-            <div class="content">
-                <div class="panel panel-primary">
-                    <div class="panel-body">
-                        <div class="bg-color">
-                            <div class="form-group">
-                                <h3 v-if="promoteData != 0">Real Estate Promoted</h3>
-                                    <div class="parent">
-                                        <template v-for="item in promoteData">
-                                            <div class="card" style="width: 16.4rem; margin: 5px;">
-                                                <img class="card-img-top":src="item.images.length>0?item.images[0].image:''" alt="Card image cap">
-                                                <div class="card-body">
-                                                    <h5 class="card-title" v-text="item.title" style="color:#0b75c9; ;"></h5>
-                                                    <p style="color: #2e7d32;">Price :</p>
-                                                    <p class="card-text" >{{item.price}}$</p>
-<!--                                                    <div class="btn-group">-->
-<!--                                                        <button type="button" class=" btn1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" >-->
-<!--                                                            Option-->
-<!--                                                        </button>-->
-<!--                                                        <div class="dropdown-menu">-->
-<!--                                                            <a class="dropdown-item" @click="EditPost(item.upId)"> Edit</a>-->
-<!--                                                            <a class="dropdown-item" data-toggle="modal" data-target="#exampleModal">Delete</a>n-->
-<!--                                                        </div>-->
-<!--                                                    </div>-->
-                                                </div>
-                                            </div>
-                                        </template>
-                                    </div>
-                                <h3>All Real Estate</h3>
-                                <div class="parent">
-                                    <template v-for="(item, index) in upload">
-                                    <div  class="item">
-                                        <div class="card" style="width: 16.4rem; margin: 5px;">
-                                            <img class="card-img-top":src="item.images.length>0?item.images[0].image:''" alt="Card image cap">
-                                            <div class="card-body">
-                                                <h5 class="card-title" v-text="item.title" style="color:#0b75c9; ;"></h5>
-                                                <p style="color: #2e7d32;">Price :</p>
-                                                <p class="card-text">{{item.price}}$</p>
-                                                <div class="btn-group">
-
-                                                    <button type="button" class=" btn1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" >
-                                                        Option
-                                                    </button>
-                                                    <div class="dropdown-menu">
-                                                        <a class="dropdown-item" @click="EditPost(item.upId)"> Edit</a>
-                                                        <a class="dropdown-item" data-toggle="modal" data-target="#exampleModal" @click="getId(item.upId)" >Delete</a>
+                                                        <div class="profile-info-value">
+                                                            <span>{{email}}</span>
+                                                        </div>
                                                     </div>
-                                                    <button class="btn1" @click="promote(item.upId)" v-if="!item.promoted"> Promote </button>
-                                                </div>
-                                            </div>
-                                        </div>
+                                                    <div class="profile-info-row">
+                                                        <div class="profile-info-name"> Location </div>
 
-                                    </div>
-                                    </template>
-                                    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                                        <div class="modal-dialog" role="document">
-                                            <div class="modal-content">
-                                                <div class="modal-header">
-                                                    <h5 class="modal-title" id="exampleModalLabel">Confirm Your Delete</h5>
-                                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                        <span aria-hidden="true">&times;</span>
-                                                    </button>
+                                                        <div class="profile-info-value">
+                                                            <span>{{location}}</span>
+
+                                                        </div>
+                                                    </div>
+                                                    <div class="profile-info-row">
+                                                        <div class="profile-info-name"> Phone  </div>
+
+                                                        <div class="profile-info-value">
+                                                            <span>{{phone}}</span>
+
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="profile-info-row">
+                                                        <div class="profile-info-name"> Date Of Birth </div>
+
+                                                        <div class="profile-info-value">
+                                                            <span>{{dob}}</span>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="profile-info-row">
+                                                        <div class="profile-info-name"> Joined </div>
+                                                        <div class="profile-info-value">
+                                                            <span>{{newJoin}}</span>
+                                                        </div>
+                                                    </div>
+                                                    <div class="profile-info-row">
+                                                        <div class="profile-info-name"> Last Online </div>
+
+                                                        <div class="profile-info-value">
+                                                            <span>3 hours ago</span>
+                                                        </div>
+                                                    </div>
                                                 </div>
-                                                <div class="modal-body">
-                                                    Are you sure to delete this post ?
+
+                                                <div class="hr hr-8 dotted"></div>
+
+                                            </div><!-- /.col -->
+                                        </div><!-- /.row -->
+                                        <div class="space-20"></div>
+                                    </div><!-- /#home -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!--  end user infor-->
+                    <hr>
+                    <div style="padding: 2%;"></div>
+                    <div class="content">
+                        <div class="panel panel-primary">
+                            <div class="panel-body">
+                                <div class="bg-color">
+                                    <div class="form-group">
+                                        <h3 v-if="promoteData != 0">Real Estate Promoted</h3>
+                                        <div class="parent">
+                                            <template v-for="item in promoteData">
+                                                <div class="card" style="width: 16.4rem; margin: 5px;">
+                                                    <img class="card-img-top":src="item.images.length>0?item.images[0].image:''" alt="Card image cap">
+                                                    <div class="card-body">
+                                                        <h5 class="card-title" v-text="item.title" style="color:#0b75c9; ;"></h5>
+                                                        <p style="color: #2e7d32;">Price :</p>
+                                                        <p class="card-text" >{{item.price}}$</p>
+                                                        <!--                                                    <div class="btn-group">-->
+                                                        <!--                                                        <button type="button" class=" btn1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" >-->
+                                                        <!--                                                            Option-->
+                                                        <!--                                                        </button>-->
+                                                        <!--                                                        <div class="dropdown-menu">-->
+                                                        <!--                                                            <a class="dropdown-item" @click="EditPost(item.upId)"> Edit</a>-->
+                                                        <!--                                                            <a class="dropdown-item" data-toggle="modal" data-target="#exampleModal">Delete</a>n-->
+                                                        <!--                                                        </div>-->
+                                                        <!--                                                    </div>-->
+                                                    </div>
                                                 </div>
-                                                <div class="modal-footer">
-                                                    <button type="button" class="btn btn-primary" @click="Do_delete(id)">Ok</button>
+                                            </template>
+                                        </div>
+                                        <h3>All Real Estate</h3>
+                                        <div class="parent">
+                                            <template v-for="(item, index) in upload">
+                                                <div  class="item">
+                                                    <div class="card" style="width: 16.4rem; margin: 5px;">
+                                                        <img class="card-img-top":src="item.images.length>0?item.images[0].image:''" alt="Card image cap">
+                                                        <div class="card-body">
+                                                            <h5 class="card-title" v-text="item.title" style="color:#0b75c9; ;"></h5>
+                                                            <p style="color: #2e7d32;">Price :</p>
+                                                            <p class="card-text">{{item.price}}$</p>
+                                                            <div class="btn-group">
+
+                                                                <button type="button" class=" btn1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" >
+                                                                    Option
+                                                                </button>
+                                                                <div class="dropdown-menu">
+                                                                    <a class="dropdown-item" @click="EditPost(item.upId)"> Edit</a>
+                                                                    <a class="dropdown-item" data-toggle="modal" data-target="#exampleModal" @click="getId(item.upId)" >Delete</a>
+                                                                </div>
+                                                                <button class="btn1" @click="promote(item.upId)" v-if="!item.promoted"> Promote </button>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                </div>
+                                            </template>
+                                            <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                                <div class="modal-dialog" role="document">
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <h5 class="modal-title" id="exampleModalLabel">Confirm Your Delete</h5>
+                                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                                <span aria-hidden="true">&times;</span>
+                                                            </button>
+                                                        </div>
+                                                        <div class="modal-body">
+                                                            Are you sure to delete this post ?
+                                                        </div>
+                                                        <div class="modal-footer">
+                                                            <button type="button" class="btn btn-primary" @click="Do_delete(id)">Ok</button>
+                                                        </div>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
@@ -159,17 +170,23 @@
                                 </div>
                             </div>
                         </div>
+
                     </div>
                 </div>
-
             </div>
+
+
+
         </div>
+
     </div>
 </template>
 
 <script>
-
+    import Sidebar from "./Sidebar";
     export default {
+        name: "User",
+        components: {Sidebar},
         data(){
             return{
                 name: "",
@@ -282,7 +299,20 @@
 </script>
 
 <style scoped>
-
+    .container-fluid {
+        width: 100%;
+        padding-right: 15px;
+        padding-left: 15px;
+        margin-right: auto;
+        margin-left: auto;
+    }
+    .main-panel {
+        position: relative;
+        float: right;
+        width: calc(100% - 260px);
+        transition: 0.33s, cubic-bezier(0.685, 0.0473, 0.346, 1);
+        z-index: 100;
+    }
     .btn1{
         margin: 2px;
         border: none;
@@ -489,7 +519,7 @@
     }
 
     .tab-content {
-      background: #cfd4e7;
+        background: #cfd4e7;
         padding: 16px 12px;
         position: relative
     }
@@ -614,6 +644,4 @@
     .blue {
         color: #478FCA!important
     }
-
-
 </style>

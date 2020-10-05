@@ -32,6 +32,7 @@ class CreateUserUplaod extends Migration
             $table->string('map_lat');
             $table->string('map_lng');
             $table->string('cat_name');
+            $table->string('disable')->default('true');
             $table->timestamps();
         });
     }

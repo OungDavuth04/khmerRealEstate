@@ -1,6 +1,6 @@
 <template >
 
-<div class="content" >
+    <div class="content" >
         <div class="container">
             <div class="form animated flipInY">
                 <h2>Login To Your Account</h2>
@@ -19,7 +19,7 @@
                 </form>
             </div>
         </div>
-</div>
+    </div>
 </template>
 
 <script>
@@ -34,9 +34,9 @@
             }
         },
         created() {
-           if(window.localStorage.getItem('userAccessToken') !== null){
-               this.$router.push({name:'userpage'})
-           }
+            if(window.localStorage.getItem('userAccessToken') !== null){
+                this.$router.push({name:'userpage'})
+            }
         },
         computed() {
 

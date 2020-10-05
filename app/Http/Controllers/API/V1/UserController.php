@@ -63,30 +63,28 @@ class UserController extends Controller
         return response()->json($id);
     }
     public function getpost( Request $request){
-        $values = Upload::where('uid',$request->user()->id)->orderBy('UpId', 'DESC')->get();
+        $values = Upload::where('uid',$request->user()->id)->Where('disable','true')->orderBy('UpId', 'DESC')->get();
         $promote = FeaturAd::where('uid',$request->user()->id)->get();
 
         $newArray = array();
         foreach ($values as $value){
-            $test = new NewData();
+            $export = new NewData();
             $isPromoted = false;
             foreach ($promote as $promoted){
                 if($promoted->UpId == $value->UpId ){
                     $isPromoted = true;
                 }
             }
+            $image = Upload_Images::where("UpId", $value->UpId)->get();
 
-
-            $images = Upload_Images::where("UpId", $value->UpId)->get();
-
-            $test->upId = $value->UpId;
-            $test->uid = $value->uid;
-            $test->title = $value->title;
-            $test->size = $value->size;
-            $test->price = $value->price;
-            $test->images = $images;
-            $test->promoted = $isPromoted;
-            array_push($newArray, $test);
+            $export->upId = $value->UpId;
+            $export->uid = $value->uid;
+            $export->title = $value->title;
+            $export->size = $value->size;
+            $export->price = $value->price;
+            $export->images = $image;
+            $export->promoted = $isPromoted;
+            array_push($newArray, $export);
         }
 
         return response()->json($newArray);

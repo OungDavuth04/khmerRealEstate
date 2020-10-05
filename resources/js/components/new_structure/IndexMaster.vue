@@ -6,7 +6,7 @@
 
 <script>
     export default {
-        name: "ProductMaster"
+        name: "MasterPage"
     }
 </script>
 

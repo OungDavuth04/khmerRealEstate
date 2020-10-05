@@ -45,13 +45,6 @@ class ProductController extends Controller
         foreach ($featurs as $getID){
             $id[] = $getID->UpId;
         }
-        $GetId = [];
-        $random = array_rand($id,1);
-//        foreach ($random as $item) {
-//            array_push($GetId,$id[$item]) ;
-//        }
-       // return Response()->json($random);
-
         foreach ($featurs as $value){
             $dataAll = Upload::where('UpId',$value->UpId)->get();
             foreach ($dataAll as $data){
@@ -85,11 +78,11 @@ class ProductController extends Controller
         }
         return response()->json($export);
     }
-    public function AdvertiseUser($uid){
+    public function AdvertiseUser(Request $request){
         $export = array();
            $featurs = FeaturAd::where('disable','true')->get();
             foreach ($featurs as $value){
-                $dataAll = Upload::where('UpId',$value->UpId)->get();
+                $dataAll = Upload::where('UpId',$value->UpId)->where('cat_name', $request->cat)->get();
                 foreach ($dataAll as $data){
                     $imag = Upload_Images::where('UpId',$data->UpId)->get();
                     $store = New TempData();
@@ -110,24 +103,21 @@ class ProductController extends Controller
                     $store->commune = $data->commune;
                     $store->images = $imag;
                     $store->upId = $data->UpId;
-                    $store->cat_name = $data->cat_nam;
+                    $store->cat_name = $data->cat_name;
                     array_push($export,$store);
                 }
 
             }
-        return response()->json($export);
 
+        return response()->json($export);
     }
     public  function getfavorite(Request $request){
         $data = UserData::where('uid',$request->uid)->orderBy('dataId','DESC')->limit(3)->get();
         foreach ($data as $value){
-            $lastGet[] = $value->catName;
+           $resp = Upload::where('cat_name',$value->catName)->get();
         }
-        $query = Upload::where( 'cat_name',$lastGet[0])
-            ->orWhere('cat_name',$lastGet[1])
-            ->orWhere('cat_name',$lastGet[2])->get();
         $allCat = array();
-        foreach ( $query as $value){
+        foreach ( $resp as $value){
             $img =  Upload_Images::where('UpId',$value->UpId)->get();
             $store = New TempData();
             $store->title = $value->title;
@@ -153,16 +143,16 @@ class ProductController extends Controller
         return response()->json($allCat);
     }
     public function checkuserdata($id){
-        $data = UserData::where('uid',$id)->orderBy('dataId','DESC')->limit(1)->get();;
+        $data = UserData::where('uid',$id)->orderBy('dataId','DESC')->first();
         return response()->json($data);
     }
     public function userdata(Request $request){
         UserData::create([
             'uid' => $request->uid,
             'catName' => $request->cat,
-            'province' => null,
-            'district' => null,
-            'commune' => null
+            'province' => '',
+            'district' => '',
+            'commune' => ''
         ]);
         return response()->json($request);
     }
@@ -341,6 +331,7 @@ class ProductController extends Controller
                 $store->upId = $data->UpId;
                 $store->cat_name = $data->cat_name;
                 $store->remainDay =  Carbon::now()->toDateTimeString();
+                $store->timer = $data->created_at->diffForHumans();
                 array_push($allData,  $store);
             }
         }

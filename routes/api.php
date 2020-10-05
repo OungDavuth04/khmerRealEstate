@@ -51,7 +51,7 @@ Route::get('checkuserdata/{id}', 'API\V1\ProductController@checkuserdata');
 
 //Promote
 Route::get('AdvertiseDefault', 'API\V1\ProductController@AdvertiseDefault');
-Route::get('AdvertiseUser/{uid}', 'API\V1\ProductController@AdvertiseUser');
+Route::post('AdvertiseUser', 'API\V1\ProductController@AdvertiseUser');
 Route::get('viewers/{id}', 'API\V1\ProductController@viewer');
 
 Route::get('viewer/avg', 'API\V1\ProductController@viewerAvg');
@@ -59,5 +59,11 @@ Route::get('viewer/avg', 'API\V1\ProductController@viewerAvg');
 ///Admin
 Route::get('userlist', 'AdminController@UserList');
 Route::get('disable/{id}/{disable}', 'AdminController@disable');
+Route::get('disablepro/{id}/{disable}', 'AdminController@disablepro');
 Route::get('DeleteUser/{id}', 'AdminController@DeleteUser');
+Route::get('deletepro/{id}', 'AdminController@deletepro');
 Route::get('estatelist', 'AdminController@estatelist');
+
+
+//Report Export
+Route::get('report/export', 'ReportController@export');

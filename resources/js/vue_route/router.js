@@ -9,7 +9,6 @@ import Login from "../components/Login";
 import Register from "../components/Register";
 import AddPost from "../components/frontEnd/AddPost";
 import MainPost from "../components/frontEnd/MainPost";
-import GG from "../components/frontEnd/AddMultiplePhoto";
 import EditPost from "../components/frontEnd/EditPost";
 import userPage from "../components/frontEnd/UserPages";
 import ProductMaster from "../components/frontEnd/ProductMaster";
@@ -35,7 +34,7 @@ const routes = [
         name: 'admin',
         component:admin,
         meta:{
-          requiresAdmin: true
+            requiresAdmin: true
         },
         children:[
             {

@@ -30,346 +30,343 @@
                 </form>
             </div>
         </nav>
-            <nav class="navbar navbar-expand-lg navbar-toggle bg-navbar " style="margin-top: 15px;">
-                <div class="collapse navbar-collapse" >
-                    <ul class="navbar-nav mr-auto"></ul>
-                    <form class="form-inline my-2 my-lg-0">
-                        <div class="form-group mr-sm-2">
-                            <select v-model="data.provinceSelected" id="provinces" class="form-controls" @change="getDistricts">
-                                <option v-for="province in allProvinces" :value="province.pro_id">{{ province.ProvinceName }}</option>
-                            </select>
-                        </div>
-                        <div class="form-group mr-sm-2">
-
-                            <!--Start Loading Indicator-->
-                            <div v-if="loadingDistricts" class="justify-content-center w-100 align-middle text-center">
-                                <div class="spinner-border text-success" role="status"></div>
-                            </div>
-                            <!--End Loading Indicator-->
-                            <div v-if="!data.provinceSelected" class="form-controls " style="background-color: gold;color: black; cursor: pointer"> Select Province</div>
-                            <select v-if="!loadingDistricts && data.provinceSelected" v-model="data.districtSelected" id="districts" class="form-controls" @change="getCommunes">
-                                <option v-for="district in allDistricts" :value="district.dis_id">{{ district.DistrictName }}</option>
-                            </select>
-                        </div>
-                        <div class="form-group mr-sm-2">
-
-                            <!--Start Loading Indicator-->
-                            <div v-if="progressing.loadingCommunes" class="justify-content-center w-100 align-middle text-center">
-                                <div class="spinner-border text-success" role="status"></div>
-                            </div>
-                            <!--End Loading Indicator-->
-                            <div v-if="!data.districtSelected" class="form-controls " style="background-color: gold;color: black;cursor: pointer">Select District</div>
-                            <select v-if="!progressing.loadingCommunes && data.districtSelected" v-model="data.communeSelected "id="communes" class="form-controls">
-                                <option v-for="commune in allCommunes" :value="commune.com_id">{{ commune.CommuneName }}</option>
-                            </select>
-                        </div>
-
-                    </form>
-                </div>
-            </nav>
-            <!-- end navbar-->
-                            <!--menu-->
-                <div class="form-group">
-                    <section id="team" class="pb-5">
-                        <div class="container-menu">
-                            <h5 class="section-title h1" style="color: gold">ALL CATEGORY</h5>
-                            <div class="row">
-                                <!-- Team member -->
-                                <div class="card-menu">
-                                    <div class="image-flip" ontouchstart="this.classList.toggle('hover');">
-                                        <div class="mainflip">
-                                            <div class="frontside">
-                                                <div class="card">
-                                                    <div class="card-body text-center">
-                                                        <p><img class=" img-fluid" src="storage/icon/hous.jpg" alt="card image"></p>
-                                                        <h4 class="card-title">House</h4>
-
-                                                        <a href="#" class=" btn-primary btn-sm">KHMER REAL ESTATE</a>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="backside">
-                                                <div class="card">
-                                                    <div class="card-body text-center ">
-                                                        <h4 class="card-title">House</h4>
-                                                        <hr>
-                                                        <div class="btn-holder">
-                                                            <button class="btn btn-5 hover-border-11" @click="category('HomeSell')">
-                                                                <span>Buy</span>
-                                                            </button>
-                                                        </div>
-                                                        <div class="btn-holder">
-                                                            <button class="btn btn-5 hover-border-11" @click="category('HomeRent')">
-                                                                <span>Rent</span>
-                                                            </button>
-                                                        </div>
-
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <!-- ./Team member -->
-                                <!-- Team member -->
-                                <div class="card-menu">
-                                    <div class="image-flip" ontouchstart="this.classList.toggle('hover');">
-                                        <div class="mainflip">
-                                            <div class="frontside">
-                                                <div class="card">
-                                                    <div class="card-body text-center">
-                                                        <p><img class=" img-fluid" src="storage/icon/land.jpeg" alt="card image"></p>
-                                                        <h4 class="card-title">Lands</h4>
-                                                        <a href="#" class=" btn-primary btn-sm">KHMER REAL ESTATE</a>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="backside">
-                                                <div class="card">
-                                                    <div class="card-body text-center">
-                                                        <h4 class="card-title">Land</h4>
-                                                        <hr>
-                                                        <div class="btn-holder">
-                                                            <button class="btn btn-5 hover-border-11" @click="category('landSell')">
-                                                                <span>Buy</span>
-                                                            </button>
-                                                        </div>
-                                                        <div class="btn-holder">
-                                                            <button class="btn btn-5 hover-border-11" @click="category('landRent')">
-                                                                <span>Rent</span>
-                                                            </button>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <!-- ./Team member -->
-                                <!-- Team member -->
-                                <div class="card-menu">
-                                    <div class="image-flip" ontouchstart="this.classList.toggle('hover');">
-                                        <div class="mainflip">
-                                            <div class="frontside">
-                                                <div class="card">
-                                                    <div class="card-body text-center">
-                                                        <p><img class=" img-fluid" src="storage/icon/condo.jpg" alt="card image"></p>
-                                                        <h4 class="card-title">Condos</h4>
-                                                        <a href="#" class=" btn-primary btn-sm">KHMER REAL ESTATE</a>
-                                                    </div>
-                                                </div>
-                                            </div>
-
-                                            <div class="backside">
-                                                <div class="card">
-                                                    <div class="card-body text-center ">
-                                                        <h4 class="card-title">Condo & Apartment</h4>
-                                                        <hr>
-                                                        <div class="btn-holder">
-                                                            <button class="btn btn-5 hover-border-11" @click="category('condoSell')">
-                                                                <span>Buy</span>
-                                                            </button>
-                                                        </div>
-                                                        <div class="btn-holder">
-                                                            <button class="btn btn-5 hover-border-11" @click="category('apartmentRent')">
-                                                                <span>Rent</span>
-                                                            </button>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <!-- ./Team member -->
-
-                                <!-- Team member -->
-                                <div class="card-menu">
-                                    <div class="image-flip" ontouchstart="this.classList.toggle('hover');">
-                                        <div class="mainflip">
-                                            <div class="frontside">
-                                                <div class="card">
-                                                    <div class="card-body text-center">
-                                                        <p><img class=" img-fluid" src="storage/icon/commercial.jpg" alt="card image"></p>
-                                                        <h4 class="card-title">Commersials</h4>
-                                                        <a href="#" class=" btn-primary btn-sm">KHMER REAL ESTATE</a>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="backside">
-                                                <div class="card">
-                                                    <div class="card-body text-center ">
-                                                        <h4 class="card-title">Commercial</h4>
-                                                        <hr>
-                                                        <div class="btn-holder">
-                                                            <button class="btn btn-5 hover-border-11" @click="category('commercialSell')">
-                                                                <span>Buy</span>
-                                                            </button>
-                                                        </div>
-                                                        <div class="btn-holder">
-                                                            <button class="btn btn-5 hover-border-11" @click="category('commercialRent')">
-                                                                <span>Rent</span>
-                                                            </button>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <!-- ./Team member -->
-                                <!-- Team member -->
-                                <div class="card-menu">
-                                    <div class="image-flip" ontouchstart="this.classList.toggle('hover');">
-                                        <div class="mainflip">
-                                            <div class="frontside">
-                                                <div class="card">
-                                                    <div class="card-body text-center">
-                                                        <p><img class=" img-fluid" src="storage/icon/room.jpg" alt="card image"></p>
-                                                        <h4 class="card-title">Rooms</h4>
-                                                        <a href="#" class=" btn-primary btn-sm">KHMER REAL ESTATE</a>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="backside">
-                                                <div class="card">
-                                                    <div class="card-body text-center ">
-                                                        <h4 class="card-title">Room</h4>
-                                                        <hr>
-                                                        <div class="btn-holder">
-                                                            <button class="btn btn-5 hover-border-11" @click="category('romeRent')">
-                                                                <span>Rent</span>
-                                                            </button>
-                                                        </div>
-
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <!-- ./Team member -->
-
-                            </div>
-                        </div>
-                    </section>
-                </div>
-                <!--end menu-->
-                <div class="container">
-                    <h2>Feature Ads</h2>
-                    <hr>
-                    <div class="form-group ">
-                        <div class="row">
-                            <template v-for=" item in advertise ">
-                                <div class="page-inner">
-                                    <div class="el-wrapper">
-                                        <div class="box-up" @click="Detail(item.upId,item.cat_name)" style="cursor:pointer;">
-                                            <img :src="item.images.length>0?item.images[0].image:''">
-                                            <div class="img-info">
-                                                <div class="info-inner">
-                                                    <span class="p-name" style="color: orange">{{item.title}}</span>
-                                                    <span class="p-company">{{item.phone}}</span>
-                                                </div>
-                                                <div class="a-size">Description : <span class="size">{{item.description}}</span></div>
-                                            </div>
-                                        </div>
-                                        <div class="box-down">
-                                            <div class="h-bg">
-                                                <div class="h-bg-inner"></div>
-                                            </div>
-                                            <p class="cart" href="#">
-                                                <span class="price">${{item.price}}</span>
-                                                <span class="add-to-cart">
-                                            <span class="txt"  @click="Detail(item.upId,item.cat_name)">View Detail</span></span>
-                                            </p>
-                                        </div>
-                                        <span style="margin-top: 5px;font-size: 12px;">{{item.timer}}</span>
-                                        <span style="margin-top: 5px;font-size: 12px; margin-left: 12px;"  >{{item.viewers==null?0:item.viewers}} Viewer</span>
-                                    </div>
-                                </div>
-                            </template>
-                            <!-- /.card-group -->
-                        </div>
+        <nav class="navbar navbar-expand-lg navbar-toggle bg-navbar " style="margin-top: 15px;">
+            <div class="collapse navbar-collapse" >
+                <ul class="navbar-nav mr-auto"></ul>
+                <form class="form-inline my-2 my-lg-0">
+                    <div class="form-group mr-sm-2">
+                        <select v-model="data.provinceSelected" id="provinces" class="form-controls" @change="getDistricts">
+                            <option v-for="province in allProvinces" :value="province.pro_id">{{ province.ProvinceName }}</option>
+                        </select>
                     </div>
-                    <h2>Popular Ads</h2>
-                    <hr>
-                    <div class="form-group ">
-                        <div class="row">
-                            <template v-for=" item in topviewer ">
-                                <div class="page-inner">
-                                    <div class="el-wrapper">
-                                        <div class="box-up" @click="Detail(item.upId,item.cat_name)" style="cursor:pointer;">
-                                            <img :src="item.images.length>0?item.images[0].image:''">
-                                            <div class="img-info">
-                                                <div class="info-inner">
-                                                    <span class="p-name" style="color: orange">{{item.title}}</span>
-                                                    <span class="p-company">{{item.phone}}</span>
-                                                </div>
-                                                <div class="a-size">Description : <span class="size">{{item.description}}</span></div>
-                                            </div>
-                                        </div>
-                                        <div class="box-down">
-                                            <div class="h-bg">
-                                                <div class="h-bg-inner"></div>
-                                            </div>
-                                            <p class="cart" >
-                                                <span class="price">${{item.price}}</span>
-                                                <span class="add-to-cart">
-                                            <span class="txt"  @click="Detail(item.upId,item.cat_name)">View Detail</span></span>
-                                            </p>
-                                        </div>
-                                        <span style="margin-top: 5px;font-size: 12px;">{{item.timer}}</span>
-                                        <span style="margin-top: 5px;font-size: 12px; margin-left: 12px;"  >{{item.viewers==null?0:item.viewers}} Viewer</span>
-                                    </div>
-                                </div>
-                            </template>
+                    <div class="form-group mr-sm-2">
 
+                        <!--Start Loading Indicator-->
+                        <div v-if="loadingDistricts" class="justify-content-center w-100 align-middle text-center">
+                            <div class="spinner-border text-success" role="status"></div>
                         </div>
+                        <!--End Loading Indicator-->
+                        <div v-if="!data.provinceSelected" class="form-controls " style="background-color: gold;color: black; cursor: pointer"> Select Province</div>
+                        <select v-if="!loadingDistricts && data.provinceSelected" v-model="data.districtSelected" id="districts" class="form-controls" @change="getCommunes">
+                            <option v-for="district in allDistricts" :value="district.dis_id">{{ district.DistrictName }}</option>
+                        </select>
                     </div>
-                    <h2>Last Ads</h2>
-                    <hr>
-                    <div class="row">
-                        <template v-if="getproduct.length > 0" v-for=" item in queriedData ">
-                            <div class="page-inner">
-                                <div class="el-wrapper">
-                                    <div class="box-up" @click="Detail(item.upId,item.cat_name)" style="cursor:pointer;">
-                                        <img :src="item.images.length>0?item.images[0].image:''">
-                                        <div class="img-info">
-                                            <div class="info-inner">
-                                                <span class="p-name" style="color: orange">{{item.title}}</span>
-                                            </div>
-                                            <div class="a-size">Description : <span class="size">{{item.description}}</span></div>
-                                        </div>
-                                    </div>
-                                    <div class="box-down">
-                                        <div class="h-bg">
-                                            <div class="h-bg-inner"></div>
-                                        </div>
-                                        <p class="cart" >
-                                            <span class="price">${{item.price}}</span>
-                                            <span class="add-to-cart">
-                                        <span class="txt"  @click="Detail(item.upId,item.cat_name)">View Detail</span></span>
-                                        </p>
-                                    </div>
-                                    <span style="margin-top: 5px;font-size: 12px;">{{item.timer}}</span>
-                                    <span style="margin-top: 5px;font-size: 12px; margin-left: 12px;"  >{{item.viewers==null?0:item.viewers}} Viewer</span>
-                                </div>
-                            </div>
-                        </template>
+                    <div class="form-group mr-sm-2">
+
+                        <!--Start Loading Indicator-->
+                        <div v-if="progressing.loadingCommunes" class="justify-content-center w-100 align-middle text-center">
+                            <div class="spinner-border text-success" role="status"></div>
+                        </div>
+                        <!--End Loading Indicator-->
+                        <div v-if="!data.districtSelected" class="form-controls " style="background-color: gold;color: black;cursor: pointer">Select District</div>
+                        <select v-if="!progressing.loadingCommunes && data.districtSelected" v-model="data.communeSelected "id="communes" class="form-controls">
+                            <option v-for="commune in allCommunes" :value="commune.com_id">{{ commune.CommuneName }}</option>
+                        </select>
                     </div>
+
+                </form>
             </div>
-        <footer-Page>
-        </footer-Page>
+        </nav>
+        <!-- end navbar-->
+        <!--menu-->
+        <div class="form-group">
+            <section id="team" class="pb-5">
+                <div class="container-menu">
+                    <h5 class="section-title h1" style="color: gold">ALL CATEGORY</h5>
+                    <div class="row">
+                        <!-- Team member -->
+                        <div class="card-menu">
+                            <div class="image-flip" ontouchstart="this.classList.toggle('hover');">
+                                <div class="mainflip">
+                                    <div class="frontside">
+                                        <div class="card">
+                                            <div class="card-body text-center">
+                                                <p><img class=" img-fluid" src="storage/icon/hous.jpg" alt="card image"></p>
+                                                <h4 class="card-title">House</h4>
+
+                                                <a href="#" class=" btn-primary btn-sm">KHMER REAL ESTATE</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="backside">
+                                        <div class="card">
+                                            <div class="card-body text-center ">
+                                                <h4 class="card-title">House</h4>
+                                                <hr>
+                                                <div class="btn-holder">
+                                                    <button class="btn btn-5 hover-border-11" @click="category('HomeSell')">
+                                                        <span>Buy</span>
+                                                    </button>
+                                                </div>
+                                                <div class="btn-holder">
+                                                    <button class="btn btn-5 hover-border-11" @click="category('HomeRent')">
+                                                        <span>Rent</span>
+                                                    </button>
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- ./Team member -->
+                        <!-- Team member -->
+                        <div class="card-menu">
+                            <div class="image-flip" ontouchstart="this.classList.toggle('hover');">
+                                <div class="mainflip">
+                                    <div class="frontside">
+                                        <div class="card">
+                                            <div class="card-body text-center">
+                                                <p><img class=" img-fluid" src="storage/icon/land.jpeg" alt="card image"></p>
+                                                <h4 class="card-title">Lands</h4>
+                                                <a href="#" class=" btn-primary btn-sm">KHMER REAL ESTATE</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="backside">
+                                        <div class="card">
+                                            <div class="card-body text-center">
+                                                <h4 class="card-title">Land</h4>
+                                                <hr>
+                                                <div class="btn-holder">
+                                                    <button class="btn btn-5 hover-border-11" @click="category('landSell')">
+                                                        <span>Buy</span>
+                                                    </button>
+                                                </div>
+                                                <div class="btn-holder">
+                                                    <button class="btn btn-5 hover-border-11" @click="category('landRent')">
+                                                        <span>Rent</span>
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- ./Team member -->
+                        <!-- Team member -->
+                        <div class="card-menu">
+                            <div class="image-flip" ontouchstart="this.classList.toggle('hover');">
+                                <div class="mainflip">
+                                    <div class="frontside">
+                                        <div class="card">
+                                            <div class="card-body text-center">
+                                                <p><img class=" img-fluid" src="storage/icon/condo.jpg" alt="card image"></p>
+                                                <h4 class="card-title">Condos</h4>
+                                                <a href="#" class=" btn-primary btn-sm">KHMER REAL ESTATE</a>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="backside">
+                                        <div class="card">
+                                            <div class="card-body text-center ">
+                                                <h4 class="card-title">Condo & Apartment</h4>
+                                                <hr>
+                                                <div class="btn-holder">
+                                                    <button class="btn btn-5 hover-border-11" @click="category('condoSell')">
+                                                        <span>Buy</span>
+                                                    </button>
+                                                </div>
+                                                <div class="btn-holder">
+                                                    <button class="btn btn-5 hover-border-11" @click="category('apartmentRent')">
+                                                        <span>Rent</span>
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- ./Team member -->
+
+                        <!-- Team member -->
+                        <div class="card-menu">
+                            <div class="image-flip" ontouchstart="this.classList.toggle('hover');">
+                                <div class="mainflip">
+                                    <div class="frontside">
+                                        <div class="card">
+                                            <div class="card-body text-center">
+                                                <p><img class=" img-fluid" src="storage/icon/commercial.jpg" alt="card image"></p>
+                                                <h4 class="card-title">Commersials</h4>
+                                                <a href="#" class=" btn-primary btn-sm">KHMER REAL ESTATE</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="backside">
+                                        <div class="card">
+                                            <div class="card-body text-center ">
+                                                <h4 class="card-title">Commercial</h4>
+                                                <hr>
+                                                <div class="btn-holder">
+                                                    <button class="btn btn-5 hover-border-11" @click="category('commercialSell')">
+                                                        <span>Buy</span>
+                                                    </button>
+                                                </div>
+                                                <div class="btn-holder">
+                                                    <button class="btn btn-5 hover-border-11" @click="category('commercialRent')">
+                                                        <span>Rent</span>
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- ./Team member -->
+                        <!-- Team member -->
+                        <div class="card-menu">
+                            <div class="image-flip" ontouchstart="this.classList.toggle('hover');">
+                                <div class="mainflip">
+                                    <div class="frontside">
+                                        <div class="card">
+                                            <div class="card-body text-center">
+                                                <p><img class=" img-fluid" src="storage/icon/room.jpg" alt="card image"></p>
+                                                <h4 class="card-title">Rooms</h4>
+                                                <a href="#" class=" btn-primary btn-sm">KHMER REAL ESTATE</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="backside">
+                                        <div class="card">
+                                            <div class="card-body text-center ">
+                                                <h4 class="card-title">Room</h4>
+                                                <hr>
+                                                <div class="btn-holder">
+                                                    <button class="btn btn-5 hover-border-11" @click="category('romeRent')">
+                                                        <span>Rent</span>
+                                                    </button>
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- ./Team member -->
+
+                    </div>
+                </div>
+            </section>
+        </div>
+        <!--end menu-->
+        <div class="container">
+            <h2>Feature Ads</h2>
+            <hr>
+            <div class="form-group ">
+                <div class="row">
+                    <template v-for=" item in advertise ">
+                        <div class="page-inner">
+                            <div class="el-wrapper">
+                                <div class="box-up" @click="Detail(item.upId,item.cat_name)" style="cursor:pointer;">
+                                    <img :src="item.images.length>0?item.images[0].image:''">
+                                    <div class="img-info">
+                                        <div class="info-inner">
+                                            <span class="p-name" style="color: orange">{{item.title}}</span>
+                                            <span class="p-company">{{item.phone}}</span>
+                                        </div>
+                                        <div class="a-size">Description : <span class="size">{{item.description}}</span></div>
+                                    </div>
+                                </div>
+                                <div class="box-down">
+                                    <div class="h-bg">
+                                        <div class="h-bg-inner"></div>
+                                    </div>
+                                    <p class="cart" href="#">
+                                        <span class="price">${{item.price}}</span>
+                                        <span class="add-to-cart">
+                                                        <span class="txt"  @click="Detail(item.upId,item.cat_name)">View Detail</span></span>
+                                    </p>
+                                </div>
+                                <span style="margin-top: 5px;font-size: 12px;">{{item.timer}}</span>
+                                <span style="margin-top: 5px;font-size: 12px; margin-left: 12px;"  >{{item.viewers==null?0:item.viewers}} Viewer</span>
+                            </div>
+                        </div>
+                    </template>
+                    <!-- /.card-group -->
+                </div>
+            </div>
+            <h2>Popular Ads</h2>
+            <hr>
+            <div class="form-group ">
+                <div class="row">
+                    <template v-for=" item in topviewer ">
+                        <div class="page-inner">
+                            <div class="el-wrapper">
+                                <div class="box-up" @click="Detail(item.upId,item.cat_name)" style="cursor:pointer;">
+                                    <img :src="item.images.length>0?item.images[0].image:''">
+                                    <div class="img-info">
+                                        <div class="info-inner">
+                                            <span class="p-name" style="color: orange">{{item.title}}</span>
+                                            <span class="p-company">{{item.phone}}</span>
+                                        </div>
+                                        <div class="a-size">Description : <span class="size">{{item.description}}</span></div>
+                                    </div>
+                                </div>
+                                <div class="box-down">
+                                    <div class="h-bg">
+                                        <div class="h-bg-inner"></div>
+                                    </div>
+                                    <p class="cart" >
+                                        <span class="price">${{item.price}}</span>
+                                        <span class="add-to-cart">
+                                                        <span class="txt"  @click="Detail(item.upId,item.cat_name)">View Detail</span></span>
+                                    </p>
+                                </div>
+                                <span style="margin-top: 5px;font-size: 12px;">{{item.timer}}</span>
+                                <span style="margin-top: 5px;font-size: 12px; margin-left: 12px;"  >{{item.viewers==null?0:item.viewers}} Viewer</span>
+                            </div>
+                        </div>
+                    </template>
+
+                </div>
+            </div>
+            <h2>Last Ads</h2>
+            <hr>
+            <div class="row">
+                <template v-if="getproduct.length > 0" v-for=" item in queriedData ">
+                    <div class="page-inner">
+                        <div class="el-wrapper">
+                            <div class="box-up" @click="Detail(item.upId,item.cat_name)" style="cursor:pointer;">
+                                <img :src="item.images.length>0?item.images[0].image:''">
+                                <div class="img-info">
+                                    <div class="info-inner">
+                                        <span class="p-name" style="color: orange">{{item.title}}</span>
+                                    </div>
+                                    <div class="a-size">Description : <span class="size">{{item.description}}</span></div>
+                                </div>
+                            </div>
+                            <div class="box-down">
+                                <div class="h-bg">
+                                    <div class="h-bg-inner"></div>
+                                </div>
+                                <p class="cart" >
+                                    <span class="price">${{item.price}}</span>
+                                    <span class="add-to-cart">
+                                                        <span class="txt"  @click="Detail(item.upId,item.cat_name)">View Detail</span></span>
+                                </p>
+                            </div>
+                            <span style="margin-top: 5px;font-size: 12px;">{{item.timer}}</span>
+                            <span style="margin-top: 5px;font-size: 12px; margin-left: 12px;"  >{{item.viewers==null?0:item.viewers}} Viewer</span>
+                        </div>
+                    </div>
+                </template>
+            </div>
+
+        </div>
+<!--        <footer-Page>-->
+<!--        </footer-Page>-->
     </div>
 
 </template>
 <script>
-   // import Footer from './footer'
     export default {
         name: "Product",
-        // components: {
-        //     'footer-Page' : Footer
-        // },
         data(){
             return{
                 data:{
@@ -378,7 +375,7 @@
                     communeSelected: null,
                 },
                 progressing:{
-                     loadingCommunes: false,
+                    loadingCommunes: false,
                 },
                 allProvinces: [],
                 allDistricts: [],
@@ -397,17 +394,26 @@
             }
         },
         mounted() {
+            // this.promote();
             //this.notification();
+            this.setTimeOut();
             this.productQuery();
             this.slider();
+            this.Advertise();
+            this.ProAvg();
+            axios.get('api/province').then(response => {
+                if(response.status === 200){
+                    this.allProvinces = response.data;
+                    //console.log(response);
+                }
+            }).catch(err => {
+            });
         },
         methods:{
             async ProAvg(){
-             await axios.get('api/viewer/avg').then(response => {
+                await axios.get('api/viewer/avg').then(response => {
                     //console.log(response.data);
-                    if(response.status === 200){
-                        this.topviewer = response.data;
-                    }
+                    this.topviewer = response.data;
                 }).catch(err => {
                 })
             },
@@ -416,77 +422,55 @@
                     const trustClientToken = window.localStorage.getItem('userAccessToken');
                     axios.defaults.headers.common['Authorization'] = 'Bearer ' + trustClientToken;
                     await axios.get('api/user').then(response => {
-                        if(response.status === 200){
-                            let uid = response.data.id;
-                            let cat = window.localStorage.getItem('catName');
-                            let data = {cat, uid}
-                            if(cat !== null){
-                                axios.post('api/AdvertiseUser',data).then(response => {
-                                    if(response.status === 200){
-                                        if( response.data.length < 1 ||  response.data == undefined){
-                                            axios.get('api/AdvertiseDefault').then(response => {
-                                                // console.log(response.data);
-                                                if(response.status === 200){
-                                                    this.advertise = response.data
-                                                }
-                                            }).catch(err => {
-                                            })
-                                        }else{
-                                            this.advertise = response.data
-                                        }
-                                    }
-
-                                }).catch(err => {
-                                })
-                            }else {
-                                axios.get('api/AdvertiseDefault').then(response => {
-                                    // console.log(response.data);
-                                    if(response.status === 200){
+                        let uid = response.data.id;
+                        let cat = window.localStorage.getItem('catName');
+                        let data = {cat, uid}
+                        if(cat !== null){
+                            axios.post('api/AdvertiseUser',data).then(response => {
+                                if( response.data.length < 1 ||  response.data == undefined){
+                                    axios.get('api/AdvertiseDefault').then(response => {
+                                        // console.log(response.data);
                                         this.advertise = response.data
-                                    }
-                                }).catch(err => {
-                                })
-                            }
+                                    }).catch(err => {
+                                    })
+                                }else{
+                                    this.advertise = response.data
+                                }
+                            }).catch(err => {
+                            })
+                        }else {
+                            axios.get('api/AdvertiseDefault').then(response => {
+                                // console.log(response.data);
+                                this.advertise = response.data
+                            }).catch(err => {
+                            })
                         }
 
                     }).catch(err => {
                         console.log(err);
                     });
                 }else {
-                    axios.get('api/AdvertiseDefault').then(response => {
-                       // console.log(response.data);
+                    await axios.get('api/AdvertiseDefault').then(response => {
+                        // console.log(response.data);
                         this.advertise = response.data
                     }).catch(err => {
                     })
                 }
             },
-            async  productQuery(){
+            async productQuery(){
                 if(window.localStorage.getItem('userAccessToken') !== null) {
                     const trustClientToken = window.localStorage.getItem('userAccessToken');
                     axios.defaults.headers.common['Authorization'] = 'Bearer ' + trustClientToken;
                     await axios.get('api/user').then(response => {
-                        if(response.status === 200){
-                            let uid = response.data.id;
-                            let cat = window.localStorage.getItem('catName');
-                            let data = {cat, uid};
-                            axios.post('api/getfavorite',data).then(response => {
-                                if(response.status === 200){
-                                    this.getproduct = response.data
-                                }
-                            }).catch(err => {
-                            }).finally(()=>{
-                                this.Advertise();
-                                this.ProAvg();
-                                this.setTimeOut();
-                                axios.get('api/province').then(response => {
-                                    if(response.status === 200){
-                                        this.allProvinces = response.data;
-                                        //console.log(response);
-                                    }
-                                }).catch(err => {
-                                });
-                            });
-                        }
+                        let uid = response.data.id;
+                        let cat = window.localStorage.getItem('catName');
+                        let data = {cat, uid};
+                        axios.post('api/getfavorite',data).then(response => {
+                            if(response.status === 200){
+                                this.getproduct = response.data
+                            }
+                        }).catch(err => {
+                        });
                     }).catch(err => {
                         console.log(err);
                     });
@@ -494,20 +478,9 @@
                     await axios.get('api/getproduct').then(response => {
                         if(response.status === 200){
                             this.getproduct = response.data;
+                            //console.log(response.data);
                         }
                     }).catch(err => {
-                        console.log(err)
-                    }).finally(()=>{
-                        this.Advertise();
-                        this.ProAvg();
-                        this.setTimeOut();
-                        axios.get('api/province').then(response => {
-                            if(response.status === 200){
-                                this.allProvinces = response.data;
-                                //console.log(response);
-                            }
-                        }).catch(err => {
-                        });
                     });
                 }
             },
@@ -544,13 +517,21 @@
                     }
                 }, 2*60*1000);
             },
-            Detail(pid,cat){
-                this.$store.commit('setDetail',pid);
-                this.$router.push({name:'product.detail'});
-                window.localStorage.setItem('catName',cat);
-                axios.get('api/viewers/'+pid).then(response => {
+            async Detail(pid,cat){
+                //this.$store.commit('setDetail',pid);
+                this.$router.push({name:'product_master.detail'});
+                // window.localStorage.setItem('catName',cat);
+                // await axios.get('api/viewers/'+pid).then(response => {
+                //     if(response.status === 200){
+                //         //console.log(response.data);
+                //     }
+                // }).catch(err => {
+                // })
+            },
+            async promote(){
+                await axios.get('api/promote').then(response => {
                     if(response.status === 200){
-                        //console.log(response.data);
+                        // console.log(response.data);
                     }
                 }).catch(err => {
                 })
@@ -585,7 +566,7 @@
                 this.loadingDistricts = true;
                 axios.get('api/districts/'+ e.target.value).then(response => {
                     if(response.status === 200){
-                      //  console.log(response.data);
+                        //  console.log(response.data);
                         this.allDistricts = response.data;
                         this.loadingDistricts = false;
                     }
@@ -1569,3 +1550,4 @@
         background-color: #673AB7;
     }
 </style>
+

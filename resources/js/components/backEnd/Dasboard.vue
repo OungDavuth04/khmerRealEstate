@@ -138,9 +138,6 @@
         mounted() {
             this.Userlist()
         },
-        computed:{
-
-        },
         methods:{
             getId(id){
                 this.id = id;

@@ -1,110 +1,136 @@
 <template>
-    <div>
+    <div class="container-fluid">
+        <sidebar></sidebar>
 
-        <div class="container">
-            <div class="card">
-                <div class="container-fliud">
-                    <template >
-                        <div class="wrapper row">
-                            <div class="codepen-container">
-                                <div class="content-container">
-                                    <div class="left-container">
-                                        <div class="product-image--container">
-                                            <img class="product-image--featured" id="featured" :src="test_images[0].img_name" alt="toaster"/>
-                                            <ul class="product-image--list" id="gg">
-                                                <li v-for="(im, index) in test_images" class="item-selected"><img @mouseover="myHover" class="product-image--item" :src="im.img_name" /></li>
-                                            </ul>
-                                        </div>
-                                    </div>
-                                    <div class="right-container" v-for="data in allDetail">
-                                        <div>
-                                            <h6 class="title">Title</h6>
-                                            <h6 class="subtitle subtitle-container">{{data.title}}</h6>
-                                            <div>
+        <div class="main-panel">
+
+
+
+
+
+            <div>
+
+                <div class="container">
+                    <div class="card">
+                        <div class="container-fliud">
+                            <template >
+                                <div class="wrapper row">
+                                    <div class="codepen-container">
+                                        <div class="content-container">
+                                            <div class="left-container">
+                                                <div class="product-image--container">
+                                                    <img class="product-image--featured" id="featured" src="https://cdn.jpegmini.com/user/images/slider_puffin_jpegmini_mobile.jpg" alt="toaster"/>
+                                                    <ul class="product-image--list" id="gg">
+                                                        <li v-for="(im, index) in test_images" class="item-selected"><img @mouseover="myHover" class="product-image--item" :src="im.img_name !== null?im.img_name:''" /></li>
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                            <div class="right-container" v-for="data in allDetail">
+                                                <div>
+                                                    <h6 class="title">Title</h6>
+                                                    <h6 class="subtitle subtitle-container">{{data.title}}</h6>
+                                                    <div>
                                               <span class="rating">
 
                                                 <a href="#" class="reviews">
                                                   232 customer reviews
                                                 </a>
                                               </span>
-                                            </div>
-                                        </div>
-                                        <span>
+                                                    </div>
+                                                </div>
+                                                <span>
                                             <p>Price:
                                                  <span class="emphasize">{{data.price}}$</span>
                                             </p>
                                             </span>
-                                        <div>
-                                            <h5 class="title">Product Description</h5>
-                                            <div class="subtitle-container">
-                                                <span>Size: {{data.size}}</span>
-                                                <span>|</span>
-                                                <span>Bedroom : {{data.bedroom}}</span>
-                                                <span>|</span>
-                                                <span>Bathroom : {{data.bathroom}}</span>
+                                                <div>
+                                                    <h5 class="title">Product Description</h5>
+                                                    <div class="subtitle-container">
+                                                        <span>Size: {{data.size}}</span>
+                                                        <span>|</span>
+                                                        <span>Bedroom : {{data.bedroom}}</span>
+                                                        <span>|</span>
+                                                        <span>Bathroom : {{data.bathroom}}</span>
+                                                    </div>
+                                                    <br>
+                                                    <span>Price : {{data.price}}$</span>
+                                                    <br>
+                                                    <span>Email : {{data.email}}</span>
+                                                    <br>
+                                                    <span>Phone : {{data.phone}}</span>
+                                                    <br>
+                                                    <span>Location : {{data.localdetail}} </span>
+                                                    <br>
+                                                    <span>Description : </span>
+                                                    <p style="text-align: justify;">
+                                                        {{data.description}}
+                                                    </p>
+                                                </div>
+                                                <div>
+                                                    <button class="btn btn-primary">
+                                                        Visit User Upload
+                                                    </button>
+                                                </div>
                                             </div>
-                                            <br>
-                                            <span>Price : {{data.price}}$</span>
-                                            <br>
-                                            <span>Email : {{data.email}}</span>
-                                            <br>
-                                            <span>Phone : {{data.phone}}</span>
-                                            <br>
-                                            <span>Location : {{data.localdetail}} </span>
-                                            <br>
-                                            <span>Description : </span>
-                                            <p style="text-align: justify;">
-                                                {{data.description}}
-                                            </p>
                                         </div>
-                                        <div>
-                                            <button class="btn btn-primary">
-                                                Visit User Upload
-                                            </button>
+                                    </div>
+
+                                </div>
+                            </template>
+
+
+                        </div>
+                    </div>
+                    <hr>
+                    <h3>Properties List</h3>
+                    <div class="container mb-3 mt-3" >
+                        <button class="btn1 btn-primary btn-grid" @click="gridList" style="float: right; margin-right: 10px;">Grid View</button>
+                        <button class="btn1 btn-danger btn-list" @click="showList" style="float: right;  margin-right: 10px;">List View</button>
+                    </div>
+                    <hr>
+                    <div class="container grid-container">
+                        <div class="row">
+
+                            <template v-for="item in getproduct">
+                                <div class="col-12 col-md-6 col-lg-3">
+                                    <div class="card">
+                                        <img class="card-img-top" :src="item.images[0].image" alt="Card image cap">
+                                        <div class="card-body">
+                                            <h5 class="card-title"> {{item.title}}</h5>s
+                                            <span>Price : {{item.price}}</span>
+                                            <p class="card-text">
+                                                This is a wider
+                                            </p>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
+
+                            </template>
 
                         </div>
-                    </template>
 
-
+                    </div>
                 </div>
-            </div>
-            <hr>
-            <h3>Properties List</h3>
-            <hr>
-            <div class="container mb-3 mt-3" >
-                <button class="btn1 btn-primary btn-grid" @click="gridList" style="float: right; margin-right: 10px;">Grid View</button>
-                <button class="btn1 btn-danger btn-list" @click="showList" style="float: right;  margin-right: 10px;">List View</button>
-            </div>
-            <hr>
-            <div class="container grid-container">
-                <div class="row">
-                    <template v-for="item in getproduct">
-                        <div class="col-12 col-md-6 col-lg-3">
-                            <div class="card">
-                                <img class="card-img-top" :src="item.images[0].image" alt="Card image cap">
-                                <div class="card-body">
-                                    <h5 class="card-title"> {{item.title}}</h5>s
-                                    <span>Price : {{item.price}}</span>
-                                    <p class="card-text">
-                                        This is a wider
-                                    </p>
-                                </div>
-                            </div>
-                        </div>
 
-                    </template>
-                </div>
+
             </div>
-        </div>s
+
+
+
+
+
+
+
+        </div>
+
     </div>
 </template>
 
 <script>
+    import Sidebar from "./Sidebar";
     export default {
+        name: "Detail",
+        components: {Sidebar},
         data(){
             return{
                 getproduct:[],
@@ -113,17 +139,29 @@
             }
 
         },
+        created() {
+
+        },
         mounted() {
             this.productQuery();
+            console.log(this.$store.getters.getDetail);
+            console.log(this.$store.getters.getProvince);
+            console.log(this.$store.getters.getDistrict);
+            console.log(this.$store.getters.getCommune);
+            console.log(this.$store.getters.categoryStore);
+
             axios.get('api/vieDetail/'+ this.$store.getters.getDetail).then(response =>{
+                console.log(response.data);
                 this.allDetail = response.data;
+
                 this.allDetail.forEach(item => {
                     item.images.forEach(img => {
                         console.log(img.image)
                         this.test_images.push({'img_name': 'http://localhost:8081/RealEstateProject/public/'+img.image});
                     })
                 })
-                //this.$router.push({name/:'userpagemaster.user'});
+
+                this.$router.push({name : 'user'});
             }).catch(err =>{
                 //console.error(err);
             });
@@ -133,7 +171,10 @@
             productQuery(){
                 axios.get('api/getproduct').then(response => {
                     if(response.status === 200){
+
                         this.getproduct = response.data;
+
+                        console.log(response.data);
                     }
                 }).catch(err => {
 
@@ -146,6 +187,7 @@
                 let $gridCont = $('.grid-container');
                 e.preventDefault();
                 $gridCont.hasClass('list-view') ? $gridCont.removeClass('list-view') : $gridCont.addClass('list-view');
+
             },
             gridList(e) {
                 let $gridCont = $('.grid-container')
@@ -171,6 +213,7 @@
                 $('#buy-toaster').click(function() {
                     alert("BUY ME PLS!");
                 });
+
             },
         },
         computed:{
@@ -182,6 +225,20 @@
 </script>
 
 <style lang="scss" scoped>
+    .container-fluid {
+        width: 100%;
+        padding-right: 15px;
+        padding-left: 15px;
+        margin-right: auto;
+        margin-left: auto;
+    }
+    .main-panel {
+        position: relative;
+        float: right;
+        width: calc(100% - 260px);
+        transition: 0.33s, cubic-bezier(0.685, 0.0473, 0.346, 1);
+        z-index: 100;
+    }
     .btn1{
         border: 0px;
         border-radius: 3px;
@@ -196,28 +253,28 @@
     }
 
     .list-view {
-        .row {
-            > [class*='col-'] {
-                max-width: 100%;
-                flex: 0 0 100%;
+    .row {
+    > [class*='col-'] {
+        max-width: 100%;
+        flex: 0 0 100%;
 
-            }
-        }
-        .card {
-            @media (max-width: 575.98px) {
-                flex-direction: column;
-            }
-            flex-direction: row;
-            > .card-img-top {
-                width: 200px;
-                height: 200px;
-                object-fit: cover;
-            }
+    }
+    }
+    .card {
+    @media (max-width: 575.98px) {
+        flex-direction: column;
+    }
+    flex-direction: row;
+    > .card-img-top {
+        width: 200px;
+        height: 200px;
+        object-fit: cover;
+    }
 
-            .card-body {
-                display: inline-block;
-            }
-        }
+    .card-body {
+        display: inline-block;
+    }
+    }
     }
 
 

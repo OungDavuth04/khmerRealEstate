@@ -6,10 +6,6 @@
             <div class="container mt-4">
                 <div class="card mb-4">
                     <div class="card-body">
-                        <!-- Grid row -->
-
-                        <!-- Grid row -->
-                        <!--Table-->
                         <table class="table table-striped">
                             <!--Table head-->
                             <thead>
@@ -26,21 +22,21 @@
                             <!--Table head-->
                             <!--Table body-->
                             <tbody >
-                            <template v-for="list in UserList ">
+                            <template v-for="list in UserList">
                                 <tr>
                                     <th scope="row">{{list.id}}</th>
-                                    <td>{{list.disable}}</td>
+                                    <td>{{list.name}}</td>
                                     <td>{{list.email}}</td>
                                     <td>{{list.province}}</td>
                                     <td>{{list.phone}}</td>
                                     <td>
                                         <a href="#popup" @click="getId(list.id)">
-                                            <i class="fas fa-trash-alt" style="margin-right: 20px; cursor: pointer" ></i>
+                                            <i class="fas fa-trash-alt delete" ></i>
                                         </a>
                                     </td>
                                     <td>
                                         <label class="toggleSwitch nolabel" >
-                                            <input :id="`${list.id}`" type="checkbox"  @click="check(list.id)">
+                                            <input :id="`${list.id}`" type="checkbox"  @click="check(list.id)" :checked="`${list.disable=='true'?true:false}`">
                                             <span>
                                             <span>OFF</span>
                                             <span>ON</span>
@@ -87,9 +83,6 @@
         mounted() {
             this.Userlist()
         },
-        computed:{
-
-        },
         methods:{
             getId(id){
                 this.id = id;
@@ -110,19 +103,14 @@
                     console.log(err);
                 });
             },
-            Userlist(){
-                axios.get('api/userlist').then(response => {
-                    this.UserList = response.data;
-                    response.data.forEach((valueList)=>{
-                        if(valueList.disable == 'true'){
-                            const checkbox = document.getElementById(`${valueList.id}`)
-                            console.log(checkbox.checked)
-                        }else{
-                            const checkbox = document.getElementById(`${valueList.id}`)
-                            checkbox.checked = false
-                        }
-                    })
+            async Userlist(){
+                await axios.get('api/userlist').then(response => {
+                    if(response.status === 200){
+                        this.UserList = response.data;
+                    }
+                    else{
 
+                    }
                 }).catch(err => {
                     console.log(err);
                 });
@@ -139,7 +127,11 @@
 </script>
 
 <style scoped lang="scss">
-
+    .delete{
+        margin-left: 17px;
+        cursor: pointer;
+        margin-bottom: 12px;
+    }
     .box {
         width: 40%;
         margin: 0 auto;

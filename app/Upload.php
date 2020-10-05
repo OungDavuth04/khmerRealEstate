@@ -10,7 +10,7 @@ class Upload extends Model
     protected $primaryKey ='UpId';
     protected $fillable = [
         'uid','title', 'bedroom','bathroom','facing','size','price','description','map_lat',
-        'map_lng','localdetail','email','phone','province','district','commune','cat_name'
+        'map_lng','localdetail','email','phone','province','district','commune','cat_name','disable'
     ];
 
 }

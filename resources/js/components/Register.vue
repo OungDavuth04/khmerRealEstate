@@ -1,99 +1,99 @@
 <template>
-<div class="background">
+    <div class="background">
 
         <div class="container" >
 
-                <h2 class="text-center" style="color: white;">Register Information</h2>
-                <div class="row jumbotron">
-                    <div class="col-sm-6 form-group">
-                        <label for="name-f">Full Name</label>
-                        <input type="text" class="form-control" v-model="data.username" name="fname" id="name-f" placeholder="Enter your first name." required>
+            <h2 class="text-center" style="color: white;">Register Information</h2>
+            <div class="row jumbotron">
+                <div class="col-sm-6 form-group">
+                    <label for="name-f">Full Name</label>
+                    <input type="text" class="form-control" v-model="data.username" name="fname" id="name-f" placeholder="Enter your first name." required>
+                </div>
+                <div class="col-sm-6 form-group">
+                    <label for="email">Email</label>
+                    <input type="email" class="form-control" v-model="data.email" name="email" id="email" placeholder="Enter your email." required>
+                </div>
+                <div class="col-sm-6 form-group">
+                    <label for="Country">City/Province</label>
+                    <select class="form-control custom-select browser-default" v-model="data.province">
+                        <option >Banteay Meanchey</option>
+                        <option >Battambang</option>
+                        <option >Kampong Cham</option>
+                        <option >Kampong Chhnang</option>
+                        <option >Kampong Speu</option>
+                        <option >Kampong Thom</option>
+                        <option >Kampot</option>
+                        <option >Kandal</option>
+                        <option >Koh Kong</option>
+                        <option >Kratié</option>
+                        <option >Mondulkiri</option>
+                        <option >Phnom Penh</option>
+                        <option Preah Vihear</option>
+                        <option >Prey Veng</option>
+                        <option >Pursat</option>
+                        <option >Ratanak Kiri</option>
+                        <option >Siem Reap</option>
+                        <option >Preah Sihanouk</option>
+                        <option >Stung Treng</option>
+                        <option >Svay Rieng</option>
+                        <option >Takéo</option>
+                        <option >Oddar Meanchey</option>
+                        <option >Kep</option>
+                        <option >Pailin</option>
+                        <option >Tboung Khmum</option>
+                    </select>
+                </div>
+                <div class="col-sm-6 form-group">
+                    <label for="Date">Date Of Birth</label>
+                    <input type="Date" name="dob" class="form-control" id="Date" placeholder="" required v-model="data.dob">
+                </div>
+                <div class="col-sm-6 form-group">
+                    <label for="sex">Gender</label>
+                    <select id="sex" class="form-control browser-default custom-select" v-model="data.gender">
+                        <option value="male">Male</option>
+                        <option value="female">Female</option>
+                    </select>
+                </div>
+                <div class="col-sm-4 form-group">
+                    <label for="tel">Phone</label>
+                    <input type="tel" name="phone" v-model="data.phone" class="form-control" id="tel" placeholder="Enter Your Contact Number." required>
+                </div>
+                <div class="col-sm-6 form-group">
+                    <label for="pass">Password</label>
+                    <input type="Password" name="password" v-model="data.password" class="form-control" id="pass" placeholder="Enter your password." required>
+                    <div class="alert alert-warning" v-if="message !== true">
+                        <strong>Warning!</strong> Indicates a warning that password not match.
                     </div>
-                    <div class="col-sm-6 form-group">
-                        <label for="email">Email</label>
-                        <input type="email" class="form-control" v-model="data.email" name="email" id="email" placeholder="Enter your email." required>
-                    </div>
-                    <div class="col-sm-6 form-group">
-                        <label for="Country">City/Province</label>
-                        <select class="form-control custom-select browser-default" v-model="data.province">
-                            <option >Banteay Meanchey</option>
-                            <option >Battambang</option>
-                            <option >Kampong Cham</option>
-                            <option >Kampong Chhnang</option>
-                            <option >Kampong Speu</option>
-                            <option >Kampong Thom</option>
-                            <option >Kampot</option>
-                            <option >Kandal</option>
-                            <option >Koh Kong</option>
-                            <option >Kratié</option>
-                            <option >Mondulkiri</option>
-                            <option >Phnom Penh</option>
-                            <option Preah Vihear</option>
-                            <option >Prey Veng</option>
-                            <option >Pursat</option>
-                            <option >Ratanak Kiri</option>
-                            <option >Siem Reap</option>
-                            <option >Preah Sihanouk</option>
-                            <option >Stung Treng</option>
-                            <option >Svay Rieng</option>
-                            <option >Takéo</option>
-                            <option >Oddar Meanchey</option>
-                            <option >Kep</option>
-                            <option >Pailin</option>
-                            <option >Tboung Khmum</option>
-                        </select>
-                    </div>
-                    <div class="col-sm-6 form-group">
-                        <label for="Date">Date Of Birth</label>
-                        <input type="Date" name="dob" class="form-control" id="Date" placeholder="" required v-model="data.dob">
-                    </div>
-                    <div class="col-sm-6 form-group">
-                        <label for="sex">Gender</label>
-                        <select id="sex" class="form-control browser-default custom-select" v-model="data.gender">
-                            <option value="male">Male</option>
-                            <option value="female">Female</option>
-                        </select>
-                    </div>
-                    <div class="col-sm-4 form-group">
-                        <label for="tel">Phone</label>
-                        <input type="tel" name="phone" v-model="data.phone" class="form-control" id="tel" placeholder="Enter Your Contact Number." required>
-                    </div>
-                    <div class="col-sm-6 form-group">
-                        <label for="pass">Password</label>
-                        <input type="Password" name="password" v-model="data.password" class="form-control" id="pass" placeholder="Enter your password." required>
-                        <div class="alert alert-warning" v-if="message !== true">
-                            <strong>Warning!</strong> Indicates a warning that password not match.
-                        </div>
-                        <div class="alert alert-warning" v-if="messageErr !== true">
-                            <strong>Warning!</strong> Indicates a warning that you are not complete field.
-                        </div>
-                    </div>
-                    <div class="col-sm-6 form-group">
-                        <label for="pass2">Confirm Password</label>
-                        <input type="Password" name="cnf-password"v-model="data.rePassword" class="form-control" id="pass2" placeholder="Re-enter your password." required>
-
-                    </div>
-
-                    <div class="col-sm-12">
-                        <input type="checkbox" class="form-check d-inline" id="chb" required><label for="chb" class="form-check-label">&nbsp;I accept all terms and conditions.
-                    </label>
-                    </div>
-
-                    <div class="col-sm-12 form-group mb-0">
-                        <button class="btn btn-primary float-right" @click="register()">Submit</button>
-                        <router-link to="/">
-                            <h5 style="color: #0d47a1;">Back Home To Page</h5>
-                        </router-link>
-                        <router-link to="/login">
-                            <h5 style="color: #0d47a1;">Log In</h5>
-                        </router-link>
+                    <div class="alert alert-warning" v-if="messageErr !== true">
+                        <strong>Warning!</strong> Indicates a warning that you are not complete field.
                     </div>
                 </div>
+                <div class="col-sm-6 form-group">
+                    <label for="pass2">Confirm Password</label>
+                    <input type="Password" name="cnf-password"v-model="data.rePassword" class="form-control" id="pass2" placeholder="Re-enter your password." required>
+
+                </div>
+
+                <div class="col-sm-12">
+                    <input type="checkbox" class="form-check d-inline" id="chb" required><label for="chb" class="form-check-label">&nbsp;I accept all terms and conditions.
+                </label>
+                </div>
+
+                <div class="col-sm-12 form-group mb-0">
+                    <button class="btn btn-primary float-right" @click="register()">Submit</button>
+                    <router-link to="/">
+                        <h5 style="color: #0d47a1;">Back Home To Page</h5>
+                    </router-link>
+                    <router-link to="/login">
+                        <h5 style="color: #0d47a1;">Log In</h5>
+                    </router-link>
+                </div>
+            </div>
         </div>
 
 
 
-</div>
+    </div>
 
 </template>
 
@@ -103,17 +103,17 @@
             return{
                 message:true,
                 messageErr:true,
-               data:{
-                   username:'',
-                   email:'',
-                   password:'',
-                   province:'',
-                   dob:'',
-                   gender:'',
-                   phone:'',
-                   rePassword:''
+                data:{
+                    username:'',
+                    email:'',
+                    password:'',
+                    province:'',
+                    dob:'',
+                    gender:'',
+                    phone:'',
+                    rePassword:''
 
-               }
+                }
 
             }
         },
@@ -123,10 +123,10 @@
         methods:{
             register(){
                 if(this.data.username !== '' &&
-                   this.data.gender !== '' &&
-                   this.data.dob !== '' &&
-                   this.data.province !== '' &&
-                   this.data.phone !== '' &&
+                    this.data.gender !== '' &&
+                    this.data.dob !== '' &&
+                    this.data.province !== '' &&
+                    this.data.phone !== '' &&
                     this.data.email !== ''
                 ){
                     this.messageErr = true;

@@ -1,6 +1,5 @@
 <template>
-    <div class="container-fluid">
-
+    <div>
         <aside>
             <div class="sidebar" data-color="purple" data-background-color="white" style="z-index: 100;">
                 <div class="logo">
@@ -11,46 +10,46 @@
                 <div class="sidebar-wrapper">
                     <ul class="nav">
                         <li class="nav-item active  ">
-                            <router-link to="/" class="nav-link">
+                            <router-link :to="{name: 'product'}" class="nav-link">
                                 <i class="material-icons">dashboard</i>
                                 <p>Home</p>
                             </router-link>
                         </li>
                         <li class="nav-item ">
-                            <router-link to="/user" class="nav-link" v-if="checkLog === true">
+                            <router-link :to="{name: 'profile'}" class="nav-link">
                                 <i class="material-icons">person</i>
                                 <p>User Profile</p>
                             </router-link>
                         </li>
                         <li class="nav-item " >
-                            <router-link to="/register" class="nav-link" v-if="checkLog === false">
+                            <router-link :to="{name: 'register'}" class="nav-link" v-if="checkLog === false">
                                 <i class="material-icons">person</i>
                                 <p>Register</p>
                             </router-link>
                         </li>
                         <li class="nav-item " >
-                            <router-link to="/user" class="nav-link" v-if="checkLog === false">
+                            <router-link to="/login" class="nav-link" v-if="checkLog === false">
                                 <i class="material-icons">person</i>
                                 <p>Log In</p>
                             </router-link>
                         </li>
-                        <!--                        <li class="nav-item ">-->
-                        <!--                            <a class="nav-link" href="./tables.html">-->
-                        <!--                            <i class="material-icons">content_paste</i>-->
-                        <!--                            <p>Table List</p>-->
-                        <!--                            </a>-->
-                        <!--                        </li>-->
                         <li class="nav-item ">
-                            <router-link to="/addPost" class="nav-link">
-                                <i class="material-icons">library_books</i>
-                                <p>Add Post</p>
-                            </router-link>
+                            <a class="nav-link" href="./tables.html">
+                                <i class="material-icons">content_paste</i>
+                                <p>Table List</p>
+                            </a>
                         </li>
                         <li class="nav-item ">
-                            <router-link to="/map" class="nav-link">
-                                <i class="material-icons">location_ons</i>
-                                <p>Find on Maps</p>
-                            </router-link>
+<!--                            <router-link to="/addPost" class="nav-link">-->
+<!--                                <i class="material-icons">library_books</i>-->
+<!--                                <p>Add Post</p>-->
+<!--                            </router-link>-->
+                        </li>
+                        <li class="nav-item ">
+                            <!--                            <router-link to="/map" class="nav-link">-->
+                            <!--                            <i class="material-icons">location_ons</i>-->
+                            <!--                            <p>Find on Maps</p>-->
+                            <!--                            </router-link>-->
                         </li>
                         <!--                        <li class="nav-item ">-->
                         <!--                            <a class="nav-link" href="./notifications.html">-->
@@ -62,34 +61,20 @@
                 </div>
             </div>
         </aside>
-
-
-
-        <div class="main-panel" >
-            <router-view></router-view>
-        </div>
     </div>
 </template>
 
 <script>
-    // Enable pusher logging - don't include this in production
-
-    import ProductMaster from './ProductMaster.vue';
-    import UserPage from './UserPages.vue'
     export default {
+        name: "Sidebar",
         data(){
             return{
-                currentComponent: 'product_master',
-                checkLog: '',
+                checkLog: false,
                 localStore :window.localStorage.getItem('userAccessToken')
             }
         },
         mounted() {
             this.checkLogIn();
-        },
-        components:{
-            'product_master': ProductMaster,
-            'userpage': UserPage
         },
         methods:{
             checkLogIn(){
@@ -99,15 +84,11 @@
                     this.checkLog = false;
                 }
             },
-            changeForm(e){
-                this.currentComponent = e.formName;
-            }
         }
     }
-
-    // }
 </script>
-<style scoped >
+
+<style scoped>
     button:focus{outline:none}
     aside{background:#1a1d23; width:250px;height:100vh; position:fixed; transition:.3s;left:-250px;top:0;transition-timing-function: cubic-bezier(0.9,0,1,1);}
     aside.close{left:0;transition:.3s;transition-timing-function: cubic-bezier(0.9,0,1,1);}
@@ -14713,7 +14694,4 @@ Copyright (c) 2015 Daniel Eden
             display: none !important;
         }
     }
-
-    /*# sourceMappingURL=dashboard-free.css.map */
-
 </style>

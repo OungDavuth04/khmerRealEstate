@@ -1,74 +1,79 @@
-<template >
-    <div style="background: rgb(110 191 255 / 83%)">
-        <!--navbar-->
-        <nav class="navbar navbar-expand-lg navbar-light bg-navbar " >
-            <a class="" href="#">
-                <img src="storage/icon/logo.jpg"  style="width: 40px; height: 40px">
-            </a>
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                <ul class="navbar-nav mr-auto"></ul>
-                <form class="form-inline my-2 my-lg-0">
-                    <input class="form-controls mr-sm-2" type="search" placeholder="Search" aria-label="Search" v-model="searchBox">
-                    <div class="form-group mr-sm-2">
-                        <select  class="form-controls" v-model="searchCat">
-                            <option value="allCartegory" >All Category</option>
-                            <option value="houseSale">House for Sale</option>
-                            <option value="houseRent">House for Rent</option>
-                            <option value="condoSale">Condo for Sale</option>
-                            <option value="apRent">Apartment for Rent</option>
-                            <option value="landSale">Land for Sale</option>
-                            <option value="landRent">Land for Rent</option>
-                            <option value="comSale">Commercial for Sale</option>
-                            <option value="comRent">Commercial for Rent</option>
-                            <option value="roomRent">Room for Rent</option>
-                        </select>
+<template>
+    <div class="container-fluid">
+        <sidebar></sidebar>
+        <div class="main-panel">
+
+
+            <div style="background: rgb(110 191 255 / 83%)">
+                <!--navbar-->
+                <nav class="navbar navbar-expand-lg navbar-light bg-navbar " >
+                    <a class="" href="#">
+                        <img src="storage/icon/logo.jpg"  style="width: 40px; height: 40px">
+                    </a>
+                    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+                    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                        <ul class="navbar-nav mr-auto"></ul>
+                        <form class="form-inline my-2 my-lg-0">
+                            <input class="form-controls mr-sm-2" type="search" placeholder="Search" aria-label="Search" v-model="searchBox">
+                            <div class="form-group mr-sm-2">
+                                <select  class="form-controls" v-model="searchCat">
+                                    <option value="allCartegory" >All Category</option>
+                                    <option value="houseSale">House for Sale</option>
+                                    <option value="houseRent">House for Rent</option>
+                                    <option value="condoSale">Condo for Sale</option>
+                                    <option value="apRent">Apartment for Rent</option>
+                                    <option value="landSale">Land for Sale</option>
+                                    <option value="landRent">Land for Rent</option>
+                                    <option value="comSale">Commercial for Sale</option>
+                                    <option value="comRent">Commercial for Rent</option>
+                                    <option value="roomRent">Room for Rent</option>
+                                </select>
+                            </div>
+                            <button class="btn btn-outline-success my-2 my-sm-0 bg-light" type="submit" @click="search()">Search</button>
+                        </form>
                     </div>
-                    <button class="btn btn-outline-success my-2 my-sm-0 bg-light" type="submit" @click="search()">Search</button>
-                </form>
-            </div>
-        </nav>
-            <nav class="navbar navbar-expand-lg navbar-toggle bg-navbar " style="margin-top: 15px;">
-                <div class="collapse navbar-collapse" >
-                    <ul class="navbar-nav mr-auto"></ul>
-                    <form class="form-inline my-2 my-lg-0">
-                        <div class="form-group mr-sm-2">
-                            <select v-model="data.provinceSelected" id="provinces" class="form-controls" @change="getDistricts">
-                                <option v-for="province in allProvinces" :value="province.pro_id">{{ province.ProvinceName }}</option>
-                            </select>
-                        </div>
-                        <div class="form-group mr-sm-2">
-
-                            <!--Start Loading Indicator-->
-                            <div v-if="loadingDistricts" class="justify-content-center w-100 align-middle text-center">
-                                <div class="spinner-border text-success" role="status"></div>
+                </nav>
+                <nav class="navbar navbar-expand-lg navbar-toggle bg-navbar " style="margin-top: 15px;">
+                    <div class="collapse navbar-collapse" >
+                        <ul class="navbar-nav mr-auto"></ul>
+                        <form class="form-inline my-2 my-lg-0">
+                            <div class="form-group mr-sm-2">
+                                <select v-model="data.provinceSelected" id="provinces" class="form-controls" @change="getDistricts">
+                                    <option v-for="province in allProvinces" :value="province.pro_id">{{ province.ProvinceName }}</option>
+                                </select>
                             </div>
-                            <!--End Loading Indicator-->
-                            <div v-if="!data.provinceSelected" class="form-controls " style="background-color: gold;color: black; cursor: pointer"> Select Province</div>
-                            <select v-if="!loadingDistricts && data.provinceSelected" v-model="data.districtSelected" id="districts" class="form-controls" @change="getCommunes">
-                                <option v-for="district in allDistricts" :value="district.dis_id">{{ district.DistrictName }}</option>
-                            </select>
-                        </div>
-                        <div class="form-group mr-sm-2">
+                            <div class="form-group mr-sm-2">
 
-                            <!--Start Loading Indicator-->
-                            <div v-if="progressing.loadingCommunes" class="justify-content-center w-100 align-middle text-center">
-                                <div class="spinner-border text-success" role="status"></div>
+                                <!--Start Loading Indicator-->
+                                <div v-if="loadingDistricts" class="justify-content-center w-100 align-middle text-center">
+                                    <div class="spinner-border text-success" role="status"></div>
+                                </div>
+                                <!--End Loading Indicator-->
+                                <div v-if="!data.provinceSelected" class="form-controls " style="background-color: gold;color: black; cursor: pointer"> Select Province</div>
+                                <select v-if="!loadingDistricts && data.provinceSelected" v-model="data.districtSelected" id="districts" class="form-controls" @change="getCommunes">
+                                    <option v-for="district in allDistricts" :value="district.dis_id">{{ district.DistrictName }}</option>
+                                </select>
                             </div>
-                            <!--End Loading Indicator-->
-                            <div v-if="!data.districtSelected" class="form-controls " style="background-color: gold;color: black;cursor: pointer">Select District</div>
-                            <select v-if="!progressing.loadingCommunes && data.districtSelected" v-model="data.communeSelected "id="communes" class="form-controls">
-                                <option v-for="commune in allCommunes" :value="commune.com_id">{{ commune.CommuneName }}</option>
-                            </select>
-                        </div>
+                            <div class="form-group mr-sm-2">
 
-                    </form>
-                </div>
-            </nav>
-            <!-- end navbar-->
-                            <!--menu-->
+                                <!--Start Loading Indicator-->
+                                <div v-if="progressing.loadingCommunes" class="justify-content-center w-100 align-middle text-center">
+                                    <div class="spinner-border text-success" role="status"></div>
+                                </div>
+                                <!--End Loading Indicator-->
+                                <div v-if="!data.districtSelected" class="form-controls " style="background-color: gold;color: black;cursor: pointer">Select District</div>
+                                <select v-if="!progressing.loadingCommunes && data.districtSelected" v-model="data.communeSelected "id="communes" class="form-controls">
+                                    <option v-for="commune in allCommunes" :value="commune.com_id">{{ commune.CommuneName }}</option>
+                                </select>
+                            </div>
+
+                        </form>
+                    </div>
+                </nav>
+                <!-- end navbar-->
+                <!--menu-->
                 <div class="form-group">
                     <section id="team" class="pb-5">
                         <div class="container-menu">
@@ -280,7 +285,7 @@
                                             <p class="cart" href="#">
                                                 <span class="price">${{item.price}}</span>
                                                 <span class="add-to-cart">
-                                            <span class="txt"  @click="Detail(item.upId,item.cat_name)">View Detail</span></span>
+                                                        <span class="txt"  @click="Detail(item.upId,item.cat_name)">View Detail</span></span>
                                             </p>
                                         </div>
                                         <span style="margin-top: 5px;font-size: 12px;">{{item.timer}}</span>
@@ -315,7 +320,7 @@
                                             <p class="cart" >
                                                 <span class="price">${{item.price}}</span>
                                                 <span class="add-to-cart">
-                                            <span class="txt"  @click="Detail(item.upId,item.cat_name)">View Detail</span></span>
+                                                        <span class="txt"  @click="Detail(item.upId,item.cat_name)">View Detail</span></span>
                                             </p>
                                         </div>
                                         <span style="margin-top: 5px;font-size: 12px;">{{item.timer}}</span>
@@ -348,7 +353,7 @@
                                         <p class="cart" >
                                             <span class="price">${{item.price}}</span>
                                             <span class="add-to-cart">
-                                        <span class="txt"  @click="Detail(item.upId,item.cat_name)">View Detail</span></span>
+                                                        <span class="txt"  @click="Detail(item.upId,item.cat_name)">View Detail</span></span>
                                         </p>
                                     </div>
                                     <span style="margin-top: 5px;font-size: 12px;">{{item.timer}}</span>
@@ -357,19 +362,22 @@
                             </div>
                         </template>
                     </div>
-            </div>
-        <footer-Page>
-        </footer-Page>
-    </div>
 
+                </div>
+                <!--        <footer-Page>-->
+                <!--        </footer-Page>-->
+            </div>
+
+
+        </div>
+    </div>
 </template>
+
 <script>
-   // import Footer from './footer'
+    import Sidebar from "./Sidebar";
     export default {
         name: "Product",
-        // components: {
-        //     'footer-Page' : Footer
-        // },
+        components: {Sidebar},
         data(){
             return{
                 data:{
@@ -378,7 +386,7 @@
                     communeSelected: null,
                 },
                 progressing:{
-                     loadingCommunes: false,
+                    loadingCommunes: false,
                 },
                 allProvinces: [],
                 allDistricts: [],
@@ -397,17 +405,26 @@
             }
         },
         mounted() {
+            // this.promote();
             //this.notification();
+            this.setTimeOut();
             this.productQuery();
             this.slider();
+            this.Advertise();
+            this.ProAvg();
+            axios.get('api/province').then(response => {
+                if(response.status === 200){
+                    this.allProvinces = response.data;
+                    //console.log(response);
+                }
+            }).catch(err => {
+            });
         },
         methods:{
             async ProAvg(){
-             await axios.get('api/viewer/avg').then(response => {
+                await axios.get('api/viewer/avg').then(response => {
                     //console.log(response.data);
-                    if(response.status === 200){
-                        this.topviewer = response.data;
-                    }
+                    this.topviewer = response.data;
                 }).catch(err => {
                 })
             },
@@ -416,77 +433,55 @@
                     const trustClientToken = window.localStorage.getItem('userAccessToken');
                     axios.defaults.headers.common['Authorization'] = 'Bearer ' + trustClientToken;
                     await axios.get('api/user').then(response => {
-                        if(response.status === 200){
-                            let uid = response.data.id;
-                            let cat = window.localStorage.getItem('catName');
-                            let data = {cat, uid}
-                            if(cat !== null){
-                                axios.post('api/AdvertiseUser',data).then(response => {
-                                    if(response.status === 200){
-                                        if( response.data.length < 1 ||  response.data == undefined){
-                                            axios.get('api/AdvertiseDefault').then(response => {
-                                                // console.log(response.data);
-                                                if(response.status === 200){
-                                                    this.advertise = response.data
-                                                }
-                                            }).catch(err => {
-                                            })
-                                        }else{
-                                            this.advertise = response.data
-                                        }
-                                    }
-
-                                }).catch(err => {
-                                })
-                            }else {
-                                axios.get('api/AdvertiseDefault').then(response => {
-                                    // console.log(response.data);
-                                    if(response.status === 200){
+                        let uid = response.data.id;
+                        let cat = window.localStorage.getItem('catName');
+                        let data = {cat, uid}
+                        if(cat !== null){
+                            axios.post('api/AdvertiseUser',data).then(response => {
+                                if( response.data.length < 1 ||  response.data == undefined){
+                                    axios.get('api/AdvertiseDefault').then(response => {
+                                        // console.log(response.data);
                                         this.advertise = response.data
-                                    }
-                                }).catch(err => {
-                                })
-                            }
+                                    }).catch(err => {
+                                    })
+                                }else{
+                                    this.advertise = response.data
+                                }
+                            }).catch(err => {
+                            })
+                        }else {
+                            axios.get('api/AdvertiseDefault').then(response => {
+                                // console.log(response.data);
+                                this.advertise = response.data
+                            }).catch(err => {
+                            })
                         }
 
                     }).catch(err => {
                         console.log(err);
                     });
                 }else {
-                    axios.get('api/AdvertiseDefault').then(response => {
-                       // console.log(response.data);
+                    await axios.get('api/AdvertiseDefault').then(response => {
+                        // console.log(response.data);
                         this.advertise = response.data
                     }).catch(err => {
                     })
                 }
             },
-            async  productQuery(){
+            async productQuery(){
                 if(window.localStorage.getItem('userAccessToken') !== null) {
                     const trustClientToken = window.localStorage.getItem('userAccessToken');
                     axios.defaults.headers.common['Authorization'] = 'Bearer ' + trustClientToken;
                     await axios.get('api/user').then(response => {
-                        if(response.status === 200){
-                            let uid = response.data.id;
-                            let cat = window.localStorage.getItem('catName');
-                            let data = {cat, uid};
-                            axios.post('api/getfavorite',data).then(response => {
-                                if(response.status === 200){
-                                    this.getproduct = response.data
-                                }
-                            }).catch(err => {
-                            }).finally(()=>{
-                                this.Advertise();
-                                this.ProAvg();
-                                this.setTimeOut();
-                                axios.get('api/province').then(response => {
-                                    if(response.status === 200){
-                                        this.allProvinces = response.data;
-                                        //console.log(response);
-                                    }
-                                }).catch(err => {
-                                });
-                            });
-                        }
+                        let uid = response.data.id;
+                        let cat = window.localStorage.getItem('catName');
+                        let data = {cat, uid};
+                        axios.post('api/getfavorite',data).then(response => {
+                            if(response.status === 200){
+                                this.getproduct = response.data
+                            }
+                        }).catch(err => {
+                        });
                     }).catch(err => {
                         console.log(err);
                     });
@@ -494,20 +489,9 @@
                     await axios.get('api/getproduct').then(response => {
                         if(response.status === 200){
                             this.getproduct = response.data;
+                            //console.log(response.data);
                         }
                     }).catch(err => {
-                        console.log(err)
-                    }).finally(()=>{
-                        this.Advertise();
-                        this.ProAvg();
-                        this.setTimeOut();
-                        axios.get('api/province').then(response => {
-                            if(response.status === 200){
-                                this.allProvinces = response.data;
-                                //console.log(response);
-                            }
-                        }).catch(err => {
-                        });
                     });
                 }
             },
@@ -544,13 +528,21 @@
                     }
                 }, 2*60*1000);
             },
-            Detail(pid,cat){
-                this.$store.commit('setDetail',pid);
-                this.$router.push({name:'product.detail'});
-                window.localStorage.setItem('catName',cat);
-                axios.get('api/viewers/'+pid).then(response => {
+            async Detail(pid,cat){
+                //this.$store.commit('setDetail',pid);
+                this.$router.push({name:'detail'});
+                // window.localStorage.setItem('catName',cat);
+                // await axios.get('api/viewers/'+pid).then(response => {
+                //     if(response.status === 200){
+                //         //console.log(response.data);
+                //     }
+                // }).catch(err => {
+                // })
+            },
+            async promote(){
+                await axios.get('api/promote').then(response => {
                     if(response.status === 200){
-                        //console.log(response.data);
+                        // console.log(response.data);
                     }
                 }).catch(err => {
                 })
@@ -585,7 +577,7 @@
                 this.loadingDistricts = true;
                 axios.get('api/districts/'+ e.target.value).then(response => {
                     if(response.status === 200){
-                      //  console.log(response.data);
+                        //  console.log(response.data);
                         this.allDistricts = response.data;
                         this.loadingDistricts = false;
                     }
@@ -637,7 +629,21 @@
     }
 </script>
 
-<style lang="scss">
+<style scoped>
+    .container-fluid {
+        width: 100%;
+        padding-right: 15px;
+        padding-left: 15px;
+        margin-right: auto;
+        margin-left: auto;
+    }
+    .main-panel {
+        position: relative;
+        float: right;
+        width: calc(100% - 260px);
+        transition: 0.33s, cubic-bezier(0.685, 0.0473, 0.346, 1);
+        z-index: 100;
+    }
     .form-controls{
         font-family: math;
         padding: 7px;
