@@ -1,11 +1,10 @@
 <template>
     <div>
-
         <div class="container">
             <div class="card">
                 <div class="container-fliud">
                     <template >
-                        <div class="wrapper row">
+                        <div class="wrapper row" id="detail">
                             <div class="codepen-container">
                                 <div class="content-container">
                                     <div class="left-container">
@@ -22,7 +21,6 @@
                                             <h6 class="subtitle subtitle-container">{{data.title}}</h6>
                                             <div>
                                               <span class="rating">
-
                                                 <a href="#" class="reviews">
                                                   232 customer reviews
                                                 </a>
@@ -31,7 +29,7 @@
                                         </div>
                                         <span>
                                             <p>Price:
-                                                 <span class="emphasize">{{data.price}}$</span>
+                                                <span class="emphasize">{{data.price}}$</span>
                                             </p>
                                             </span>
                                         <div>
@@ -65,11 +63,8 @@
                                     </div>
                                 </div>
                             </div>
-
                         </div>
                     </template>
-
-
                 </div>
             </div>
             <hr>
@@ -84,16 +79,17 @@
                 <div class="row">
                     <template v-for="item in getproduct">
                         <div class="col-12 col-md-6 col-lg-3" style="cursor: pointer">
-                            <div class="card" @click="Detail(item.upId,item.cat_name)" >
-                                <img class="card-img-top" :src="item.images[0].image" alt="Card image cap">
-                                <div class="card-body">
-                                    <h5 class="card-title"> {{item.title}}</h5>
-                                    <span>Price : {{item.price}}</span>
-                                    <p class="card-text description">
-                                        {{item.description}}
-                                    </p>
+                                <div class="card" @click="Detail(item.upId,item.cat_name)" >
+                                    <img class="card-img-top" :src="item.images[0].image" alt="Card image cap">
+                                    <div class="card-body">
+                                        <h5 class="card-title"> {{item.title}}</h5>
+                                        <span>Price : {{item.price}}$</span>
+                                        <p class="card-text description">
+                                            {{item.description}}
+                                        </p>
+                                    </div>
                                 </div>
-                            </div>
+
                         </div>
                     </template>
                 </div>
@@ -106,21 +102,27 @@
     export default {
         data(){
             return{
+                checkId:'',
                 getproduct:[],
                 allDetail:[],
                 test_images: []
             }
         },
         mounted() {
+
+            // if(this.$store.getters.getDetail !== null){
+            //     this.checkId = this.$store.getters.getDetail
+            // }else {
+            //     this.checkId = window.localStorage.getItem('setId')
+            // }
             this.productQuery();
-            axios.get('api/vieDetail/'+ this.$store.getters.getDetail).then(response =>{
+            axios.get('api/vieDetail/'+ window.localStorage.getItem('setId')).then(response =>{
                 this.allDetail = response.data;
                 this.allDetail.forEach(item => {
                     item.images.forEach(img => {
                         this.test_images.push({'img_name': 'http://localhost:8081/RealEstateProject/public/'+img.image});
                     })
                 })
-                //this.$router.push({name/:'userpagemaster.user'});
             }).catch(err =>{
                 console.error(err);
             });
@@ -128,16 +130,17 @@
         },
         methods:{
             Detail(pid,cat){
-                this.$store.commit('setDetail',pid);
-                // this.$router.push({name:'product.detail'});
+                this.$router.push({name:'product.detail'});
+                window.localStorage.setItem('setId',pid);
                 window.localStorage.setItem('catName',cat);
                 axios.get('api/viewers/'+pid).then(response => {
                     if(response.status === 200){
                         //console.log(response.data);
+                        window.location.reload()
                     }
                 }).catch(err => {
                 })
-                window.location.reload()
+
             },
             productQuery(){
                 axios.get('api/getproduct').then(response => {
@@ -206,13 +209,10 @@
     .btn-visit:hover{
         opacity: 4.0;
     }
-
-
     .btn1{
         border: 0px;
         border-radius: 3px;
         padding: 8px;
-
     }
     .btn1:hover{
         opacity: 4.0;
@@ -226,7 +226,6 @@
             > [class*='col-'] {
                 max-width: 100%;
                 flex: 0 0 100%;
-
             }
         }
         .card {
@@ -245,12 +244,9 @@
             }
         }
     }
-
-
     .codepen-container {
         padding: 3em;
     }
-
     .content-container {
         display: flex;
         margin: 0 auto;
@@ -292,10 +288,11 @@
     }
 
     .product-image--featured {
-        max-width: 228px;
+        max-width: 432px;
         width: 100%;
-        max-height: 200px;
+        max-height: 310px;
         height: 100%;
+        object-fit: cover;
     }
 
     .product-image--list {
@@ -320,14 +317,12 @@
         -webkit-transition: all ease 0.25s;
         transition: all ease 0.25s;
     }
-
     .product-image--item {
-
-
-        max-width: 40px;
-        max-height: 40px;
+        cursor: pointer;
+        object-fit: cover;
+        max-width: 154px;
+        max-height: 104px;
     }
-
     .right-container {
         margin: 1em;
     }

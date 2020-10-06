@@ -66,38 +66,38 @@
 
                         </ul>
 
-                        <h6 class="sidebar-heading d-flex justify-content-between align-items-center pl-3 mt-4 mb-1 text-muted">
-                            <span>Saved reports</span>
-                            <a class="d-flex align-items-center text-muted" href="#">
-                                <i class="zmdi zmdi-plus-circle-o"></i>
-                            </a>
-                        </h6>
-                        <ul class="nav flex-column mb-2">
-                            <li class="nav-item">
-                                <a class="nav-link" href="#">
-                                    <i class="zmdi zmdi-file-text"></i>
-                                    Current month
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="#">
-                                    <i class="zmdi zmdi-file-text"></i>
-                                    Last quarter
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="#">
-                                    <i class="zmdi zmdi-file-text"></i>
-                                    Social engagement
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="#">
-                                    <i class="zmdi zmdi-file-text"></i>
-                                    Year-end sale
-                                </a>
-                            </li>
-                        </ul>
+<!--                        <h6 class="sidebar-heading d-flex justify-content-between align-items-center pl-3 mt-4 mb-1 text-muted">-->
+<!--                            <span>Saved reports</span>-->
+<!--                            <a class="d-flex align-items-center text-muted" href="#">-->
+<!--                                <i class="zmdi zmdi-plus-circle-o"></i>-->
+<!--                            </a>-->
+<!--                        </h6>-->
+<!--                        <ul class="nav flex-column mb-2">-->
+<!--                            <li class="nav-item">-->
+<!--                                <a class="nav-link" href="#">-->
+<!--                                    <i class="zmdi zmdi-file-text"></i>-->
+<!--                                    Current month-->
+<!--                                </a>-->
+<!--                            </li>-->
+<!--                            <li class="nav-item">-->
+<!--                                <a class="nav-link" href="#">-->
+<!--                                    <i class="zmdi zmdi-file-text"></i>-->
+<!--                                    Last quarter-->
+<!--                                </a>-->
+<!--                            </li>-->
+<!--                            <li class="nav-item">-->
+<!--                                <a class="nav-link" href="#">-->
+<!--                                    <i class="zmdi zmdi-file-text"></i>-->
+<!--                                    Social engagement-->
+<!--                                </a>-->
+<!--                            </li>-->
+<!--                            <li class="nav-item">-->
+<!--                                <a class="nav-link" href="#">-->
+<!--                                    <i class="zmdi zmdi-file-text"></i>-->
+<!--                                    Year-end sale-->
+<!--                                </a>-->
+<!--                            </li>-->
+<!--                        </ul>-->
                     </div>
                 </nav>
                 <main role="main" class="col-md-9 ml-sm-auto col-lg-10 my-3">

@@ -40,7 +40,7 @@
                                     </td>
                                     <td>
                                         <label class="toggleSwitch nolabel" >
-                                            <input :id="`${item.UpId}`" type="checkbox"  @click="check(item.UpId)">
+                                            <input :id="`${item.UpId}`" type="checkbox"  @click="check(item.UpId)" :checked="`${item.disable=='true'?true:false}`">
                                             <span>
                                             <span>OFF</span>
                                             <span>ON</span>

@@ -1,6 +1,4 @@
 <template>
-
-
     <footer class="new_footer_area bg_color">
         <div class="new_footer_top">
             <div class="container">

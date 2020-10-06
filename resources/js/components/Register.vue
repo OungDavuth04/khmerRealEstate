@@ -1,9 +1,7 @@
 <template>
     <div class="background">
-
         <div class="container" >
-
-            <h2 class="text-center" style="color: white;">Register Information</h2>
+            <h2 class="text-center" style="color: #0d47a1;">Register Information</h2>
             <div class="row jumbotron">
                 <div class="col-sm-6 form-group">
                     <label for="name-f">Full Name</label>
@@ -71,16 +69,9 @@
                 <div class="col-sm-6 form-group">
                     <label for="pass2">Confirm Password</label>
                     <input type="Password" name="cnf-password"v-model="data.rePassword" class="form-control" id="pass2" placeholder="Re-enter your password." required>
-
                 </div>
-
-                <div class="col-sm-12">
-                    <input type="checkbox" class="form-check d-inline" id="chb" required><label for="chb" class="form-check-label">&nbsp;I accept all terms and conditions.
-                </label>
-                </div>
-
                 <div class="col-sm-12 form-group mb-0">
-                    <button class="btn btn-primary float-right" @click="register()">Submit</button>
+                    <button class="btn btn-primary float-right" @click="register()">Register</button>
                     <router-link to="/">
                         <h5 style="color: #0d47a1;">Back Home To Page</h5>
                     </router-link>
@@ -90,9 +81,6 @@
                 </div>
             </div>
         </div>
-
-
-
     </div>
 
 </template>
@@ -116,9 +104,6 @@
                 }
 
             }
-        },
-
-        mounted() {
         },
         methods:{
             register(){
@@ -156,16 +141,11 @@
 <style scoped>
     .container{
         margin:0 auto;
-    }
-    body{
 
-        background-color: #07579a;
-        width: 100%;
-        height: 100%;
-        margin:0;
     }
-    .background{
-        background-color: #07579a;
+    .jumbotron{
+        background: rgb(135,120,172);
+        background: linear-gradient(270deg, rgba(135,120,172,1) 0%, rgba(186,132,57,1) 85%);
         width: 100%;
         height: 100%;
         margin:0;

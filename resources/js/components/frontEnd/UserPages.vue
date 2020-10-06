@@ -1,5 +1,30 @@
 <template>
     <div>
+        <header class="header__navbar">
+            <div class="navbar">
+                <h4 class="navbar__logo">Khmer Real Estate</h4>
+                <ul class="navbar__links">
+                    <li>
+                        <router-link to="/">
+                            <a href="#">Home</a>
+                        </router-link>
+                    </li>
+                    <li>
+                        <div class="btn-group dropleft">
+                            <i class="fas fa-align-justify setting-bar dropleft" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></i>
+                            <div class="dropdown-menu ">
+                                <a class="dropdown-item" href="#">Action</a>
+                                <a class="dropdown-item" href="#">Another action</a>
+                                <a class="dropdown-item" href="#">Something else here</a>
+                                <div class="dropdown-divider"></div>
+                                <a class="dropdown-item" @click="logout()">Log Out</a>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </header>
+
         <div class="content">
             <div class="container-fluid">
                 <div id="user-profile-2" class="user-profile">
@@ -12,10 +37,6 @@
                                             <img class="editable img-responsive" alt=" Avatar" id="avatar2" src="http://bootdey.com/img/Content/avatar/avatar6.png">
                                         </span>
                                         <div class="space space-4"></div>
-                                        <button class="btn-primary" @click="logout">
-                                            <span class="bigger-110">Log Out</span>
-                                        </button >
-
                                         <router-link to="/admin" class=" btn btn-primary" v-if="level === 'admin'"  style="margin: 10px;">
                                             <span class="bigger-110">Visit Admin Dashboard</span>
                                         </router-link >
@@ -27,17 +48,14 @@
                                         <div class="profile-user-info">
                                             <div class="profile-info-row">
                                                 <div class="profile-info-name"> Email </div>
-
                                                 <div class="profile-info-value">
                                                     <span>{{email}}</span>
                                                 </div>
                                             </div>
                                             <div class="profile-info-row">
                                                 <div class="profile-info-name"> Location </div>
-
                                                 <div class="profile-info-value">
                                                     <span>{{location}}</span>
-
                                                 </div>
                                             </div>
                                             <div class="profile-info-row">
@@ -48,7 +66,6 @@
 
                                                 </div>
                                             </div>
-
                                             <div class="profile-info-row">
                                                 <div class="profile-info-name"> Date Of Birth </div>
 
@@ -56,7 +73,6 @@
                                                     <span>{{dob}}</span>
                                                 </div>
                                             </div>
-
                                             <div class="profile-info-row">
                                                 <div class="profile-info-name"> Joined </div>
                                                 <div class="profile-info-value">
@@ -71,7 +87,6 @@
                                                 </div>
                                             </div>
                                         </div>
-
                                         <div class="hr hr-8 dotted"></div>
 
                                     </div><!-- /.col -->
@@ -91,52 +106,41 @@
                         <div class="bg-color">
                             <div class="form-group">
                                 <h3 v-if="promoteData != 0">Real Estate Promoted</h3>
-                                    <div class="parent">
-                                        <template v-for="item in promoteData">
-                                            <div class="card" style="width: 16.4rem; margin: 5px;">
-                                                <img class="card-img-top":src="item.images.length>0?item.images[0].image:''" alt="Card image cap">
-                                                <div class="card-body">
-                                                    <h5 class="card-title" v-text="item.title" style="color:#0b75c9; ;"></h5>
-                                                    <p style="color: #2e7d32;">Price :</p>
-                                                    <p class="card-text" >{{item.price}}$</p>
-<!--                                                    <div class="btn-group">-->
-<!--                                                        <button type="button" class=" btn1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" >-->
-<!--                                                            Option-->
-<!--                                                        </button>-->
-<!--                                                        <div class="dropdown-menu">-->
-<!--                                                            <a class="dropdown-item" @click="EditPost(item.upId)"> Edit</a>-->
-<!--                                                            <a class="dropdown-item" data-toggle="modal" data-target="#exampleModal">Delete</a>n-->
-<!--                                                        </div>-->
-<!--                                                    </div>-->
-                                                </div>
-                                            </div>
-                                        </template>
-                                    </div>
-                                <h3>All Real Estate</h3>
                                 <div class="parent">
-                                    <template v-for="(item, index) in upload">
-                                    <div  class="item">
+                                    <template v-for="item in promoteData">
                                         <div class="card" style="width: 16.4rem; margin: 5px;">
                                             <img class="card-img-top":src="item.images.length>0?item.images[0].image:''" alt="Card image cap">
                                             <div class="card-body">
                                                 <h5 class="card-title" v-text="item.title" style="color:#0b75c9; ;"></h5>
                                                 <p style="color: #2e7d32;">Price :</p>
-                                                <p class="card-text">{{item.price}}$</p>
-                                                <div class="btn-group">
-
-                                                    <button type="button" class=" btn1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" >
-                                                        Option
-                                                    </button>
-                                                    <div class="dropdown-menu">
-                                                        <a class="dropdown-item" @click="EditPost(item.upId)"> Edit</a>
-                                                        <a class="dropdown-item" data-toggle="modal" data-target="#exampleModal" @click="getId(item.upId)" >Delete</a>
+                                                <p class="card-text" >{{item.price}}$</p>
+                                            </div>
+                                        </div>
+                                    </template>
+                                </div>
+                                <h3>All Real Estate</h3>
+                                <div class="parent">
+                                    <template v-for="(item, index) in upload">
+                                        <div  class="item">
+                                            <div class="card" style="width: 16.4rem; margin: 5px;">
+                                                <img class="card-img-top":src="item.images.length>0?item.images[0].image:''" alt="Card image cap">
+                                                <div class="card-body">
+                                                    <h5 class="card-title" v-text="item.title" style="color:#0b75c9; ;"></h5>
+                                                    <p style="color: #2e7d32;">Price :</p>
+                                                    <p class="card-text">{{item.price}}$</p>
+                                                    <div class="btn-group">
+                                                        <button type="button" class=" btn1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" >
+                                                            Option
+                                                        </button>
+                                                        <div class="dropdown-menu">
+                                                            <a class="dropdown-item" @click="EditPost(item.upId)"> Edit</a>
+                                                            <a class="dropdown-item" data-toggle="modal" data-target="#exampleModal" @click="getId(item.upId)" >Delete</a>
+                                                        </div>
+                                                        <button class="btn1" @click="promote(item.upId)" v-if="!item.promoted"> Promote </button>
                                                     </div>
-                                                    <button class="btn1" @click="promote(item.upId)" v-if="!item.promoted"> Promote </button>
                                                 </div>
                                             </div>
                                         </div>
-
-                                    </div>
                                     </template>
                                     <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                                         <div class="modal-dialog" role="document">
@@ -161,7 +165,6 @@
                         </div>
                     </div>
                 </div>
-
             </div>
         </div>
     </div>
@@ -281,8 +284,109 @@
     }
 </script>
 
-<style scoped>
+<style scoped lang="scss">
+    .setting-bar{
+        width: 2rem;
+        height: 1rem;
+        cursor: pointer;
+    }
+    * {
+        box-sizing: border-box;
+    }
+    html {
+        font-size: 62.5%;
+    }
+    // Typography
+       body {
+           font-family: sans-serif;
+           line-height: 1.6;
+           margin: 0;
+           min-height: 100vh;
+           font-size: 1.6rem;
+       }
 
+    ul {
+        margin: 0;
+        padding: 0;
+        list-style: none;
+    }
+    h1,h2,h3,a,p {
+        color: #34495e;
+    }
+    a {
+        text-decoration: none;
+    }
+    .header__navbar {
+        padding: 1rem 0 1rem 0;
+        margin-bottom: 25px;
+        border: 1px solid #a2a2a2;
+        background-color: #f4f4f4;
+        -webkit-box-shadow: 0px 0px 14px 0px rgba(0,0,0,0.75);
+        -moz-box-shadow: 0px 0px 14px 0px rgba(0,0,0,0.75);
+        box-shadow: 0px 0px 14px 0px rgba(0,0,0,0.75);
+    }
+    .navbar {
+        max-width: 1366px;
+        margin: 0 auto;
+        padding: 0 0 0 2rem;
+    &__logo {
+         margin: 0;
+         float: left;
+     }
+
+    &__links {
+         float: right;
+         margin-top: 0rem;
+    & a:not(last-child) {
+          padding-right: 2rem;
+      }
+    & a:hover {
+          color: orangered;
+      }
+    & li {
+          display: inline;
+      }
+    }
+    &__logo a, &__links a {
+                    text-transform: uppercase;
+                }
+    }
+
+    main {
+        max-width: 136.6rem;
+        padding: 2rem;
+        margin: 0 auto;
+    a {
+        text-decoration: underline;
+    }
+    }
+
+    // Responsive Breakpoint
+    @media screen and (max-width: 36rem) {
+        .header__navbar {
+            padding: 0 0 2rem 0;
+        }
+        .navbar {
+            padding: 0;
+            margin-bottom: 0px;
+
+    &__logo {
+         text-align: center;
+         display: block;
+         float: none;
+         padding: 0;
+     }
+    &__links {
+         float: none;
+
+        li {
+            display: block;
+            text-align: center;
+            padding-top: 1.5rem;
+        }
+    }
+    }
+    }
     .btn1{
         margin: 2px;
         border: none;

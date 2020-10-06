@@ -78,7 +78,7 @@
                             <template v-for="list in UserList ">
                                 <tr>
                                     <th scope="row">{{list.id}}</th>
-                                    <td>{{list.disable}}</td>
+                                    <td>{{list.name}}</td>
                                     <td>{{list.email}}</td>
                                     <td>{{list.province}}</td>
                                     <td>{{list.phone}}</td>
@@ -89,7 +89,7 @@
                                     </td>
                                     <td>
                                         <label class="toggleSwitch nolabel" >
-                                            <input :id="`${list.id}`" type="checkbox"  @click="check(list.id)">
+                                            <input :id="`${list.id}`" type="checkbox"  @click="check(list.id)" :checked="`${list.disable=='true'?true:false}`">
                                             <span>
                                             <span>OFF</span>
                                             <span>ON</span>

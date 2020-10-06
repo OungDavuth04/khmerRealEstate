@@ -88,11 +88,6 @@ const routes = [
                         component: Product,
                     },
                     {
-                        path: '/detail',
-                        name: 'product.detail',
-                        component: Detail,
-                    },
-                    {
                         path:'/search',
                         name:'product.search',
                         component:SearchPage
@@ -110,7 +105,6 @@ const routes = [
                 name: 'map',
                 component: GoogleMap,
             },
-
             {
                 path: '/user',
                 name: 'home.userpagemaster',
@@ -121,7 +115,6 @@ const routes = [
                         path: '/user/selected_user',
                         name: 'userpagemaster.user',
                         component: userPage,
-
                     },
 
                 ]
@@ -144,6 +137,11 @@ const routes = [
                     },
                 ]
 
+            },
+            {
+                path: '/detail',
+                name: 'product.detail',
+                component: Detail,
             },
 
         ]

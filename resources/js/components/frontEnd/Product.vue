@@ -249,7 +249,6 @@
                                     </div>
                                 </div>
                                 <!-- ./Team member -->
-
                             </div>
                         </div>
                     </section>
@@ -323,7 +322,6 @@
                                     </div>
                                 </div>
                             </template>
-
                         </div>
                     </div>
                     <h2>Last Ads</h2>
@@ -364,12 +362,12 @@
 
 </template>
 <script>
-   // import Footer from './footer'
+    import footer from "./footer";
     export default {
         name: "Product",
-        // components: {
-        //     'footer-Page' : Footer
-        // },
+        components: {
+            'footer-Page' : footer
+        },
         data(){
             return{
                 data:{
@@ -549,6 +547,7 @@
                 this.$store.commit('setDetail',pid);
                 this.$router.push({name:'product.detail'});
                 window.localStorage.setItem('catName',cat);
+                window.localStorage.setItem('setId',pid);
                 axios.get('api/viewers/'+pid).then(response => {
                     if(response.status === 200){
                         //console.log(response.data);
