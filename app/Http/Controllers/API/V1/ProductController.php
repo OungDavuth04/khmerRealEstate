@@ -20,6 +20,17 @@ use Stripe\ApiOperations\Create;
 
 class ProductController extends Controller
 {
+    public function viewerpromote($id){
+        $vie = FeaturAd::where('UpId',$id)->get();
+        foreach ($vie as $count){
+            FeaturAd::where('UpId',$id)->update([
+                'viewer' => $count->viewer +1
+            ]);
+        }
+
+        return response()->json(['gg']);
+    }
+
     public function viewer($id){
         $vie = ViewProduct::where('UpId',$id)->get();
         if($vie->isEmpty()){
@@ -33,11 +44,8 @@ class ProductController extends Controller
                     'viewer' => $count->viewer +1
                 ]);
             }
-
         }
-
         return response()->json($vie);
-
     }
     public  function AdvertiseDefault(){
         $export = array();
@@ -103,7 +111,9 @@ class ProductController extends Controller
                     $store->commune = $data->commune;
                     $store->images = $imag;
                     $store->upId = $data->UpId;
+                    $store->timer = $value->created_at->diffForHumans();
                     $store->cat_name = $data->cat_name;
+                    $store->viewers = $value->viewer;
                     array_push($export,$store);
                 }
 
@@ -119,6 +129,7 @@ class ProductController extends Controller
         $allCat = array();
         foreach ( $resp as $value){
             $img =  Upload_Images::where('UpId',$value->UpId)->get();
+            $view = ViewProduct::where('UpId',$value->UpId)->get();
             $store = New TempData();
             $store->title = $value->title;
             $store->bedroom = $value->bedroom;
@@ -138,6 +149,10 @@ class ProductController extends Controller
             $store->images = $img;
             $store->upId = $value->UpId;
             $store->cat_name = $value->cat_name;
+            foreach ($view as $viewer){
+                $store->viewers = $viewer->viewer;
+            }
+            $store->timer = $value->created_at->diffForHumans();
             array_push($allCat,  $store);
         }
         return response()->json($allCat);
@@ -150,9 +165,6 @@ class ProductController extends Controller
         UserData::create([
             'uid' => $request->uid,
             'catName' => $request->cat,
-            'province' => '',
-            'district' => '',
-            'commune' => ''
         ]);
         return response()->json($request);
     }
@@ -306,7 +318,6 @@ class ProductController extends Controller
         foreach ($getpromote as $item){
             $get[] =  Upload::where('UpId', $item->UpId)->get();
         }
-
         foreach ($get as $item){
             foreach ($item as $data){
                 $store = New TempData();
@@ -368,54 +379,54 @@ class ProductController extends Controller
         return response()->json($mapWithImages);
     }
     public function getpro(){
-            $UpId = [];
-            $alldata = [];
-            $date = Carbon::now()->toDateTimeString();
-            $last = Upload::orderBy('created_at', 'DESC')->first();
-            $getDateOnly = Carbon::parse($last->created_at)->format('d/m/Y');
-            $lastInsertedItem = Carbon::createFromFormat('d/m/Y', $getDateOnly);
-            $data = Upload::whereBetween('created_at', [$lastInsertedItem->subDay(10)->toDateString(), $date])->get();
-            foreach ($data as $set){
-             array_push($UpId,$set->UpId );
+        $UpId = [];
+        $alldata = [];
+        $date = Carbon::now()->toDateTimeString();
+        $last = Upload::orderBy('created_at', 'DESC')->first();
+        $getDateOnly = Carbon::parse($last->created_at)->format('d/m/Y');
+        $lastInsertedItem = Carbon::createFromFormat('d/m/Y', $getDateOnly);
+        $data = Upload::whereBetween('created_at', [$lastInsertedItem->subDay(10)->toDateString(), $date])->get();
+        foreach ($data as $set){
+         array_push($UpId,$set->UpId );
+        }
+        $random = array_rand($UpId,4);
+        foreach ($random as $item) {
+            array_push($alldata,$UpId[$item]) ;
+        }
+        $data =  Upload::where('UpId',$alldata[0])
+            ->orWhere('UpId',$alldata[1])
+            ->orWhere('UpId',$alldata[2])
+            ->orWhere('UpId',$alldata[3])
+            ->get();
+        $all = array();
+        foreach ( $data as $value){
+            $img =  Upload_Images::where('UpId',$value->UpId)->get();
+            $view = ViewProduct::where('UpId',$value->UpId)->get();
+            $store = New TempData();
+            $store->title = $value->title;
+            $store->bedroom = $value->bedroom;
+            $store->bathroom = $value->bathroom;
+            $store->facing = $value->facing;
+            $store->size = $value->size;
+            $store->price = $value->price;
+            $store->description = $value->description;
+            $store->glat = $value->map_lat;
+            $store->glng = $value->map_lng;
+            $store->localdetail = $value->localdetail;
+            $store->email = $value->email;
+            $store->phone = $value->phone;
+            $store->province = $value->province;
+            $store->district = $value->district;
+            $store->commune = $value->commune;
+            $store->images = $img;
+            $store->upId = $value->UpId;
+            $store->timer  = $value->created_at->diffForHumans();
+            $store->cat_name = $value->cat_name;
+            foreach ($view as $viewer){
+                $store->viewers = $viewer->viewer;
             }
-            $random = array_rand($UpId,4);
-            foreach ($random as $item) {
-                array_push($alldata,$UpId[$item]) ;
-            }
-            $data =  Upload::where('UpId',$alldata[0])
-                ->orWhere('UpId',$alldata[1])
-                ->orWhere('UpId',$alldata[2])
-                ->orWhere('UpId',$alldata[3])
-                ->get();
-            $all = array();
-            foreach ( $data as $value){
-                $img =  Upload_Images::where('UpId',$value->UpId)->get();
-                $view = ViewProduct::where('UpId',$value->UpId)->get();
-                $store = New TempData();
-                $store->title = $value->title;
-                $store->bedroom = $value->bedroom;
-                $store->bathroom = $value->bathroom;
-                $store->facing = $value->facing;
-                $store->size = $value->size;
-                $store->price = $value->price;
-                $store->description = $value->description;
-                $store->glat = $value->map_lat;
-                $store->glng = $value->map_lng;
-                $store->localdetail = $value->localdetail;
-                $store->email = $value->email;
-                $store->phone = $value->phone;
-                $store->province = $value->province;
-                $store->district = $value->district;
-                $store->commune = $value->commune;
-                $store->images = $img;
-                $store->upId = $value->UpId;
-                $store->timer  = $value->created_at->diffForHumans();
-                $store->cat_name = $value->cat_name;
-                foreach ($view as $viewer){
-                    $store->viewers = $viewer->viewer;
-                }
-                array_push($all,$store);
-            }
+            array_push($all,$store);
+        }
 //        event(new PaymentSummited($all));
         return response()->json($all);
     }

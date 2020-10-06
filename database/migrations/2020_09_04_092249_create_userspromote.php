@@ -20,6 +20,7 @@ class CreateUserspromote extends Migration
             $table->string('day');
             $table->string('uid');
             $table->string('disable')->default('true');
+            $table->string('viewer')->default('0');
             $table->timestamps();
         });
     }

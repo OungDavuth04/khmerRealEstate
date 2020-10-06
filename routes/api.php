@@ -55,6 +55,7 @@ Route::post('AdvertiseUser', 'API\V1\ProductController@AdvertiseUser');
 Route::get('viewers/{id}', 'API\V1\ProductController@viewer');
 
 Route::get('viewer/avg', 'API\V1\ProductController@viewerAvg');
+Route::get('viewerpromote/{id}', 'API\V1\ProductController@viewerpromote');
 
 ///Admin
 Route::get('userlist', 'AdminController@UserList');

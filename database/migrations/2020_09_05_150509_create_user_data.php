@@ -16,15 +16,7 @@ class CreateUserData extends Migration
         Schema::create('user_data', function (Blueprint $table) {
             $table->bigIncrements('dataId');
             $table->string('uid');
-            $table->string('catHouse');
-            $table->string('catLand');
-            $table->string('catCondo');
-            $table->string('catCommercial');
-            $table->string('catRoom');
-            $table->string('province');
-            $table->string('district');
-            $table->string('commune');
-            $table->string('searchBox');
+            $table->string('catName');
             $table->timestamps();
         });
     }

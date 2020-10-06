@@ -255,14 +255,14 @@
                 </div>
                 <!--end menu-->
                 <div class="container">
-                    <h2>Feature Ads</h2>
+                    <h2 v-if="advertise !== null">Feature Ads</h2>
                     <hr>
                     <div class="form-group ">
                         <div class="row">
                             <template v-for=" item in advertise ">
                                 <div class="page-inner">
                                     <div class="el-wrapper">
-                                        <div class="box-up" @click="Detail(item.upId,item.cat_name)" style="cursor:pointer;">
+                                        <div class="box-up" @click="ViewerPromote(item.upId,item.cat_name)" style="cursor:pointer;">
                                             <img :src="item.images.length>0?item.images[0].image:''">
                                             <div class="img-info">
                                                 <div class="info-inner">
@@ -400,6 +400,18 @@
             this.slider();
         },
         methods:{
+            ViewerPromote(pid,cat){
+
+               //this.$router.push({name:'product.detail'});
+                window.localStorage.setItem('catName',cat);
+                window.localStorage.setItem('setId',pid);
+                axios.get('api/viewerpromote/'+pid).then(response => {
+                    if(response.status === 200){
+                        console.log(response.data);
+                    }
+                }).catch(err => {
+                })
+            },
             async ProAvg(){
              await axios.get('api/viewer/avg').then(response => {
                     //console.log(response.data);
@@ -409,47 +421,37 @@
                 }).catch(err => {
                 })
             },
-            async Advertise(){
+            async Advertise(GetUid){
                 if(window.localStorage.getItem('userAccessToken') !== null) {
-                    const trustClientToken = window.localStorage.getItem('userAccessToken');
-                    axios.defaults.headers.common['Authorization'] = 'Bearer ' + trustClientToken;
-                    await axios.get('api/user').then(response => {
-                        if(response.status === 200){
-                            let uid = response.data.id;
-                            let cat = window.localStorage.getItem('catName');
-                            let data = {cat, uid}
-                            if(cat !== null){
-                                axios.post('api/AdvertiseUser',data).then(response => {
-                                    if(response.status === 200){
-                                        if( response.data.length < 1 ||  response.data == undefined){
-                                            axios.get('api/AdvertiseDefault').then(response => {
-                                                // console.log(response.data);
-                                                if(response.status === 200){
-                                                    this.advertise = response.data
-                                                }
-                                            }).catch(err => {
-                                            })
-                                        }else{
+                    let cat = window.localStorage.getItem('catName');
+                    let data = {cat, GetUid}
+                    if(cat !== null){
+                        axios.post('api/AdvertiseUser',data).then(response => {
+                            if(response.status === 200){
+                                if( response.data.length < 1 ||  response.data == undefined){
+                                    axios.get('api/AdvertiseDefault').then(response => {
+                                        // console.log(response.data);
+                                        if(response.status === 200){
                                             this.advertise = response.data
                                         }
-                                    }
-
-                                }).catch(err => {
-                                })
-                            }else {
-                                axios.get('api/AdvertiseDefault').then(response => {
-                                    // console.log(response.data);
-                                    if(response.status === 200){
-                                        this.advertise = response.data
-                                    }
-                                }).catch(err => {
-                                })
+                                    }).catch(err => {
+                                    })
+                                }else{
+                                    this.advertise = response.data
+                                }
                             }
-                        }
 
-                    }).catch(err => {
-                        console.log(err);
-                    });
+                        }).catch(err => {
+                        })
+                    }else {
+                        axios.get('api/AdvertiseDefault').then(response => {
+                            // console.log(response.data);
+                            if(response.status === 200){
+                                this.advertise = response.data
+                            }
+                        }).catch(err => {
+                        })
+                    }
                 }else {
                     axios.get('api/AdvertiseDefault').then(response => {
                        // console.log(response.data);
@@ -458,39 +460,62 @@
                     })
                 }
             },
-            async  productQuery(){
+             productQuery(){
                 if(window.localStorage.getItem('userAccessToken') !== null) {
                     const trustClientToken = window.localStorage.getItem('userAccessToken');
                     axios.defaults.headers.common['Authorization'] = 'Bearer ' + trustClientToken;
-                    await axios.get('api/user').then(response => {
+                    axios.get('api/user').then(response => {
+                        console.log(response)
                         if(response.status === 200){
                             let uid = response.data.id;
                             let cat = window.localStorage.getItem('catName');
                             let data = {cat, uid};
-                            axios.post('api/getfavorite',data).then(response => {
-                                if(response.status === 200){
-                                    this.getproduct = response.data
-                                }
-                            }).catch(err => {
-
-                            }).finally(()=>{
-                                this.Advertise();
-                                this.ProAvg();
-                                this.setTimeOut();
-                                axios.get('api/province').then(response => {
+                            if(cat !== null){
+                                axios.post('api/getfavorite',data).then(response => {
                                     if(response.status === 200){
-                                        this.allProvinces = response.data;
-                                        //console.log(response);
+                                        console.log(response.data)
+                                        this.getproduct = response.data
                                     }
                                 }).catch(err => {
+                                    console.log(err)
+                                }).finally(()=>{
+                                    this.Advertise(uid);
+                                    this.ProAvg();
+                                    this.setTimeOut(uid);
+                                    axios.get('api/province').then(response => {
+                                        if(response.status === 200){
+                                            this.allProvinces = response.data;
+                                        }
+                                    }).catch(err => {
+                                    });
                                 });
-                            });
+                            }else {
+                                axios.get('api/getproduct').then(response => {
+                                    if(response.status === 200){
+                                     this.getproduct = response.data;
+                                    }
+                                }).catch(err => {
+                                    console.log(err)
+                                }).finally(()=>{
+                                    this.Advertise();
+                                    this.ProAvg();
+                                    this.setTimeOut();
+                                    axios.get('api/province').then(response => {
+                                        if(response.status === 200){
+                                            this.allProvinces = response.data;
+                                            //console.log(response);
+                                        }
+                                    }).catch(err => {
+                                    });
+                                });
+                            }
+
                         }
                     }).catch(err => {
                         console.log(err);
                     });
                 }else {
-                    await axios.get('api/getproduct').then(response => {
+                     axios.get('api/getproduct').then(response => {
                         if(response.status === 200){
                             this.getproduct = response.data;
                         }
@@ -499,7 +524,6 @@
                     }).finally(()=>{
                         this.Advertise();
                         this.ProAvg();
-                        this.setTimeOut();
                         axios.get('api/province').then(response => {
                             if(response.status === 200){
                                 this.allProvinces = response.data;
@@ -510,36 +534,29 @@
                     });
                 }
             },
-            setTimeOut(){
+            setTimeOut(uid){
                 setTimeout(function(){
                     if(window.localStorage.getItem('userAccessToken') !== null) {
-                        const trustClientToken = window.localStorage.getItem('userAccessToken');
-                        axios.defaults.headers.common['Authorization'] = 'Bearer ' + trustClientToken;
-                        axios.get('api/user').then(response => {
-                            let uid = response.data.id;
-                            let cat = window.localStorage.getItem('catName');
-                            let data = {cat, uid};
-                            if(cat !== null){
-                                axios.get('api/checkuserdata/'+uid).then(response => {
-                                    if(Object.keys(response.data).length === 0 && response.data.constructor === Object){
+                        let cat = window.localStorage.getItem('catName');
+                        let data = {cat, uid};
+                        if(cat !== null){
+                            axios.get('api/checkuserdata/'+uid).then(response => {
+                                if(Object.keys(response.data).length === 0 && response.data.constructor === Object){
+                                    axios.post('api/userdata', data).then(response => {
+                                        // console.log(response.data);
+                                    }).catch(err => {
+                                    });
+                                }else {
+                                    if(response.data.catName !== cat){
                                         axios.post('api/userdata', data).then(response => {
                                             // console.log(response.data);
                                         }).catch(err => {
                                         });
-                                    }else {
-                                        if(response.data.catName !== cat){
-                                            axios.post('api/userdata', data).then(response => {
-                                                // console.log(response.data);
-                                            }).catch(err => {
-                                            });
-                                        }
                                     }
-                                }).catch(err => {
-                                });
-                            }
-                        }).catch(err => {
-                            console.log(err);
-                        });
+                                }
+                            }).catch(err => {
+                            });
+                        }
                     }
                 }, 2*60*1000);
             },
@@ -926,6 +943,8 @@
     .bg-navbar{
         height: 4rem;
         background: #9c27b0;
+        -webkit-box-shadow: -1px 12px 23px 1px rgba(0,0,0,0.47);
+        box-shadow: -1px 12px 23px 1px rgba(0,0,0,0.47);
     }
     .card-menu{
         width: 190px;

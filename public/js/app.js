@@ -5245,6 +5245,16 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     this.slider();
   },
   methods: {
+    ViewerPromote: function ViewerPromote(pid, cat) {
+      //this.$router.push({name:'product.detail'});
+      window.localStorage.setItem('catName', cat);
+      window.localStorage.setItem('setId', pid);
+      axios.get('api/viewerpromote/' + pid).then(function (response) {
+        if (response.status === 200) {
+          console.log(response.data);
+        }
+      })["catch"](function (err) {});
+    },
     ProAvg: function ProAvg() {
       var _this = this;
 
@@ -5269,71 +5279,53 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         }, _callee);
       }))();
     },
-    Advertise: function Advertise() {
+    Advertise: function Advertise(GetUid) {
       var _this2 = this;
 
       return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee2() {
-        var trustClientToken;
+        var cat, data;
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee2$(_context2) {
           while (1) {
             switch (_context2.prev = _context2.next) {
               case 0:
-                if (!(window.localStorage.getItem('userAccessToken') !== null)) {
-                  _context2.next = 7;
-                  break;
-                }
+                if (window.localStorage.getItem('userAccessToken') !== null) {
+                  cat = window.localStorage.getItem('catName');
+                  data = {
+                    cat: cat,
+                    GetUid: GetUid
+                  };
 
-                trustClientToken = window.localStorage.getItem('userAccessToken');
-                axios.defaults.headers.common['Authorization'] = 'Bearer ' + trustClientToken;
-                _context2.next = 5;
-                return axios.get('api/user').then(function (response) {
-                  if (response.status === 200) {
-                    var uid = response.data.id;
-                    var cat = window.localStorage.getItem('catName');
-                    var data = {
-                      cat: cat,
-                      uid: uid
-                    };
-
-                    if (cat !== null) {
-                      axios.post('api/AdvertiseUser', data).then(function (response) {
-                        if (response.status === 200) {
-                          if (response.data.length < 1 || response.data == undefined) {
-                            axios.get('api/AdvertiseDefault').then(function (response) {
-                              // console.log(response.data);
-                              if (response.status === 200) {
-                                _this2.advertise = response.data;
-                              }
-                            })["catch"](function (err) {});
-                          } else {
-                            _this2.advertise = response.data;
-                          }
-                        }
-                      })["catch"](function (err) {});
-                    } else {
-                      axios.get('api/AdvertiseDefault').then(function (response) {
-                        // console.log(response.data);
-                        if (response.status === 200) {
+                  if (cat !== null) {
+                    axios.post('api/AdvertiseUser', data).then(function (response) {
+                      if (response.status === 200) {
+                        if (response.data.length < 1 || response.data == undefined) {
+                          axios.get('api/AdvertiseDefault').then(function (response) {
+                            // console.log(response.data);
+                            if (response.status === 200) {
+                              _this2.advertise = response.data;
+                            }
+                          })["catch"](function (err) {});
+                        } else {
                           _this2.advertise = response.data;
                         }
-                      })["catch"](function (err) {});
-                    }
+                      }
+                    })["catch"](function (err) {});
+                  } else {
+                    axios.get('api/AdvertiseDefault').then(function (response) {
+                      // console.log(response.data);
+                      if (response.status === 200) {
+                        _this2.advertise = response.data;
+                      }
+                    })["catch"](function (err) {});
                   }
-                })["catch"](function (err) {
-                  console.log(err);
-                });
+                } else {
+                  axios.get('api/AdvertiseDefault').then(function (response) {
+                    // console.log(response.data);
+                    _this2.advertise = response.data;
+                  })["catch"](function (err) {});
+                }
 
-              case 5:
-                _context2.next = 8;
-                break;
-
-              case 7:
-                axios.get('api/AdvertiseDefault').then(function (response) {
-                  // console.log(response.data);
-                  _this2.advertise = response.data;
-                })["catch"](function (err) {});
-
-              case 8:
+              case 1:
               case "end":
                 return _context2.stop();
             }
@@ -5344,90 +5336,13 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     productQuery: function productQuery() {
       var _this3 = this;
 
-      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee3() {
-        var trustClientToken;
-        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee3$(_context3) {
-          while (1) {
-            switch (_context3.prev = _context3.next) {
-              case 0:
-                if (!(window.localStorage.getItem('userAccessToken') !== null)) {
-                  _context3.next = 7;
-                  break;
-                }
+      if (window.localStorage.getItem('userAccessToken') !== null) {
+        var trustClientToken = window.localStorage.getItem('userAccessToken');
+        axios.defaults.headers.common['Authorization'] = 'Bearer ' + trustClientToken;
+        axios.get('api/user').then(function (response) {
+          console.log(response);
 
-                trustClientToken = window.localStorage.getItem('userAccessToken');
-                axios.defaults.headers.common['Authorization'] = 'Bearer ' + trustClientToken;
-                _context3.next = 5;
-                return axios.get('api/user').then(function (response) {
-                  if (response.status === 200) {
-                    var uid = response.data.id;
-                    var cat = window.localStorage.getItem('catName');
-                    var data = {
-                      cat: cat,
-                      uid: uid
-                    };
-                    axios.post('api/getfavorite', data).then(function (response) {
-                      if (response.status === 200) {
-                        _this3.getproduct = response.data;
-                      }
-                    })["catch"](function (err) {})["finally"](function () {
-                      _this3.Advertise();
-
-                      _this3.ProAvg();
-
-                      _this3.setTimeOut();
-
-                      axios.get('api/province').then(function (response) {
-                        if (response.status === 200) {
-                          _this3.allProvinces = response.data; //console.log(response);
-                        }
-                      })["catch"](function (err) {});
-                    });
-                  }
-                })["catch"](function (err) {
-                  console.log(err);
-                });
-
-              case 5:
-                _context3.next = 9;
-                break;
-
-              case 7:
-                _context3.next = 9;
-                return axios.get('api/getproduct').then(function (response) {
-                  if (response.status === 200) {
-                    _this3.getproduct = response.data;
-                  }
-                })["catch"](function (err) {
-                  console.log(err);
-                })["finally"](function () {
-                  _this3.Advertise();
-
-                  _this3.ProAvg();
-
-                  _this3.setTimeOut();
-
-                  axios.get('api/province').then(function (response) {
-                    if (response.status === 200) {
-                      _this3.allProvinces = response.data; //console.log(response);
-                    }
-                  })["catch"](function (err) {});
-                });
-
-              case 9:
-              case "end":
-                return _context3.stop();
-            }
-          }
-        }, _callee3);
-      }))();
-    },
-    setTimeOut: function setTimeOut() {
-      setTimeout(function () {
-        if (window.localStorage.getItem('userAccessToken') !== null) {
-          var trustClientToken = window.localStorage.getItem('userAccessToken');
-          axios.defaults.headers.common['Authorization'] = 'Bearer ' + trustClientToken;
-          axios.get('api/user').then(function (response) {
+          if (response.status === 200) {
             var uid = response.data.id;
             var cat = window.localStorage.getItem('catName');
             var data = {
@@ -5436,21 +5351,93 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
             };
 
             if (cat !== null) {
-              axios.get('api/checkuserdata/' + uid).then(function (response) {
-                if (Object.keys(response.data).length === 0 && response.data.constructor === Object) {
+              axios.post('api/getfavorite', data).then(function (response) {
+                if (response.status === 200) {
+                  console.log(response.data);
+                  _this3.getproduct = response.data;
+                }
+              })["catch"](function (err) {
+                console.log(err);
+              })["finally"](function () {
+                _this3.Advertise(uid);
+
+                _this3.ProAvg();
+
+                _this3.setTimeOut(uid);
+
+                axios.get('api/province').then(function (response) {
+                  if (response.status === 200) {
+                    _this3.allProvinces = response.data;
+                  }
+                })["catch"](function (err) {});
+              });
+            } else {
+              axios.get('api/getproduct').then(function (response) {
+                if (response.status === 200) {
+                  _this3.getproduct = response.data;
+                }
+              })["catch"](function (err) {
+                console.log(err);
+              })["finally"](function () {
+                _this3.Advertise();
+
+                _this3.ProAvg();
+
+                _this3.setTimeOut();
+
+                axios.get('api/province').then(function (response) {
+                  if (response.status === 200) {
+                    _this3.allProvinces = response.data; //console.log(response);
+                  }
+                })["catch"](function (err) {});
+              });
+            }
+          }
+        })["catch"](function (err) {
+          console.log(err);
+        });
+      } else {
+        axios.get('api/getproduct').then(function (response) {
+          if (response.status === 200) {
+            _this3.getproduct = response.data;
+          }
+        })["catch"](function (err) {
+          console.log(err);
+        })["finally"](function () {
+          _this3.Advertise();
+
+          _this3.ProAvg();
+
+          axios.get('api/province').then(function (response) {
+            if (response.status === 200) {
+              _this3.allProvinces = response.data; //console.log(response);
+            }
+          })["catch"](function (err) {});
+        });
+      }
+    },
+    setTimeOut: function setTimeOut(uid) {
+      setTimeout(function () {
+        if (window.localStorage.getItem('userAccessToken') !== null) {
+          var cat = window.localStorage.getItem('catName');
+          var data = {
+            cat: cat,
+            uid: uid
+          };
+
+          if (cat !== null) {
+            axios.get('api/checkuserdata/' + uid).then(function (response) {
+              if (Object.keys(response.data).length === 0 && response.data.constructor === Object) {
+                axios.post('api/userdata', data).then(function (response) {// console.log(response.data);
+                })["catch"](function (err) {});
+              } else {
+                if (response.data.catName !== cat) {
                   axios.post('api/userdata', data).then(function (response) {// console.log(response.data);
                   })["catch"](function (err) {});
-                } else {
-                  if (response.data.catName !== cat) {
-                    axios.post('api/userdata', data).then(function (response) {// console.log(response.data);
-                    })["catch"](function (err) {});
-                  }
                 }
-              })["catch"](function (err) {});
-            }
-          })["catch"](function (err) {
-            console.log(err);
-          });
+              }
+            })["catch"](function (err) {});
+          }
         }
       }, 2 * 60 * 1000);
     },
@@ -11057,7 +11044,7 @@ exports.push([module.i, "@import url(https://www.w3schools.com/w3css/4/w3.css);"
 exports.push([module.i, "@import url(https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css);", ""]);
 
 // module
-exports.push([module.i, ".form-controls {\n  font-family: math;\n  padding: 7px;\n  font-size: small;\n  border: none;\n}\n.container-menu {\n  margin-top: 2px;\n  padding: 18px;\n}\n.d-flex {\n  display: flex;\n}\n.align-center {\n  align-items: center;\n}\n.flex-centerY-centerX {\n  justify-content: center;\n  justify-content: center;\n  align-items: center;\n}\nbody {\n  background-color: #b492c061;\n}\n.page-wrapper {\n  height: 100%;\n  display: table;\n}\n.page-wrapper .page-inner {\n  display: table-cell;\n  vertical-align: middle;\n}\n.el-wrapper {\n  width: 230px;\n  padding: 15px;\n  margin: 15px;\n  background-color: #fff;\n}\n@media (max-width: 991px) {\n.el-wrapper {\n    width: 345px;\n}\n}\n@media (max-width: 767px) {\n.el-wrapper {\n    width: 290px;\n    margin: 30px auto;\n}\n}\n.el-wrapper:hover .h-bg {\n  left: 0px;\n}\n.el-wrapper:hover .price {\n  left: 20px;\n  transform: translateY(-50%);\n  color: #818181;\n}\n.el-wrapper:hover .add-to-cart {\n  left: 50%;\n}\n.el-wrapper:hover .img {\n  webkit-filter: blur(7px);\n  -o-filter: blur(7px);\n  -ms-filter: blur(7px);\n  -webkit-filter: blur(7px);\n          filter: blur(7px);\n  filter: progid:DXImageTransform.Microsoft.Blur(pixelradius=\"7\", shadowopacity=\"0.0\");\n  opacity: 0.4;\n}\n.el-wrapper:hover .info-inner {\n  bottom: 155px;\n}\n.el-wrapper:hover .a-size {\n  transition-delay: 300ms;\n  bottom: 50px;\n  opacity: 1;\n}\n.el-wrapper .box-down {\n  width: 100%;\n  height: 60px;\n  position: relative;\n  overflow: hidden;\n}\n.el-wrapper .box-up {\n  width: 100%;\n  height: 220px;\n  position: relative;\n  overflow: hidden;\n  text-align: center;\n}\n.el-wrapper .img {\n  padding: 20px 0;\n  transition: all 800ms cubic-bezier(0, 0, 0.18, 1);\n  /* ease-out */\n  transition-timing-function: cubic-bezier(0, 0, 0.18, 1);\n  /* ease-out */\n}\n.h-bg {\n  transition: all 800ms cubic-bezier(0, 0, 0.18, 1);\n  /* ease-out */\n  transition-timing-function: cubic-bezier(0, 0, 0.18, 1);\n  /* ease-out */\n  width: 660px;\n  height: 100%;\n  background-color: #3f96cd;\n  position: absolute;\n  left: -659px;\n}\n.h-bg .h-bg-inner {\n  width: 50%;\n  height: 100%;\n  background-color: #464646;\n}\n.info-inner {\n  transition: all 400ms cubic-bezier(0, 0, 0.18, 1);\n  /* ease-out */\n  transition-timing-function: cubic-bezier(0, 0, 0.18, 1);\n  /* ease-out */\n  position: absolute;\n  width: 100%;\n  bottom: 25px;\n}\n.info-inner .p-name,\n.info-inner .p-company {\n  display: block;\n}\n.info-inner .p-name {\n  font-family: \"PT Sans\", sans-serif;\n  font-size: 18px;\n  color: #252525;\n}\n.info-inner .p-company {\n  font-family: \"Lato\", sans-serif;\n  font-size: 12px;\n  text-transform: uppercase;\n  color: #8c8c8c;\n}\n.a-size {\n  transition: all 300ms cubic-bezier(0, 0, 0.18, 1);\n  /* ease-out */\n  transition-timing-function: cubic-bezier(0, 0, 0.18, 1);\n  /* ease-out */\n  position: absolute;\n  width: 100%;\n  bottom: -20px;\n  font-family: \"PT Sans\", sans-serif;\n  color: #828282;\n  opacity: 0;\n}\n.a-size .size {\n  color: #252525;\n}\n.cart {\n  display: block;\n  position: absolute;\n  width: 100%;\n  height: 100%;\n  top: 0;\n  left: 0;\n  font-family: \"Lato\", sans-serif;\n  font-weight: 700;\n}\n.cart .price {\n  transition: all 600ms cubic-bezier(0, 0, 0.18, 1);\n  /* ease-out */\n  transition-timing-function: cubic-bezier(0, 0, 0.18, 1);\n  /* ease-out */\n  transition-delay: 100ms;\n  display: block;\n  position: absolute;\n  top: 50%;\n  left: 50%;\n  transform: translate(-50%, -50%);\n  font-size: 16px;\n  color: #252525;\n}\n.cart .add-to-cart {\n  transition: all 600ms cubic-bezier(0, 0, 0.18, 1);\n  /* ease-out */\n  transition-timing-function: cubic-bezier(0, 0, 0.18, 1);\n  /* ease-out */\n  transition-delay: 100ms;\n  display: block;\n  position: absolute;\n  top: 50%;\n  left: 110%;\n  transform: translate(-50%, -50%);\n}\n.cart .add-to-cart .txt {\n  font-size: 12px;\n  color: #fff;\n  letter-spacing: 0.045em;\n  text-transform: uppercase;\n  white-space: nowrap;\n}\nbody {\n  background-color: #e1e8f0;\n}\n.bg-navbar {\n  height: 4rem;\n  background: #9c27b0;\n}\n.card-menu {\n  width: 190px;\n  height: 300px;\n  margin: 10px;\n}\n.btn1 {\n  border: 0px;\n  border-radius: 3px;\n  padding: 8px;\n  width: 150px;\n  background-color: #0e2af78c;\n}\n.btn1:hover {\n  opacity: 4;\n}\n@media (min-width: 768px) {\n.carousel-inner .carousel-item-right.active,\n.carousel-inner .carousel-item-next {\n    transform: translateX(50%);\n}\n.carousel-inner .carousel-item-left.active,\n.carousel-inner .carousel-item-prev {\n    transform: translateX(-50%);\n}\n}\n/* large - display 3 */\n@media (min-width: 992px) {\n.carousel-inner .carousel-item-right.active,\n.carousel-inner .carousel-item-next {\n    transform: translateX(33%);\n}\n.carousel-inner .carousel-item-left.active,\n.carousel-inner .carousel-item-prev {\n    transform: translateX(-33%);\n}\n}\n@media (max-width: 768px) {\n.carousel-inner .carousel-item > div {\n    display: none;\n}\n.carousel-inner .carousel-item > div:first-child {\n    display: block;\n}\n}\n.carousel-inner .carousel-item.active,\n.carousel-inner .carousel-item-next,\n.carousel-inner .carousel-item-prev {\n  display: flex;\n}\n.carousel-inner .carousel-item-right,\n.carousel-inner .carousel-item-left {\n  transform: translateX(0);\n}\n:active, :hover, :focus {\n  outline: 0 !important;\n  outline-offset: 0;\n}\n::before,\n::after {\n  position: absolute;\n  content: \"\";\n}\n.btn-holder {\n  display: flex;\n  flex-wrap: wrap;\n  justify-content: center;\n  max-width: 1000px;\n  margin: 10px auto 35px;\n}\n.btn {\n  position: relative;\n  display: inline-block;\n  width: auto;\n  height: auto;\n  background-color: transparent;\n  border: none;\n  cursor: pointer;\n  margin: 0px 25px 15px;\n  min-width: 79px;\n}\n.btn span {\n  position: relative;\n  display: inline-block;\n  font-size: 14px;\n  font-weight: bold;\n  letter-spacing: 2px;\n  text-transform: uppercase;\n  top: 0;\n  left: 0;\n  width: 100%;\n  padding: 7px;\n  transition: 0.3s;\n}\n.btn-4 span {\n  color: #1c1f1e;\n  background-color: whitesmoke;\n}\n.btn-4 span:hover {\n  color: #363837;\n}\n.btn.hover-border-6 span::before,\n.btn.hover-border-6 span::after {\n  width: 0%;\n  height: 0%;\n  background: transparent;\n  opacity: 0;\n  z-index: 2;\n  transition: width 0.2s ease-in, height 0.15s 0.2s linear, opacity 0s 0.35s;\n}\n.btn.hover-border-6 span::before {\n  top: 0;\n  left: 0;\n  border-left: 2px solid #363837;\n  border-bottom: 2px solid #363837;\n}\n.btn.hover-border-6 span::after {\n  top: 0;\n  right: 0;\n  border-right: 2px solid #363837;\n  border-bottom: 2px solid #363837;\n}\n.btn.hover-border-6 span:hover::before,\n.btn.hover-border-6 span:hover::after {\n  width: 50%;\n  height: 96%;\n  opacity: 1;\n  transition: height 0.2s 0.2s ease-in, width 0.2s 0.4s linear, opacity 0s 0.2s;\n}\n.btn.hover-border-7 span::before,\n.btn.hover-border-7 span::after {\n  width: 0%;\n  height: 0%;\n  background: transparent;\n  opacity: 0;\n  z-index: 2;\n  transition: width 0.2s ease-in, height 0.15s 0.2s linear, opacity 0s 0.35s;\n}\n.btn.hover-border-7 span::before {\n  bottom: 0;\n  left: 0;\n  border-left: 2px solid #363837;\n  border-top: 2px solid #363837;\n}\n.btn.hover-border-7 span::after {\n  bottom: 0;\n  right: 0;\n  border-right: 2px solid #363837;\n  border-top: 2px solid #363837;\n}\n.btn.hover-border-7 span:hover::before,\n.btn.hover-border-7 span:hover::after {\n  width: 50%;\n  height: 96%;\n  opacity: 1;\n  transition: height 0.2s 0.2s ease-in, width 0.2s 0.4s linear, opacity 0s 0.2s;\n}\n.btn.hover-border-8 span::before,\n.btn.hover-border-8 span::after {\n  width: 0%;\n  height: 0%;\n  bottom: 0;\n  background: transparent;\n  opacity: 0;\n  z-index: 2;\n}\n.btn.hover-border-8 span::before {\n  left: 0%;\n  border-left: 2px solid #363837;\n  transition: height 0.25s ease-in, opacity 0s 0.35s;\n}\n.btn.hover-border-8 span:hover::before {\n  height: 96%;\n  opacity: 1;\n  transition: height 0.25s 0.2s ease-out, opacity 0s 0.2s;\n}\n.btn.hover-border-8 span::after {\n  right: 0%;\n  border-right: 2px solid #363837;\n  border-top: 2px solid #363837;\n  transition: width 0.2s ease-in, height 0.15s 0.2s linear, opacity 0s 0.35s;\n}\n.btn.hover-border-8 span:hover::after {\n  width: 99%;\n  height: 96%;\n  opacity: 1;\n  transition: height 0.15s 0.1s linear, width 0.2s 0.25s linear, opacity 0s 0.1s;\n}\n.btn.hover-border-9 span::before,\n.btn.hover-border-9 span::after {\n  width: 0%;\n  height: 0%;\n  bottom: 0;\n  background: transparent;\n  opacity: 0;\n  z-index: 2;\n}\n.btn.hover-border-9 span::after {\n  right: 0%;\n  border-right: 2px solid #363837;\n  transition: height 0.25s ease-in, opacity 0s 0.35s;\n}\n.btn.hover-border-9 span:hover::after {\n  height: 96%;\n  opacity: 1;\n  transition: height 0.25s 0.2s ease-out, opacity 0s 0.2s;\n}\n.btn.hover-border-9 span::before {\n  left: 0%;\n  border-left: 2px solid #363837;\n  border-top: 2px solid #363837;\n  transition: width 0.2s ease-in, height 0.15s 0.2s linear, opacity 0s 0.35s;\n}\n.btn.hover-border-9 span:hover::before {\n  width: 98.5%;\n  height: 96%;\n  opacity: 1;\n  transition: height 0.15s 0.1s linear, width 0.2s 0.25s linear, opacity 0s 0.1s;\n}\n.btn.hover-border-10 span::before,\n.btn.hover-border-10 span::after {\n  width: 0%;\n  height: 0%;\n  background: transparent;\n  opacity: 0;\n  z-index: 2;\n}\n.btn.hover-border-10 span::after {\n  bottom: 0;\n  left: 0%;\n  border-bottom: 2px solid #363837;\n  transition: width 0.25s ease-in, opacity 0s 0.35s;\n}\n.btn.hover-border-10 span:hover::after {\n  width: 100%;\n  opacity: 1;\n  transition: width 0.25s 0.2s ease-out, opacity 0s 0.2s;\n}\n.btn.hover-border-10 span::before {\n  top: 0%;\n  left: 0%;\n  border-top: 2px solid #363837;\n  border-right: 2px solid #363837;\n  transition: height 0.15s ease-in, width 0.2s 0.15s linear, opacity 0s 0.35s;\n}\n.btn.hover-border-10 span:hover::before {\n  width: 98.5%;\n  height: 96%;\n  opacity: 1;\n  transition: width 0.2s 0.1s linear, height 0.15s 0.3s ease-out, opacity 0s 0.1s;\n}\n\n/*--- btn-5 ---*/\n.btn-5 span {\n  color: #1c1f1e;\n  border: 2px solid #f9d31b;\n  transition: 0.2s;\n}\n.btn-5 span:hover {\n  background-color: whitesmoke;\n}\n\n/* 21. hover-border-11 */\n.btn.hover-border-11::before,\n.btn.hover-border-11::after {\n  width: 100%;\n  height: 2px;\n  background-color: #363837;\n  z-index: 2;\n  transition: 0.35s;\n}\n.btn.hover-border-11::before {\n  top: 0;\n  right: 0;\n}\n.btn.hover-border-11::after {\n  bottom: 0;\n  left: 0;\n}\n.btn.hover-border-11:hover::before,\n.btn.hover-border-11:hover::after {\n  width: 0%;\n  transition: 0.2s 0.2s ease-out;\n}\n.btn.hover-border-11 span::before,\n.btn.hover-border-11 span::after {\n  width: 2px;\n  height: 100%;\n  background-color: #363837;\n  z-index: 2;\n  transition: 0.25s;\n}\n.btn.hover-border-11 span::before {\n  bottom: 0;\n  right: -2px;\n}\n.btn.hover-border-11 span::after {\n  top: 0;\n  left: -2px;\n}\n.btn.hover-border-11 span:hover::before,\n.btn.hover-border-11 span:hover::after {\n  height: 0%;\n}\n#team {\n  background: #eee !important;\n}\n.btn-primary:hover,\n.btn-primary:focus {\n  background-color: #108d6f;\n  border-color: #108d6f;\n  box-shadow: none;\n  outline: none;\n}\n.btn-primary {\n  color: #fff;\n  background-color: #007b5e;\n  border-color: #007b5e;\n}\nsection .section-title {\n  text-align: center;\n  color: #007b5e;\n  margin-bottom: 50px;\n  text-transform: uppercase;\n}\n#team .card {\n  border: none;\n  background: #ffffff;\n}\n.image-flip:hover .backside,\n.image-flip.hover .backside {\n  transform: rotateY(0deg);\n  border-radius: 0.25rem;\n}\n.image-flip:hover .frontside,\n.image-flip.hover .frontside {\n  transform: rotateY(180deg);\n}\n.mainflip {\n  -webkit-transition: 1s;\n  -webkit-transform-style: preserve-3d;\n  -ms-transition: 1s;\n  -moz-transition: 1s;\n  -moz-transform: perspective(1000px);\n  -moz-transform-style: preserve-3d;\n  -ms-transform-style: preserve-3d;\n  transition: 1s;\n  transform-style: preserve-3d;\n  position: relative;\n  cursor: pointer;\n}\n.frontside {\n  position: relative;\n  -webkit-transform: rotateY(0deg);\n  -ms-transform: rotateY(0deg);\n  z-index: 2;\n  margin-bottom: 30px;\n}\n.backside {\n  width: 190px;\n  height: 300px;\n  position: absolute;\n  top: 0;\n  left: 0;\n  background: white;\n  transform: rotateY(-180deg);\n  box-shadow: 5px 7px 9px -4px #9e9e9e;\n}\n.frontside,\n.backside {\n  -webkit-backface-visibility: hidden;\n  backface-visibility: hidden;\n  -webkit-transition: 1s;\n  -webkit-transform-style: preserve-3d;\n  -moz-transition: 1s;\n  -moz-transform-style: preserve-3d;\n  -o-transition: 1s;\n  -o-transform-style: preserve-3d;\n  -ms-transition: 1s;\n  -ms-transform-style: preserve-3d;\n  transition: 1s;\n  transform-style: preserve-3d;\n}\n.frontside .card,\n.backside .card {\n  min-height: 300px;\n}\n.backside .card a {\n  font-size: 18px;\n  color: #007b5e !important;\n}\n.frontside .card .card-title,\n.backside .card .card-title {\n  color: #007b5e !important;\n}\n.frontside .card .card-body img {\n  width: 120px;\n  height: 120px;\n  border-radius: 50%;\n}\nimg {\n  max-width: 100%;\n}\nhr {\n  border-color: #e5e5e5;\n  margin: 15px 0;\n}\n.secondary-text {\n  color: #b6b6b6;\n}\n.list-inline {\n  margin: 0;\n}\n.list-inline li {\n  padding: 0;\n}\n.card-wrapper {\n  position: relative;\n  width: 100%;\n  height: 290px;\n  border: 1px solid #e5e5e5;\n  border-bottom-width: 2px;\n  overflow: hidden;\n  margin-bottom: 30px;\n}\n.card-wrapper:after {\n  content: \"\";\n  position: absolute;\n  top: 0;\n  left: 0;\n  width: 100%;\n  height: 100%;\n  opacity: 0;\n  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);\n  transition: opacity 0.6s cubic-bezier(0.165, 0.84, 0.44, 1);\n}\n.card-wrapper:hover:after {\n  opacity: 1;\n}\n.card-wrapper:hover .image-holder:before {\n  opacity: 0.75;\n}\n.card-wrapper:hover .image-holder:after {\n  opacity: 1;\n  transform: translate(-50%, -50%);\n}\n.card-wrapper:hover .image-holder--original {\n  transform: translateY(-15px);\n}\n.card-wrapper:hover .product-description {\n  height: 205px;\n}\n@media (min-width: 768px) {\n.card-wrapper:hover .product-description {\n    height: 140px;\n}\n}\n.image-holder {\n  display: block;\n  position: relative;\n  width: 100%;\n  height: 110px;\n  background-color: #ffffff;\n  z-index: 1;\n}\n@media (min-width: 568px) {\n.image-holder {\n    height: 325px;\n}\n}\n.image-holder:before {\n  content: \"\";\n  position: absolute;\n  top: 0;\n  left: 0;\n  width: 100%;\n  height: 100%;\n  background-color: #4CAF50;\n  opacity: 0;\n  z-index: 5;\n  transition: opacity 0.6s;\n}\n.image-holder:after {\n  content: \"View\";\n  font-family: \"Raleway\", sans-serif;\n  font-size: 30px;\n  color: #4CAF50;\n  text-align: center;\n  position: absolute;\n  top: 92.5px;\n  left: 50%;\n  width: 75px;\n  height: 75px;\n  line-height: 75px;\n  background-color: #ffffff;\n  opacity: 0;\n  border-radius: 50%;\n  z-index: 10;\n  transform: translate(-50%, 100%);\n  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);\n  transition: all 0.4s ease-out;\n}\n@media (min-width: 768px) {\n.image-holder:after {\n    top: 107.5px;\n}\n}\n.image-holder .image-holder__link {\n  display: block;\n  position: absolute;\n  top: 0;\n  left: 0;\n  width: 100%;\n  height: 100%;\n  z-index: 15;\n}\n.image-holder .image-holder--original {\n  transition: transform 0.8s cubic-bezier(0.165, 0.84, 0.44, 1);\n}\n.image-liquid {\n  width: 100%;\n  height: 325px;\n  background-size: cover;\n  background-position: center center;\n}\n.product-description {\n  position: absolute;\n  left: 0;\n  bottom: 0;\n  width: 100%;\n  height: 80px;\n  padding: 10px 15px;\n  overflow: hidden;\n  background-color: #fafafa;\n  border-top: 1px solid #e5e5e5;\n  transition: height 0.6s cubic-bezier(0.165, 0.84, 0.44, 1);\n  z-index: 2;\n}\n@media (min-width: 768px) {\n.product-description {\n    height: 65px;\n}\n}\n.product-description p {\n  margin: 0 0 5px;\n}\n.product-description .product-description__title {\n  font-family: \"Raleway\", sans-serif;\n  position: relative;\n  white-space: nowrap;\n  overflow: hidden;\n  margin: 0;\n  font-size: 18px;\n  line-height: 1.25;\n}\n.product-description .product-description__title:after {\n  content: \"\";\n  width: 60px;\n  height: 100%;\n  position: absolute;\n  top: 0;\n  right: 0;\n  background: linear-gradient(to right, rgba(255, 255, 255, 0), #fafafa);\n}\n.product-description .product-description__title a {\n  text-decoration: none;\n  color: inherit;\n}\n.product-description .product-description__category {\n  white-space: nowrap;\n  overflow: hidden;\n  text-overflow: ellipsis;\n}\n.product-description .product-description__price {\n  color: #4CAF50;\n  text-align: left;\n  font-weight: bold;\n  letter-spacing: 0.06em;\n}\n@media (min-width: 768px) {\n.product-description .product-description__price {\n    text-align: right;\n}\n}\n.product-description .sizes-wrapper {\n  margin-bottom: 15px;\n}\n.product-description .color-list {\n  font-size: 0;\n}\n.product-description .color-list__item {\n  width: 25px;\n  height: 10px;\n  position: relative;\n  z-index: 1;\n  transition: all 0.2s;\n}\n.product-description .color-list__item:hover {\n  width: 40px;\n}\n.product-description .color-list__item--red {\n  background-color: #F44336;\n}\n.product-description .color-list__item--blue {\n  background-color: #448AFF;\n}\n.product-description .color-list__item--green {\n  background-color: #CDDC39;\n}\n.product-description .color-list__item--orange {\n  background-color: #FF9800;\n}\n.product-description .color-list__item--purple {\n  background-color: #673AB7;\n}", ""]);
+exports.push([module.i, ".form-controls {\n  font-family: math;\n  padding: 7px;\n  font-size: small;\n  border: none;\n}\n.container-menu {\n  margin-top: 2px;\n  padding: 18px;\n}\n.d-flex {\n  display: flex;\n}\n.align-center {\n  align-items: center;\n}\n.flex-centerY-centerX {\n  justify-content: center;\n  justify-content: center;\n  align-items: center;\n}\nbody {\n  background-color: #b492c061;\n}\n.page-wrapper {\n  height: 100%;\n  display: table;\n}\n.page-wrapper .page-inner {\n  display: table-cell;\n  vertical-align: middle;\n}\n.el-wrapper {\n  width: 230px;\n  padding: 15px;\n  margin: 15px;\n  background-color: #fff;\n}\n@media (max-width: 991px) {\n.el-wrapper {\n    width: 345px;\n}\n}\n@media (max-width: 767px) {\n.el-wrapper {\n    width: 290px;\n    margin: 30px auto;\n}\n}\n.el-wrapper:hover .h-bg {\n  left: 0px;\n}\n.el-wrapper:hover .price {\n  left: 20px;\n  transform: translateY(-50%);\n  color: #818181;\n}\n.el-wrapper:hover .add-to-cart {\n  left: 50%;\n}\n.el-wrapper:hover .img {\n  webkit-filter: blur(7px);\n  -o-filter: blur(7px);\n  -ms-filter: blur(7px);\n  -webkit-filter: blur(7px);\n          filter: blur(7px);\n  filter: progid:DXImageTransform.Microsoft.Blur(pixelradius=\"7\", shadowopacity=\"0.0\");\n  opacity: 0.4;\n}\n.el-wrapper:hover .info-inner {\n  bottom: 155px;\n}\n.el-wrapper:hover .a-size {\n  transition-delay: 300ms;\n  bottom: 50px;\n  opacity: 1;\n}\n.el-wrapper .box-down {\n  width: 100%;\n  height: 60px;\n  position: relative;\n  overflow: hidden;\n}\n.el-wrapper .box-up {\n  width: 100%;\n  height: 220px;\n  position: relative;\n  overflow: hidden;\n  text-align: center;\n}\n.el-wrapper .img {\n  padding: 20px 0;\n  transition: all 800ms cubic-bezier(0, 0, 0.18, 1);\n  /* ease-out */\n  transition-timing-function: cubic-bezier(0, 0, 0.18, 1);\n  /* ease-out */\n}\n.h-bg {\n  transition: all 800ms cubic-bezier(0, 0, 0.18, 1);\n  /* ease-out */\n  transition-timing-function: cubic-bezier(0, 0, 0.18, 1);\n  /* ease-out */\n  width: 660px;\n  height: 100%;\n  background-color: #3f96cd;\n  position: absolute;\n  left: -659px;\n}\n.h-bg .h-bg-inner {\n  width: 50%;\n  height: 100%;\n  background-color: #464646;\n}\n.info-inner {\n  transition: all 400ms cubic-bezier(0, 0, 0.18, 1);\n  /* ease-out */\n  transition-timing-function: cubic-bezier(0, 0, 0.18, 1);\n  /* ease-out */\n  position: absolute;\n  width: 100%;\n  bottom: 25px;\n}\n.info-inner .p-name,\n.info-inner .p-company {\n  display: block;\n}\n.info-inner .p-name {\n  font-family: \"PT Sans\", sans-serif;\n  font-size: 18px;\n  color: #252525;\n}\n.info-inner .p-company {\n  font-family: \"Lato\", sans-serif;\n  font-size: 12px;\n  text-transform: uppercase;\n  color: #8c8c8c;\n}\n.a-size {\n  transition: all 300ms cubic-bezier(0, 0, 0.18, 1);\n  /* ease-out */\n  transition-timing-function: cubic-bezier(0, 0, 0.18, 1);\n  /* ease-out */\n  position: absolute;\n  width: 100%;\n  bottom: -20px;\n  font-family: \"PT Sans\", sans-serif;\n  color: #828282;\n  opacity: 0;\n}\n.a-size .size {\n  color: #252525;\n}\n.cart {\n  display: block;\n  position: absolute;\n  width: 100%;\n  height: 100%;\n  top: 0;\n  left: 0;\n  font-family: \"Lato\", sans-serif;\n  font-weight: 700;\n}\n.cart .price {\n  transition: all 600ms cubic-bezier(0, 0, 0.18, 1);\n  /* ease-out */\n  transition-timing-function: cubic-bezier(0, 0, 0.18, 1);\n  /* ease-out */\n  transition-delay: 100ms;\n  display: block;\n  position: absolute;\n  top: 50%;\n  left: 50%;\n  transform: translate(-50%, -50%);\n  font-size: 16px;\n  color: #252525;\n}\n.cart .add-to-cart {\n  transition: all 600ms cubic-bezier(0, 0, 0.18, 1);\n  /* ease-out */\n  transition-timing-function: cubic-bezier(0, 0, 0.18, 1);\n  /* ease-out */\n  transition-delay: 100ms;\n  display: block;\n  position: absolute;\n  top: 50%;\n  left: 110%;\n  transform: translate(-50%, -50%);\n}\n.cart .add-to-cart .txt {\n  font-size: 12px;\n  color: #fff;\n  letter-spacing: 0.045em;\n  text-transform: uppercase;\n  white-space: nowrap;\n}\nbody {\n  background-color: #e1e8f0;\n}\n.bg-navbar {\n  height: 4rem;\n  background: #9c27b0;\n  box-shadow: -1px 12px 23px 1px rgba(0, 0, 0, 0.47);\n}\n.card-menu {\n  width: 190px;\n  height: 300px;\n  margin: 10px;\n}\n.btn1 {\n  border: 0px;\n  border-radius: 3px;\n  padding: 8px;\n  width: 150px;\n  background-color: #0e2af78c;\n}\n.btn1:hover {\n  opacity: 4;\n}\n@media (min-width: 768px) {\n.carousel-inner .carousel-item-right.active,\n.carousel-inner .carousel-item-next {\n    transform: translateX(50%);\n}\n.carousel-inner .carousel-item-left.active,\n.carousel-inner .carousel-item-prev {\n    transform: translateX(-50%);\n}\n}\n/* large - display 3 */\n@media (min-width: 992px) {\n.carousel-inner .carousel-item-right.active,\n.carousel-inner .carousel-item-next {\n    transform: translateX(33%);\n}\n.carousel-inner .carousel-item-left.active,\n.carousel-inner .carousel-item-prev {\n    transform: translateX(-33%);\n}\n}\n@media (max-width: 768px) {\n.carousel-inner .carousel-item > div {\n    display: none;\n}\n.carousel-inner .carousel-item > div:first-child {\n    display: block;\n}\n}\n.carousel-inner .carousel-item.active,\n.carousel-inner .carousel-item-next,\n.carousel-inner .carousel-item-prev {\n  display: flex;\n}\n.carousel-inner .carousel-item-right,\n.carousel-inner .carousel-item-left {\n  transform: translateX(0);\n}\n:active, :hover, :focus {\n  outline: 0 !important;\n  outline-offset: 0;\n}\n::before,\n::after {\n  position: absolute;\n  content: \"\";\n}\n.btn-holder {\n  display: flex;\n  flex-wrap: wrap;\n  justify-content: center;\n  max-width: 1000px;\n  margin: 10px auto 35px;\n}\n.btn {\n  position: relative;\n  display: inline-block;\n  width: auto;\n  height: auto;\n  background-color: transparent;\n  border: none;\n  cursor: pointer;\n  margin: 0px 25px 15px;\n  min-width: 79px;\n}\n.btn span {\n  position: relative;\n  display: inline-block;\n  font-size: 14px;\n  font-weight: bold;\n  letter-spacing: 2px;\n  text-transform: uppercase;\n  top: 0;\n  left: 0;\n  width: 100%;\n  padding: 7px;\n  transition: 0.3s;\n}\n.btn-4 span {\n  color: #1c1f1e;\n  background-color: whitesmoke;\n}\n.btn-4 span:hover {\n  color: #363837;\n}\n.btn.hover-border-6 span::before,\n.btn.hover-border-6 span::after {\n  width: 0%;\n  height: 0%;\n  background: transparent;\n  opacity: 0;\n  z-index: 2;\n  transition: width 0.2s ease-in, height 0.15s 0.2s linear, opacity 0s 0.35s;\n}\n.btn.hover-border-6 span::before {\n  top: 0;\n  left: 0;\n  border-left: 2px solid #363837;\n  border-bottom: 2px solid #363837;\n}\n.btn.hover-border-6 span::after {\n  top: 0;\n  right: 0;\n  border-right: 2px solid #363837;\n  border-bottom: 2px solid #363837;\n}\n.btn.hover-border-6 span:hover::before,\n.btn.hover-border-6 span:hover::after {\n  width: 50%;\n  height: 96%;\n  opacity: 1;\n  transition: height 0.2s 0.2s ease-in, width 0.2s 0.4s linear, opacity 0s 0.2s;\n}\n.btn.hover-border-7 span::before,\n.btn.hover-border-7 span::after {\n  width: 0%;\n  height: 0%;\n  background: transparent;\n  opacity: 0;\n  z-index: 2;\n  transition: width 0.2s ease-in, height 0.15s 0.2s linear, opacity 0s 0.35s;\n}\n.btn.hover-border-7 span::before {\n  bottom: 0;\n  left: 0;\n  border-left: 2px solid #363837;\n  border-top: 2px solid #363837;\n}\n.btn.hover-border-7 span::after {\n  bottom: 0;\n  right: 0;\n  border-right: 2px solid #363837;\n  border-top: 2px solid #363837;\n}\n.btn.hover-border-7 span:hover::before,\n.btn.hover-border-7 span:hover::after {\n  width: 50%;\n  height: 96%;\n  opacity: 1;\n  transition: height 0.2s 0.2s ease-in, width 0.2s 0.4s linear, opacity 0s 0.2s;\n}\n.btn.hover-border-8 span::before,\n.btn.hover-border-8 span::after {\n  width: 0%;\n  height: 0%;\n  bottom: 0;\n  background: transparent;\n  opacity: 0;\n  z-index: 2;\n}\n.btn.hover-border-8 span::before {\n  left: 0%;\n  border-left: 2px solid #363837;\n  transition: height 0.25s ease-in, opacity 0s 0.35s;\n}\n.btn.hover-border-8 span:hover::before {\n  height: 96%;\n  opacity: 1;\n  transition: height 0.25s 0.2s ease-out, opacity 0s 0.2s;\n}\n.btn.hover-border-8 span::after {\n  right: 0%;\n  border-right: 2px solid #363837;\n  border-top: 2px solid #363837;\n  transition: width 0.2s ease-in, height 0.15s 0.2s linear, opacity 0s 0.35s;\n}\n.btn.hover-border-8 span:hover::after {\n  width: 99%;\n  height: 96%;\n  opacity: 1;\n  transition: height 0.15s 0.1s linear, width 0.2s 0.25s linear, opacity 0s 0.1s;\n}\n.btn.hover-border-9 span::before,\n.btn.hover-border-9 span::after {\n  width: 0%;\n  height: 0%;\n  bottom: 0;\n  background: transparent;\n  opacity: 0;\n  z-index: 2;\n}\n.btn.hover-border-9 span::after {\n  right: 0%;\n  border-right: 2px solid #363837;\n  transition: height 0.25s ease-in, opacity 0s 0.35s;\n}\n.btn.hover-border-9 span:hover::after {\n  height: 96%;\n  opacity: 1;\n  transition: height 0.25s 0.2s ease-out, opacity 0s 0.2s;\n}\n.btn.hover-border-9 span::before {\n  left: 0%;\n  border-left: 2px solid #363837;\n  border-top: 2px solid #363837;\n  transition: width 0.2s ease-in, height 0.15s 0.2s linear, opacity 0s 0.35s;\n}\n.btn.hover-border-9 span:hover::before {\n  width: 98.5%;\n  height: 96%;\n  opacity: 1;\n  transition: height 0.15s 0.1s linear, width 0.2s 0.25s linear, opacity 0s 0.1s;\n}\n.btn.hover-border-10 span::before,\n.btn.hover-border-10 span::after {\n  width: 0%;\n  height: 0%;\n  background: transparent;\n  opacity: 0;\n  z-index: 2;\n}\n.btn.hover-border-10 span::after {\n  bottom: 0;\n  left: 0%;\n  border-bottom: 2px solid #363837;\n  transition: width 0.25s ease-in, opacity 0s 0.35s;\n}\n.btn.hover-border-10 span:hover::after {\n  width: 100%;\n  opacity: 1;\n  transition: width 0.25s 0.2s ease-out, opacity 0s 0.2s;\n}\n.btn.hover-border-10 span::before {\n  top: 0%;\n  left: 0%;\n  border-top: 2px solid #363837;\n  border-right: 2px solid #363837;\n  transition: height 0.15s ease-in, width 0.2s 0.15s linear, opacity 0s 0.35s;\n}\n.btn.hover-border-10 span:hover::before {\n  width: 98.5%;\n  height: 96%;\n  opacity: 1;\n  transition: width 0.2s 0.1s linear, height 0.15s 0.3s ease-out, opacity 0s 0.1s;\n}\n\n/*--- btn-5 ---*/\n.btn-5 span {\n  color: #1c1f1e;\n  border: 2px solid #f9d31b;\n  transition: 0.2s;\n}\n.btn-5 span:hover {\n  background-color: whitesmoke;\n}\n\n/* 21. hover-border-11 */\n.btn.hover-border-11::before,\n.btn.hover-border-11::after {\n  width: 100%;\n  height: 2px;\n  background-color: #363837;\n  z-index: 2;\n  transition: 0.35s;\n}\n.btn.hover-border-11::before {\n  top: 0;\n  right: 0;\n}\n.btn.hover-border-11::after {\n  bottom: 0;\n  left: 0;\n}\n.btn.hover-border-11:hover::before,\n.btn.hover-border-11:hover::after {\n  width: 0%;\n  transition: 0.2s 0.2s ease-out;\n}\n.btn.hover-border-11 span::before,\n.btn.hover-border-11 span::after {\n  width: 2px;\n  height: 100%;\n  background-color: #363837;\n  z-index: 2;\n  transition: 0.25s;\n}\n.btn.hover-border-11 span::before {\n  bottom: 0;\n  right: -2px;\n}\n.btn.hover-border-11 span::after {\n  top: 0;\n  left: -2px;\n}\n.btn.hover-border-11 span:hover::before,\n.btn.hover-border-11 span:hover::after {\n  height: 0%;\n}\n#team {\n  background: #eee !important;\n}\n.btn-primary:hover,\n.btn-primary:focus {\n  background-color: #108d6f;\n  border-color: #108d6f;\n  box-shadow: none;\n  outline: none;\n}\n.btn-primary {\n  color: #fff;\n  background-color: #007b5e;\n  border-color: #007b5e;\n}\nsection .section-title {\n  text-align: center;\n  color: #007b5e;\n  margin-bottom: 50px;\n  text-transform: uppercase;\n}\n#team .card {\n  border: none;\n  background: #ffffff;\n}\n.image-flip:hover .backside,\n.image-flip.hover .backside {\n  transform: rotateY(0deg);\n  border-radius: 0.25rem;\n}\n.image-flip:hover .frontside,\n.image-flip.hover .frontside {\n  transform: rotateY(180deg);\n}\n.mainflip {\n  -webkit-transition: 1s;\n  -webkit-transform-style: preserve-3d;\n  -ms-transition: 1s;\n  -moz-transition: 1s;\n  -moz-transform: perspective(1000px);\n  -moz-transform-style: preserve-3d;\n  -ms-transform-style: preserve-3d;\n  transition: 1s;\n  transform-style: preserve-3d;\n  position: relative;\n  cursor: pointer;\n}\n.frontside {\n  position: relative;\n  -webkit-transform: rotateY(0deg);\n  -ms-transform: rotateY(0deg);\n  z-index: 2;\n  margin-bottom: 30px;\n}\n.backside {\n  width: 190px;\n  height: 300px;\n  position: absolute;\n  top: 0;\n  left: 0;\n  background: white;\n  transform: rotateY(-180deg);\n  box-shadow: 5px 7px 9px -4px #9e9e9e;\n}\n.frontside,\n.backside {\n  -webkit-backface-visibility: hidden;\n  backface-visibility: hidden;\n  -webkit-transition: 1s;\n  -webkit-transform-style: preserve-3d;\n  -moz-transition: 1s;\n  -moz-transform-style: preserve-3d;\n  -o-transition: 1s;\n  -o-transform-style: preserve-3d;\n  -ms-transition: 1s;\n  -ms-transform-style: preserve-3d;\n  transition: 1s;\n  transform-style: preserve-3d;\n}\n.frontside .card,\n.backside .card {\n  min-height: 300px;\n}\n.backside .card a {\n  font-size: 18px;\n  color: #007b5e !important;\n}\n.frontside .card .card-title,\n.backside .card .card-title {\n  color: #007b5e !important;\n}\n.frontside .card .card-body img {\n  width: 120px;\n  height: 120px;\n  border-radius: 50%;\n}\nimg {\n  max-width: 100%;\n}\nhr {\n  border-color: #e5e5e5;\n  margin: 15px 0;\n}\n.secondary-text {\n  color: #b6b6b6;\n}\n.list-inline {\n  margin: 0;\n}\n.list-inline li {\n  padding: 0;\n}\n.card-wrapper {\n  position: relative;\n  width: 100%;\n  height: 290px;\n  border: 1px solid #e5e5e5;\n  border-bottom-width: 2px;\n  overflow: hidden;\n  margin-bottom: 30px;\n}\n.card-wrapper:after {\n  content: \"\";\n  position: absolute;\n  top: 0;\n  left: 0;\n  width: 100%;\n  height: 100%;\n  opacity: 0;\n  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);\n  transition: opacity 0.6s cubic-bezier(0.165, 0.84, 0.44, 1);\n}\n.card-wrapper:hover:after {\n  opacity: 1;\n}\n.card-wrapper:hover .image-holder:before {\n  opacity: 0.75;\n}\n.card-wrapper:hover .image-holder:after {\n  opacity: 1;\n  transform: translate(-50%, -50%);\n}\n.card-wrapper:hover .image-holder--original {\n  transform: translateY(-15px);\n}\n.card-wrapper:hover .product-description {\n  height: 205px;\n}\n@media (min-width: 768px) {\n.card-wrapper:hover .product-description {\n    height: 140px;\n}\n}\n.image-holder {\n  display: block;\n  position: relative;\n  width: 100%;\n  height: 110px;\n  background-color: #ffffff;\n  z-index: 1;\n}\n@media (min-width: 568px) {\n.image-holder {\n    height: 325px;\n}\n}\n.image-holder:before {\n  content: \"\";\n  position: absolute;\n  top: 0;\n  left: 0;\n  width: 100%;\n  height: 100%;\n  background-color: #4CAF50;\n  opacity: 0;\n  z-index: 5;\n  transition: opacity 0.6s;\n}\n.image-holder:after {\n  content: \"View\";\n  font-family: \"Raleway\", sans-serif;\n  font-size: 30px;\n  color: #4CAF50;\n  text-align: center;\n  position: absolute;\n  top: 92.5px;\n  left: 50%;\n  width: 75px;\n  height: 75px;\n  line-height: 75px;\n  background-color: #ffffff;\n  opacity: 0;\n  border-radius: 50%;\n  z-index: 10;\n  transform: translate(-50%, 100%);\n  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);\n  transition: all 0.4s ease-out;\n}\n@media (min-width: 768px) {\n.image-holder:after {\n    top: 107.5px;\n}\n}\n.image-holder .image-holder__link {\n  display: block;\n  position: absolute;\n  top: 0;\n  left: 0;\n  width: 100%;\n  height: 100%;\n  z-index: 15;\n}\n.image-holder .image-holder--original {\n  transition: transform 0.8s cubic-bezier(0.165, 0.84, 0.44, 1);\n}\n.image-liquid {\n  width: 100%;\n  height: 325px;\n  background-size: cover;\n  background-position: center center;\n}\n.product-description {\n  position: absolute;\n  left: 0;\n  bottom: 0;\n  width: 100%;\n  height: 80px;\n  padding: 10px 15px;\n  overflow: hidden;\n  background-color: #fafafa;\n  border-top: 1px solid #e5e5e5;\n  transition: height 0.6s cubic-bezier(0.165, 0.84, 0.44, 1);\n  z-index: 2;\n}\n@media (min-width: 768px) {\n.product-description {\n    height: 65px;\n}\n}\n.product-description p {\n  margin: 0 0 5px;\n}\n.product-description .product-description__title {\n  font-family: \"Raleway\", sans-serif;\n  position: relative;\n  white-space: nowrap;\n  overflow: hidden;\n  margin: 0;\n  font-size: 18px;\n  line-height: 1.25;\n}\n.product-description .product-description__title:after {\n  content: \"\";\n  width: 60px;\n  height: 100%;\n  position: absolute;\n  top: 0;\n  right: 0;\n  background: linear-gradient(to right, rgba(255, 255, 255, 0), #fafafa);\n}\n.product-description .product-description__title a {\n  text-decoration: none;\n  color: inherit;\n}\n.product-description .product-description__category {\n  white-space: nowrap;\n  overflow: hidden;\n  text-overflow: ellipsis;\n}\n.product-description .product-description__price {\n  color: #4CAF50;\n  text-align: left;\n  font-weight: bold;\n  letter-spacing: 0.06em;\n}\n@media (min-width: 768px) {\n.product-description .product-description__price {\n    text-align: right;\n}\n}\n.product-description .sizes-wrapper {\n  margin-bottom: 15px;\n}\n.product-description .color-list {\n  font-size: 0;\n}\n.product-description .color-list__item {\n  width: 25px;\n  height: 10px;\n  position: relative;\n  z-index: 1;\n  transition: all 0.2s;\n}\n.product-description .color-list__item:hover {\n  width: 40px;\n}\n.product-description .color-list__item--red {\n  background-color: #F44336;\n}\n.product-description .color-list__item--blue {\n  background-color: #448AFF;\n}\n.product-description .color-list__item--green {\n  background-color: #CDDC39;\n}\n.product-description .color-list__item--orange {\n  background-color: #FF9800;\n}\n.product-description .color-list__item--purple {\n  background-color: #673AB7;\n}", ""]);
 
 // exports
 
@@ -49520,7 +49507,7 @@ var render = function() {
       ]),
       _vm._v(" "),
       _c("div", { staticClass: "container" }, [
-        _c("h2", [_vm._v("Feature Ads")]),
+        _vm.advertise !== null ? _c("h2", [_vm._v("Feature Ads")]) : _vm._e(),
         _vm._v(" "),
         _c("hr"),
         _vm._v(" "),
@@ -49540,7 +49527,7 @@ var render = function() {
                           staticStyle: { cursor: "pointer" },
                           on: {
                             click: function($event) {
-                              return _vm.Detail(item.upId, item.cat_name)
+                              return _vm.ViewerPromote(item.upId, item.cat_name)
                             }
                           }
                         },
