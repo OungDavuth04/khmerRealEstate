@@ -43,8 +43,8 @@ import Vue from "vue";
 // Vue.use(VueConfirmDialog);
 // Vue.component('vue-confirm-dialog', VueConfirmDialog.default);
 import * as VueGoogleMaps from "vue2-google-maps";
-
-
+import JsonExcel from "vue-json-excel";
+Vue.component("downloadExcel", JsonExcel);
 Vue.use(VueGoogleMaps, {
     load: {
         key: "AIzaSyBc2ZXH7-3LBYrswWTFjT7UcaLwmhoL5KI",

@@ -42,15 +42,6 @@
                 places: [],
                 currentPlace: null,
                 markerIcon: "https://developers.google.com/maps/documentation/javascript/examples/full/images/beachflag.png",
-                // image: {
-                //     url: 'https://developers.google.com/maps/documentation/javascript/examples/full/images/beachflag.png',
-                //     // This marker is 20 pixels wide by 32 pixels high.
-                //     size: new window.google.maps.Size(30, 30),
-                //     // The origin for this image is (0, 0).
-                //     origin: new window.google.maps.Point(0, 0),
-                //     // The anchor for this image is the base of the flagpole at (0, 32).
-                //     anchor: new window.google.maps.Point(0, 32)
-                // },
                 mapOptions: {
                     styles: [
                         {elementType: 'geometry', stylers: [{color: '#242f3e'}]},

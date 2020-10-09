@@ -1,5 +1,5 @@
 <template >
-    <div style="background: rgb(110 191 255 / 83%)">
+    <div style="background: rgb(226 226 226 / 83%);)">
         <!--navbar-->
         <nav class="navbar navbar-expand-lg navbar-light bg-navbar " >
             <a class="" href="#">
@@ -71,9 +71,9 @@
                             <!--menu-->
                 <div class="form-group">
                     <section id="team" class="pb-5">
-                        <div class="container-menu">
-                            <h5 class="section-title h1" style="color: gold">ALL CATEGORY</h5>
+                        <div class="container">
                             <div class="row">
+
                                 <!-- Team member -->
                                 <div class="card-menu">
                                     <div class="image-flip" ontouchstart="this.classList.toggle('hover');">
@@ -248,8 +248,8 @@
                                         </div>
                                     </div>
                                 </div>
+                                </div>
                                 <!-- ./Team member -->
-                            </div>
                         </div>
                     </section>
                 </div>
@@ -401,8 +401,7 @@
         },
         methods:{
             ViewerPromote(pid,cat){
-
-               //this.$router.push({name:'product.detail'});
+               this.$router.push({name:'product.detail'});
                 window.localStorage.setItem('catName',cat);
                 window.localStorage.setItem('setId',pid);
                 axios.get('api/viewerpromote/'+pid).then(response => {
@@ -445,7 +444,7 @@
                         })
                     }else {
                         axios.get('api/AdvertiseDefault').then(response => {
-                            // console.log(response.data);
+
                             if(response.status === 200){
                                 this.advertise = response.data
                             }
@@ -561,10 +560,9 @@
                 }, 2*60*1000);
             },
             Detail(pid,cat){
-                this.$store.commit('setDetail',pid);
+                window.localStorage.setItem('setId',pid);
                 this.$router.push({name:'product.detail'});
                 window.localStorage.setItem('catName',cat);
-                window.localStorage.setItem('setId',pid);
                 axios.get('api/viewers/'+pid).then(response => {
                     if(response.status === 200){
                         //console.log(response.data);
@@ -655,6 +653,12 @@
 </script>
 
 <style lang="scss">
+    .pb-5{
+        margin: 0;
+        padding-top: 1vh;
+        padding-bottom: 2rem !important;
+        padding-left: 4px;
+    }
     .form-controls{
         font-family: math;
         padding: 7px;
@@ -664,6 +668,9 @@
     .container-menu{
         margin-top: 2px;
         padding: 18px;
+        display: flex;
+        flex-wrap: wrap;
+        list-style: none;
     }
 
     .d-flex {
@@ -686,10 +693,6 @@
         align-items: center;
     }
 
-    body {
-        background-color: #b492c061;
-    }
-
     .page-wrapper {
         height: 100%;
         display: table;
@@ -701,8 +704,7 @@
     }
 
     .el-wrapper {
-        width: 230px;
-
+        width: 234px;
         padding: 15px;
         margin: 15px ;
         background-color: #fff;
@@ -942,7 +944,7 @@
     }
     .bg-navbar{
         height: 4rem;
-        background: #9c27b0;
+        background: #6e117e;
         -webkit-box-shadow: -1px 12px 23px 1px rgba(0,0,0,0.47);
         box-shadow: -1px 12px 23px 1px rgba(0,0,0,0.47);
     }
@@ -1241,7 +1243,7 @@
     }
     @import url('https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css');
     #team {
-        background: #eee !important;
+        background: #710a82 !important;
     }
     .btn-primary:hover,
     .btn-primary:focus {

@@ -57,7 +57,6 @@ class ProductController extends Controller
             $dataAll = Upload::where('UpId',$value->UpId)->get();
             foreach ($dataAll as $data){
                 $imag = Upload_Images::where('UpId',$data->UpId)->get();
-                $view = ViewProduct::where('UpId',$data->UpId)->get();
                 $store = New TempData();
                 $store->title = $data->title;
                 $store->bedroom = $data->bedroom;
@@ -78,9 +77,7 @@ class ProductController extends Controller
                 $store->upId = $data->UpId;
                 $store->cat_name = $data->cat_nam;
                 $store->timer = $data->created_at->diffForHumans();
-                foreach ($view as $viewer){
-                    $store->viewers = $viewer->viewer;
-                }
+                $store->viewers = $value->viewer;
                 array_push($export,$store);
             }
         }

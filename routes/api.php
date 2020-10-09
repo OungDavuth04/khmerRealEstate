@@ -64,7 +64,12 @@ Route::get('disablepro/{id}/{disable}', 'AdminController@disablepro');
 Route::get('DeleteUser/{id}', 'AdminController@DeleteUser');
 Route::get('deletepro/{id}', 'AdminController@deletepro');
 Route::get('estatelist', 'AdminController@estatelist');
+Route::get('EstatePromoted', 'AdminController@EstatePromoted');
+Route::get('DeletePromote/{id}', 'AdminController@DeletePromote');
+Route::get('disablePromote/{id}/{disable}', 'AdminController@disablePromote');
 
+
+Route::get('test', 'AdminController@test');
 
 //Report Export
-Route::get('report/export', 'ReportController@export');
+Route::get('export', 'AdminController@exportExcel');

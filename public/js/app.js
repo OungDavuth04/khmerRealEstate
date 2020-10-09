@@ -2700,6 +2700,81 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
+
+
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
+
+function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
+
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -2707,7 +2782,66 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 /* harmony default export */ __webpack_exports__["default"] = ({
-  name: "RealEstatePromoted"
+  data: function data() {
+    return {
+      Promoted: [],
+      list: [],
+      id: ''
+    };
+  },
+  created: function created() {},
+  mounted: function mounted() {
+    this.Promotelist();
+  },
+  methods: {
+    getId: function getId(id) {
+      this.id = id;
+    },
+    Dodelete: function Dodelete(id) {
+      var _this = this;
+
+      axios.get('api/DeletePromote/' + id).then(function (response) {
+        console.log(response.data);
+
+        _this.Userlist();
+      })["catch"](function (err) {
+        console.log(err);
+      });
+    },
+    check: function check(id) {
+      var checkbox = document.getElementById("".concat(id));
+      axios.get('api/disablePromote/' + id + '/' + checkbox.checked).then(function (response) {
+        console.log(response.data);
+      })["catch"](function (err) {
+        console.log(err);
+      });
+    },
+    Promotelist: function Promotelist() {
+      var _this2 = this;
+
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee() {
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee$(_context) {
+          while (1) {
+            switch (_context.prev = _context.next) {
+              case 0:
+                _context.next = 2;
+                return axios.get('api/EstatePromoted').then(function (response) {
+                  if (response.status === 200) {
+                    _this2.Promoted = response.data;
+                  }
+                })["catch"](function (err) {
+                  console.log(err);
+                });
+
+              case 2:
+              case "end":
+                return _context.stop();
+            }
+          }
+        }, _callee);
+      }))();
+    }
+  }
 });
 
 /***/ }),
@@ -2727,8 +2861,54 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
-  name: "Report"
+  name: "Report",
+  data: function data() {
+    return {
+      report: [],
+      json_fields: {
+        'promoteId': 'promoteId',
+        'UpId': 'UpId',
+        'price': 'price',
+        'Day': 'day'
+      },
+      json_data: [{
+        'name': 'Tony Peña',
+        'city': 'New York',
+        'country': 'United States',
+        'birthdate': '1978-03-15'
+      }, {
+        'name': 'Thessaloniki',
+        'city': 'Athens',
+        'country': 'Greece',
+        'birthdate': '1987-11-23'
+      }],
+      json_meta: [[{
+        'key': 'charset',
+        'value': 'utf-8'
+      }]]
+    };
+  },
+  mounted: function mounted() {
+    this.Export();
+  },
+  methods: {
+    Export: function Export() {
+      var _this = this;
+
+      axios.get('api/export').then(function (response) {
+        console.log(response.data);
+        _this.report = response.data;
+      })["catch"](function (err) {
+        console.log(err);
+      });
+    }
+  }
 });
 
 /***/ }),
@@ -3864,15 +4044,6 @@ __webpack_require__.r(__webpack_exports__);
       infoContent: '',
       infoWinOpen: false,
       markerIcon: "https://developers.google.com/maps/documentation/javascript/examples/full/images/beachflag.png",
-      // image: {
-      //     url: 'https://developers.google.com/maps/documentation/javascript/examples/full/images/beachflag.png',
-      //     // This marker is 20 pixels wide by 32 pixels high.
-      //     size: new window.google.maps.Size(30, 30),
-      //     // The origin for this image is (0, 0).
-      //     origin: new window.google.maps.Point(0, 0),
-      //     // The anchor for this image is the base of the flagpole at (0, 32).
-      //     anchor: new window.google.maps.Point(0, 32)
-      // },
       mapOptions: {
         styles: [{
           elementType: 'geometry',
@@ -4002,8 +4173,7 @@ __webpack_require__.r(__webpack_exports__);
             position: marker,
             name: item.title,
             price: item.price,
-            img: item.images[0],
-            icon: item.cat_name == 'HomeSell' ? 'https://developers.google.com/maps/documentation/javascript/examples/full/images/beachflag.png' : 'https://icons.iconarchive.com/icons/blackvariant/button-ui-app-pack-one/32/Lite-Icon-icon.png'
+            img: item.images[0]
           });
         });
       }
@@ -4027,7 +4197,7 @@ __webpack_require__.r(__webpack_exports__);
       return "<div class=\"\" style=\"cursor: pointer;\" >\n                    <img src=\"".concat(marker.img.image, "\" style=\"width: 110px; height: 60px;\" alt=\"\">\n                  <div>\n                    <div>\n                      <div class=\"m-2\"><span style=\"font-weight: bold;\">Title: </span>\n                        ").concat(marker.name, "\n                      </div>\n                    </div>\n                    <div class=\"m-2\"><span style=\"font-weight: bold;\">Price:  </span>\n                      ").concat(marker.price + "$", "\n                      <br>\n                    </div>\n                    <button type=\"button\" @click=\"detail()\"> Visit Page</button>\n                  </div>\n                </div>");
     },
     detail: function detail(id) {
-      this.$store.commit('setDetail', id);
+      window.localStorage.setItem('setId', id);
       this.$router.push({
         name: 'product.detail'
       });
@@ -4102,15 +4272,6 @@ __webpack_require__.r(__webpack_exports__);
       places: [],
       currentPlace: null,
       markerIcon: "https://developers.google.com/maps/documentation/javascript/examples/full/images/beachflag.png",
-      // image: {
-      //     url: 'https://developers.google.com/maps/documentation/javascript/examples/full/images/beachflag.png',
-      //     // This marker is 20 pixels wide by 32 pixels high.
-      //     size: new window.google.maps.Size(30, 30),
-      //     // The origin for this image is (0, 0).
-      //     origin: new window.google.maps.Point(0, 0),
-      //     // The anchor for this image is the base of the flagpole at (0, 32).
-      //     anchor: new window.google.maps.Point(0, 32)
-      // },
       mapOptions: {
         styles: [{
           elementType: 'geometry',
@@ -5246,7 +5407,9 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
   },
   methods: {
     ViewerPromote: function ViewerPromote(pid, cat) {
-      //this.$router.push({name:'product.detail'});
+      this.$router.push({
+        name: 'product.detail'
+      });
       window.localStorage.setItem('catName', cat);
       window.localStorage.setItem('setId', pid);
       axios.get('api/viewerpromote/' + pid).then(function (response) {
@@ -5312,7 +5475,6 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                     })["catch"](function (err) {});
                   } else {
                     axios.get('api/AdvertiseDefault').then(function (response) {
-                      // console.log(response.data);
                       if (response.status === 200) {
                         _this2.advertise = response.data;
                       }
@@ -5442,12 +5604,11 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       }, 2 * 60 * 1000);
     },
     Detail: function Detail(pid, cat) {
-      this.$store.commit('setDetail', pid);
+      window.localStorage.setItem('setId', pid);
       this.$router.push({
         name: 'product.detail'
       });
       window.localStorage.setItem('catName', cat);
-      window.localStorage.setItem('setId', pid);
       axios.get('api/viewers/' + pid).then(function (response) {
         if (response.status === 200) {//console.log(response.data);
         }
@@ -10993,6 +11154,25 @@ exports.push([module.i, ".delete[data-v-71e6062c] {\n  margin-left: 17px;\n  cur
 
 /***/ }),
 
+/***/ "./node_modules/css-loader/index.js!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/sass-loader/dist/cjs.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/backEnd/RealEstatePromoted.vue?vue&type=style&index=0&id=327f36f4&scoped=true&lang=scss&":
+/*!************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/css-loader!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src??ref--7-2!./node_modules/sass-loader/dist/cjs.js??ref--7-3!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/backEnd/RealEstatePromoted.vue?vue&type=style&index=0&id=327f36f4&scoped=true&lang=scss& ***!
+  \************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__(/*! ../../../../node_modules/css-loader/lib/css-base.js */ "./node_modules/css-loader/lib/css-base.js")(false);
+// imports
+exports.push([module.i, "@import url(https://s3-us-west-2.amazonaws.com/s.cdpn.io/584938/dashboard.scss);", ""]);
+
+// module
+exports.push([module.i, ".delete[data-v-327f36f4] {\n  margin-left: 17px;\n  cursor: pointer;\n  margin-bottom: 12px;\n}\n.box[data-v-327f36f4] {\n  width: 40%;\n  margin: 0 auto;\n  background: rgba(255, 255, 255, 0.2);\n  padding: 35px;\n  border: 2px solid #fff;\n  border-radius: 20px/50px;\n  background-clip: padding-box;\n  text-align: center;\n}\n.overlay[data-v-327f36f4] {\n  position: fixed;\n  top: 0;\n  bottom: 0;\n  left: 0;\n  right: 0;\n  background: rgba(0, 0, 0, 0.7);\n  transition: opacity 500ms;\n  visibility: hidden;\n  opacity: 0;\n}\n.overlay[data-v-327f36f4]:target {\n  visibility: visible;\n  opacity: 1;\n}\n.popup[data-v-327f36f4] {\n  margin: 70px auto;\n  padding: 20px;\n  background: #fff;\n  border-radius: 5px;\n  width: 30%;\n  position: relative;\n  transition: all 5s ease-in-out;\n}\n.popup h2[data-v-327f36f4] {\n  margin-top: 0;\n  color: #333;\n  font-family: Tahoma, Arial, sans-serif;\n}\n.popup .close[data-v-327f36f4] {\n  position: absolute;\n  top: 20px;\n  right: 30px;\n  transition: all 200ms;\n  font-size: 30px;\n  font-weight: bold;\n  text-decoration: none;\n  color: #333;\n}\n.popup .close[data-v-327f36f4]:hover {\n  color: #06D85F;\n}\n.popup .content[data-v-327f36f4] {\n  max-height: 30%;\n  overflow: auto;\n}\n@media screen and (max-width: 700px) {\n.box[data-v-327f36f4] {\n    width: 70%;\n}\n.popup[data-v-327f36f4] {\n    width: 70%;\n}\n}\n/*  Toggle Switch  */\n.checkbox:checked ~ .switch[data-v-327f36f4] {\n  background-color: blue;\n}\n.checkbox:not(:checked) ~ .switch[data-v-327f36f4] {\n  background-color: gray;\n}\n.toggleSwitch span span[data-v-327f36f4] {\n  display: none;\n}\n@media only screen {\n.toggleSwitch[data-v-327f36f4] {\n    display: inline-block;\n    height: 16px;\n    position: relative;\n    overflow: visible;\n    padding: 0;\n    cursor: pointer;\n    width: 40px;\n}\n.toggleSwitch *[data-v-327f36f4] {\n    box-sizing: border-box;\n}\n.toggleSwitch label[data-v-327f36f4],\n.toggleSwitch > span[data-v-327f36f4] {\n    line-height: 20px;\n    height: 20px;\n    vertical-align: middle;\n}\n.toggleSwitch input:focus ~ a[data-v-327f36f4],\n.toggleSwitch input:focus + label[data-v-327f36f4] {\n    outline: none;\n}\n.toggleSwitch label[data-v-327f36f4] {\n    position: relative;\n    z-index: 3;\n    display: block;\n    width: 100%;\n}\n.toggleSwitch input[data-v-327f36f4] {\n    position: absolute;\n    opacity: 0;\n    z-index: 5;\n}\n.toggleSwitch > span[data-v-327f36f4] {\n    position: absolute;\n    left: -50px;\n    width: 100%;\n    margin: 0;\n    padding-right: 50px;\n    text-align: left;\n    white-space: nowrap;\n}\n.toggleSwitch > span span[data-v-327f36f4] {\n    position: absolute;\n    top: 0;\n    left: 0;\n    z-index: 5;\n    display: block;\n    width: 50%;\n    margin-left: 50px;\n    text-align: left;\n    font-size: 0.9em;\n    width: 100%;\n    left: 15%;\n    top: -1px;\n    opacity: 0;\n}\n.toggleSwitch a[data-v-327f36f4] {\n    position: absolute;\n    right: 50%;\n    z-index: 4;\n    display: block;\n    height: 100%;\n    padding: 0;\n    left: 2px;\n    width: 18px;\n    background-color: #fff;\n    border: 1px solid #CCC;\n    border-radius: 100%;\n    transition: all 0.2s ease-out;\n    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);\n}\n.toggleSwitch > span span[data-v-327f36f4]:first-of-type {\n    color: #ccc;\n    opacity: 1;\n    left: 45%;\n}\n.toggleSwitch > span[data-v-327f36f4]:before {\n    content: \"\";\n    display: block;\n    width: 100%;\n    height: 100%;\n    position: absolute;\n    left: 50px;\n    top: -2px;\n    background-color: #fafafa;\n    border: 1px solid #ccc;\n    border-radius: 30px;\n    transition: all 0.2s ease-out;\n}\n.toggleSwitch input:checked ~ a[data-v-327f36f4] {\n    border-color: #fff;\n    left: 100%;\n    margin-left: -8px;\n}\n.toggleSwitch input:checked ~ span[data-v-327f36f4]:before {\n    border-color: #0097D1;\n    box-shadow: inset 0 0 0 30px #0097D1;\n}\n.toggleSwitch input:checked ~ span span[data-v-327f36f4]:first-of-type {\n    opacity: 0;\n}\n.toggleSwitch input:checked ~ span span[data-v-327f36f4]:last-of-type {\n    opacity: 1;\n    color: #fff;\n}\n\n  /* Switch Sizes */\n.toggleSwitch.large[data-v-327f36f4] {\n    width: 60px;\n    height: 27px;\n}\n.toggleSwitch.large a[data-v-327f36f4] {\n    width: 27px;\n}\n.toggleSwitch.large > span[data-v-327f36f4] {\n    height: 29px;\n    line-height: 28px;\n}\n.toggleSwitch.large input:checked ~ a[data-v-327f36f4] {\n    left: 41px;\n}\n.toggleSwitch.large > span span[data-v-327f36f4] {\n    font-size: 1.1em;\n}\n.toggleSwitch.large > span span[data-v-327f36f4]:first-of-type {\n    left: 50%;\n}\n.toggleSwitch.xlarge[data-v-327f36f4] {\n    width: 80px;\n    height: 36px;\n}\n.toggleSwitch.xlarge a[data-v-327f36f4] {\n    width: 36px;\n}\n.toggleSwitch.xlarge > span[data-v-327f36f4] {\n    height: 38px;\n    line-height: 37px;\n}\n.toggleSwitch.xlarge input:checked ~ a[data-v-327f36f4] {\n    left: 52px;\n}\n.toggleSwitch.xlarge > span span[data-v-327f36f4] {\n    font-size: 1.4em;\n}\n.toggleSwitch.xlarge > span span[data-v-327f36f4]:first-of-type {\n    left: 50%;\n}\n}\n.hm-gradient[data-v-327f36f4] {\n  background-image: linear-gradient(to top, #f3e7e9 0%, #e3eeff 99%, #e3eeff 100%);\n}\n.darken-grey-text[data-v-327f36f4] {\n  color: #2E2E2E;\n}\n.input-group.md-form.form-sm.form-2 input[data-v-327f36f4] {\n  border: 1px solid #bdbdbd;\n  border-top-left-radius: 0.25rem;\n  border-bottom-left-radius: 0.25rem;\n}\n.input-group.md-form.form-sm.form-2 input.purple-border[data-v-327f36f4] {\n  border: 1px solid #9e9e9e;\n}\n.input-group.md-form.form-sm.form-2 input[type=text]:focus:not([readonly]).purple-border[data-v-327f36f4] {\n  border: 1px solid #ba68c8;\n  box-shadow: none;\n}\n.form-2 .input-group-addon[data-v-327f36f4] {\n  border: 1px solid #ba68c8;\n}\n.danger-text[data-v-327f36f4] {\n  color: #ff3547;\n}\n.success-text[data-v-327f36f4] {\n  color: #00C851;\n}\n.table-bordered.red-border[data-v-327f36f4], .table-bordered.red-border th[data-v-327f36f4], .table-bordered.red-border td[data-v-327f36f4] {\n  border: 1px solid #ff3547 !important;\n}\n.table.table-bordered th[data-v-327f36f4] {\n  text-align: center;\n}\nbody[data-v-327f36f4] {\n  background-color: #1b2431;\n  color: #202020;\n  font-family: \"Montserrat\", \"Helvetica\", \"Open Sans\", \"Arial\";\n  font-size: 13px;\n}\na[data-v-327f36f4]:hover {\n  text-decoration: none;\n}\np[data-v-327f36f4],\nfigure[data-v-327f36f4] {\n  margin: 0;\n  padding: 0;\n}\n.navbar[data-v-327f36f4] {\n  background-color: #1b2431;\n}\n.sidebar[data-v-327f36f4] {\n  background-color: #1b2431;\n  box-shadow: none;\n}\n.sidebar .nav-link[data-v-327f36f4] {\n  border-left: 5px solid transparent;\n  color: #738297;\n  padding: 0.5rem 0.75rem;\n}\n.sidebar .nav-link[data-v-327f36f4]:hover {\n  color: white;\n}\n.sidebar .nav-link.active[data-v-327f36f4] {\n  border-left: 5px solid #738297;\n  color: white;\n}\n.sidebar .zmdi[data-v-327f36f4] {\n  display: inline-block;\n  font-size: 1.35rem;\n  margin-right: 5px;\n  min-width: 25px;\n}\n.card-list[data-v-327f36f4] {\n  width: 100%;\n}\n.card-list[data-v-327f36f4]:before, .card-list[data-v-327f36f4]:after {\n  content: \" \";\n  display: table;\n}\n.card-list[data-v-327f36f4]:after {\n  clear: both;\n}\n.card[data-v-327f36f4] {\n  border-radius: 8px;\n  color: white;\n  padding: 10px;\n  position: relative;\n}\n.card .zmdi[data-v-327f36f4] {\n  color: white;\n  font-size: 28px;\n  opacity: 0.3;\n  position: absolute;\n  right: 13px;\n  top: 13px;\n}\n.card .stat[data-v-327f36f4] {\n  border-top: 1px solid rgba(255, 255, 255, 0.3);\n  font-size: 8px;\n  margin-top: 25px;\n  padding: 10px 10px 0;\n  text-transform: uppercase;\n}\n.card .title[data-v-327f36f4] {\n  display: inline-block;\n  font-size: 8px;\n  padding: 10px 10px 0;\n  text-transform: uppercase;\n}\n.card .value[data-v-327f36f4] {\n  font-size: 28px;\n  padding: 0 10px;\n}\n.card.blue[data-v-327f36f4] {\n  background-color: #2298F1;\n}\n.card.green[data-v-327f36f4] {\n  background-color: #66B92E;\n}\n.card.orange[data-v-327f36f4] {\n  background-color: #DA932C;\n}\n.card.red[data-v-327f36f4] {\n  background-color: #D65B4A;\n}\n.projects[data-v-327f36f4] {\n  background-color: #273142;\n  border: 1px solid #313D4F;\n  overflow-x: auto;\n  width: 100%;\n}\n.projects-inner[data-v-327f36f4] {\n  border-radius: 4px;\n}\n.projects-header[data-v-327f36f4] {\n  color: white;\n  padding: 22px;\n}\n.projects-header .count[data-v-327f36f4],\n.projects-header .title[data-v-327f36f4] {\n  display: inline-block;\n}\n.projects-header .count[data-v-327f36f4] {\n  color: #738297;\n}\n.projects-header .zmdi[data-v-327f36f4] {\n  cursor: pointer;\n  float: right;\n  font-size: 16px;\n  margin: 5px 0;\n}\n.projects-header .title[data-v-327f36f4] {\n  font-size: 21px;\n}\n.projects-header .title + .count[data-v-327f36f4] {\n  margin-left: 5px;\n}\n.projects-table[data-v-327f36f4] {\n  background: #273142;\n  width: 100%;\n}\n.projects-table td[data-v-327f36f4],\n.projects-table th[data-v-327f36f4] {\n  color: white;\n  padding: 10px 22px;\n  vertical-align: middle;\n}\n.projects-table td p[data-v-327f36f4] {\n  font-size: 12px;\n}\n.projects-table td p[data-v-327f36f4]:last-of-type {\n  color: #738297;\n  font-size: 11px;\n}\n.projects-table th[data-v-327f36f4] {\n  background-color: #313D4F;\n}\n.projects-table tr[data-v-327f36f4]:hover {\n  background-color: #303d52;\n}\n.projects-table tr[data-v-327f36f4]:not(:last-of-type) {\n  border-bottom: 1px solid #313D4F;\n}\n.projects-table .member figure[data-v-327f36f4],\n.projects-table .member .member-info[data-v-327f36f4] {\n  display: inline-block;\n  vertical-align: top;\n}\n.projects-table .member figure + .member-info[data-v-327f36f4] {\n  margin-left: 7px;\n}\n.projects-table .member img[data-v-327f36f4] {\n  border-radius: 50%;\n  height: 32px;\n  width: 32px;\n}\n.projects-table .status > form[data-v-327f36f4] {\n  float: right;\n}\n.projects-table .status-text[data-v-327f36f4] {\n  display: inline-block;\n  font-size: 12px;\n  margin: 11px 0;\n  padding-left: 20px;\n  position: relative;\n}\n.projects-table .status-text[data-v-327f36f4]:before {\n  border: 3px solid;\n  border-radius: 50%;\n  content: \"\";\n  height: 14px;\n  left: 0;\n  position: absolute;\n  top: 1px;\n  width: 14px;\n}\n.projects-table .status-text.status-blue[data-v-327f36f4]:before {\n  border-color: #1C93ED;\n}\n.projects-table .status-text.status-green[data-v-327f36f4]:before {\n  border-color: #66B92E;\n}\n.projects-table .status-text.status-orange[data-v-327f36f4]:before {\n  border-color: #DA932C;\n}\n.projects-table .status-text.status-red[data-v-327f36f4]:before {\n  border-color: #D65B4A;\n}\n.selectric[data-v-327f36f4] {\n  background-color: transparent;\n  border-color: #313D4F;\n  border-radius: 4px;\n}\n.selectric .label[data-v-327f36f4] {\n  color: #738297;\n  line-height: 34px;\n  margin-right: 10px;\n  text-align: left;\n}\n.selectric-wrapper[data-v-327f36f4] {\n  float: right;\n  width: 150px;\n}\n.chart[data-v-327f36f4] {\n  border-radius: 3px;\n  border: 1px solid #313D4F;\n  color: white;\n  padding: 10px;\n  position: relative;\n  text-align: center;\n}\n.chart canvas[data-v-327f36f4] {\n  height: 400px;\n  margin: 20px 0;\n  width: 100%;\n}\n.chart .actions[data-v-327f36f4] {\n  margin: 15px;\n  position: absolute;\n  right: 0;\n  top: 0;\n}\n.chart .actions span[data-v-327f36f4] {\n  cursor: pointer;\n  display: inline-block;\n  font-size: 20px;\n  margin: 5px;\n  padding: 4px;\n}\n.chart .actions .btn-link[data-v-327f36f4] {\n  color: white;\n}\n.chart .actions .btn-link i[data-v-327f36f4] {\n  font-size: 1.75rem;\n}\n.chart .title[data-v-327f36f4] {\n  font-size: 18px;\n  margin: 0;\n  padding: 15px 0 5px;\n}\n.chart .title + .tagline[data-v-327f36f4] {\n  margin-top: 10px;\n}\n.chart .tagline[data-v-327f36f4] {\n  font-size: 12px;\n}\n.danger-item[data-v-327f36f4] {\n  border-left: 4px solid #A84D43;\n}\n.zmdi[data-v-327f36f4] {\n  line-height: 1;\n  vertical-align: middle;\n}", ""]);
+
+// exports
+
+
+/***/ }),
+
 /***/ "./node_modules/css-loader/index.js!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/sass-loader/dist/cjs.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/backEnd/admin.vue?vue&type=style&index=0&id=228471b9&scoped=true&lang=scss&":
 /*!***********************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
   !*** ./node_modules/css-loader!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src??ref--7-2!./node_modules/sass-loader/dist/cjs.js??ref--7-3!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/backEnd/admin.vue?vue&type=style&index=0&id=228471b9&scoped=true&lang=scss& ***!
@@ -11044,7 +11224,7 @@ exports.push([module.i, "@import url(https://www.w3schools.com/w3css/4/w3.css);"
 exports.push([module.i, "@import url(https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css);", ""]);
 
 // module
-exports.push([module.i, ".form-controls {\n  font-family: math;\n  padding: 7px;\n  font-size: small;\n  border: none;\n}\n.container-menu {\n  margin-top: 2px;\n  padding: 18px;\n}\n.d-flex {\n  display: flex;\n}\n.align-center {\n  align-items: center;\n}\n.flex-centerY-centerX {\n  justify-content: center;\n  justify-content: center;\n  align-items: center;\n}\nbody {\n  background-color: #b492c061;\n}\n.page-wrapper {\n  height: 100%;\n  display: table;\n}\n.page-wrapper .page-inner {\n  display: table-cell;\n  vertical-align: middle;\n}\n.el-wrapper {\n  width: 230px;\n  padding: 15px;\n  margin: 15px;\n  background-color: #fff;\n}\n@media (max-width: 991px) {\n.el-wrapper {\n    width: 345px;\n}\n}\n@media (max-width: 767px) {\n.el-wrapper {\n    width: 290px;\n    margin: 30px auto;\n}\n}\n.el-wrapper:hover .h-bg {\n  left: 0px;\n}\n.el-wrapper:hover .price {\n  left: 20px;\n  transform: translateY(-50%);\n  color: #818181;\n}\n.el-wrapper:hover .add-to-cart {\n  left: 50%;\n}\n.el-wrapper:hover .img {\n  webkit-filter: blur(7px);\n  -o-filter: blur(7px);\n  -ms-filter: blur(7px);\n  -webkit-filter: blur(7px);\n          filter: blur(7px);\n  filter: progid:DXImageTransform.Microsoft.Blur(pixelradius=\"7\", shadowopacity=\"0.0\");\n  opacity: 0.4;\n}\n.el-wrapper:hover .info-inner {\n  bottom: 155px;\n}\n.el-wrapper:hover .a-size {\n  transition-delay: 300ms;\n  bottom: 50px;\n  opacity: 1;\n}\n.el-wrapper .box-down {\n  width: 100%;\n  height: 60px;\n  position: relative;\n  overflow: hidden;\n}\n.el-wrapper .box-up {\n  width: 100%;\n  height: 220px;\n  position: relative;\n  overflow: hidden;\n  text-align: center;\n}\n.el-wrapper .img {\n  padding: 20px 0;\n  transition: all 800ms cubic-bezier(0, 0, 0.18, 1);\n  /* ease-out */\n  transition-timing-function: cubic-bezier(0, 0, 0.18, 1);\n  /* ease-out */\n}\n.h-bg {\n  transition: all 800ms cubic-bezier(0, 0, 0.18, 1);\n  /* ease-out */\n  transition-timing-function: cubic-bezier(0, 0, 0.18, 1);\n  /* ease-out */\n  width: 660px;\n  height: 100%;\n  background-color: #3f96cd;\n  position: absolute;\n  left: -659px;\n}\n.h-bg .h-bg-inner {\n  width: 50%;\n  height: 100%;\n  background-color: #464646;\n}\n.info-inner {\n  transition: all 400ms cubic-bezier(0, 0, 0.18, 1);\n  /* ease-out */\n  transition-timing-function: cubic-bezier(0, 0, 0.18, 1);\n  /* ease-out */\n  position: absolute;\n  width: 100%;\n  bottom: 25px;\n}\n.info-inner .p-name,\n.info-inner .p-company {\n  display: block;\n}\n.info-inner .p-name {\n  font-family: \"PT Sans\", sans-serif;\n  font-size: 18px;\n  color: #252525;\n}\n.info-inner .p-company {\n  font-family: \"Lato\", sans-serif;\n  font-size: 12px;\n  text-transform: uppercase;\n  color: #8c8c8c;\n}\n.a-size {\n  transition: all 300ms cubic-bezier(0, 0, 0.18, 1);\n  /* ease-out */\n  transition-timing-function: cubic-bezier(0, 0, 0.18, 1);\n  /* ease-out */\n  position: absolute;\n  width: 100%;\n  bottom: -20px;\n  font-family: \"PT Sans\", sans-serif;\n  color: #828282;\n  opacity: 0;\n}\n.a-size .size {\n  color: #252525;\n}\n.cart {\n  display: block;\n  position: absolute;\n  width: 100%;\n  height: 100%;\n  top: 0;\n  left: 0;\n  font-family: \"Lato\", sans-serif;\n  font-weight: 700;\n}\n.cart .price {\n  transition: all 600ms cubic-bezier(0, 0, 0.18, 1);\n  /* ease-out */\n  transition-timing-function: cubic-bezier(0, 0, 0.18, 1);\n  /* ease-out */\n  transition-delay: 100ms;\n  display: block;\n  position: absolute;\n  top: 50%;\n  left: 50%;\n  transform: translate(-50%, -50%);\n  font-size: 16px;\n  color: #252525;\n}\n.cart .add-to-cart {\n  transition: all 600ms cubic-bezier(0, 0, 0.18, 1);\n  /* ease-out */\n  transition-timing-function: cubic-bezier(0, 0, 0.18, 1);\n  /* ease-out */\n  transition-delay: 100ms;\n  display: block;\n  position: absolute;\n  top: 50%;\n  left: 110%;\n  transform: translate(-50%, -50%);\n}\n.cart .add-to-cart .txt {\n  font-size: 12px;\n  color: #fff;\n  letter-spacing: 0.045em;\n  text-transform: uppercase;\n  white-space: nowrap;\n}\nbody {\n  background-color: #e1e8f0;\n}\n.bg-navbar {\n  height: 4rem;\n  background: #9c27b0;\n  box-shadow: -1px 12px 23px 1px rgba(0, 0, 0, 0.47);\n}\n.card-menu {\n  width: 190px;\n  height: 300px;\n  margin: 10px;\n}\n.btn1 {\n  border: 0px;\n  border-radius: 3px;\n  padding: 8px;\n  width: 150px;\n  background-color: #0e2af78c;\n}\n.btn1:hover {\n  opacity: 4;\n}\n@media (min-width: 768px) {\n.carousel-inner .carousel-item-right.active,\n.carousel-inner .carousel-item-next {\n    transform: translateX(50%);\n}\n.carousel-inner .carousel-item-left.active,\n.carousel-inner .carousel-item-prev {\n    transform: translateX(-50%);\n}\n}\n/* large - display 3 */\n@media (min-width: 992px) {\n.carousel-inner .carousel-item-right.active,\n.carousel-inner .carousel-item-next {\n    transform: translateX(33%);\n}\n.carousel-inner .carousel-item-left.active,\n.carousel-inner .carousel-item-prev {\n    transform: translateX(-33%);\n}\n}\n@media (max-width: 768px) {\n.carousel-inner .carousel-item > div {\n    display: none;\n}\n.carousel-inner .carousel-item > div:first-child {\n    display: block;\n}\n}\n.carousel-inner .carousel-item.active,\n.carousel-inner .carousel-item-next,\n.carousel-inner .carousel-item-prev {\n  display: flex;\n}\n.carousel-inner .carousel-item-right,\n.carousel-inner .carousel-item-left {\n  transform: translateX(0);\n}\n:active, :hover, :focus {\n  outline: 0 !important;\n  outline-offset: 0;\n}\n::before,\n::after {\n  position: absolute;\n  content: \"\";\n}\n.btn-holder {\n  display: flex;\n  flex-wrap: wrap;\n  justify-content: center;\n  max-width: 1000px;\n  margin: 10px auto 35px;\n}\n.btn {\n  position: relative;\n  display: inline-block;\n  width: auto;\n  height: auto;\n  background-color: transparent;\n  border: none;\n  cursor: pointer;\n  margin: 0px 25px 15px;\n  min-width: 79px;\n}\n.btn span {\n  position: relative;\n  display: inline-block;\n  font-size: 14px;\n  font-weight: bold;\n  letter-spacing: 2px;\n  text-transform: uppercase;\n  top: 0;\n  left: 0;\n  width: 100%;\n  padding: 7px;\n  transition: 0.3s;\n}\n.btn-4 span {\n  color: #1c1f1e;\n  background-color: whitesmoke;\n}\n.btn-4 span:hover {\n  color: #363837;\n}\n.btn.hover-border-6 span::before,\n.btn.hover-border-6 span::after {\n  width: 0%;\n  height: 0%;\n  background: transparent;\n  opacity: 0;\n  z-index: 2;\n  transition: width 0.2s ease-in, height 0.15s 0.2s linear, opacity 0s 0.35s;\n}\n.btn.hover-border-6 span::before {\n  top: 0;\n  left: 0;\n  border-left: 2px solid #363837;\n  border-bottom: 2px solid #363837;\n}\n.btn.hover-border-6 span::after {\n  top: 0;\n  right: 0;\n  border-right: 2px solid #363837;\n  border-bottom: 2px solid #363837;\n}\n.btn.hover-border-6 span:hover::before,\n.btn.hover-border-6 span:hover::after {\n  width: 50%;\n  height: 96%;\n  opacity: 1;\n  transition: height 0.2s 0.2s ease-in, width 0.2s 0.4s linear, opacity 0s 0.2s;\n}\n.btn.hover-border-7 span::before,\n.btn.hover-border-7 span::after {\n  width: 0%;\n  height: 0%;\n  background: transparent;\n  opacity: 0;\n  z-index: 2;\n  transition: width 0.2s ease-in, height 0.15s 0.2s linear, opacity 0s 0.35s;\n}\n.btn.hover-border-7 span::before {\n  bottom: 0;\n  left: 0;\n  border-left: 2px solid #363837;\n  border-top: 2px solid #363837;\n}\n.btn.hover-border-7 span::after {\n  bottom: 0;\n  right: 0;\n  border-right: 2px solid #363837;\n  border-top: 2px solid #363837;\n}\n.btn.hover-border-7 span:hover::before,\n.btn.hover-border-7 span:hover::after {\n  width: 50%;\n  height: 96%;\n  opacity: 1;\n  transition: height 0.2s 0.2s ease-in, width 0.2s 0.4s linear, opacity 0s 0.2s;\n}\n.btn.hover-border-8 span::before,\n.btn.hover-border-8 span::after {\n  width: 0%;\n  height: 0%;\n  bottom: 0;\n  background: transparent;\n  opacity: 0;\n  z-index: 2;\n}\n.btn.hover-border-8 span::before {\n  left: 0%;\n  border-left: 2px solid #363837;\n  transition: height 0.25s ease-in, opacity 0s 0.35s;\n}\n.btn.hover-border-8 span:hover::before {\n  height: 96%;\n  opacity: 1;\n  transition: height 0.25s 0.2s ease-out, opacity 0s 0.2s;\n}\n.btn.hover-border-8 span::after {\n  right: 0%;\n  border-right: 2px solid #363837;\n  border-top: 2px solid #363837;\n  transition: width 0.2s ease-in, height 0.15s 0.2s linear, opacity 0s 0.35s;\n}\n.btn.hover-border-8 span:hover::after {\n  width: 99%;\n  height: 96%;\n  opacity: 1;\n  transition: height 0.15s 0.1s linear, width 0.2s 0.25s linear, opacity 0s 0.1s;\n}\n.btn.hover-border-9 span::before,\n.btn.hover-border-9 span::after {\n  width: 0%;\n  height: 0%;\n  bottom: 0;\n  background: transparent;\n  opacity: 0;\n  z-index: 2;\n}\n.btn.hover-border-9 span::after {\n  right: 0%;\n  border-right: 2px solid #363837;\n  transition: height 0.25s ease-in, opacity 0s 0.35s;\n}\n.btn.hover-border-9 span:hover::after {\n  height: 96%;\n  opacity: 1;\n  transition: height 0.25s 0.2s ease-out, opacity 0s 0.2s;\n}\n.btn.hover-border-9 span::before {\n  left: 0%;\n  border-left: 2px solid #363837;\n  border-top: 2px solid #363837;\n  transition: width 0.2s ease-in, height 0.15s 0.2s linear, opacity 0s 0.35s;\n}\n.btn.hover-border-9 span:hover::before {\n  width: 98.5%;\n  height: 96%;\n  opacity: 1;\n  transition: height 0.15s 0.1s linear, width 0.2s 0.25s linear, opacity 0s 0.1s;\n}\n.btn.hover-border-10 span::before,\n.btn.hover-border-10 span::after {\n  width: 0%;\n  height: 0%;\n  background: transparent;\n  opacity: 0;\n  z-index: 2;\n}\n.btn.hover-border-10 span::after {\n  bottom: 0;\n  left: 0%;\n  border-bottom: 2px solid #363837;\n  transition: width 0.25s ease-in, opacity 0s 0.35s;\n}\n.btn.hover-border-10 span:hover::after {\n  width: 100%;\n  opacity: 1;\n  transition: width 0.25s 0.2s ease-out, opacity 0s 0.2s;\n}\n.btn.hover-border-10 span::before {\n  top: 0%;\n  left: 0%;\n  border-top: 2px solid #363837;\n  border-right: 2px solid #363837;\n  transition: height 0.15s ease-in, width 0.2s 0.15s linear, opacity 0s 0.35s;\n}\n.btn.hover-border-10 span:hover::before {\n  width: 98.5%;\n  height: 96%;\n  opacity: 1;\n  transition: width 0.2s 0.1s linear, height 0.15s 0.3s ease-out, opacity 0s 0.1s;\n}\n\n/*--- btn-5 ---*/\n.btn-5 span {\n  color: #1c1f1e;\n  border: 2px solid #f9d31b;\n  transition: 0.2s;\n}\n.btn-5 span:hover {\n  background-color: whitesmoke;\n}\n\n/* 21. hover-border-11 */\n.btn.hover-border-11::before,\n.btn.hover-border-11::after {\n  width: 100%;\n  height: 2px;\n  background-color: #363837;\n  z-index: 2;\n  transition: 0.35s;\n}\n.btn.hover-border-11::before {\n  top: 0;\n  right: 0;\n}\n.btn.hover-border-11::after {\n  bottom: 0;\n  left: 0;\n}\n.btn.hover-border-11:hover::before,\n.btn.hover-border-11:hover::after {\n  width: 0%;\n  transition: 0.2s 0.2s ease-out;\n}\n.btn.hover-border-11 span::before,\n.btn.hover-border-11 span::after {\n  width: 2px;\n  height: 100%;\n  background-color: #363837;\n  z-index: 2;\n  transition: 0.25s;\n}\n.btn.hover-border-11 span::before {\n  bottom: 0;\n  right: -2px;\n}\n.btn.hover-border-11 span::after {\n  top: 0;\n  left: -2px;\n}\n.btn.hover-border-11 span:hover::before,\n.btn.hover-border-11 span:hover::after {\n  height: 0%;\n}\n#team {\n  background: #eee !important;\n}\n.btn-primary:hover,\n.btn-primary:focus {\n  background-color: #108d6f;\n  border-color: #108d6f;\n  box-shadow: none;\n  outline: none;\n}\n.btn-primary {\n  color: #fff;\n  background-color: #007b5e;\n  border-color: #007b5e;\n}\nsection .section-title {\n  text-align: center;\n  color: #007b5e;\n  margin-bottom: 50px;\n  text-transform: uppercase;\n}\n#team .card {\n  border: none;\n  background: #ffffff;\n}\n.image-flip:hover .backside,\n.image-flip.hover .backside {\n  transform: rotateY(0deg);\n  border-radius: 0.25rem;\n}\n.image-flip:hover .frontside,\n.image-flip.hover .frontside {\n  transform: rotateY(180deg);\n}\n.mainflip {\n  -webkit-transition: 1s;\n  -webkit-transform-style: preserve-3d;\n  -ms-transition: 1s;\n  -moz-transition: 1s;\n  -moz-transform: perspective(1000px);\n  -moz-transform-style: preserve-3d;\n  -ms-transform-style: preserve-3d;\n  transition: 1s;\n  transform-style: preserve-3d;\n  position: relative;\n  cursor: pointer;\n}\n.frontside {\n  position: relative;\n  -webkit-transform: rotateY(0deg);\n  -ms-transform: rotateY(0deg);\n  z-index: 2;\n  margin-bottom: 30px;\n}\n.backside {\n  width: 190px;\n  height: 300px;\n  position: absolute;\n  top: 0;\n  left: 0;\n  background: white;\n  transform: rotateY(-180deg);\n  box-shadow: 5px 7px 9px -4px #9e9e9e;\n}\n.frontside,\n.backside {\n  -webkit-backface-visibility: hidden;\n  backface-visibility: hidden;\n  -webkit-transition: 1s;\n  -webkit-transform-style: preserve-3d;\n  -moz-transition: 1s;\n  -moz-transform-style: preserve-3d;\n  -o-transition: 1s;\n  -o-transform-style: preserve-3d;\n  -ms-transition: 1s;\n  -ms-transform-style: preserve-3d;\n  transition: 1s;\n  transform-style: preserve-3d;\n}\n.frontside .card,\n.backside .card {\n  min-height: 300px;\n}\n.backside .card a {\n  font-size: 18px;\n  color: #007b5e !important;\n}\n.frontside .card .card-title,\n.backside .card .card-title {\n  color: #007b5e !important;\n}\n.frontside .card .card-body img {\n  width: 120px;\n  height: 120px;\n  border-radius: 50%;\n}\nimg {\n  max-width: 100%;\n}\nhr {\n  border-color: #e5e5e5;\n  margin: 15px 0;\n}\n.secondary-text {\n  color: #b6b6b6;\n}\n.list-inline {\n  margin: 0;\n}\n.list-inline li {\n  padding: 0;\n}\n.card-wrapper {\n  position: relative;\n  width: 100%;\n  height: 290px;\n  border: 1px solid #e5e5e5;\n  border-bottom-width: 2px;\n  overflow: hidden;\n  margin-bottom: 30px;\n}\n.card-wrapper:after {\n  content: \"\";\n  position: absolute;\n  top: 0;\n  left: 0;\n  width: 100%;\n  height: 100%;\n  opacity: 0;\n  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);\n  transition: opacity 0.6s cubic-bezier(0.165, 0.84, 0.44, 1);\n}\n.card-wrapper:hover:after {\n  opacity: 1;\n}\n.card-wrapper:hover .image-holder:before {\n  opacity: 0.75;\n}\n.card-wrapper:hover .image-holder:after {\n  opacity: 1;\n  transform: translate(-50%, -50%);\n}\n.card-wrapper:hover .image-holder--original {\n  transform: translateY(-15px);\n}\n.card-wrapper:hover .product-description {\n  height: 205px;\n}\n@media (min-width: 768px) {\n.card-wrapper:hover .product-description {\n    height: 140px;\n}\n}\n.image-holder {\n  display: block;\n  position: relative;\n  width: 100%;\n  height: 110px;\n  background-color: #ffffff;\n  z-index: 1;\n}\n@media (min-width: 568px) {\n.image-holder {\n    height: 325px;\n}\n}\n.image-holder:before {\n  content: \"\";\n  position: absolute;\n  top: 0;\n  left: 0;\n  width: 100%;\n  height: 100%;\n  background-color: #4CAF50;\n  opacity: 0;\n  z-index: 5;\n  transition: opacity 0.6s;\n}\n.image-holder:after {\n  content: \"View\";\n  font-family: \"Raleway\", sans-serif;\n  font-size: 30px;\n  color: #4CAF50;\n  text-align: center;\n  position: absolute;\n  top: 92.5px;\n  left: 50%;\n  width: 75px;\n  height: 75px;\n  line-height: 75px;\n  background-color: #ffffff;\n  opacity: 0;\n  border-radius: 50%;\n  z-index: 10;\n  transform: translate(-50%, 100%);\n  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);\n  transition: all 0.4s ease-out;\n}\n@media (min-width: 768px) {\n.image-holder:after {\n    top: 107.5px;\n}\n}\n.image-holder .image-holder__link {\n  display: block;\n  position: absolute;\n  top: 0;\n  left: 0;\n  width: 100%;\n  height: 100%;\n  z-index: 15;\n}\n.image-holder .image-holder--original {\n  transition: transform 0.8s cubic-bezier(0.165, 0.84, 0.44, 1);\n}\n.image-liquid {\n  width: 100%;\n  height: 325px;\n  background-size: cover;\n  background-position: center center;\n}\n.product-description {\n  position: absolute;\n  left: 0;\n  bottom: 0;\n  width: 100%;\n  height: 80px;\n  padding: 10px 15px;\n  overflow: hidden;\n  background-color: #fafafa;\n  border-top: 1px solid #e5e5e5;\n  transition: height 0.6s cubic-bezier(0.165, 0.84, 0.44, 1);\n  z-index: 2;\n}\n@media (min-width: 768px) {\n.product-description {\n    height: 65px;\n}\n}\n.product-description p {\n  margin: 0 0 5px;\n}\n.product-description .product-description__title {\n  font-family: \"Raleway\", sans-serif;\n  position: relative;\n  white-space: nowrap;\n  overflow: hidden;\n  margin: 0;\n  font-size: 18px;\n  line-height: 1.25;\n}\n.product-description .product-description__title:after {\n  content: \"\";\n  width: 60px;\n  height: 100%;\n  position: absolute;\n  top: 0;\n  right: 0;\n  background: linear-gradient(to right, rgba(255, 255, 255, 0), #fafafa);\n}\n.product-description .product-description__title a {\n  text-decoration: none;\n  color: inherit;\n}\n.product-description .product-description__category {\n  white-space: nowrap;\n  overflow: hidden;\n  text-overflow: ellipsis;\n}\n.product-description .product-description__price {\n  color: #4CAF50;\n  text-align: left;\n  font-weight: bold;\n  letter-spacing: 0.06em;\n}\n@media (min-width: 768px) {\n.product-description .product-description__price {\n    text-align: right;\n}\n}\n.product-description .sizes-wrapper {\n  margin-bottom: 15px;\n}\n.product-description .color-list {\n  font-size: 0;\n}\n.product-description .color-list__item {\n  width: 25px;\n  height: 10px;\n  position: relative;\n  z-index: 1;\n  transition: all 0.2s;\n}\n.product-description .color-list__item:hover {\n  width: 40px;\n}\n.product-description .color-list__item--red {\n  background-color: #F44336;\n}\n.product-description .color-list__item--blue {\n  background-color: #448AFF;\n}\n.product-description .color-list__item--green {\n  background-color: #CDDC39;\n}\n.product-description .color-list__item--orange {\n  background-color: #FF9800;\n}\n.product-description .color-list__item--purple {\n  background-color: #673AB7;\n}", ""]);
+exports.push([module.i, ".pb-5 {\n  margin: 0;\n  padding-top: 1vh;\n  padding-bottom: 2rem !important;\n  padding-left: 4px;\n}\n.form-controls {\n  font-family: math;\n  padding: 7px;\n  font-size: small;\n  border: none;\n}\n.container-menu {\n  margin-top: 2px;\n  padding: 18px;\n  display: flex;\n  flex-wrap: wrap;\n  list-style: none;\n}\n.d-flex {\n  display: flex;\n}\n.align-center {\n  align-items: center;\n}\n.flex-centerY-centerX {\n  justify-content: center;\n  justify-content: center;\n  align-items: center;\n}\n.page-wrapper {\n  height: 100%;\n  display: table;\n}\n.page-wrapper .page-inner {\n  display: table-cell;\n  vertical-align: middle;\n}\n.el-wrapper {\n  width: 234px;\n  padding: 15px;\n  margin: 15px;\n  background-color: #fff;\n}\n@media (max-width: 991px) {\n.el-wrapper {\n    width: 345px;\n}\n}\n@media (max-width: 767px) {\n.el-wrapper {\n    width: 290px;\n    margin: 30px auto;\n}\n}\n.el-wrapper:hover .h-bg {\n  left: 0px;\n}\n.el-wrapper:hover .price {\n  left: 20px;\n  transform: translateY(-50%);\n  color: #818181;\n}\n.el-wrapper:hover .add-to-cart {\n  left: 50%;\n}\n.el-wrapper:hover .img {\n  webkit-filter: blur(7px);\n  -o-filter: blur(7px);\n  -ms-filter: blur(7px);\n  -webkit-filter: blur(7px);\n          filter: blur(7px);\n  filter: progid:DXImageTransform.Microsoft.Blur(pixelradius=\"7\", shadowopacity=\"0.0\");\n  opacity: 0.4;\n}\n.el-wrapper:hover .info-inner {\n  bottom: 155px;\n}\n.el-wrapper:hover .a-size {\n  transition-delay: 300ms;\n  bottom: 50px;\n  opacity: 1;\n}\n.el-wrapper .box-down {\n  width: 100%;\n  height: 60px;\n  position: relative;\n  overflow: hidden;\n}\n.el-wrapper .box-up {\n  width: 100%;\n  height: 220px;\n  position: relative;\n  overflow: hidden;\n  text-align: center;\n}\n.el-wrapper .img {\n  padding: 20px 0;\n  transition: all 800ms cubic-bezier(0, 0, 0.18, 1);\n  /* ease-out */\n  transition-timing-function: cubic-bezier(0, 0, 0.18, 1);\n  /* ease-out */\n}\n.h-bg {\n  transition: all 800ms cubic-bezier(0, 0, 0.18, 1);\n  /* ease-out */\n  transition-timing-function: cubic-bezier(0, 0, 0.18, 1);\n  /* ease-out */\n  width: 660px;\n  height: 100%;\n  background-color: #3f96cd;\n  position: absolute;\n  left: -659px;\n}\n.h-bg .h-bg-inner {\n  width: 50%;\n  height: 100%;\n  background-color: #464646;\n}\n.info-inner {\n  transition: all 400ms cubic-bezier(0, 0, 0.18, 1);\n  /* ease-out */\n  transition-timing-function: cubic-bezier(0, 0, 0.18, 1);\n  /* ease-out */\n  position: absolute;\n  width: 100%;\n  bottom: 25px;\n}\n.info-inner .p-name,\n.info-inner .p-company {\n  display: block;\n}\n.info-inner .p-name {\n  font-family: \"PT Sans\", sans-serif;\n  font-size: 18px;\n  color: #252525;\n}\n.info-inner .p-company {\n  font-family: \"Lato\", sans-serif;\n  font-size: 12px;\n  text-transform: uppercase;\n  color: #8c8c8c;\n}\n.a-size {\n  transition: all 300ms cubic-bezier(0, 0, 0.18, 1);\n  /* ease-out */\n  transition-timing-function: cubic-bezier(0, 0, 0.18, 1);\n  /* ease-out */\n  position: absolute;\n  width: 100%;\n  bottom: -20px;\n  font-family: \"PT Sans\", sans-serif;\n  color: #828282;\n  opacity: 0;\n}\n.a-size .size {\n  color: #252525;\n}\n.cart {\n  display: block;\n  position: absolute;\n  width: 100%;\n  height: 100%;\n  top: 0;\n  left: 0;\n  font-family: \"Lato\", sans-serif;\n  font-weight: 700;\n}\n.cart .price {\n  transition: all 600ms cubic-bezier(0, 0, 0.18, 1);\n  /* ease-out */\n  transition-timing-function: cubic-bezier(0, 0, 0.18, 1);\n  /* ease-out */\n  transition-delay: 100ms;\n  display: block;\n  position: absolute;\n  top: 50%;\n  left: 50%;\n  transform: translate(-50%, -50%);\n  font-size: 16px;\n  color: #252525;\n}\n.cart .add-to-cart {\n  transition: all 600ms cubic-bezier(0, 0, 0.18, 1);\n  /* ease-out */\n  transition-timing-function: cubic-bezier(0, 0, 0.18, 1);\n  /* ease-out */\n  transition-delay: 100ms;\n  display: block;\n  position: absolute;\n  top: 50%;\n  left: 110%;\n  transform: translate(-50%, -50%);\n}\n.cart .add-to-cart .txt {\n  font-size: 12px;\n  color: #fff;\n  letter-spacing: 0.045em;\n  text-transform: uppercase;\n  white-space: nowrap;\n}\nbody {\n  background-color: #e1e8f0;\n}\n.bg-navbar {\n  height: 4rem;\n  background: #6e117e;\n  box-shadow: -1px 12px 23px 1px rgba(0, 0, 0, 0.47);\n}\n.card-menu {\n  width: 190px;\n  height: 300px;\n  margin: 10px;\n}\n.btn1 {\n  border: 0px;\n  border-radius: 3px;\n  padding: 8px;\n  width: 150px;\n  background-color: #0e2af78c;\n}\n.btn1:hover {\n  opacity: 4;\n}\n@media (min-width: 768px) {\n.carousel-inner .carousel-item-right.active,\n.carousel-inner .carousel-item-next {\n    transform: translateX(50%);\n}\n.carousel-inner .carousel-item-left.active,\n.carousel-inner .carousel-item-prev {\n    transform: translateX(-50%);\n}\n}\n/* large - display 3 */\n@media (min-width: 992px) {\n.carousel-inner .carousel-item-right.active,\n.carousel-inner .carousel-item-next {\n    transform: translateX(33%);\n}\n.carousel-inner .carousel-item-left.active,\n.carousel-inner .carousel-item-prev {\n    transform: translateX(-33%);\n}\n}\n@media (max-width: 768px) {\n.carousel-inner .carousel-item > div {\n    display: none;\n}\n.carousel-inner .carousel-item > div:first-child {\n    display: block;\n}\n}\n.carousel-inner .carousel-item.active,\n.carousel-inner .carousel-item-next,\n.carousel-inner .carousel-item-prev {\n  display: flex;\n}\n.carousel-inner .carousel-item-right,\n.carousel-inner .carousel-item-left {\n  transform: translateX(0);\n}\n:active, :hover, :focus {\n  outline: 0 !important;\n  outline-offset: 0;\n}\n::before,\n::after {\n  position: absolute;\n  content: \"\";\n}\n.btn-holder {\n  display: flex;\n  flex-wrap: wrap;\n  justify-content: center;\n  max-width: 1000px;\n  margin: 10px auto 35px;\n}\n.btn {\n  position: relative;\n  display: inline-block;\n  width: auto;\n  height: auto;\n  background-color: transparent;\n  border: none;\n  cursor: pointer;\n  margin: 0px 25px 15px;\n  min-width: 79px;\n}\n.btn span {\n  position: relative;\n  display: inline-block;\n  font-size: 14px;\n  font-weight: bold;\n  letter-spacing: 2px;\n  text-transform: uppercase;\n  top: 0;\n  left: 0;\n  width: 100%;\n  padding: 7px;\n  transition: 0.3s;\n}\n.btn-4 span {\n  color: #1c1f1e;\n  background-color: whitesmoke;\n}\n.btn-4 span:hover {\n  color: #363837;\n}\n.btn.hover-border-6 span::before,\n.btn.hover-border-6 span::after {\n  width: 0%;\n  height: 0%;\n  background: transparent;\n  opacity: 0;\n  z-index: 2;\n  transition: width 0.2s ease-in, height 0.15s 0.2s linear, opacity 0s 0.35s;\n}\n.btn.hover-border-6 span::before {\n  top: 0;\n  left: 0;\n  border-left: 2px solid #363837;\n  border-bottom: 2px solid #363837;\n}\n.btn.hover-border-6 span::after {\n  top: 0;\n  right: 0;\n  border-right: 2px solid #363837;\n  border-bottom: 2px solid #363837;\n}\n.btn.hover-border-6 span:hover::before,\n.btn.hover-border-6 span:hover::after {\n  width: 50%;\n  height: 96%;\n  opacity: 1;\n  transition: height 0.2s 0.2s ease-in, width 0.2s 0.4s linear, opacity 0s 0.2s;\n}\n.btn.hover-border-7 span::before,\n.btn.hover-border-7 span::after {\n  width: 0%;\n  height: 0%;\n  background: transparent;\n  opacity: 0;\n  z-index: 2;\n  transition: width 0.2s ease-in, height 0.15s 0.2s linear, opacity 0s 0.35s;\n}\n.btn.hover-border-7 span::before {\n  bottom: 0;\n  left: 0;\n  border-left: 2px solid #363837;\n  border-top: 2px solid #363837;\n}\n.btn.hover-border-7 span::after {\n  bottom: 0;\n  right: 0;\n  border-right: 2px solid #363837;\n  border-top: 2px solid #363837;\n}\n.btn.hover-border-7 span:hover::before,\n.btn.hover-border-7 span:hover::after {\n  width: 50%;\n  height: 96%;\n  opacity: 1;\n  transition: height 0.2s 0.2s ease-in, width 0.2s 0.4s linear, opacity 0s 0.2s;\n}\n.btn.hover-border-8 span::before,\n.btn.hover-border-8 span::after {\n  width: 0%;\n  height: 0%;\n  bottom: 0;\n  background: transparent;\n  opacity: 0;\n  z-index: 2;\n}\n.btn.hover-border-8 span::before {\n  left: 0%;\n  border-left: 2px solid #363837;\n  transition: height 0.25s ease-in, opacity 0s 0.35s;\n}\n.btn.hover-border-8 span:hover::before {\n  height: 96%;\n  opacity: 1;\n  transition: height 0.25s 0.2s ease-out, opacity 0s 0.2s;\n}\n.btn.hover-border-8 span::after {\n  right: 0%;\n  border-right: 2px solid #363837;\n  border-top: 2px solid #363837;\n  transition: width 0.2s ease-in, height 0.15s 0.2s linear, opacity 0s 0.35s;\n}\n.btn.hover-border-8 span:hover::after {\n  width: 99%;\n  height: 96%;\n  opacity: 1;\n  transition: height 0.15s 0.1s linear, width 0.2s 0.25s linear, opacity 0s 0.1s;\n}\n.btn.hover-border-9 span::before,\n.btn.hover-border-9 span::after {\n  width: 0%;\n  height: 0%;\n  bottom: 0;\n  background: transparent;\n  opacity: 0;\n  z-index: 2;\n}\n.btn.hover-border-9 span::after {\n  right: 0%;\n  border-right: 2px solid #363837;\n  transition: height 0.25s ease-in, opacity 0s 0.35s;\n}\n.btn.hover-border-9 span:hover::after {\n  height: 96%;\n  opacity: 1;\n  transition: height 0.25s 0.2s ease-out, opacity 0s 0.2s;\n}\n.btn.hover-border-9 span::before {\n  left: 0%;\n  border-left: 2px solid #363837;\n  border-top: 2px solid #363837;\n  transition: width 0.2s ease-in, height 0.15s 0.2s linear, opacity 0s 0.35s;\n}\n.btn.hover-border-9 span:hover::before {\n  width: 98.5%;\n  height: 96%;\n  opacity: 1;\n  transition: height 0.15s 0.1s linear, width 0.2s 0.25s linear, opacity 0s 0.1s;\n}\n.btn.hover-border-10 span::before,\n.btn.hover-border-10 span::after {\n  width: 0%;\n  height: 0%;\n  background: transparent;\n  opacity: 0;\n  z-index: 2;\n}\n.btn.hover-border-10 span::after {\n  bottom: 0;\n  left: 0%;\n  border-bottom: 2px solid #363837;\n  transition: width 0.25s ease-in, opacity 0s 0.35s;\n}\n.btn.hover-border-10 span:hover::after {\n  width: 100%;\n  opacity: 1;\n  transition: width 0.25s 0.2s ease-out, opacity 0s 0.2s;\n}\n.btn.hover-border-10 span::before {\n  top: 0%;\n  left: 0%;\n  border-top: 2px solid #363837;\n  border-right: 2px solid #363837;\n  transition: height 0.15s ease-in, width 0.2s 0.15s linear, opacity 0s 0.35s;\n}\n.btn.hover-border-10 span:hover::before {\n  width: 98.5%;\n  height: 96%;\n  opacity: 1;\n  transition: width 0.2s 0.1s linear, height 0.15s 0.3s ease-out, opacity 0s 0.1s;\n}\n\n/*--- btn-5 ---*/\n.btn-5 span {\n  color: #1c1f1e;\n  border: 2px solid #f9d31b;\n  transition: 0.2s;\n}\n.btn-5 span:hover {\n  background-color: whitesmoke;\n}\n\n/* 21. hover-border-11 */\n.btn.hover-border-11::before,\n.btn.hover-border-11::after {\n  width: 100%;\n  height: 2px;\n  background-color: #363837;\n  z-index: 2;\n  transition: 0.35s;\n}\n.btn.hover-border-11::before {\n  top: 0;\n  right: 0;\n}\n.btn.hover-border-11::after {\n  bottom: 0;\n  left: 0;\n}\n.btn.hover-border-11:hover::before,\n.btn.hover-border-11:hover::after {\n  width: 0%;\n  transition: 0.2s 0.2s ease-out;\n}\n.btn.hover-border-11 span::before,\n.btn.hover-border-11 span::after {\n  width: 2px;\n  height: 100%;\n  background-color: #363837;\n  z-index: 2;\n  transition: 0.25s;\n}\n.btn.hover-border-11 span::before {\n  bottom: 0;\n  right: -2px;\n}\n.btn.hover-border-11 span::after {\n  top: 0;\n  left: -2px;\n}\n.btn.hover-border-11 span:hover::before,\n.btn.hover-border-11 span:hover::after {\n  height: 0%;\n}\n#team {\n  background: #710a82 !important;\n}\n.btn-primary:hover,\n.btn-primary:focus {\n  background-color: #108d6f;\n  border-color: #108d6f;\n  box-shadow: none;\n  outline: none;\n}\n.btn-primary {\n  color: #fff;\n  background-color: #007b5e;\n  border-color: #007b5e;\n}\nsection .section-title {\n  text-align: center;\n  color: #007b5e;\n  margin-bottom: 50px;\n  text-transform: uppercase;\n}\n#team .card {\n  border: none;\n  background: #ffffff;\n}\n.image-flip:hover .backside,\n.image-flip.hover .backside {\n  transform: rotateY(0deg);\n  border-radius: 0.25rem;\n}\n.image-flip:hover .frontside,\n.image-flip.hover .frontside {\n  transform: rotateY(180deg);\n}\n.mainflip {\n  -webkit-transition: 1s;\n  -webkit-transform-style: preserve-3d;\n  -ms-transition: 1s;\n  -moz-transition: 1s;\n  -moz-transform: perspective(1000px);\n  -moz-transform-style: preserve-3d;\n  -ms-transform-style: preserve-3d;\n  transition: 1s;\n  transform-style: preserve-3d;\n  position: relative;\n  cursor: pointer;\n}\n.frontside {\n  position: relative;\n  -webkit-transform: rotateY(0deg);\n  -ms-transform: rotateY(0deg);\n  z-index: 2;\n  margin-bottom: 30px;\n}\n.backside {\n  width: 190px;\n  height: 300px;\n  position: absolute;\n  top: 0;\n  left: 0;\n  background: white;\n  transform: rotateY(-180deg);\n  box-shadow: 5px 7px 9px -4px #9e9e9e;\n}\n.frontside,\n.backside {\n  -webkit-backface-visibility: hidden;\n  backface-visibility: hidden;\n  -webkit-transition: 1s;\n  -webkit-transform-style: preserve-3d;\n  -moz-transition: 1s;\n  -moz-transform-style: preserve-3d;\n  -o-transition: 1s;\n  -o-transform-style: preserve-3d;\n  -ms-transition: 1s;\n  -ms-transform-style: preserve-3d;\n  transition: 1s;\n  transform-style: preserve-3d;\n}\n.frontside .card,\n.backside .card {\n  min-height: 300px;\n}\n.backside .card a {\n  font-size: 18px;\n  color: #007b5e !important;\n}\n.frontside .card .card-title,\n.backside .card .card-title {\n  color: #007b5e !important;\n}\n.frontside .card .card-body img {\n  width: 120px;\n  height: 120px;\n  border-radius: 50%;\n}\nimg {\n  max-width: 100%;\n}\nhr {\n  border-color: #e5e5e5;\n  margin: 15px 0;\n}\n.secondary-text {\n  color: #b6b6b6;\n}\n.list-inline {\n  margin: 0;\n}\n.list-inline li {\n  padding: 0;\n}\n.card-wrapper {\n  position: relative;\n  width: 100%;\n  height: 290px;\n  border: 1px solid #e5e5e5;\n  border-bottom-width: 2px;\n  overflow: hidden;\n  margin-bottom: 30px;\n}\n.card-wrapper:after {\n  content: \"\";\n  position: absolute;\n  top: 0;\n  left: 0;\n  width: 100%;\n  height: 100%;\n  opacity: 0;\n  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);\n  transition: opacity 0.6s cubic-bezier(0.165, 0.84, 0.44, 1);\n}\n.card-wrapper:hover:after {\n  opacity: 1;\n}\n.card-wrapper:hover .image-holder:before {\n  opacity: 0.75;\n}\n.card-wrapper:hover .image-holder:after {\n  opacity: 1;\n  transform: translate(-50%, -50%);\n}\n.card-wrapper:hover .image-holder--original {\n  transform: translateY(-15px);\n}\n.card-wrapper:hover .product-description {\n  height: 205px;\n}\n@media (min-width: 768px) {\n.card-wrapper:hover .product-description {\n    height: 140px;\n}\n}\n.image-holder {\n  display: block;\n  position: relative;\n  width: 100%;\n  height: 110px;\n  background-color: #ffffff;\n  z-index: 1;\n}\n@media (min-width: 568px) {\n.image-holder {\n    height: 325px;\n}\n}\n.image-holder:before {\n  content: \"\";\n  position: absolute;\n  top: 0;\n  left: 0;\n  width: 100%;\n  height: 100%;\n  background-color: #4CAF50;\n  opacity: 0;\n  z-index: 5;\n  transition: opacity 0.6s;\n}\n.image-holder:after {\n  content: \"View\";\n  font-family: \"Raleway\", sans-serif;\n  font-size: 30px;\n  color: #4CAF50;\n  text-align: center;\n  position: absolute;\n  top: 92.5px;\n  left: 50%;\n  width: 75px;\n  height: 75px;\n  line-height: 75px;\n  background-color: #ffffff;\n  opacity: 0;\n  border-radius: 50%;\n  z-index: 10;\n  transform: translate(-50%, 100%);\n  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);\n  transition: all 0.4s ease-out;\n}\n@media (min-width: 768px) {\n.image-holder:after {\n    top: 107.5px;\n}\n}\n.image-holder .image-holder__link {\n  display: block;\n  position: absolute;\n  top: 0;\n  left: 0;\n  width: 100%;\n  height: 100%;\n  z-index: 15;\n}\n.image-holder .image-holder--original {\n  transition: transform 0.8s cubic-bezier(0.165, 0.84, 0.44, 1);\n}\n.image-liquid {\n  width: 100%;\n  height: 325px;\n  background-size: cover;\n  background-position: center center;\n}\n.product-description {\n  position: absolute;\n  left: 0;\n  bottom: 0;\n  width: 100%;\n  height: 80px;\n  padding: 10px 15px;\n  overflow: hidden;\n  background-color: #fafafa;\n  border-top: 1px solid #e5e5e5;\n  transition: height 0.6s cubic-bezier(0.165, 0.84, 0.44, 1);\n  z-index: 2;\n}\n@media (min-width: 768px) {\n.product-description {\n    height: 65px;\n}\n}\n.product-description p {\n  margin: 0 0 5px;\n}\n.product-description .product-description__title {\n  font-family: \"Raleway\", sans-serif;\n  position: relative;\n  white-space: nowrap;\n  overflow: hidden;\n  margin: 0;\n  font-size: 18px;\n  line-height: 1.25;\n}\n.product-description .product-description__title:after {\n  content: \"\";\n  width: 60px;\n  height: 100%;\n  position: absolute;\n  top: 0;\n  right: 0;\n  background: linear-gradient(to right, rgba(255, 255, 255, 0), #fafafa);\n}\n.product-description .product-description__title a {\n  text-decoration: none;\n  color: inherit;\n}\n.product-description .product-description__category {\n  white-space: nowrap;\n  overflow: hidden;\n  text-overflow: ellipsis;\n}\n.product-description .product-description__price {\n  color: #4CAF50;\n  text-align: left;\n  font-weight: bold;\n  letter-spacing: 0.06em;\n}\n@media (min-width: 768px) {\n.product-description .product-description__price {\n    text-align: right;\n}\n}\n.product-description .sizes-wrapper {\n  margin-bottom: 15px;\n}\n.product-description .color-list {\n  font-size: 0;\n}\n.product-description .color-list__item {\n  width: 25px;\n  height: 10px;\n  position: relative;\n  z-index: 1;\n  transition: all 0.2s;\n}\n.product-description .color-list__item:hover {\n  width: 40px;\n}\n.product-description .color-list__item--red {\n  background-color: #F44336;\n}\n.product-description .color-list__item--blue {\n  background-color: #448AFF;\n}\n.product-description .color-list__item--green {\n  background-color: #CDDC39;\n}\n.product-description .color-list__item--orange {\n  background-color: #FF9800;\n}\n.product-description .color-list__item--purple {\n  background-color: #673AB7;\n}", ""]);
 
 // exports
 
@@ -11101,7 +11281,7 @@ exports = module.exports = __webpack_require__(/*! ../../../../node_modules/css-
 
 
 // module
-exports.push([module.i, ".description[data-v-9f7d9f90] {\n  white-space: nowrap;\n  overflow: hidden;\n  text-overflow: ellipsis;\n}\n.card-title[data-v-9f7d9f90] {\n  font-size: smaller;\n  color: #0d47a1;\n}\n.btn-visit[data-v-9f7d9f90] {\n  border: 0px;\n  border-radius: 3px;\n  padding: 8px;\n}\n.btn-visit[data-v-9f7d9f90]:hover {\n  opacity: 4;\n}\n.btn1[data-v-9f7d9f90] {\n  border: 0px;\n  border-radius: 3px;\n  padding: 8px;\n}\n.btn1[data-v-9f7d9f90]:hover {\n  opacity: 4;\n}\n.card[data-v-9f7d9f90] {\n  margin-bottom: 1rem;\n}\n.list-view .row > [class*=col-][data-v-9f7d9f90] {\n  max-width: 100%;\n  flex: 0 0 100%;\n}\n.list-view .card[data-v-9f7d9f90] {\n  flex-direction: row;\n}\n@media (max-width: 575.98px) {\n.list-view .card[data-v-9f7d9f90] {\n    flex-direction: column;\n}\n}\n.list-view .card > .card-img-top[data-v-9f7d9f90] {\n  width: 200px;\n  height: 200px;\n  -o-object-fit: cover;\n     object-fit: cover;\n}\n.list-view .card .card-body[data-v-9f7d9f90] {\n  display: inline-block;\n}\n.codepen-container[data-v-9f7d9f90] {\n  padding: 3em;\n}\n.content-container[data-v-9f7d9f90] {\n  display: flex;\n  margin: 0 auto;\n  background-color: white;\n  max-width: 960px;\n  width: 100%;\n}\n.product-image--container[data-v-9f7d9f90] {\n  margin: 0 2em;\n}\n.triangle-topleft[data-v-9f7d9f90] {\n  position: relative;\n  width: 0;\n  height: 0;\n  border-top: 100px solid #FFC500;\n  border-right: 100px solid transparent;\n  transition: all ease 0.25s;\n}\n.triangle-topleft[data-v-9f7d9f90]:hover {\n  border-top: 100px solid #ffd54d;\n  transition: all ease 0.25s;\n}\n.back-arrow[data-v-9f7d9f90] {\n  cursor: pointer;\n  position: absolute;\n  top: -90px;\n  left: 15px;\n  background-image: url(\"https://cdn2.iconfinder.com/data/icons/freecns-cumulus/16/519627-127_ArrowLeft-128.png\");\n  background-size: 35px 35px;\n  background-repeat: no-repeat;\n  width: 40px;\n  height: 40px;\n}\n.product-image--featured[data-v-9f7d9f90] {\n  max-width: 432px;\n  width: 100%;\n  max-height: 310px;\n  height: 100%;\n  -o-object-fit: cover;\n     object-fit: cover;\n}\n.product-image--list[data-v-9f7d9f90] {\n  display: flex;\n  justify-content: space-between;\n  list-style-type: none;\n  padding: 0;\n}\n.product-image--list li[data-v-9f7d9f90] {\n  margin: 0 5px;\n  border: 2px solid #eaeaea;\n  border-radius: 5px;\n  transition: all ease 0.25s;\n}\n.product-image--list li.item-selected[data-v-9f7d9f90] {\n  box-shadow: 1px 1px 1px #888888;\n  border: 2px solid #FFC500;\n  transition: all ease 0.25s;\n}\n.product-image--item[data-v-9f7d9f90] {\n  cursor: pointer;\n  -o-object-fit: cover;\n     object-fit: cover;\n  max-width: 154px;\n  max-height: 104px;\n}\n.right-container[data-v-9f7d9f90] {\n  margin: 1em;\n}\n.title[data-v-9f7d9f90] {\n  margin: 0.5em 0 0 0;\n}\n.subtitle[data-v-9f7d9f90] {\n  font-size: 1.25em;\n}\n.subtitle-container[data-v-9f7d9f90] {\n  margin: 0.5em 0 0.5em 0;\n  opacity: 0.6;\n}\n.rating[data-v-9f7d9f90] {\n  overflow: hidden;\n  display: inline-block;\n  font-size: 0;\n  position: relative;\n}\n.rating-input[data-v-9f7d9f90] {\n  float: right;\n  width: 16px;\n  height: 16px;\n  padding: 0;\n  margin: 0 0 0 -16px;\n  opacity: 0;\n}\n.rating:hover .rating-star[data-v-9f7d9f90]:hover,\n.rating:hover .rating-star:hover ~ .rating-star[data-v-9f7d9f90],\n.rating-input:checked ~ .rating-star[data-v-9f7d9f90] {\n  background-position: 0 0;\n}\n.rating-star[data-v-9f7d9f90],\n.rating:hover .rating-star[data-v-9f7d9f90] {\n  position: relative;\n  float: right;\n  display: block;\n  width: 16px;\n  height: 16px;\n  background: url(\"http://kubyshkin.ru/samples/star-rating/star.png\") 0 -16px;\n}\n.reviews[data-v-9f7d9f90] {\n  text-decoration: none;\n}\na:hover.reviews[data-v-9f7d9f90] {\n  color: #365afc;\n  text-decoration: underline;\n}\n.emphasize[data-v-9f7d9f90] {\n  color: #b32600;\n  font-size: 1.5em;\n  letter-spacing: -2px;\n}\n.select-dropdown[data-v-9f7d9f90] {\n  max-width: 50px;\n  width: 100%;\n}\n.my-btn[data-v-9f7d9f90] {\n  background-color: #FFC500;\n  border-radius: 5px;\n  max-width: 275px;\n  width: 100%;\n  height: 50px;\n  transition: all ease 0.25s;\n}\n.my-btn[data-v-9f7d9f90]:hover {\n  box-shadow: 1px 1px 1px #888888;\n  background-color: #ffd54d;\n  transition: all ease 0.25s;\n}\n.flex-btn[data-v-9f7d9f90] {\n  display: flex;\n  align-items: center;\n}\n.cart-icon[data-v-9f7d9f90] {\n  margin: 2px;\n  width: 30px;\n  height: 30px;\n}\n.btn-text[data-v-9f7d9f90] {\n  font-weight: bold;\n  font-size: 1.5em;\n  margin: 0 auto;\n}", ""]);
+exports.push([module.i, ".description[data-v-9f7d9f90] {\n  white-space: nowrap;\n  overflow: hidden;\n  text-overflow: ellipsis;\n}\n.card-title[data-v-9f7d9f90] {\n  font-size: smaller;\n  color: #0d47a1;\n}\n.btn-visit[data-v-9f7d9f90] {\n  border: 0px;\n  border-radius: 3px;\n  padding: 8px;\n}\n.btn-visit[data-v-9f7d9f90]:hover {\n  opacity: 4;\n}\n.btn1[data-v-9f7d9f90] {\n  border: 0px;\n  border-radius: 3px;\n  padding: 8px;\n}\n.btn1[data-v-9f7d9f90]:hover {\n  opacity: 4;\n}\n.card[data-v-9f7d9f90] {\n  margin-bottom: 1rem;\n}\n.list-view .row > [class*=col-][data-v-9f7d9f90] {\n  max-width: 100%;\n  flex: 0 0 100%;\n}\n.list-view .card[data-v-9f7d9f90] {\n  flex-direction: row;\n}\n@media (max-width: 575.98px) {\n.list-view .card[data-v-9f7d9f90] {\n    flex-direction: column;\n}\n}\n.list-view .card > .card-img-top[data-v-9f7d9f90] {\n  width: 200px;\n  height: 200px;\n  -o-object-fit: cover;\n     object-fit: cover;\n}\n.list-view .card .card-body[data-v-9f7d9f90] {\n  display: inline-block;\n}\n.codepen-container[data-v-9f7d9f90] {\n  padding: 3em;\n}\n.content-container[data-v-9f7d9f90] {\n  display: flex;\n  margin: 0 auto;\n  background-color: white;\n  max-width: 960px;\n  width: 100%;\n}\n.product-image--container[data-v-9f7d9f90] {\n  margin: 0 2em;\n}\n.triangle-topleft[data-v-9f7d9f90] {\n  position: relative;\n  width: 0;\n  height: 0;\n  border-top: 100px solid #FFC500;\n  border-right: 100px solid transparent;\n  transition: all ease 0.25s;\n}\n.triangle-topleft[data-v-9f7d9f90]:hover {\n  border-top: 100px solid #ffd54d;\n  transition: all ease 0.25s;\n}\n.back-arrow[data-v-9f7d9f90] {\n  cursor: pointer;\n  position: absolute;\n  top: -90px;\n  left: 15px;\n  background-image: url(\"https://cdn2.iconfinder.com/data/icons/freecns-cumulus/16/519627-127_ArrowLeft-128.png\");\n  background-size: 35px 35px;\n  background-repeat: no-repeat;\n  width: 40px;\n  height: 40px;\n}\n.product-image--featured[data-v-9f7d9f90] {\n  max-width: 451px;\n  width: 100%;\n  max-height: 310px;\n  height: 100%;\n  -o-object-fit: cover;\n     object-fit: cover;\n}\n.product-image--list[data-v-9f7d9f90] {\n  display: flex;\n  justify-content: space-between;\n  list-style-type: none;\n  padding: 0;\n}\n.product-image--list li[data-v-9f7d9f90] {\n  margin: 0 5px;\n  border: 2px solid #eaeaea;\n  border-radius: 5px;\n  transition: all ease 0.25s;\n}\n.product-image--list li.item-selected[data-v-9f7d9f90] {\n  box-shadow: 1px 1px 1px #888888;\n  border: 2px solid #FFC500;\n  transition: all ease 0.25s;\n}\n.product-image--item[data-v-9f7d9f90] {\n  cursor: pointer;\n  -o-object-fit: cover;\n     object-fit: cover;\n  max-width: 154px;\n  max-height: 104px;\n}\n.right-container[data-v-9f7d9f90] {\n  margin: 1em;\n}\n.title[data-v-9f7d9f90] {\n  margin: 0.5em 0 0 0;\n}\n.subtitle[data-v-9f7d9f90] {\n  font-size: 1.25em;\n}\n.subtitle-container[data-v-9f7d9f90] {\n  margin: 0.5em 0 0.5em 0;\n  opacity: 0.6;\n}\n.rating[data-v-9f7d9f90] {\n  overflow: hidden;\n  display: inline-block;\n  font-size: 0;\n  position: relative;\n}\n.rating-input[data-v-9f7d9f90] {\n  float: right;\n  width: 16px;\n  height: 16px;\n  padding: 0;\n  margin: 0 0 0 -16px;\n  opacity: 0;\n}\n.rating:hover .rating-star[data-v-9f7d9f90]:hover,\n.rating:hover .rating-star:hover ~ .rating-star[data-v-9f7d9f90],\n.rating-input:checked ~ .rating-star[data-v-9f7d9f90] {\n  background-position: 0 0;\n}\n.rating-star[data-v-9f7d9f90],\n.rating:hover .rating-star[data-v-9f7d9f90] {\n  position: relative;\n  float: right;\n  display: block;\n  width: 16px;\n  height: 16px;\n  background: url(\"http://kubyshkin.ru/samples/star-rating/star.png\") 0 -16px;\n}\n.reviews[data-v-9f7d9f90] {\n  text-decoration: none;\n}\na:hover.reviews[data-v-9f7d9f90] {\n  color: #365afc;\n  text-decoration: underline;\n}\n.emphasize[data-v-9f7d9f90] {\n  color: #b32600;\n  font-size: 1.5em;\n  letter-spacing: -2px;\n}\n.select-dropdown[data-v-9f7d9f90] {\n  max-width: 50px;\n  width: 100%;\n}\n.my-btn[data-v-9f7d9f90] {\n  background-color: #FFC500;\n  border-radius: 5px;\n  max-width: 275px;\n  width: 100%;\n  height: 50px;\n  transition: all ease 0.25s;\n}\n.my-btn[data-v-9f7d9f90]:hover {\n  box-shadow: 1px 1px 1px #888888;\n  background-color: #ffd54d;\n  transition: all ease 0.25s;\n}\n.flex-btn[data-v-9f7d9f90] {\n  display: flex;\n  align-items: center;\n}\n.cart-icon[data-v-9f7d9f90] {\n  margin: 2px;\n  width: 30px;\n  height: 30px;\n}\n.btn-text[data-v-9f7d9f90] {\n  font-weight: bold;\n  font-size: 1.5em;\n  margin: 0 auto;\n}", ""]);
 
 // exports
 
@@ -43336,6 +43516,36 @@ if(false) {}
 
 /***/ }),
 
+/***/ "./node_modules/style-loader/index.js!./node_modules/css-loader/index.js!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/sass-loader/dist/cjs.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/backEnd/RealEstatePromoted.vue?vue&type=style&index=0&id=327f36f4&scoped=true&lang=scss&":
+/*!****************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/style-loader!./node_modules/css-loader!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src??ref--7-2!./node_modules/sass-loader/dist/cjs.js??ref--7-3!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/backEnd/RealEstatePromoted.vue?vue&type=style&index=0&id=327f36f4&scoped=true&lang=scss& ***!
+  \****************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+
+var content = __webpack_require__(/*! !../../../../node_modules/css-loader!../../../../node_modules/vue-loader/lib/loaders/stylePostLoader.js!../../../../node_modules/postcss-loader/src??ref--7-2!../../../../node_modules/sass-loader/dist/cjs.js??ref--7-3!../../../../node_modules/vue-loader/lib??vue-loader-options!./RealEstatePromoted.vue?vue&type=style&index=0&id=327f36f4&scoped=true&lang=scss& */ "./node_modules/css-loader/index.js!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/sass-loader/dist/cjs.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/backEnd/RealEstatePromoted.vue?vue&type=style&index=0&id=327f36f4&scoped=true&lang=scss&");
+
+if(typeof content === 'string') content = [[module.i, content, '']];
+
+var transform;
+var insertInto;
+
+
+
+var options = {"hmr":true}
+
+options.transform = transform
+options.insertInto = undefined;
+
+var update = __webpack_require__(/*! ../../../../node_modules/style-loader/lib/addStyles.js */ "./node_modules/style-loader/lib/addStyles.js")(content, options);
+
+if(content.locals) module.exports = content.locals;
+
+if(false) {}
+
+/***/ }),
+
 /***/ "./node_modules/style-loader/index.js!./node_modules/css-loader/index.js!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/sass-loader/dist/cjs.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/backEnd/admin.vue?vue&type=style&index=0&id=228471b9&scoped=true&lang=scss&":
 /*!***************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
   !*** ./node_modules/style-loader!./node_modules/css-loader!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src??ref--7-2!./node_modules/sass-loader/dist/cjs.js??ref--7-3!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/backEnd/admin.vue?vue&type=style&index=0&id=228471b9&scoped=true&lang=scss& ***!
@@ -44397,6 +44607,672 @@ exports.clearImmediate = (typeof self !== "undefined" && self.clearImmediate) ||
                          (this && this.clearImmediate);
 
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./../webpack/buildin/global.js */ "./node_modules/webpack/buildin/global.js")))
+
+/***/ }),
+
+/***/ "./node_modules/vue-json-excel/dist/vue-json-excel.esm.js":
+/*!****************************************************************!*\
+  !*** ./node_modules/vue-json-excel/dist/vue-json-excel.esm.js ***!
+  \****************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* WEBPACK VAR INJECTION */(function(global) {var commonjsGlobal = typeof globalThis !== 'undefined' ? globalThis : typeof window !== 'undefined' ? window : typeof global !== 'undefined' ? global : typeof self !== 'undefined' ? self : {};
+
+function createCommonjsModule(fn, module) {
+	return module = { exports: {} }, fn(module, module.exports), module.exports;
+}
+
+var download = createCommonjsModule(function (module, exports) {
+//download.js v4.2, by dandavis; 2008-2016. [MIT] see http://danml.com/download.html for tests/usage
+// v1 landed a FF+Chrome compat way of downloading strings to local un-named files, upgraded to use a hidden frame and optional mime
+// v2 added named files via a[download], msSaveBlob, IE (10+) support, and window.URL support for larger+faster saves than dataURLs
+// v3 added dataURL and Blob Input, bind-toggle arity, and legacy dataURL fallback was improved with force-download mime and base64 support. 3.1 improved safari handling.
+// v4 adds AMD/UMD, commonJS, and plain browser support
+// v4.1 adds url download capability via solo URL argument (same domain/CORS only)
+// v4.2 adds semantic variable names, long (over 2MB) dataURL support, and hidden by default temp anchors
+// https://github.com/rndme/download
+
+(function (root, factory) {
+	{
+		// Node. Does not work with strict CommonJS, but
+		// only CommonJS-like environments that support module.exports,
+		// like Node.
+		module.exports = factory();
+	}
+}(commonjsGlobal, function () {
+
+	return function download(data, strFileName, strMimeType) {
+
+		var self = window, // this script is only for browsers anyway...
+			defaultMime = "application/octet-stream", // this default mime also triggers iframe downloads
+			mimeType = strMimeType || defaultMime,
+			payload = data,
+			url = !strFileName && !strMimeType && payload,
+			anchor = document.createElement("a"),
+			toString = function(a){return String(a);},
+			myBlob = (self.Blob || self.MozBlob || self.WebKitBlob || toString),
+			fileName = strFileName || "download",
+			blob,
+			reader;
+			myBlob= myBlob.call ? myBlob.bind(self) : Blob ;
+	  
+		if(String(this)==="true"){ //reverse arguments, allowing download.bind(true, "text/xml", "export.xml") to act as a callback
+			payload=[payload, mimeType];
+			mimeType=payload[0];
+			payload=payload[1];
+		}
+
+
+		if(url && url.length< 2048){ // if no filename and no mime, assume a url was passed as the only argument
+			fileName = url.split("/").pop().split("?")[0];
+			anchor.href = url; // assign href prop to temp anchor
+		  	if(anchor.href.indexOf(url) !== -1){ // if the browser determines that it's a potentially valid url path:
+        		var ajax=new XMLHttpRequest();
+        		ajax.open( "GET", url, true);
+        		ajax.responseType = 'blob';
+        		ajax.onload= function(e){ 
+				  download(e.target.response, fileName, defaultMime);
+				};
+        		setTimeout(function(){ ajax.send();}, 0); // allows setting custom ajax headers using the return:
+			    return ajax;
+			} // end if valid url?
+		} // end if url?
+
+
+		//go ahead and download dataURLs right away
+		if(/^data:([\w+-]+\/[\w+.-]+)?[,;]/.test(payload)){
+		
+			if(payload.length > (1024*1024*1.999) && myBlob !== toString ){
+				payload=dataUrlToBlob(payload);
+				mimeType=payload.type || defaultMime;
+			}else {			
+				return navigator.msSaveBlob ?  // IE10 can't do a[download], only Blobs:
+					navigator.msSaveBlob(dataUrlToBlob(payload), fileName) :
+					saver(payload) ; // everyone else can save dataURLs un-processed
+			}
+			
+		}else {//not data url, is it a string with special needs?
+			if(/([\x80-\xff])/.test(payload)){			  
+				var i=0, tempUiArr= new Uint8Array(payload.length), mx=tempUiArr.length;
+				for(i;i<mx;++i) tempUiArr[i]= payload.charCodeAt(i);
+			 	payload=new myBlob([tempUiArr], {type: mimeType});
+			}		  
+		}
+		blob = payload instanceof myBlob ?
+			payload :
+			new myBlob([payload], {type: mimeType}) ;
+
+
+		function dataUrlToBlob(strUrl) {
+			var parts= strUrl.split(/[:;,]/),
+			type= parts[1],
+			decoder= parts[2] == "base64" ? atob : decodeURIComponent,
+			binData= decoder( parts.pop() ),
+			mx= binData.length,
+			i= 0,
+			uiArr= new Uint8Array(mx);
+
+			for(i;i<mx;++i) uiArr[i]= binData.charCodeAt(i);
+
+			return new myBlob([uiArr], {type: type});
+		 }
+
+		function saver(url, winMode){
+
+			if ('download' in anchor) { //html5 A[download]
+				anchor.href = url;
+				anchor.setAttribute("download", fileName);
+				anchor.className = "download-js-link";
+				anchor.innerHTML = "downloading...";
+				anchor.style.display = "none";
+				document.body.appendChild(anchor);
+				setTimeout(function() {
+					anchor.click();
+					document.body.removeChild(anchor);
+					if(winMode===true){setTimeout(function(){ self.URL.revokeObjectURL(anchor.href);}, 250 );}
+				}, 66);
+				return true;
+			}
+
+			// handle non-a[download] safari as best we can:
+			if(/(Version)\/(\d+)\.(\d+)(?:\.(\d+))?.*Safari\//.test(navigator.userAgent)) {
+				if(/^data:/.test(url))	url="data:"+url.replace(/^data:([\w\/\-\+]+)/, defaultMime);
+				if(!window.open(url)){ // popup blocked, offer direct download:
+					if(confirm("Displaying New Document\n\nUse Save As... to download, then click back to return to this page.")){ location.href=url; }
+				}
+				return true;
+			}
+
+			//do iframe dataURL download (old ch+FF):
+			var f = document.createElement("iframe");
+			document.body.appendChild(f);
+
+			if(!winMode && /^data:/.test(url)){ // force a mime that will download:
+				url="data:"+url.replace(/^data:([\w\/\-\+]+)/, defaultMime);
+			}
+			f.src=url;
+			setTimeout(function(){ document.body.removeChild(f); }, 333);
+
+		}//end saver
+
+
+
+
+		if (navigator.msSaveBlob) { // IE10+ : (has Blob, but not a[download] or URL)
+			return navigator.msSaveBlob(blob, fileName);
+		}
+
+		if(self.URL){ // simple fast and modern way using Blob and URL:
+			saver(self.URL.createObjectURL(blob), true);
+		}else {
+			// handle non-Blob()+non-URL browsers:
+			if(typeof blob === "string" || blob.constructor===toString ){
+				try{
+					return saver( "data:" +  mimeType   + ";base64,"  +  self.btoa(blob)  );
+				}catch(y){
+					return saver( "data:" +  mimeType   + "," + encodeURIComponent(blob)  );
+				}
+			}
+
+			// Blob but not URL support:
+			reader=new FileReader();
+			reader.onload=function(e){
+				saver(this.result);
+			};
+			reader.readAsDataURL(blob);
+		}
+		return true;
+	}; /* end download() */
+}));
+});
+
+//
+
+var script = {
+  props: {
+    // mime type [xls, csv]
+    type: {
+      type: String,
+      default: "xls",
+    },
+    // Json to download
+    data: {
+      type: Array,
+      required: false,
+      default: null,
+    },
+    // fields inside the Json Object that you want to export
+    // if no given, all the properties in the Json are exported
+    fields: {
+      type: Object,
+      default: () => null,
+    },
+    // this prop is used to fix the problem with other components that use the
+    // variable fields, like vee-validate. exportFields works exactly like fields
+    exportFields: {
+      type: Object,
+      default: () => null,
+    },
+    // Use as fallback when the row has no field values
+    defaultValue: {
+      type: String,
+      required: false,
+      default: "",
+    },
+    // Title(s) for the data, could be a string or an array of strings (multiple titles)
+    header: {
+      default: null,
+    },
+    // Footer(s) for the data, could be a string or an array of strings (multiple footers)
+    footer: {
+      default: null,
+    },
+    // filename to export
+    name: {
+      type: String,
+      default: "data.xls",
+    },
+    fetch: {
+      type: Function,
+    },
+    meta: {
+      type: Array,
+      default: () => [],
+    },
+    worksheet: {
+      type: String,
+      default: "Sheet1",
+    },
+    //event before generate was called
+    beforeGenerate: {
+      type: Function,
+    },
+    //event before download pops up
+    beforeFinish: {
+      type: Function,
+    },
+    // Determine if CSV Data should be escaped
+    escapeCsv: {
+      type: Boolean,
+      default: true,
+    },
+    // long number stringify
+    stringifyLongNum: {
+      type: Boolean,
+      default: false,
+    },
+  },
+  computed: {
+    // unique identifier
+    idName() {
+      var now = new Date().getTime();
+      return "export_" + now;
+    },
+
+    downloadFields() {
+      if (this.fields) return this.fields;
+
+      if (this.exportFields) return this.exportFields;
+    },
+  },
+  methods: {
+    async generate() {
+      if (typeof this.beforeGenerate === "function") {
+        await this.beforeGenerate();
+      }
+      let data = this.data;
+      if (typeof this.fetch === "function" || !data) data = await this.fetch();
+
+      if (!data || !data.length) {
+        return;
+      }
+
+      let json = this.getProcessedJson(data, this.downloadFields);
+      if (this.type === "html") {
+        // this is mainly for testing
+        return this.export(
+          this.jsonToXLS(json),
+          this.name.replace(".xls", ".html"),
+          "text/html"
+        );
+      } else if (this.type === "csv") {
+        return this.export(
+          this.jsonToCSV(json),
+          this.name.replace(".xls", ".csv"),
+          "application/csv"
+        );
+      }
+      return this.export(
+        this.jsonToXLS(json),
+        this.name,
+        "application/vnd.ms-excel"
+      );
+    },
+    /*
+		Use downloadjs to generate the download link
+		*/
+    export: async function (data, filename, mime) {
+      let blob = this.base64ToBlob(data, mime);
+      if (typeof this.beforeFinish === "function") await this.beforeFinish();
+      download(blob, filename, mime);
+    },
+    /*
+		jsonToXLS
+		---------------
+		Transform json data into an xml document with MS Excel format, sadly
+		it shows a prompt when it opens, that is a default behavior for
+		Microsoft office and cannot be avoided. It's recommended to use CSV format instead.
+		*/
+    jsonToXLS(data) {
+      let xlsTemp =
+        '<html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:x="urn:schemas-microsoft-com:office:excel" xmlns="http://www.w3.org/TR/REC-html40"><head><meta name=ProgId content=Excel.Sheet> <meta name=Generator content="Microsoft Excel 11"><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><!--[if gte mso 9]><xml><x:ExcelWorkbook><x:ExcelWorksheets><x:ExcelWorksheet><x:Name>${worksheet}</x:Name><x:WorksheetOptions><x:DisplayGridlines/></x:WorksheetOptions></x:ExcelWorksheet></x:ExcelWorksheets></x:ExcelWorkbook></xml><![endif]--><style>br {mso-data-placement: same-cell;}</style></head><body><table>${table}</table></body></html>';
+      let xlsData = "<thead>";
+      const colspan = Object.keys(data[0]).length;
+      let _self = this;
+
+      //Header
+      const header = this.header || this.$attrs.title;
+      if (header) {
+        xlsData += this.parseExtraData(
+          header,
+          '<tr><th colspan="' + colspan + '">${data}</th></tr>'
+        );
+      }
+
+      //Fields
+      xlsData += "<tr>";
+      for (let key in data[0]) {
+        xlsData += "<th>" + key + "</th>";
+      }
+      xlsData += "</tr>";
+      xlsData += "</thead>";
+
+      //Data
+      xlsData += "<tbody>";
+      data.map(function (item, index) {
+        xlsData += "<tr>";
+        for (let key in item) {
+          xlsData +=
+            "<td>" +
+            _self.preprocessLongNum(
+              _self.valueReformattedForMultilines(item[key])
+            ) +
+            "</td>";
+        }
+        xlsData += "</tr>";
+      });
+      xlsData += "</tbody>";
+
+      //Footer
+      if (this.footer != null) {
+        xlsData += "<tfoot>";
+        xlsData += this.parseExtraData(
+          this.footer,
+          '<tr><td colspan="' + colspan + '">${data}</td></tr>'
+        );
+        xlsData += "</tfoot>";
+      }
+
+      return xlsTemp
+        .replace("${table}", xlsData)
+        .replace("${worksheet}", this.worksheet);
+    },
+    /*
+		jsonToCSV
+		---------------
+		Transform json data into an CSV file.
+		*/
+    jsonToCSV(data) {
+      let _self = this;
+      var csvData = [];
+
+      //Header
+      const header = this.header || this.$attrs.title;
+      if (header) {
+        csvData.push(this.parseExtraData(header, "${data}\r\n"));
+      }
+
+      //Fields
+      for (let key in data[0]) {
+        csvData.push(key);
+        csvData.push(",");
+      }
+      csvData.pop();
+      csvData.push("\r\n");
+      //Data
+      data.map(function (item) {
+        for (let key in item) {
+          let escapedCSV = item[key] + "";
+          // Escaped CSV data to string to avoid problems with numbers or other types of values
+          // this is controlled by the prop escapeCsv
+          if (_self.escapeCsv) {
+            escapedCSV = '="' + escapedCSV + '"'; // cast Numbers to string
+            if (escapedCSV.match(/[,"\n]/)) {
+              escapedCSV = '"' + escapedCSV.replace(/\"/g, '""') + '"';
+            }
+          }
+          csvData.push(escapedCSV);
+          csvData.push(",");
+        }
+        csvData.pop();
+        csvData.push("\r\n");
+      });
+      //Footer
+      if (this.footer != null) {
+        csvData.push(this.parseExtraData(this.footer, "${data}\r\n"));
+      }
+      return csvData.join("");
+    },
+    /*
+		getProcessedJson
+		---------------
+		Get only the data to export, if no fields are set return all the data
+		*/
+    getProcessedJson(data, header) {
+      let keys = this.getKeys(data, header);
+      let newData = [];
+      let _self = this;
+      data.map(function (item, index) {
+        let newItem = {};
+        for (let label in keys) {
+          let property = keys[label];
+          newItem[label] = _self.getValue(property, item);
+        }
+        newData.push(newItem);
+      });
+
+      return newData;
+    },
+    getKeys(data, header) {
+      if (header) {
+        return header;
+      }
+
+      let keys = {};
+      for (let key in data[0]) {
+        keys[key] = key;
+      }
+      return keys;
+    },
+    /*
+		parseExtraData
+		---------------
+		Parse title and footer attribute to the csv format
+		*/
+    parseExtraData(extraData, format) {
+      let parseData = "";
+      if (Array.isArray(extraData)) {
+        for (var i = 0; i < extraData.length; i++) {
+          if (extraData[i])
+            parseData += format.replace("${data}", extraData[i]);
+        }
+      } else {
+        parseData += format.replace("${data}", extraData);
+      }
+      return parseData;
+    },
+
+    getValue(key, item) {
+      const field = typeof key !== "object" ? key : key.field;
+      let indexes = typeof field !== "string" ? [] : field.split(".");
+      let value = this.defaultValue;
+
+      if (!field) value = item;
+      else if (indexes.length > 1)
+        value = this.getValueFromNestedItem(item, indexes);
+      else value = this.parseValue(item[field]);
+
+      if (key.hasOwnProperty("callback"))
+        value = this.getValueFromCallback(value, key.callback);
+
+      return value;
+    },
+
+    /*
+    convert values with newline \n characters into <br/>
+    */
+    valueReformattedForMultilines(value) {
+      if (typeof value == "string") return value.replace(/\n/gi, "<br/>");
+      else return value;
+    },
+    preprocessLongNum(value) {
+      if (this.stringifyLongNum) {
+        if (String(value).startsWith("0x")) {
+          return value;
+        }
+        if (!isNaN(value) && value != "") {
+          if (value > 99999999999 || value < 0.0000000000001) {
+            return '="' + value + '"';
+          }
+        }
+      }
+      return value;
+    },
+    getValueFromNestedItem(item, indexes) {
+      let nestedItem = item;
+      for (let index of indexes) {
+        if (nestedItem) nestedItem = nestedItem[index];
+      }
+      return this.parseValue(nestedItem);
+    },
+
+    getValueFromCallback(item, callback) {
+      if (typeof callback !== "function") return this.defaultValue;
+      const value = callback(item);
+      return this.parseValue(value);
+    },
+    parseValue(value) {
+      return value || value === 0 || typeof value === "boolean"
+        ? value
+        : this.defaultValue;
+    },
+    base64ToBlob(data, mime) {
+      let base64 = window.btoa(window.unescape(encodeURIComponent(data)));
+      let bstr = atob(base64);
+      let n = bstr.length;
+      let u8arr = new Uint8ClampedArray(n);
+      while (n--) {
+        u8arr[n] = bstr.charCodeAt(n);
+      }
+      return new Blob([u8arr], { type: mime });
+    },
+  }, // end methods
+};
+
+function normalizeComponent(template, style, script, scopeId, isFunctionalTemplate, moduleIdentifier
+/* server only */
+, shadowMode, createInjector, createInjectorSSR, createInjectorShadow) {
+  if (typeof shadowMode !== 'boolean') {
+    createInjectorSSR = createInjector;
+    createInjector = shadowMode;
+    shadowMode = false;
+  } // Vue.extend constructor export interop.
+
+
+  var options = typeof script === 'function' ? script.options : script; // render functions
+
+  if (template && template.render) {
+    options.render = template.render;
+    options.staticRenderFns = template.staticRenderFns;
+    options._compiled = true; // functional template
+
+    if (isFunctionalTemplate) {
+      options.functional = true;
+    }
+  } // scopedId
+
+
+  if (scopeId) {
+    options._scopeId = scopeId;
+  }
+
+  var hook;
+
+  if (moduleIdentifier) {
+    // server build
+    hook = function hook(context) {
+      // 2.3 injection
+      context = context || // cached call
+      this.$vnode && this.$vnode.ssrContext || // stateful
+      this.parent && this.parent.$vnode && this.parent.$vnode.ssrContext; // functional
+      // 2.2 with runInNewContext: true
+
+      if (!context && typeof __VUE_SSR_CONTEXT__ !== 'undefined') {
+        context = __VUE_SSR_CONTEXT__;
+      } // inject component styles
+
+
+      if (style) {
+        style.call(this, createInjectorSSR(context));
+      } // register component module identifier for async chunk inference
+
+
+      if (context && context._registeredComponents) {
+        context._registeredComponents.add(moduleIdentifier);
+      }
+    }; // used by ssr in case component is cached and beforeCreate
+    // never gets called
+
+
+    options._ssrRegister = hook;
+  } else if (style) {
+    hook = shadowMode ? function () {
+      style.call(this, createInjectorShadow(this.$root.$options.shadowRoot));
+    } : function (context) {
+      style.call(this, createInjector(context));
+    };
+  }
+
+  if (hook) {
+    if (options.functional) {
+      // register for functional component in vue file
+      var originalRender = options.render;
+
+      options.render = function renderWithStyleInjection(h, context) {
+        hook.call(context);
+        return originalRender(h, context);
+      };
+    } else {
+      // inject component registration as beforeCreate hook
+      var existing = options.beforeCreate;
+      options.beforeCreate = existing ? [].concat(existing, hook) : [hook];
+    }
+  }
+
+  return script;
+}
+
+var normalizeComponent_1 = normalizeComponent;
+
+/* script */
+const __vue_script__ = script;
+
+/* template */
+var __vue_render__ = function() {
+  var _vm = this;
+  var _h = _vm.$createElement;
+  var _c = _vm._self._c || _h;
+  return _c(
+    "div",
+    { attrs: { id: _vm.idName }, on: { click: _vm.generate } },
+    [_vm._t("default", [_vm._v(" Download " + _vm._s(_vm.name) + " ")])],
+    2
+  )
+};
+var __vue_staticRenderFns__ = [];
+__vue_render__._withStripped = true;
+
+  /* style */
+  const __vue_inject_styles__ = undefined;
+  /* scoped */
+  const __vue_scope_id__ = undefined;
+  /* module identifier */
+  const __vue_module_identifier__ = undefined;
+  /* functional template */
+  const __vue_is_functional_template__ = false;
+  /* style inject */
+  
+  /* style inject SSR */
+  
+
+  
+  var JsonExcel = normalizeComponent_1(
+    { render: __vue_render__, staticRenderFns: __vue_staticRenderFns__ },
+    __vue_inject_styles__,
+    __vue_script__,
+    __vue_scope_id__,
+    __vue_is_functional_template__,
+    __vue_module_identifier__,
+    undefined,
+    undefined
+  );
+
+/* harmony default export */ __webpack_exports__["default"] = (JsonExcel);
+
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./../../webpack/buildin/global.js */ "./node_modules/webpack/buildin/global.js")))
 
 /***/ }),
 
@@ -45809,9 +46685,160 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", [_vm._v("\n    Promoted\n")])
+  return _c("div", [
+    _c("body", { staticClass: "hm-gradient" }, [
+      _c("main", [
+        _c("div", { staticClass: "container mt-4" }, [
+          _c("div", { staticClass: "card mb-4" }, [
+            _c("div", { staticClass: "card-body" }, [
+              _c("table", { staticClass: "table table-striped" }, [
+                _vm._m(0),
+                _vm._v(" "),
+                _c(
+                  "tbody",
+                  [
+                    _vm._l(_vm.Promoted, function(list) {
+                      return [
+                        _c("tr", [
+                          _c("th", { attrs: { scope: "row" } }, [
+                            _vm._v(_vm._s(list.promoteId))
+                          ]),
+                          _vm._v(" "),
+                          _c("td", [_vm._v(_vm._s(list.UpId))]),
+                          _vm._v(" "),
+                          _c("td", [_vm._v(_vm._s(list.price))]),
+                          _vm._v(" "),
+                          _c("td", [_vm._v(_vm._s(list.day))]),
+                          _vm._v(" "),
+                          _c("td", [_vm._v(_vm._s(list.viewer))]),
+                          _vm._v(" "),
+                          _c("td", [
+                            _c(
+                              "a",
+                              {
+                                attrs: { href: "#popup" },
+                                on: {
+                                  click: function($event) {
+                                    return _vm.getId(list.promoteId)
+                                  }
+                                }
+                              },
+                              [
+                                _c("i", {
+                                  staticClass: "fas fa-trash-alt delete"
+                                })
+                              ]
+                            )
+                          ]),
+                          _vm._v(" "),
+                          _c("td", [
+                            _c(
+                              "label",
+                              { staticClass: "toggleSwitch nolabel" },
+                              [
+                                _c("input", {
+                                  attrs: {
+                                    id: "" + list.promoteId,
+                                    type: "checkbox"
+                                  },
+                                  domProps: {
+                                    checked:
+                                      "" +
+                                      (list.disable === "true" ? true : false)
+                                  },
+                                  on: {
+                                    click: function($event) {
+                                      return _vm.check(list.promoteId)
+                                    }
+                                  }
+                                }),
+                                _vm._v(" "),
+                                _vm._m(1, true),
+                                _vm._v(" "),
+                                _c("a")
+                              ]
+                            )
+                          ])
+                        ])
+                      ]
+                    }),
+                    _vm._v(" "),
+                    _c(
+                      "div",
+                      { staticClass: "overlay", attrs: { id: "popup" } },
+                      [
+                        _c("div", { staticClass: "popup" }, [
+                          _c("h6", [_vm._v("Are Your Sure to delete!!!!!")]),
+                          _vm._v(" "),
+                          _c("a", { attrs: { href: "#admin" } }, [
+                            _c(
+                              "button",
+                              {
+                                staticClass: "btn btn-primary btn-sm",
+                                attrs: { type: "button" },
+                                on: {
+                                  click: function($event) {
+                                    return _vm.Dodelete(_vm.id)
+                                  }
+                                }
+                              },
+                              [_vm._v("Delete")]
+                            )
+                          ]),
+                          _vm._v(" "),
+                          _c(
+                            "a",
+                            { staticClass: "close", attrs: { href: "#admin" } },
+                            [_vm._v("×")]
+                          )
+                        ])
+                      ]
+                    )
+                  ],
+                  2
+                )
+              ])
+            ])
+          ])
+        ])
+      ])
+    ])
+  ])
 }
-var staticRenderFns = []
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("thead", [
+      _c("tr", [
+        _c("th", [_vm._v("ID")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("UpID")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Price")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Day")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Viewer")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Action")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Disable")])
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("span", [
+      _c("span", [_vm._v("OFF")]),
+      _vm._v(" "),
+      _c("span", [_vm._v("ON")])
+    ])
+  }
+]
 render._withStripped = true
 
 
@@ -45833,7 +46860,24 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", [_vm._v("\n    report\n")])
+  return _c(
+    "div",
+    [
+      _c(
+        "download-excel",
+        {
+          attrs: {
+            data: _vm.report,
+            fields: _vm.json_fields,
+            worksheet: "My Worksheet",
+            name: "filename.xls"
+          }
+        },
+        [_vm._v("\n        Download Data\n    ")]
+      )
+    ],
+    1
+  )
 }
 var staticRenderFns = []
 render._withStripped = true
@@ -48858,7 +49902,7 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c(
     "div",
-    { staticStyle: { background: "rgb(110 191 255 / 83%)" } },
+    { staticStyle: { background: "rgb(226 226 226 / 83%);)" } },
     [
       _c(
         "nav",
@@ -49221,16 +50265,7 @@ var render = function() {
       _vm._v(" "),
       _c("div", { staticClass: "form-group" }, [
         _c("section", { staticClass: "pb-5", attrs: { id: "team" } }, [
-          _c("div", { staticClass: "container-menu" }, [
-            _c(
-              "h5",
-              {
-                staticClass: "section-title h1",
-                staticStyle: { color: "gold" }
-              },
-              [_vm._v("ALL CATEGORY")]
-            ),
-            _vm._v(" "),
+          _c("div", { staticClass: "container" }, [
             _c("div", { staticClass: "row" }, [
               _c("div", { staticClass: "card-menu" }, [
                 _c(
@@ -70525,6 +71560,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(vue__WEBPACK_IMPORTED_MODULE_2__);
 /* harmony import */ var vue2_google_maps__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! vue2-google-maps */ "./node_modules/vue2-google-maps/dist/main.js");
 /* harmony import */ var vue2_google_maps__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(vue2_google_maps__WEBPACK_IMPORTED_MODULE_3__);
+/* harmony import */ var vue_json_excel__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! vue-json-excel */ "./node_modules/vue-json-excel/dist/vue-json-excel.esm.js");
 /**
  * First we will load all of this project's JavaScript dependencies which
  * includes Vue and other libraries. It is a great starting point when
@@ -70560,6 +71596,8 @@ vue__WEBPACK_IMPORTED_MODULE_2___default.a.component("stripe-card-element", __we
 // Vue.component('vue-confirm-dialog', VueConfirmDialog.default);
 
 
+
+vue__WEBPACK_IMPORTED_MODULE_2___default.a.component("downloadExcel", vue_json_excel__WEBPACK_IMPORTED_MODULE_4__["default"]);
 vue__WEBPACK_IMPORTED_MODULE_2___default.a.use(vue2_google_maps__WEBPACK_IMPORTED_MODULE_3__, {
   load: {
     key: "AIzaSyBc2ZXH7-3LBYrswWTFjT7UcaLwmhoL5KI",
@@ -71137,7 +72175,9 @@ __webpack_require__.r(__webpack_exports__);
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _RealEstatePromoted_vue_vue_type_template_id_327f36f4_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./RealEstatePromoted.vue?vue&type=template&id=327f36f4&scoped=true& */ "./resources/js/components/backEnd/RealEstatePromoted.vue?vue&type=template&id=327f36f4&scoped=true&");
 /* harmony import */ var _RealEstatePromoted_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./RealEstatePromoted.vue?vue&type=script&lang=js& */ "./resources/js/components/backEnd/RealEstatePromoted.vue?vue&type=script&lang=js&");
-/* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+/* empty/unused harmony star reexport *//* harmony import */ var _RealEstatePromoted_vue_vue_type_style_index_0_id_327f36f4_scoped_true_lang_scss___WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./RealEstatePromoted.vue?vue&type=style&index=0&id=327f36f4&scoped=true&lang=scss& */ "./resources/js/components/backEnd/RealEstatePromoted.vue?vue&type=style&index=0&id=327f36f4&scoped=true&lang=scss&");
+/* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
 
 
 
@@ -71145,7 +72185,7 @@ __webpack_require__.r(__webpack_exports__);
 
 /* normalize component */
 
-var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
+var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_3__["default"])(
   _RealEstatePromoted_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
   _RealEstatePromoted_vue_vue_type_template_id_327f36f4_scoped_true___WEBPACK_IMPORTED_MODULE_0__["render"],
   _RealEstatePromoted_vue_vue_type_template_id_327f36f4_scoped_true___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
@@ -71174,6 +72214,22 @@ component.options.__file = "resources/js/components/backEnd/RealEstatePromoted.v
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_RealEstatePromoted_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/babel-loader/lib??ref--4-0!../../../../node_modules/vue-loader/lib??vue-loader-options!./RealEstatePromoted.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/backEnd/RealEstatePromoted.vue?vue&type=script&lang=js&");
 /* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_RealEstatePromoted_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+
+/***/ }),
+
+/***/ "./resources/js/components/backEnd/RealEstatePromoted.vue?vue&type=style&index=0&id=327f36f4&scoped=true&lang=scss&":
+/*!**************************************************************************************************************************!*\
+  !*** ./resources/js/components/backEnd/RealEstatePromoted.vue?vue&type=style&index=0&id=327f36f4&scoped=true&lang=scss& ***!
+  \**************************************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_style_loader_index_js_node_modules_css_loader_index_js_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_7_2_node_modules_sass_loader_dist_cjs_js_ref_7_3_node_modules_vue_loader_lib_index_js_vue_loader_options_RealEstatePromoted_vue_vue_type_style_index_0_id_327f36f4_scoped_true_lang_scss___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/style-loader!../../../../node_modules/css-loader!../../../../node_modules/vue-loader/lib/loaders/stylePostLoader.js!../../../../node_modules/postcss-loader/src??ref--7-2!../../../../node_modules/sass-loader/dist/cjs.js??ref--7-3!../../../../node_modules/vue-loader/lib??vue-loader-options!./RealEstatePromoted.vue?vue&type=style&index=0&id=327f36f4&scoped=true&lang=scss& */ "./node_modules/style-loader/index.js!./node_modules/css-loader/index.js!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/sass-loader/dist/cjs.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/backEnd/RealEstatePromoted.vue?vue&type=style&index=0&id=327f36f4&scoped=true&lang=scss&");
+/* harmony import */ var _node_modules_style_loader_index_js_node_modules_css_loader_index_js_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_7_2_node_modules_sass_loader_dist_cjs_js_ref_7_3_node_modules_vue_loader_lib_index_js_vue_loader_options_RealEstatePromoted_vue_vue_type_style_index_0_id_327f36f4_scoped_true_lang_scss___WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_index_js_node_modules_css_loader_index_js_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_7_2_node_modules_sass_loader_dist_cjs_js_ref_7_3_node_modules_vue_loader_lib_index_js_vue_loader_options_RealEstatePromoted_vue_vue_type_style_index_0_id_327f36f4_scoped_true_lang_scss___WEBPACK_IMPORTED_MODULE_0__);
+/* harmony reexport (unknown) */ for(var __WEBPACK_IMPORT_KEY__ in _node_modules_style_loader_index_js_node_modules_css_loader_index_js_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_7_2_node_modules_sass_loader_dist_cjs_js_ref_7_3_node_modules_vue_loader_lib_index_js_vue_loader_options_RealEstatePromoted_vue_vue_type_style_index_0_id_327f36f4_scoped_true_lang_scss___WEBPACK_IMPORTED_MODULE_0__) if(["default"].indexOf(__WEBPACK_IMPORT_KEY__) < 0) (function(key) { __webpack_require__.d(__webpack_exports__, key, function() { return _node_modules_style_loader_index_js_node_modules_css_loader_index_js_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_7_2_node_modules_sass_loader_dist_cjs_js_ref_7_3_node_modules_vue_loader_lib_index_js_vue_loader_options_RealEstatePromoted_vue_vue_type_style_index_0_id_327f36f4_scoped_true_lang_scss___WEBPACK_IMPORTED_MODULE_0__[key]; }) }(__WEBPACK_IMPORT_KEY__));
+ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_style_loader_index_js_node_modules_css_loader_index_js_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_7_2_node_modules_sass_loader_dist_cjs_js_ref_7_3_node_modules_vue_loader_lib_index_js_vue_loader_options_RealEstatePromoted_vue_vue_type_style_index_0_id_327f36f4_scoped_true_lang_scss___WEBPACK_IMPORTED_MODULE_0___default.a); 
 
 /***/ }),
 

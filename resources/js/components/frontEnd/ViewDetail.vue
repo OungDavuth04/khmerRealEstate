@@ -288,7 +288,7 @@
     }
 
     .product-image--featured {
-        max-width: 432px;
+        max-width: 451px;
         width: 100%;
         max-height: 310px;
         height: 100%;
