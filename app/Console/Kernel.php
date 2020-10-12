@@ -15,7 +15,7 @@ class Kernel extends ConsoleKernel
      * @var array
      */
     protected $commands = [
-        Commands\DemoCron::class,
+        Commands\DisableFeature::class,
     ];
 
     /**
@@ -29,7 +29,7 @@ class Kernel extends ConsoleKernel
 //        $schedule->call(function () {
 //        })->everyTwoMinutes();
 
-         $schedule->command('demo:cron')->cron('*/2 * * * *');
+         $schedule->command('Disable:feature')->everyMinute();
     }
 
     /**

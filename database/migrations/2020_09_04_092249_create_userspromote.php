@@ -19,6 +19,7 @@ class CreateUserspromote extends Migration
             $table->string('price');
             $table->string('day');
             $table->string('uid');
+            $table->string('expire');
             $table->string('disable')->default('true');
             $table->string('viewer')->default('0');
             $table->timestamps();

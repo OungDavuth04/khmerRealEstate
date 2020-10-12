@@ -79,27 +79,31 @@
                 <div class="row">
                     <template v-for="item in getproduct">
                         <div class="col-12 col-md-6 col-lg-3" style="cursor: pointer">
-                                <div class="card" @click="Detail(item.upId,item.cat_name)" >
-                                    <img class="card-img-top" :src="item.images[0].image" alt="Card image cap">
-                                    <div class="card-body">
-                                        <h5 class="card-title"> {{item.title}}</h5>
-                                        <span>Price : {{item.price}}$</span>
-                                        <p class="card-text description">
-                                            {{item.description}}
-                                        </p>
-                                    </div>
+                            <div class="card" @click="Detail(item.upId,item.cat_name)" >
+                                <img class="card-img-top" :src="item.images[0].image" alt="Card image cap">
+                                <div class="card-body">
+                                    <h5 class="card-title"> {{item.title}}</h5>
+                                    <span>Price : {{item.price}}$</span>
+                                    <p class="card-text description">
+                                        {{item.description}}
+                                    </p>
                                 </div>
-
+                            </div>
                         </div>
                     </template>
                 </div>
             </div>
+            <footer-Page></footer-Page>
         </div>
     </div>
 </template>
 
 <script>
+    import footer from "./footer";
     export default {
+        components:{
+            'footer-Page':footer
+        },
         data(){
             return{
                 checkId:'',
@@ -109,12 +113,6 @@
             }
         },
         mounted() {
-
-            // if(this.$store.getters.getDetail !== null){
-            //     this.checkId = this.$store.getters.getDetail
-            // }else {
-            //     this.checkId = window.localStorage.getItem('setId')
-            // }
             this.productQuery();
             axios.get('api/vieDetail/'+ window.localStorage.getItem('setId')).then(response =>{
                 this.allDetail = response.data;
@@ -191,11 +189,8 @@
 </script>
 
 <style lang="scss" scoped>
-    .description {
-        white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
-    }
+
+
     .card-title{
         font-size: smaller ;
         color: #0d47a1;

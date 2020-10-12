@@ -13,7 +13,7 @@
                         <div class="btn-group dropleft">
                             <i class="fas fa-align-justify setting-bar dropleft" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></i>
                             <div class="dropdown-menu ">
-                                <a class="dropdown-item" href="#">Action</a>
+                                <a class="dropdown-item" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">Edit Profile</a>
                                 <a class="dropdown-item" href="#">Another action</a>
                                 <a class="dropdown-item" href="#">Something else here</a>
                                 <div class="dropdown-divider"></div>
@@ -27,15 +27,25 @@
 
         <div class="content">
             <div class="container-fluid">
+                <div class="collapse " id="collapseExample">
+                    <div class="card card-body background">
+                        <p data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample" style="cursor: pointer;color: black;font-size: medium">X</p>
+                        <div class="container">
+                            <div class="row">
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
                 <div id="user-profile-2" class="user-profile">
                     <div class="tabbable">
                         <div class="tab-content no-border padding-24">
                             <div id="home" class="tab-pane in active">
                                 <div class="row">
                                     <div class="col-xs-12 col-sm-3 center">
-                                        <span class="profile-picture">
-                                            <img class="editable img-responsive" alt=" Avatar" id="avatar2" src="http://bootdey.com/img/Content/avatar/avatar6.png">
-                                        </span>
+                                        <div class="profile-picture">
+                                            <img class="editable img-responsive" alt=" Avatar" id="avatar2" src="https://cdn.fastly.picmonkey.com/contentful/h6goo9gw1hh6/2sNZtFAWOdP1lmQ33VwRN3/24e953b920a9cd0ff2e1d587742a2472/1-intro-photo-final.jpg?w=800&q=70">
+                                        </div>
                                         <div class="space space-4"></div>
                                         <router-link to="/admin" class=" btn btn-primary" v-if="level === 'admin'"  style="margin: 10px;">
                                             <span class="bigger-110">Visit Admin Dashboard</span>
@@ -112,8 +122,7 @@
                                             <img class="card-img-top":src="item.images.length>0?item.images[0].image:''" alt="Card image cap">
                                             <div class="card-body">
                                                 <h5 class="card-title" v-text="item.title" style="color:#0b75c9; ;"></h5>
-                                                <p style="color: #2e7d32;">Price :</p>
-                                                <p class="card-text" >{{item.price}}$</p>
+                                                <p style="color: #2e7d32;">Price : <span>{{item.price}}$</span></p>
                                             </div>
                                         </div>
                                     </template>
@@ -126,8 +135,7 @@
                                                 <img class="card-img-top":src="item.images.length>0?item.images[0].image:''" alt="Card image cap">
                                                 <div class="card-body">
                                                     <h5 class="card-title" v-text="item.title" style="color:#0b75c9; ;"></h5>
-                                                    <p style="color: #2e7d32;">Price :</p>
-                                                    <p class="card-text">{{item.price}}$</p>
+                                                    <p style="color: #2e7d32;">Price : <span>{{item.price}}$</span></p>
                                                     <div class="btn-group">
                                                         <button type="button" class=" btn1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" >
                                                             Option
@@ -195,26 +203,23 @@
                 url:'api/getpost',
             }
         },
-        created() {
+        mounted() {
             this.GetUserInfor();
-            this.GetPost();
-            this.getPromote();
         },
         methods:{
+            editProfile(){
+
+            },
             GetPost(){
                 const trustClientToken = window.localStorage.getItem('userAccessToken');
                 axios.defaults.headers.common['Authorization'] = 'Bearer '+ trustClientToken;
                 axios.get('api/getpost').then(response => {
                     this.upload = response.data;
-                    console.log(response.data);
-
                 }).catch(err => {
-
                 });
             },
             getPromote(){
-                axios.get('api/getpromote').then(response =>{
-                    console.log(response.data);
+                axios.get('api/a').then(response =>{
                     this.promoteData = response.data;
                 }).catch(err =>{
                     //console.error(err);
@@ -230,8 +235,7 @@
                 }).catch(err =>{
                     //
                 });
-            }
-            ,
+            },
             EditPost(id){
                 this.$store.commit('set_EditId',id);
                 this.$emit('changeForm', {formName: 'edit_post'});
@@ -240,10 +244,10 @@
                 this.$store.commit('setPro',id);
                 this.$emit('changeForm', {formName: 'Payment'});
             },
-            GetUserInfor(){
+          async  GetUserInfor(){
                 const trustClientToken = window.localStorage.getItem('userAccessToken');
                 axios.defaults.headers.common['Authorization'] = 'Bearer '+ trustClientToken;
-                axios.get('api/user').then(response => {
+              await  axios.get('api/user').then(response => {
                     // console.log(response.data);
                     this.name = response.data.name;
                     this.level = response.data.user_lavel;
@@ -261,6 +265,9 @@
                     this.newJoin = dateString;
                 }).catch(err => {
                     console.log(err);
+                }).finally(()=>{
+                    this.GetPost()
+                    this.getPromote()
                 })
             },
             logout(){
@@ -285,6 +292,11 @@
 </script>
 
 <style scoped lang="scss">
+    .background{
+        background: #8A2387;  /* fallback for old browsers */
+        background: -webkit-linear-gradient(to bottom, #F27121, #E94057, #8A2387);  /* Chrome 10-25, Safari 5.1-6 */
+        background: linear-gradient(to bottom, #F27121, #E94057, #8A2387); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+    }
     .setting-bar{
         width: 2rem;
         height: 1rem;
@@ -471,11 +483,13 @@
         background-color: #FFF;
         padding: 4px;
         display: inline-block;
-        max-width: 100%;
+        max-width: 57vh;
+        max-height: 48vh;
         -webkit-box-sizing: border-box;
         -moz-box-sizing: border-box;
         box-sizing: border-box;
-        box-shadow: 1px 1px 1px rgba(0, 0, 0, .15)
+        box-shadow: 1px 1px 1px rgba(0, 0, 0, .15);
+        object-fit: cover;
     }
     .profile-activity img {
         border: 2px solid #C9D6E5;

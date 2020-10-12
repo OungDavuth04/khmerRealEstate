@@ -266,10 +266,10 @@
                                             <img :src="item.images.length>0?item.images[0].image:''">
                                             <div class="img-info">
                                                 <div class="info-inner">
-                                                    <span class="p-name" style="color: orange">{{item.title}}</span>
+                                                    <span class="p-name description" style="color: orange">{{item.title}}</span>
                                                     <span class="p-company">{{item.phone}}</span>
                                                 </div>
-                                                <div class="a-size">Description : <span class="size">{{item.description}}</span></div>
+                                                <div class="a-size">Description : <span class="size description">{{item.description}}</span></div>
                                             </div>
                                         </div>
                                         <div class="box-down">
@@ -301,10 +301,10 @@
                                             <img :src="item.images.length>0?item.images[0].image:''">
                                             <div class="img-info">
                                                 <div class="info-inner">
-                                                    <span class="p-name" style="color: orange">{{item.title}}</span>
+                                                    <span class="p-name description" style="color: orange">{{item.title}}</span>
                                                     <span class="p-company">{{item.phone}}</span>
                                                 </div>
-                                                <div class="a-size">Description : <span class="size">{{item.description}}</span></div>
+                                                <div class="a-size">Description : <span class="description size">{{item.description}}</span></div>
                                             </div>
                                         </div>
                                         <div class="box-down">
@@ -334,9 +334,10 @@
                                         <img :src="item.images.length>0?item.images[0].image:''">
                                         <div class="img-info">
                                             <div class="info-inner">
-                                                <span class="p-name" style="color: orange">{{item.title}}</span>
+                                                <span class="description p-name" style="color: orange">{{item.title}}</span>
+                                                <span class="p-company">{{item.phone}}</span>
                                             </div>
-                                            <div class="a-size">Description : <span class="size">{{item.description}}</span></div>
+                                            <div class="a-size">Description : <p class="size description">{{item.description}}</p></div>
                                         </div>
                                     </div>
                                     <div class="box-down">
@@ -653,6 +654,11 @@
 </script>
 
 <style lang="scss">
+    .description {
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
     .pb-5{
         margin: 0;
         padding-top: 1vh;

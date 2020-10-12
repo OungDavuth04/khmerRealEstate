@@ -10,15 +10,14 @@
         <div class="container grid-container">
             <div class="row">
                 <template v-for="item in searchResult">
-                    <div class="col-12 col-md-6 col-lg-4">
+                    <div class="col-12 col-md-6 col-lg-4" @click="Detail(item.upId,item.cat_name)">
                         <div class="card">
                             <img class="card-img-top" :src="item.images[0].image" alt="Card image cap">
                             <div class="card-body">
                                 <h5 class="card-title">{{item.title}}</h5>
-                                <span>Price : {{item.price}}</span>
+                                <span>Price : ${{item.price}}</span>
                                 <p class="card-text">{{item.description}}</p>
                             </div>
-                            <button class="bnt btn-primary" @click="Detail(item.upId)"> View Detail</button>
                         </div>
                     </div>
                 </template>
@@ -52,9 +51,18 @@
             // console.log(this.$store.getters.getSearchCom);
             this.search(this.searchBox);
         },methods:{
-            Detail(pid){
-                this.$store.commit('setDetail',pid);
-                this.$router.push({name:'product.detail'})
+            Detail(pid,cat){
+                window.localStorage.setItem('setId',pid);
+                this.$router.push({name:'product.detail'});
+                window.localStorage.setItem('catName',cat);
+                axios.get('api/viewers/'+pid).then(response => {
+                    if(response.status === 200){
+                        //console.log(response.data);
+                    }
+                }).catch(err => {
+                })
+                // this.$store.commit('setDetail',pid);
+                // this.$router.push({name:'product.detail'})
             },
             search(){
                 axios.post('api/searchdata',this.data).then(response => {

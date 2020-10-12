@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Events\PaymentSummited;
 use App\FeaturAd;
 use App\Upload;
+use Carbon\Carbon;
+use Carbon\CarbonImmutable;
 use http\Env\Response;
 use Illuminate\Http\Request;
 use Stripe\Charge;
@@ -58,12 +60,16 @@ class PaymentCheckoutController extends Controller
           foreach ($uid as $id){
               $getid = $id->uid;
             }
-             FeaturAd::create([
+            $mutable = Carbon::now();
+            $modifiedMutable = $mutable->add($request->day, 'day');
+            $expire = FeaturAd::create([
                 'UpId' => $request->id,
                 'price' => $pay,
                 'day' => $request->day,
-                 'uid' => $getid
+                 'uid' => $getid,
+                'expire' =>$modifiedMutable
             ]);
+            $expire->modify('+'.$expire->day.' day');
 //            event(new PaymentSummited("Thank For Promote"));
 
             return back()->with('success_message', 'Thank you! Your payment has been accepted.');

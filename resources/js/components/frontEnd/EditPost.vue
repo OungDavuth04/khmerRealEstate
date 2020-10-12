@@ -8,7 +8,7 @@
             <label class="grey-text">Title</label>
             <input type="text"  class="form-control" v-model="data.title">
             <br>
-            <div class="form-group">
+            <div class="form-group" v-if="data.bedroom !== null">
                 <label >Bedroom</label>
                 <select class="form-control"  v-model="data.bedroom">
                     <option>1</option>
@@ -19,7 +19,7 @@
                 </select>
             </div>
             <br>
-            <div class="form-group">
+            <div class="form-group" v-if="data.bathroom !== null">
                 <label >Bathroom</label>
                 <select class="form-control" v-model="data.bathroom">
                     <option>1</option>
@@ -30,7 +30,7 @@
                 </select>
             </div>
             <br>
-            <div class="form-group">
+            <div class="form-group" v-if="data.facing !== null" >
                 <label >Facing</label>
                 <select class="form-control" v-model="data.facing" >
                     <option >East</option>

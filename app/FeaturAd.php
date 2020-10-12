@@ -9,6 +9,6 @@ class FeaturAd extends Model
     protected $primaryKey='promoteId';
     protected $table = 'userspromote';
     protected $fillable = [
-        'UpId', 'price', 'day','uid'
+        'UpId', 'price', 'day','uid','expire'
     ];
 }

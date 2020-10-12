@@ -64,7 +64,7 @@ class UserController extends Controller
     }
     public function getpost( Request $request){
         $values = Upload::where('uid',$request->user()->id)->Where('disable','true')->orderBy('UpId', 'DESC')->get();
-        $promote = FeaturAd::where('uid',$request->user()->id)->get();
+        $promote = FeaturAd::where('uid',$request->user()->id)->where('disable','true')->get();
 
         $newArray = array();
         foreach ($values as $value){

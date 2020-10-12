@@ -3,18 +3,19 @@
 namespace App\Console\Commands;
 
 use App\FeaturAd;
+use DateTime;
 use Illuminate\Console\Command;
 use Illuminate\Support\Carbon;
 
 
-class DemoCron extends Command
+class DisableFeature extends Command
 {
     /**
      * The name and signature of the console command.
      *
      * @var string
      */
-    protected $signature = 'demo:cron';
+    protected $signature = 'Disable:feature';
 
     /**
      * The console command description.
@@ -40,21 +41,25 @@ class DemoCron extends Command
      */
     public function handle()
     {
-        FeaturAd::where('promoteId',1)->update([
-            'disable' => 'false'
-        ]);
-//        $expire =  FeaturAd::where('disable','true')->get();
-//        foreach ($expire as $disable){
-//            if(dateDifference($disable->created_at,Carbon::now()->toDateTimeString())+1  == $disable->day){
-//                FeaturAd::where('promoteId',$disable->promoteId)->update([
-//                    'disable' => 'false'
-//                ]);
-//            }
-//        }
-//        function dateDifference($date_1 , $date_2 , $differenceFormat = '%a' )
-//        {
-//            $interval = date_diff(date_create($date_1),date_create($date_2));
-//            return $interval->format($differenceFormat);
-//        }
+        function dateDifference($date1 , $date2)
+        {
+            //expire
+            $datetime1 = new DateTime($date1);
+            //date Now
+            $datetime2 = new DateTime($date2);
+            if($datetime1 >= $datetime2 ){
+                return true;
+            }else{
+                return false;
+            }
+        }
+        $FeaturAd =  FeaturAd::where('disable','true')->get();
+        foreach ($FeaturAd as $expire){
+            if(dateDifference($expire->expire,Carbon::now()->toDateTimeString()) == false){
+                FeaturAd::where('promoteId',$expire->promoteId)->update([
+                    'disable' => 'false'
+                ]);
+            }
+        }
     }
 }

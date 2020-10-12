@@ -3338,6 +3338,7 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _footer__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./footer */ "./resources/js/components/frontEnd/footer.vue");
 //
 //
 //
@@ -3366,9 +3367,11 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
+
 /* harmony default export */ __webpack_exports__["default"] = ({
+  components: {
+    'footer-Page': _footer__WEBPACK_IMPORTED_MODULE_0__["default"]
+  },
   name: "Categorypage",
   data: function data() {
     return {
@@ -3380,7 +3383,8 @@ __webpack_require__.r(__webpack_exports__);
   },
   methods: {
     Detail: function Detail(pid, cat) {
-      this.$store.commit('setDetail', pid);
+      window.localStorage.setItem('setId', pid);
+      window.localStorage.setItem('catName', cat);
       this.$router.push({
         name: 'product.detail'
       });
@@ -3390,7 +3394,6 @@ __webpack_require__.r(__webpack_exports__);
 
       axios.get('api/getcategory/' + this.$store.getters.getCategory).then(function (response) {
         if (response.status === 200) {
-          console.log(response.data);
           _this.Result = response.data;
         }
       })["catch"](function (err) {});
@@ -5368,6 +5371,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "Product",
@@ -5769,7 +5773,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -5792,11 +5795,17 @@ __webpack_require__.r(__webpack_exports__);
     this.search(this.searchBox);
   },
   methods: {
-    Detail: function Detail(pid) {
-      this.$store.commit('setDetail', pid);
+    Detail: function Detail(pid, cat) {
+      window.localStorage.setItem('setId', pid);
       this.$router.push({
         name: 'product.detail'
       });
+      window.localStorage.setItem('catName', cat);
+      axios.get('api/viewers/' + pid).then(function (response) {
+        if (response.status === 200) {//console.log(response.data);
+        }
+      })["catch"](function (err) {}); // this.$store.commit('setDetail',pid);
+      // this.$router.push({name:'product.detail'})
     },
     search: function search() {
       var _this = this;
@@ -5938,6 +5947,22 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
+
+
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
+
+function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
+
+//
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -6133,12 +6158,11 @@ __webpack_require__.r(__webpack_exports__);
       url: 'api/getpost'
     };
   },
-  created: function created() {
+  mounted: function mounted() {
     this.GetUserInfor();
-    this.GetPost();
-    this.getPromote();
   },
   methods: {
+    editProfile: function editProfile() {},
     GetPost: function GetPost() {
       var _this = this;
 
@@ -6146,14 +6170,12 @@ __webpack_require__.r(__webpack_exports__);
       axios.defaults.headers.common['Authorization'] = 'Bearer ' + trustClientToken;
       axios.get('api/getpost').then(function (response) {
         _this.upload = response.data;
-        console.log(response.data);
       })["catch"](function (err) {});
     },
     getPromote: function getPromote() {
       var _this2 = this;
 
-      axios.get('api/getpromote').then(function (response) {
-        console.log(response.data);
+      axios.get('api/a').then(function (response) {
         _this2.promoteData = response.data;
       })["catch"](function (err) {//console.error(err);
       });
@@ -6187,28 +6209,47 @@ __webpack_require__.r(__webpack_exports__);
     GetUserInfor: function GetUserInfor() {
       var _this4 = this;
 
-      var trustClientToken = window.localStorage.getItem('userAccessToken');
-      axios.defaults.headers.common['Authorization'] = 'Bearer ' + trustClientToken;
-      axios.get('api/user').then(function (response) {
-        // console.log(response.data);
-        _this4.name = response.data.name;
-        _this4.level = response.data.user_lavel;
-        _this4.uid = response.data.id;
-        _this4.email = response.data.email;
-        _this4.location = response.data.province;
-        _this4.dob = response.data.dob;
-        _this4.phone = response.data.phone;
-        _this4.join = response.data.updated_at;
-        var currentDate = new Date(_this4.join);
-        var date = currentDate.getDate();
-        var month = currentDate.getMonth(); //Be careful! January is 0 not 1
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee() {
+        var trustClientToken;
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee$(_context) {
+          while (1) {
+            switch (_context.prev = _context.next) {
+              case 0:
+                trustClientToken = window.localStorage.getItem('userAccessToken');
+                axios.defaults.headers.common['Authorization'] = 'Bearer ' + trustClientToken;
+                _context.next = 4;
+                return axios.get('api/user').then(function (response) {
+                  // console.log(response.data);
+                  _this4.name = response.data.name;
+                  _this4.level = response.data.user_lavel;
+                  _this4.uid = response.data.id;
+                  _this4.email = response.data.email;
+                  _this4.location = response.data.province;
+                  _this4.dob = response.data.dob;
+                  _this4.phone = response.data.phone;
+                  _this4.join = response.data.updated_at;
+                  var currentDate = new Date(_this4.join);
+                  var date = currentDate.getDate();
+                  var month = currentDate.getMonth(); //Be careful! January is 0 not 1
 
-        var year = currentDate.getFullYear();
-        var dateString = date + "-" + (month + 1) + "-" + year;
-        _this4.newJoin = dateString;
-      })["catch"](function (err) {
-        console.log(err);
-      });
+                  var year = currentDate.getFullYear();
+                  var dateString = date + "-" + (month + 1) + "-" + year;
+                  _this4.newJoin = dateString;
+                })["catch"](function (err) {
+                  console.log(err);
+                })["finally"](function () {
+                  _this4.GetPost();
+
+                  _this4.getPromote();
+                });
+
+              case 4:
+              case "end":
+                return _context.stop();
+            }
+          }
+        }, _callee);
+      }))();
     },
     logout: function logout() {
       var _this5 = this;
@@ -6246,6 +6287,7 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _footer__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./footer */ "./resources/js/components/frontEnd/footer.vue");
 //
 //
 //
@@ -6346,7 +6388,11 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+
 /* harmony default export */ __webpack_exports__["default"] = ({
+  components: {
+    'footer-Page': _footer__WEBPACK_IMPORTED_MODULE_0__["default"]
+  },
   data: function data() {
     return {
       checkId: '',
@@ -6358,11 +6404,6 @@ __webpack_require__.r(__webpack_exports__);
   mounted: function mounted() {
     var _this = this;
 
-    // if(this.$store.getters.getDetail !== null){
-    //     this.checkId = this.$store.getters.getDetail
-    // }else {
-    //     this.checkId = window.localStorage.getItem('setId')
-    // }
     this.productQuery();
     axios.get('api/vieDetail/' + window.localStorage.getItem('setId')).then(function (response) {
       _this.allDetail = response.data;
@@ -6450,13 +6491,6 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-//
-//
-//
-//
-//
-//
-//
 //
 //
 //
@@ -11204,7 +11238,7 @@ exports = module.exports = __webpack_require__(/*! ../../../../node_modules/css-
 
 
 // module
-exports.push([module.i, ".card[data-v-5c58136f] {\n  margin-bottom: 1rem;\n}\n.list-view .row > [class*=col-][data-v-5c58136f] {\n  max-width: 100%;\n  flex: 0 0 100%;\n}\n.list-view .card[data-v-5c58136f] {\n  flex-direction: row;\n}\n@media (max-width: 575.98px) {\n.list-view .card[data-v-5c58136f] {\n    flex-direction: column;\n}\n}\n.list-view .card > .card-img-top[data-v-5c58136f] {\n  width: 200px;\n  height: 200px;\n  -o-object-fit: cover;\n     object-fit: cover;\n}\n.list-view .card .card-body[data-v-5c58136f] {\n  display: inline-block;\n}", ""]);
+exports.push([module.i, ".card[data-v-5c58136f] {\n  margin-bottom: 1rem;\n}\n.description[data-v-5c58136f] {\n  white-space: nowrap;\n  overflow: hidden;\n  text-overflow: ellipsis;\n}\n.list-view .row > [class*=col-][data-v-5c58136f] {\n  max-width: 100%;\n  flex: 0 0 100%;\n}\n.list-view .card[data-v-5c58136f] {\n  flex-direction: row;\n}\n@media (max-width: 575.98px) {\n.list-view .card[data-v-5c58136f] {\n    flex-direction: column;\n}\n}\n.list-view .card > .card-img-top[data-v-5c58136f] {\n  width: 200px;\n  height: 200px;\n  -o-object-fit: cover;\n     object-fit: cover;\n}\n.list-view .card .card-body[data-v-5c58136f] {\n  display: inline-block;\n}", ""]);
 
 // exports
 
@@ -11224,7 +11258,7 @@ exports.push([module.i, "@import url(https://www.w3schools.com/w3css/4/w3.css);"
 exports.push([module.i, "@import url(https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css);", ""]);
 
 // module
-exports.push([module.i, ".pb-5 {\n  margin: 0;\n  padding-top: 1vh;\n  padding-bottom: 2rem !important;\n  padding-left: 4px;\n}\n.form-controls {\n  font-family: math;\n  padding: 7px;\n  font-size: small;\n  border: none;\n}\n.container-menu {\n  margin-top: 2px;\n  padding: 18px;\n  display: flex;\n  flex-wrap: wrap;\n  list-style: none;\n}\n.d-flex {\n  display: flex;\n}\n.align-center {\n  align-items: center;\n}\n.flex-centerY-centerX {\n  justify-content: center;\n  justify-content: center;\n  align-items: center;\n}\n.page-wrapper {\n  height: 100%;\n  display: table;\n}\n.page-wrapper .page-inner {\n  display: table-cell;\n  vertical-align: middle;\n}\n.el-wrapper {\n  width: 234px;\n  padding: 15px;\n  margin: 15px;\n  background-color: #fff;\n}\n@media (max-width: 991px) {\n.el-wrapper {\n    width: 345px;\n}\n}\n@media (max-width: 767px) {\n.el-wrapper {\n    width: 290px;\n    margin: 30px auto;\n}\n}\n.el-wrapper:hover .h-bg {\n  left: 0px;\n}\n.el-wrapper:hover .price {\n  left: 20px;\n  transform: translateY(-50%);\n  color: #818181;\n}\n.el-wrapper:hover .add-to-cart {\n  left: 50%;\n}\n.el-wrapper:hover .img {\n  webkit-filter: blur(7px);\n  -o-filter: blur(7px);\n  -ms-filter: blur(7px);\n  -webkit-filter: blur(7px);\n          filter: blur(7px);\n  filter: progid:DXImageTransform.Microsoft.Blur(pixelradius=\"7\", shadowopacity=\"0.0\");\n  opacity: 0.4;\n}\n.el-wrapper:hover .info-inner {\n  bottom: 155px;\n}\n.el-wrapper:hover .a-size {\n  transition-delay: 300ms;\n  bottom: 50px;\n  opacity: 1;\n}\n.el-wrapper .box-down {\n  width: 100%;\n  height: 60px;\n  position: relative;\n  overflow: hidden;\n}\n.el-wrapper .box-up {\n  width: 100%;\n  height: 220px;\n  position: relative;\n  overflow: hidden;\n  text-align: center;\n}\n.el-wrapper .img {\n  padding: 20px 0;\n  transition: all 800ms cubic-bezier(0, 0, 0.18, 1);\n  /* ease-out */\n  transition-timing-function: cubic-bezier(0, 0, 0.18, 1);\n  /* ease-out */\n}\n.h-bg {\n  transition: all 800ms cubic-bezier(0, 0, 0.18, 1);\n  /* ease-out */\n  transition-timing-function: cubic-bezier(0, 0, 0.18, 1);\n  /* ease-out */\n  width: 660px;\n  height: 100%;\n  background-color: #3f96cd;\n  position: absolute;\n  left: -659px;\n}\n.h-bg .h-bg-inner {\n  width: 50%;\n  height: 100%;\n  background-color: #464646;\n}\n.info-inner {\n  transition: all 400ms cubic-bezier(0, 0, 0.18, 1);\n  /* ease-out */\n  transition-timing-function: cubic-bezier(0, 0, 0.18, 1);\n  /* ease-out */\n  position: absolute;\n  width: 100%;\n  bottom: 25px;\n}\n.info-inner .p-name,\n.info-inner .p-company {\n  display: block;\n}\n.info-inner .p-name {\n  font-family: \"PT Sans\", sans-serif;\n  font-size: 18px;\n  color: #252525;\n}\n.info-inner .p-company {\n  font-family: \"Lato\", sans-serif;\n  font-size: 12px;\n  text-transform: uppercase;\n  color: #8c8c8c;\n}\n.a-size {\n  transition: all 300ms cubic-bezier(0, 0, 0.18, 1);\n  /* ease-out */\n  transition-timing-function: cubic-bezier(0, 0, 0.18, 1);\n  /* ease-out */\n  position: absolute;\n  width: 100%;\n  bottom: -20px;\n  font-family: \"PT Sans\", sans-serif;\n  color: #828282;\n  opacity: 0;\n}\n.a-size .size {\n  color: #252525;\n}\n.cart {\n  display: block;\n  position: absolute;\n  width: 100%;\n  height: 100%;\n  top: 0;\n  left: 0;\n  font-family: \"Lato\", sans-serif;\n  font-weight: 700;\n}\n.cart .price {\n  transition: all 600ms cubic-bezier(0, 0, 0.18, 1);\n  /* ease-out */\n  transition-timing-function: cubic-bezier(0, 0, 0.18, 1);\n  /* ease-out */\n  transition-delay: 100ms;\n  display: block;\n  position: absolute;\n  top: 50%;\n  left: 50%;\n  transform: translate(-50%, -50%);\n  font-size: 16px;\n  color: #252525;\n}\n.cart .add-to-cart {\n  transition: all 600ms cubic-bezier(0, 0, 0.18, 1);\n  /* ease-out */\n  transition-timing-function: cubic-bezier(0, 0, 0.18, 1);\n  /* ease-out */\n  transition-delay: 100ms;\n  display: block;\n  position: absolute;\n  top: 50%;\n  left: 110%;\n  transform: translate(-50%, -50%);\n}\n.cart .add-to-cart .txt {\n  font-size: 12px;\n  color: #fff;\n  letter-spacing: 0.045em;\n  text-transform: uppercase;\n  white-space: nowrap;\n}\nbody {\n  background-color: #e1e8f0;\n}\n.bg-navbar {\n  height: 4rem;\n  background: #6e117e;\n  box-shadow: -1px 12px 23px 1px rgba(0, 0, 0, 0.47);\n}\n.card-menu {\n  width: 190px;\n  height: 300px;\n  margin: 10px;\n}\n.btn1 {\n  border: 0px;\n  border-radius: 3px;\n  padding: 8px;\n  width: 150px;\n  background-color: #0e2af78c;\n}\n.btn1:hover {\n  opacity: 4;\n}\n@media (min-width: 768px) {\n.carousel-inner .carousel-item-right.active,\n.carousel-inner .carousel-item-next {\n    transform: translateX(50%);\n}\n.carousel-inner .carousel-item-left.active,\n.carousel-inner .carousel-item-prev {\n    transform: translateX(-50%);\n}\n}\n/* large - display 3 */\n@media (min-width: 992px) {\n.carousel-inner .carousel-item-right.active,\n.carousel-inner .carousel-item-next {\n    transform: translateX(33%);\n}\n.carousel-inner .carousel-item-left.active,\n.carousel-inner .carousel-item-prev {\n    transform: translateX(-33%);\n}\n}\n@media (max-width: 768px) {\n.carousel-inner .carousel-item > div {\n    display: none;\n}\n.carousel-inner .carousel-item > div:first-child {\n    display: block;\n}\n}\n.carousel-inner .carousel-item.active,\n.carousel-inner .carousel-item-next,\n.carousel-inner .carousel-item-prev {\n  display: flex;\n}\n.carousel-inner .carousel-item-right,\n.carousel-inner .carousel-item-left {\n  transform: translateX(0);\n}\n:active, :hover, :focus {\n  outline: 0 !important;\n  outline-offset: 0;\n}\n::before,\n::after {\n  position: absolute;\n  content: \"\";\n}\n.btn-holder {\n  display: flex;\n  flex-wrap: wrap;\n  justify-content: center;\n  max-width: 1000px;\n  margin: 10px auto 35px;\n}\n.btn {\n  position: relative;\n  display: inline-block;\n  width: auto;\n  height: auto;\n  background-color: transparent;\n  border: none;\n  cursor: pointer;\n  margin: 0px 25px 15px;\n  min-width: 79px;\n}\n.btn span {\n  position: relative;\n  display: inline-block;\n  font-size: 14px;\n  font-weight: bold;\n  letter-spacing: 2px;\n  text-transform: uppercase;\n  top: 0;\n  left: 0;\n  width: 100%;\n  padding: 7px;\n  transition: 0.3s;\n}\n.btn-4 span {\n  color: #1c1f1e;\n  background-color: whitesmoke;\n}\n.btn-4 span:hover {\n  color: #363837;\n}\n.btn.hover-border-6 span::before,\n.btn.hover-border-6 span::after {\n  width: 0%;\n  height: 0%;\n  background: transparent;\n  opacity: 0;\n  z-index: 2;\n  transition: width 0.2s ease-in, height 0.15s 0.2s linear, opacity 0s 0.35s;\n}\n.btn.hover-border-6 span::before {\n  top: 0;\n  left: 0;\n  border-left: 2px solid #363837;\n  border-bottom: 2px solid #363837;\n}\n.btn.hover-border-6 span::after {\n  top: 0;\n  right: 0;\n  border-right: 2px solid #363837;\n  border-bottom: 2px solid #363837;\n}\n.btn.hover-border-6 span:hover::before,\n.btn.hover-border-6 span:hover::after {\n  width: 50%;\n  height: 96%;\n  opacity: 1;\n  transition: height 0.2s 0.2s ease-in, width 0.2s 0.4s linear, opacity 0s 0.2s;\n}\n.btn.hover-border-7 span::before,\n.btn.hover-border-7 span::after {\n  width: 0%;\n  height: 0%;\n  background: transparent;\n  opacity: 0;\n  z-index: 2;\n  transition: width 0.2s ease-in, height 0.15s 0.2s linear, opacity 0s 0.35s;\n}\n.btn.hover-border-7 span::before {\n  bottom: 0;\n  left: 0;\n  border-left: 2px solid #363837;\n  border-top: 2px solid #363837;\n}\n.btn.hover-border-7 span::after {\n  bottom: 0;\n  right: 0;\n  border-right: 2px solid #363837;\n  border-top: 2px solid #363837;\n}\n.btn.hover-border-7 span:hover::before,\n.btn.hover-border-7 span:hover::after {\n  width: 50%;\n  height: 96%;\n  opacity: 1;\n  transition: height 0.2s 0.2s ease-in, width 0.2s 0.4s linear, opacity 0s 0.2s;\n}\n.btn.hover-border-8 span::before,\n.btn.hover-border-8 span::after {\n  width: 0%;\n  height: 0%;\n  bottom: 0;\n  background: transparent;\n  opacity: 0;\n  z-index: 2;\n}\n.btn.hover-border-8 span::before {\n  left: 0%;\n  border-left: 2px solid #363837;\n  transition: height 0.25s ease-in, opacity 0s 0.35s;\n}\n.btn.hover-border-8 span:hover::before {\n  height: 96%;\n  opacity: 1;\n  transition: height 0.25s 0.2s ease-out, opacity 0s 0.2s;\n}\n.btn.hover-border-8 span::after {\n  right: 0%;\n  border-right: 2px solid #363837;\n  border-top: 2px solid #363837;\n  transition: width 0.2s ease-in, height 0.15s 0.2s linear, opacity 0s 0.35s;\n}\n.btn.hover-border-8 span:hover::after {\n  width: 99%;\n  height: 96%;\n  opacity: 1;\n  transition: height 0.15s 0.1s linear, width 0.2s 0.25s linear, opacity 0s 0.1s;\n}\n.btn.hover-border-9 span::before,\n.btn.hover-border-9 span::after {\n  width: 0%;\n  height: 0%;\n  bottom: 0;\n  background: transparent;\n  opacity: 0;\n  z-index: 2;\n}\n.btn.hover-border-9 span::after {\n  right: 0%;\n  border-right: 2px solid #363837;\n  transition: height 0.25s ease-in, opacity 0s 0.35s;\n}\n.btn.hover-border-9 span:hover::after {\n  height: 96%;\n  opacity: 1;\n  transition: height 0.25s 0.2s ease-out, opacity 0s 0.2s;\n}\n.btn.hover-border-9 span::before {\n  left: 0%;\n  border-left: 2px solid #363837;\n  border-top: 2px solid #363837;\n  transition: width 0.2s ease-in, height 0.15s 0.2s linear, opacity 0s 0.35s;\n}\n.btn.hover-border-9 span:hover::before {\n  width: 98.5%;\n  height: 96%;\n  opacity: 1;\n  transition: height 0.15s 0.1s linear, width 0.2s 0.25s linear, opacity 0s 0.1s;\n}\n.btn.hover-border-10 span::before,\n.btn.hover-border-10 span::after {\n  width: 0%;\n  height: 0%;\n  background: transparent;\n  opacity: 0;\n  z-index: 2;\n}\n.btn.hover-border-10 span::after {\n  bottom: 0;\n  left: 0%;\n  border-bottom: 2px solid #363837;\n  transition: width 0.25s ease-in, opacity 0s 0.35s;\n}\n.btn.hover-border-10 span:hover::after {\n  width: 100%;\n  opacity: 1;\n  transition: width 0.25s 0.2s ease-out, opacity 0s 0.2s;\n}\n.btn.hover-border-10 span::before {\n  top: 0%;\n  left: 0%;\n  border-top: 2px solid #363837;\n  border-right: 2px solid #363837;\n  transition: height 0.15s ease-in, width 0.2s 0.15s linear, opacity 0s 0.35s;\n}\n.btn.hover-border-10 span:hover::before {\n  width: 98.5%;\n  height: 96%;\n  opacity: 1;\n  transition: width 0.2s 0.1s linear, height 0.15s 0.3s ease-out, opacity 0s 0.1s;\n}\n\n/*--- btn-5 ---*/\n.btn-5 span {\n  color: #1c1f1e;\n  border: 2px solid #f9d31b;\n  transition: 0.2s;\n}\n.btn-5 span:hover {\n  background-color: whitesmoke;\n}\n\n/* 21. hover-border-11 */\n.btn.hover-border-11::before,\n.btn.hover-border-11::after {\n  width: 100%;\n  height: 2px;\n  background-color: #363837;\n  z-index: 2;\n  transition: 0.35s;\n}\n.btn.hover-border-11::before {\n  top: 0;\n  right: 0;\n}\n.btn.hover-border-11::after {\n  bottom: 0;\n  left: 0;\n}\n.btn.hover-border-11:hover::before,\n.btn.hover-border-11:hover::after {\n  width: 0%;\n  transition: 0.2s 0.2s ease-out;\n}\n.btn.hover-border-11 span::before,\n.btn.hover-border-11 span::after {\n  width: 2px;\n  height: 100%;\n  background-color: #363837;\n  z-index: 2;\n  transition: 0.25s;\n}\n.btn.hover-border-11 span::before {\n  bottom: 0;\n  right: -2px;\n}\n.btn.hover-border-11 span::after {\n  top: 0;\n  left: -2px;\n}\n.btn.hover-border-11 span:hover::before,\n.btn.hover-border-11 span:hover::after {\n  height: 0%;\n}\n#team {\n  background: #710a82 !important;\n}\n.btn-primary:hover,\n.btn-primary:focus {\n  background-color: #108d6f;\n  border-color: #108d6f;\n  box-shadow: none;\n  outline: none;\n}\n.btn-primary {\n  color: #fff;\n  background-color: #007b5e;\n  border-color: #007b5e;\n}\nsection .section-title {\n  text-align: center;\n  color: #007b5e;\n  margin-bottom: 50px;\n  text-transform: uppercase;\n}\n#team .card {\n  border: none;\n  background: #ffffff;\n}\n.image-flip:hover .backside,\n.image-flip.hover .backside {\n  transform: rotateY(0deg);\n  border-radius: 0.25rem;\n}\n.image-flip:hover .frontside,\n.image-flip.hover .frontside {\n  transform: rotateY(180deg);\n}\n.mainflip {\n  -webkit-transition: 1s;\n  -webkit-transform-style: preserve-3d;\n  -ms-transition: 1s;\n  -moz-transition: 1s;\n  -moz-transform: perspective(1000px);\n  -moz-transform-style: preserve-3d;\n  -ms-transform-style: preserve-3d;\n  transition: 1s;\n  transform-style: preserve-3d;\n  position: relative;\n  cursor: pointer;\n}\n.frontside {\n  position: relative;\n  -webkit-transform: rotateY(0deg);\n  -ms-transform: rotateY(0deg);\n  z-index: 2;\n  margin-bottom: 30px;\n}\n.backside {\n  width: 190px;\n  height: 300px;\n  position: absolute;\n  top: 0;\n  left: 0;\n  background: white;\n  transform: rotateY(-180deg);\n  box-shadow: 5px 7px 9px -4px #9e9e9e;\n}\n.frontside,\n.backside {\n  -webkit-backface-visibility: hidden;\n  backface-visibility: hidden;\n  -webkit-transition: 1s;\n  -webkit-transform-style: preserve-3d;\n  -moz-transition: 1s;\n  -moz-transform-style: preserve-3d;\n  -o-transition: 1s;\n  -o-transform-style: preserve-3d;\n  -ms-transition: 1s;\n  -ms-transform-style: preserve-3d;\n  transition: 1s;\n  transform-style: preserve-3d;\n}\n.frontside .card,\n.backside .card {\n  min-height: 300px;\n}\n.backside .card a {\n  font-size: 18px;\n  color: #007b5e !important;\n}\n.frontside .card .card-title,\n.backside .card .card-title {\n  color: #007b5e !important;\n}\n.frontside .card .card-body img {\n  width: 120px;\n  height: 120px;\n  border-radius: 50%;\n}\nimg {\n  max-width: 100%;\n}\nhr {\n  border-color: #e5e5e5;\n  margin: 15px 0;\n}\n.secondary-text {\n  color: #b6b6b6;\n}\n.list-inline {\n  margin: 0;\n}\n.list-inline li {\n  padding: 0;\n}\n.card-wrapper {\n  position: relative;\n  width: 100%;\n  height: 290px;\n  border: 1px solid #e5e5e5;\n  border-bottom-width: 2px;\n  overflow: hidden;\n  margin-bottom: 30px;\n}\n.card-wrapper:after {\n  content: \"\";\n  position: absolute;\n  top: 0;\n  left: 0;\n  width: 100%;\n  height: 100%;\n  opacity: 0;\n  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);\n  transition: opacity 0.6s cubic-bezier(0.165, 0.84, 0.44, 1);\n}\n.card-wrapper:hover:after {\n  opacity: 1;\n}\n.card-wrapper:hover .image-holder:before {\n  opacity: 0.75;\n}\n.card-wrapper:hover .image-holder:after {\n  opacity: 1;\n  transform: translate(-50%, -50%);\n}\n.card-wrapper:hover .image-holder--original {\n  transform: translateY(-15px);\n}\n.card-wrapper:hover .product-description {\n  height: 205px;\n}\n@media (min-width: 768px) {\n.card-wrapper:hover .product-description {\n    height: 140px;\n}\n}\n.image-holder {\n  display: block;\n  position: relative;\n  width: 100%;\n  height: 110px;\n  background-color: #ffffff;\n  z-index: 1;\n}\n@media (min-width: 568px) {\n.image-holder {\n    height: 325px;\n}\n}\n.image-holder:before {\n  content: \"\";\n  position: absolute;\n  top: 0;\n  left: 0;\n  width: 100%;\n  height: 100%;\n  background-color: #4CAF50;\n  opacity: 0;\n  z-index: 5;\n  transition: opacity 0.6s;\n}\n.image-holder:after {\n  content: \"View\";\n  font-family: \"Raleway\", sans-serif;\n  font-size: 30px;\n  color: #4CAF50;\n  text-align: center;\n  position: absolute;\n  top: 92.5px;\n  left: 50%;\n  width: 75px;\n  height: 75px;\n  line-height: 75px;\n  background-color: #ffffff;\n  opacity: 0;\n  border-radius: 50%;\n  z-index: 10;\n  transform: translate(-50%, 100%);\n  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);\n  transition: all 0.4s ease-out;\n}\n@media (min-width: 768px) {\n.image-holder:after {\n    top: 107.5px;\n}\n}\n.image-holder .image-holder__link {\n  display: block;\n  position: absolute;\n  top: 0;\n  left: 0;\n  width: 100%;\n  height: 100%;\n  z-index: 15;\n}\n.image-holder .image-holder--original {\n  transition: transform 0.8s cubic-bezier(0.165, 0.84, 0.44, 1);\n}\n.image-liquid {\n  width: 100%;\n  height: 325px;\n  background-size: cover;\n  background-position: center center;\n}\n.product-description {\n  position: absolute;\n  left: 0;\n  bottom: 0;\n  width: 100%;\n  height: 80px;\n  padding: 10px 15px;\n  overflow: hidden;\n  background-color: #fafafa;\n  border-top: 1px solid #e5e5e5;\n  transition: height 0.6s cubic-bezier(0.165, 0.84, 0.44, 1);\n  z-index: 2;\n}\n@media (min-width: 768px) {\n.product-description {\n    height: 65px;\n}\n}\n.product-description p {\n  margin: 0 0 5px;\n}\n.product-description .product-description__title {\n  font-family: \"Raleway\", sans-serif;\n  position: relative;\n  white-space: nowrap;\n  overflow: hidden;\n  margin: 0;\n  font-size: 18px;\n  line-height: 1.25;\n}\n.product-description .product-description__title:after {\n  content: \"\";\n  width: 60px;\n  height: 100%;\n  position: absolute;\n  top: 0;\n  right: 0;\n  background: linear-gradient(to right, rgba(255, 255, 255, 0), #fafafa);\n}\n.product-description .product-description__title a {\n  text-decoration: none;\n  color: inherit;\n}\n.product-description .product-description__category {\n  white-space: nowrap;\n  overflow: hidden;\n  text-overflow: ellipsis;\n}\n.product-description .product-description__price {\n  color: #4CAF50;\n  text-align: left;\n  font-weight: bold;\n  letter-spacing: 0.06em;\n}\n@media (min-width: 768px) {\n.product-description .product-description__price {\n    text-align: right;\n}\n}\n.product-description .sizes-wrapper {\n  margin-bottom: 15px;\n}\n.product-description .color-list {\n  font-size: 0;\n}\n.product-description .color-list__item {\n  width: 25px;\n  height: 10px;\n  position: relative;\n  z-index: 1;\n  transition: all 0.2s;\n}\n.product-description .color-list__item:hover {\n  width: 40px;\n}\n.product-description .color-list__item--red {\n  background-color: #F44336;\n}\n.product-description .color-list__item--blue {\n  background-color: #448AFF;\n}\n.product-description .color-list__item--green {\n  background-color: #CDDC39;\n}\n.product-description .color-list__item--orange {\n  background-color: #FF9800;\n}\n.product-description .color-list__item--purple {\n  background-color: #673AB7;\n}", ""]);
+exports.push([module.i, ".description {\n  white-space: nowrap;\n  overflow: hidden;\n  text-overflow: ellipsis;\n}\n.pb-5 {\n  margin: 0;\n  padding-top: 1vh;\n  padding-bottom: 2rem !important;\n  padding-left: 4px;\n}\n.form-controls {\n  font-family: math;\n  padding: 7px;\n  font-size: small;\n  border: none;\n}\n.container-menu {\n  margin-top: 2px;\n  padding: 18px;\n  display: flex;\n  flex-wrap: wrap;\n  list-style: none;\n}\n.d-flex {\n  display: flex;\n}\n.align-center {\n  align-items: center;\n}\n.flex-centerY-centerX {\n  justify-content: center;\n  justify-content: center;\n  align-items: center;\n}\n.page-wrapper {\n  height: 100%;\n  display: table;\n}\n.page-wrapper .page-inner {\n  display: table-cell;\n  vertical-align: middle;\n}\n.el-wrapper {\n  width: 234px;\n  padding: 15px;\n  margin: 15px;\n  background-color: #fff;\n}\n@media (max-width: 991px) {\n.el-wrapper {\n    width: 345px;\n}\n}\n@media (max-width: 767px) {\n.el-wrapper {\n    width: 290px;\n    margin: 30px auto;\n}\n}\n.el-wrapper:hover .h-bg {\n  left: 0px;\n}\n.el-wrapper:hover .price {\n  left: 20px;\n  transform: translateY(-50%);\n  color: #818181;\n}\n.el-wrapper:hover .add-to-cart {\n  left: 50%;\n}\n.el-wrapper:hover .img {\n  webkit-filter: blur(7px);\n  -o-filter: blur(7px);\n  -ms-filter: blur(7px);\n  -webkit-filter: blur(7px);\n          filter: blur(7px);\n  filter: progid:DXImageTransform.Microsoft.Blur(pixelradius=\"7\", shadowopacity=\"0.0\");\n  opacity: 0.4;\n}\n.el-wrapper:hover .info-inner {\n  bottom: 155px;\n}\n.el-wrapper:hover .a-size {\n  transition-delay: 300ms;\n  bottom: 50px;\n  opacity: 1;\n}\n.el-wrapper .box-down {\n  width: 100%;\n  height: 60px;\n  position: relative;\n  overflow: hidden;\n}\n.el-wrapper .box-up {\n  width: 100%;\n  height: 220px;\n  position: relative;\n  overflow: hidden;\n  text-align: center;\n}\n.el-wrapper .img {\n  padding: 20px 0;\n  transition: all 800ms cubic-bezier(0, 0, 0.18, 1);\n  /* ease-out */\n  transition-timing-function: cubic-bezier(0, 0, 0.18, 1);\n  /* ease-out */\n}\n.h-bg {\n  transition: all 800ms cubic-bezier(0, 0, 0.18, 1);\n  /* ease-out */\n  transition-timing-function: cubic-bezier(0, 0, 0.18, 1);\n  /* ease-out */\n  width: 660px;\n  height: 100%;\n  background-color: #3f96cd;\n  position: absolute;\n  left: -659px;\n}\n.h-bg .h-bg-inner {\n  width: 50%;\n  height: 100%;\n  background-color: #464646;\n}\n.info-inner {\n  transition: all 400ms cubic-bezier(0, 0, 0.18, 1);\n  /* ease-out */\n  transition-timing-function: cubic-bezier(0, 0, 0.18, 1);\n  /* ease-out */\n  position: absolute;\n  width: 100%;\n  bottom: 25px;\n}\n.info-inner .p-name,\n.info-inner .p-company {\n  display: block;\n}\n.info-inner .p-name {\n  font-family: \"PT Sans\", sans-serif;\n  font-size: 18px;\n  color: #252525;\n}\n.info-inner .p-company {\n  font-family: \"Lato\", sans-serif;\n  font-size: 12px;\n  text-transform: uppercase;\n  color: #8c8c8c;\n}\n.a-size {\n  transition: all 300ms cubic-bezier(0, 0, 0.18, 1);\n  /* ease-out */\n  transition-timing-function: cubic-bezier(0, 0, 0.18, 1);\n  /* ease-out */\n  position: absolute;\n  width: 100%;\n  bottom: -20px;\n  font-family: \"PT Sans\", sans-serif;\n  color: #828282;\n  opacity: 0;\n}\n.a-size .size {\n  color: #252525;\n}\n.cart {\n  display: block;\n  position: absolute;\n  width: 100%;\n  height: 100%;\n  top: 0;\n  left: 0;\n  font-family: \"Lato\", sans-serif;\n  font-weight: 700;\n}\n.cart .price {\n  transition: all 600ms cubic-bezier(0, 0, 0.18, 1);\n  /* ease-out */\n  transition-timing-function: cubic-bezier(0, 0, 0.18, 1);\n  /* ease-out */\n  transition-delay: 100ms;\n  display: block;\n  position: absolute;\n  top: 50%;\n  left: 50%;\n  transform: translate(-50%, -50%);\n  font-size: 16px;\n  color: #252525;\n}\n.cart .add-to-cart {\n  transition: all 600ms cubic-bezier(0, 0, 0.18, 1);\n  /* ease-out */\n  transition-timing-function: cubic-bezier(0, 0, 0.18, 1);\n  /* ease-out */\n  transition-delay: 100ms;\n  display: block;\n  position: absolute;\n  top: 50%;\n  left: 110%;\n  transform: translate(-50%, -50%);\n}\n.cart .add-to-cart .txt {\n  font-size: 12px;\n  color: #fff;\n  letter-spacing: 0.045em;\n  text-transform: uppercase;\n  white-space: nowrap;\n}\nbody {\n  background-color: #e1e8f0;\n}\n.bg-navbar {\n  height: 4rem;\n  background: #6e117e;\n  box-shadow: -1px 12px 23px 1px rgba(0, 0, 0, 0.47);\n}\n.card-menu {\n  width: 190px;\n  height: 300px;\n  margin: 10px;\n}\n.btn1 {\n  border: 0px;\n  border-radius: 3px;\n  padding: 8px;\n  width: 150px;\n  background-color: #0e2af78c;\n}\n.btn1:hover {\n  opacity: 4;\n}\n@media (min-width: 768px) {\n.carousel-inner .carousel-item-right.active,\n.carousel-inner .carousel-item-next {\n    transform: translateX(50%);\n}\n.carousel-inner .carousel-item-left.active,\n.carousel-inner .carousel-item-prev {\n    transform: translateX(-50%);\n}\n}\n/* large - display 3 */\n@media (min-width: 992px) {\n.carousel-inner .carousel-item-right.active,\n.carousel-inner .carousel-item-next {\n    transform: translateX(33%);\n}\n.carousel-inner .carousel-item-left.active,\n.carousel-inner .carousel-item-prev {\n    transform: translateX(-33%);\n}\n}\n@media (max-width: 768px) {\n.carousel-inner .carousel-item > div {\n    display: none;\n}\n.carousel-inner .carousel-item > div:first-child {\n    display: block;\n}\n}\n.carousel-inner .carousel-item.active,\n.carousel-inner .carousel-item-next,\n.carousel-inner .carousel-item-prev {\n  display: flex;\n}\n.carousel-inner .carousel-item-right,\n.carousel-inner .carousel-item-left {\n  transform: translateX(0);\n}\n:active, :hover, :focus {\n  outline: 0 !important;\n  outline-offset: 0;\n}\n::before,\n::after {\n  position: absolute;\n  content: \"\";\n}\n.btn-holder {\n  display: flex;\n  flex-wrap: wrap;\n  justify-content: center;\n  max-width: 1000px;\n  margin: 10px auto 35px;\n}\n.btn {\n  position: relative;\n  display: inline-block;\n  width: auto;\n  height: auto;\n  background-color: transparent;\n  border: none;\n  cursor: pointer;\n  margin: 0px 25px 15px;\n  min-width: 79px;\n}\n.btn span {\n  position: relative;\n  display: inline-block;\n  font-size: 14px;\n  font-weight: bold;\n  letter-spacing: 2px;\n  text-transform: uppercase;\n  top: 0;\n  left: 0;\n  width: 100%;\n  padding: 7px;\n  transition: 0.3s;\n}\n.btn-4 span {\n  color: #1c1f1e;\n  background-color: whitesmoke;\n}\n.btn-4 span:hover {\n  color: #363837;\n}\n.btn.hover-border-6 span::before,\n.btn.hover-border-6 span::after {\n  width: 0%;\n  height: 0%;\n  background: transparent;\n  opacity: 0;\n  z-index: 2;\n  transition: width 0.2s ease-in, height 0.15s 0.2s linear, opacity 0s 0.35s;\n}\n.btn.hover-border-6 span::before {\n  top: 0;\n  left: 0;\n  border-left: 2px solid #363837;\n  border-bottom: 2px solid #363837;\n}\n.btn.hover-border-6 span::after {\n  top: 0;\n  right: 0;\n  border-right: 2px solid #363837;\n  border-bottom: 2px solid #363837;\n}\n.btn.hover-border-6 span:hover::before,\n.btn.hover-border-6 span:hover::after {\n  width: 50%;\n  height: 96%;\n  opacity: 1;\n  transition: height 0.2s 0.2s ease-in, width 0.2s 0.4s linear, opacity 0s 0.2s;\n}\n.btn.hover-border-7 span::before,\n.btn.hover-border-7 span::after {\n  width: 0%;\n  height: 0%;\n  background: transparent;\n  opacity: 0;\n  z-index: 2;\n  transition: width 0.2s ease-in, height 0.15s 0.2s linear, opacity 0s 0.35s;\n}\n.btn.hover-border-7 span::before {\n  bottom: 0;\n  left: 0;\n  border-left: 2px solid #363837;\n  border-top: 2px solid #363837;\n}\n.btn.hover-border-7 span::after {\n  bottom: 0;\n  right: 0;\n  border-right: 2px solid #363837;\n  border-top: 2px solid #363837;\n}\n.btn.hover-border-7 span:hover::before,\n.btn.hover-border-7 span:hover::after {\n  width: 50%;\n  height: 96%;\n  opacity: 1;\n  transition: height 0.2s 0.2s ease-in, width 0.2s 0.4s linear, opacity 0s 0.2s;\n}\n.btn.hover-border-8 span::before,\n.btn.hover-border-8 span::after {\n  width: 0%;\n  height: 0%;\n  bottom: 0;\n  background: transparent;\n  opacity: 0;\n  z-index: 2;\n}\n.btn.hover-border-8 span::before {\n  left: 0%;\n  border-left: 2px solid #363837;\n  transition: height 0.25s ease-in, opacity 0s 0.35s;\n}\n.btn.hover-border-8 span:hover::before {\n  height: 96%;\n  opacity: 1;\n  transition: height 0.25s 0.2s ease-out, opacity 0s 0.2s;\n}\n.btn.hover-border-8 span::after {\n  right: 0%;\n  border-right: 2px solid #363837;\n  border-top: 2px solid #363837;\n  transition: width 0.2s ease-in, height 0.15s 0.2s linear, opacity 0s 0.35s;\n}\n.btn.hover-border-8 span:hover::after {\n  width: 99%;\n  height: 96%;\n  opacity: 1;\n  transition: height 0.15s 0.1s linear, width 0.2s 0.25s linear, opacity 0s 0.1s;\n}\n.btn.hover-border-9 span::before,\n.btn.hover-border-9 span::after {\n  width: 0%;\n  height: 0%;\n  bottom: 0;\n  background: transparent;\n  opacity: 0;\n  z-index: 2;\n}\n.btn.hover-border-9 span::after {\n  right: 0%;\n  border-right: 2px solid #363837;\n  transition: height 0.25s ease-in, opacity 0s 0.35s;\n}\n.btn.hover-border-9 span:hover::after {\n  height: 96%;\n  opacity: 1;\n  transition: height 0.25s 0.2s ease-out, opacity 0s 0.2s;\n}\n.btn.hover-border-9 span::before {\n  left: 0%;\n  border-left: 2px solid #363837;\n  border-top: 2px solid #363837;\n  transition: width 0.2s ease-in, height 0.15s 0.2s linear, opacity 0s 0.35s;\n}\n.btn.hover-border-9 span:hover::before {\n  width: 98.5%;\n  height: 96%;\n  opacity: 1;\n  transition: height 0.15s 0.1s linear, width 0.2s 0.25s linear, opacity 0s 0.1s;\n}\n.btn.hover-border-10 span::before,\n.btn.hover-border-10 span::after {\n  width: 0%;\n  height: 0%;\n  background: transparent;\n  opacity: 0;\n  z-index: 2;\n}\n.btn.hover-border-10 span::after {\n  bottom: 0;\n  left: 0%;\n  border-bottom: 2px solid #363837;\n  transition: width 0.25s ease-in, opacity 0s 0.35s;\n}\n.btn.hover-border-10 span:hover::after {\n  width: 100%;\n  opacity: 1;\n  transition: width 0.25s 0.2s ease-out, opacity 0s 0.2s;\n}\n.btn.hover-border-10 span::before {\n  top: 0%;\n  left: 0%;\n  border-top: 2px solid #363837;\n  border-right: 2px solid #363837;\n  transition: height 0.15s ease-in, width 0.2s 0.15s linear, opacity 0s 0.35s;\n}\n.btn.hover-border-10 span:hover::before {\n  width: 98.5%;\n  height: 96%;\n  opacity: 1;\n  transition: width 0.2s 0.1s linear, height 0.15s 0.3s ease-out, opacity 0s 0.1s;\n}\n\n/*--- btn-5 ---*/\n.btn-5 span {\n  color: #1c1f1e;\n  border: 2px solid #f9d31b;\n  transition: 0.2s;\n}\n.btn-5 span:hover {\n  background-color: whitesmoke;\n}\n\n/* 21. hover-border-11 */\n.btn.hover-border-11::before,\n.btn.hover-border-11::after {\n  width: 100%;\n  height: 2px;\n  background-color: #363837;\n  z-index: 2;\n  transition: 0.35s;\n}\n.btn.hover-border-11::before {\n  top: 0;\n  right: 0;\n}\n.btn.hover-border-11::after {\n  bottom: 0;\n  left: 0;\n}\n.btn.hover-border-11:hover::before,\n.btn.hover-border-11:hover::after {\n  width: 0%;\n  transition: 0.2s 0.2s ease-out;\n}\n.btn.hover-border-11 span::before,\n.btn.hover-border-11 span::after {\n  width: 2px;\n  height: 100%;\n  background-color: #363837;\n  z-index: 2;\n  transition: 0.25s;\n}\n.btn.hover-border-11 span::before {\n  bottom: 0;\n  right: -2px;\n}\n.btn.hover-border-11 span::after {\n  top: 0;\n  left: -2px;\n}\n.btn.hover-border-11 span:hover::before,\n.btn.hover-border-11 span:hover::after {\n  height: 0%;\n}\n#team {\n  background: #710a82 !important;\n}\n.btn-primary:hover,\n.btn-primary:focus {\n  background-color: #108d6f;\n  border-color: #108d6f;\n  box-shadow: none;\n  outline: none;\n}\n.btn-primary {\n  color: #fff;\n  background-color: #007b5e;\n  border-color: #007b5e;\n}\nsection .section-title {\n  text-align: center;\n  color: #007b5e;\n  margin-bottom: 50px;\n  text-transform: uppercase;\n}\n#team .card {\n  border: none;\n  background: #ffffff;\n}\n.image-flip:hover .backside,\n.image-flip.hover .backside {\n  transform: rotateY(0deg);\n  border-radius: 0.25rem;\n}\n.image-flip:hover .frontside,\n.image-flip.hover .frontside {\n  transform: rotateY(180deg);\n}\n.mainflip {\n  -webkit-transition: 1s;\n  -webkit-transform-style: preserve-3d;\n  -ms-transition: 1s;\n  -moz-transition: 1s;\n  -moz-transform: perspective(1000px);\n  -moz-transform-style: preserve-3d;\n  -ms-transform-style: preserve-3d;\n  transition: 1s;\n  transform-style: preserve-3d;\n  position: relative;\n  cursor: pointer;\n}\n.frontside {\n  position: relative;\n  -webkit-transform: rotateY(0deg);\n  -ms-transform: rotateY(0deg);\n  z-index: 2;\n  margin-bottom: 30px;\n}\n.backside {\n  width: 190px;\n  height: 300px;\n  position: absolute;\n  top: 0;\n  left: 0;\n  background: white;\n  transform: rotateY(-180deg);\n  box-shadow: 5px 7px 9px -4px #9e9e9e;\n}\n.frontside,\n.backside {\n  -webkit-backface-visibility: hidden;\n  backface-visibility: hidden;\n  -webkit-transition: 1s;\n  -webkit-transform-style: preserve-3d;\n  -moz-transition: 1s;\n  -moz-transform-style: preserve-3d;\n  -o-transition: 1s;\n  -o-transform-style: preserve-3d;\n  -ms-transition: 1s;\n  -ms-transform-style: preserve-3d;\n  transition: 1s;\n  transform-style: preserve-3d;\n}\n.frontside .card,\n.backside .card {\n  min-height: 300px;\n}\n.backside .card a {\n  font-size: 18px;\n  color: #007b5e !important;\n}\n.frontside .card .card-title,\n.backside .card .card-title {\n  color: #007b5e !important;\n}\n.frontside .card .card-body img {\n  width: 120px;\n  height: 120px;\n  border-radius: 50%;\n}\nimg {\n  max-width: 100%;\n}\nhr {\n  border-color: #e5e5e5;\n  margin: 15px 0;\n}\n.secondary-text {\n  color: #b6b6b6;\n}\n.list-inline {\n  margin: 0;\n}\n.list-inline li {\n  padding: 0;\n}\n.card-wrapper {\n  position: relative;\n  width: 100%;\n  height: 290px;\n  border: 1px solid #e5e5e5;\n  border-bottom-width: 2px;\n  overflow: hidden;\n  margin-bottom: 30px;\n}\n.card-wrapper:after {\n  content: \"\";\n  position: absolute;\n  top: 0;\n  left: 0;\n  width: 100%;\n  height: 100%;\n  opacity: 0;\n  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);\n  transition: opacity 0.6s cubic-bezier(0.165, 0.84, 0.44, 1);\n}\n.card-wrapper:hover:after {\n  opacity: 1;\n}\n.card-wrapper:hover .image-holder:before {\n  opacity: 0.75;\n}\n.card-wrapper:hover .image-holder:after {\n  opacity: 1;\n  transform: translate(-50%, -50%);\n}\n.card-wrapper:hover .image-holder--original {\n  transform: translateY(-15px);\n}\n.card-wrapper:hover .product-description {\n  height: 205px;\n}\n@media (min-width: 768px) {\n.card-wrapper:hover .product-description {\n    height: 140px;\n}\n}\n.image-holder {\n  display: block;\n  position: relative;\n  width: 100%;\n  height: 110px;\n  background-color: #ffffff;\n  z-index: 1;\n}\n@media (min-width: 568px) {\n.image-holder {\n    height: 325px;\n}\n}\n.image-holder:before {\n  content: \"\";\n  position: absolute;\n  top: 0;\n  left: 0;\n  width: 100%;\n  height: 100%;\n  background-color: #4CAF50;\n  opacity: 0;\n  z-index: 5;\n  transition: opacity 0.6s;\n}\n.image-holder:after {\n  content: \"View\";\n  font-family: \"Raleway\", sans-serif;\n  font-size: 30px;\n  color: #4CAF50;\n  text-align: center;\n  position: absolute;\n  top: 92.5px;\n  left: 50%;\n  width: 75px;\n  height: 75px;\n  line-height: 75px;\n  background-color: #ffffff;\n  opacity: 0;\n  border-radius: 50%;\n  z-index: 10;\n  transform: translate(-50%, 100%);\n  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);\n  transition: all 0.4s ease-out;\n}\n@media (min-width: 768px) {\n.image-holder:after {\n    top: 107.5px;\n}\n}\n.image-holder .image-holder__link {\n  display: block;\n  position: absolute;\n  top: 0;\n  left: 0;\n  width: 100%;\n  height: 100%;\n  z-index: 15;\n}\n.image-holder .image-holder--original {\n  transition: transform 0.8s cubic-bezier(0.165, 0.84, 0.44, 1);\n}\n.image-liquid {\n  width: 100%;\n  height: 325px;\n  background-size: cover;\n  background-position: center center;\n}\n.product-description {\n  position: absolute;\n  left: 0;\n  bottom: 0;\n  width: 100%;\n  height: 80px;\n  padding: 10px 15px;\n  overflow: hidden;\n  background-color: #fafafa;\n  border-top: 1px solid #e5e5e5;\n  transition: height 0.6s cubic-bezier(0.165, 0.84, 0.44, 1);\n  z-index: 2;\n}\n@media (min-width: 768px) {\n.product-description {\n    height: 65px;\n}\n}\n.product-description p {\n  margin: 0 0 5px;\n}\n.product-description .product-description__title {\n  font-family: \"Raleway\", sans-serif;\n  position: relative;\n  white-space: nowrap;\n  overflow: hidden;\n  margin: 0;\n  font-size: 18px;\n  line-height: 1.25;\n}\n.product-description .product-description__title:after {\n  content: \"\";\n  width: 60px;\n  height: 100%;\n  position: absolute;\n  top: 0;\n  right: 0;\n  background: linear-gradient(to right, rgba(255, 255, 255, 0), #fafafa);\n}\n.product-description .product-description__title a {\n  text-decoration: none;\n  color: inherit;\n}\n.product-description .product-description__category {\n  white-space: nowrap;\n  overflow: hidden;\n  text-overflow: ellipsis;\n}\n.product-description .product-description__price {\n  color: #4CAF50;\n  text-align: left;\n  font-weight: bold;\n  letter-spacing: 0.06em;\n}\n@media (min-width: 768px) {\n.product-description .product-description__price {\n    text-align: right;\n}\n}\n.product-description .sizes-wrapper {\n  margin-bottom: 15px;\n}\n.product-description .color-list {\n  font-size: 0;\n}\n.product-description .color-list__item {\n  width: 25px;\n  height: 10px;\n  position: relative;\n  z-index: 1;\n  transition: all 0.2s;\n}\n.product-description .color-list__item:hover {\n  width: 40px;\n}\n.product-description .color-list__item--red {\n  background-color: #F44336;\n}\n.product-description .color-list__item--blue {\n  background-color: #448AFF;\n}\n.product-description .color-list__item--green {\n  background-color: #CDDC39;\n}\n.product-description .color-list__item--orange {\n  background-color: #FF9800;\n}\n.product-description .color-list__item--purple {\n  background-color: #673AB7;\n}", ""]);
 
 // exports
 
@@ -11262,7 +11296,7 @@ exports = module.exports = __webpack_require__(/*! ../../../../node_modules/css-
 
 
 // module
-exports.push([module.i, ".setting-bar[data-v-e7fa2372] {\n  width: 2rem;\n  height: 1rem;\n  cursor: pointer;\n}\n*[data-v-e7fa2372] {\n  box-sizing: border-box;\n}\nhtml[data-v-e7fa2372] {\n  font-size: 62.5%;\n}\nbody[data-v-e7fa2372] {\n  font-family: sans-serif;\n  line-height: 1.6;\n  margin: 0;\n  min-height: 100vh;\n  font-size: 1.6rem;\n}\nul[data-v-e7fa2372] {\n  margin: 0;\n  padding: 0;\n  list-style: none;\n}\nh1[data-v-e7fa2372], h2[data-v-e7fa2372], h3[data-v-e7fa2372], a[data-v-e7fa2372], p[data-v-e7fa2372] {\n  color: #34495e;\n}\na[data-v-e7fa2372] {\n  text-decoration: none;\n}\n.header__navbar[data-v-e7fa2372] {\n  padding: 1rem 0 1rem 0;\n  margin-bottom: 25px;\n  border: 1px solid #a2a2a2;\n  background-color: #f4f4f4;\n  box-shadow: 0px 0px 14px 0px rgba(0, 0, 0, 0.75);\n}\n.navbar[data-v-e7fa2372] {\n  max-width: 1366px;\n  margin: 0 auto;\n  padding: 0 0 0 2rem;\n}\n.navbar__logo[data-v-e7fa2372] {\n  margin: 0;\n  float: left;\n}\n.navbar__links[data-v-e7fa2372] {\n  float: right;\n  margin-top: 0rem;\n}\n.navbar__links a[data-v-e7fa2372]:not(last-child) {\n  padding-right: 2rem;\n}\n.navbar__links a[data-v-e7fa2372]:hover {\n  color: orangered;\n}\n.navbar__links li[data-v-e7fa2372] {\n  display: inline;\n}\n.navbar__logo a[data-v-e7fa2372], .navbar__links a[data-v-e7fa2372] {\n  text-transform: uppercase;\n}\nmain[data-v-e7fa2372] {\n  max-width: 136.6rem;\n  padding: 2rem;\n  margin: 0 auto;\n}\nmain a[data-v-e7fa2372] {\n  text-decoration: underline;\n}\n@media screen and (max-width: 36rem) {\n.header__navbar[data-v-e7fa2372] {\n    padding: 0 0 2rem 0;\n}\n.navbar[data-v-e7fa2372] {\n    padding: 0;\n    margin-bottom: 0px;\n}\n.navbar__logo[data-v-e7fa2372] {\n    text-align: center;\n    display: block;\n    float: none;\n    padding: 0;\n}\n.navbar__links[data-v-e7fa2372] {\n    float: none;\n}\n.navbar__links li[data-v-e7fa2372] {\n    display: block;\n    text-align: center;\n    padding-top: 1.5rem;\n}\n}\n.btn1[data-v-e7fa2372] {\n  margin: 2px;\n  border: none;\n  background-color: #1e7bca;\n  font-size: small;\n  border-radius: 3px;\n  color: white;\n  max-width: 90px;\n}\n.btn1[data-v-e7fa2372]:hover {\n  background-color: #09ff54;\n  color: #41ab6b;\n}\n.parent[data-v-e7fa2372] {\n  display: flex;\n  flex-direction: row;\n  flex-wrap: wrap;\n}\n.item[data-v-e7fa2372] {\n  width: auto;\n}\n.profile-user-info[data-v-e7fa2372] {\n  display: table;\n  width: 98%;\n  width: calc(100% - 24px);\n  margin: 0 auto;\n}\n.profile-info-row[data-v-e7fa2372] {\n  display: table-row;\n}\n.profile-info-name[data-v-e7fa2372],\n.profile-info-value[data-v-e7fa2372] {\n  display: table-cell;\n  border-top: 1px dotted #D5E4F1;\n}\n.profile-info-name[data-v-e7fa2372] {\n  text-align: right;\n  padding: 6px 10px 6px 4px;\n  font-weight: 400;\n  color: #667E99;\n  background-color: transparent;\n  width: 110px;\n  vertical-align: middle;\n}\n.profile-info-value[data-v-e7fa2372] {\n  padding: 6px 4px 6px 6px;\n}\n.profile-info-value > span + span[data-v-e7fa2372]:before {\n  display: inline;\n  content: \",\";\n  margin-left: 1px;\n  margin-right: 3px;\n  color: #666;\n  border-bottom: 1px solid #FFF;\n}\n.profile-info-row:first-child .profile-info-name[data-v-e7fa2372],\n.profile-info-row:first-child .profile-info-value[data-v-e7fa2372] {\n  border-top: none;\n}\n.profile-user-info-striped .profile-info-name[data-v-e7fa2372] {\n  color: #336199;\n  background-color: #EDF3F4;\n  border-top: 1px solid #F7FBFF;\n}\n.profile-user-info-striped .profile-info-value[data-v-e7fa2372] {\n  border-top: 1px dotted #DCEBF7;\n  padding-left: 12px;\n}\n.profile-picture[data-v-e7fa2372] {\n  border: 1px solid #CCC;\n  background-color: #FFF;\n  padding: 4px;\n  display: inline-block;\n  max-width: 100%;\n  box-sizing: border-box;\n  box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.15);\n}\n.profile-activity img[data-v-e7fa2372] {\n  border: 2px solid #C9D6E5;\n  border-radius: 100%;\n  max-width: 40px;\n  margin-right: 10px;\n  margin-left: 0;\n  box-shadow: none;\n}\n.user-profile .ace-thumbnails li[data-v-e7fa2372] {\n  border: 1px solid #CCC;\n  padding: 3px;\n  margin: 6px;\n}\n.profile-social-links > a[data-v-e7fa2372] {\n  text-decoration: none;\n  margin: 0 1px;\n}\n.profile-users .user img[data-v-e7fa2372] {\n  padding: 2px;\n  border-radius: 100%;\n  border: 1px solid #AAA;\n  max-width: none;\n  width: 64px;\n  transition: all 0.1s;\n}\n.profile-users .user img[data-v-e7fa2372]:hover {\n  box-shadow: 0 0 1px 1px rgba(0, 0, 0, 0.33);\n}\n.profile-users .memberdiv .tools > a[data-v-e7fa2372] {\n  margin: 0 2px;\n}\n@media only screen and (max-width: 480px) {\n.profile-info-name[data-v-e7fa2372] {\n    width: 80px;\n}\n.profile-user-info-striped .profile-info-name[data-v-e7fa2372] {\n    float: none;\n    width: auto;\n    text-align: left;\n    padding: 6px 4px 6px 10px;\n    display: block;\n}\n.profile-user-info-striped .profile-info-value[data-v-e7fa2372] {\n    margin-left: 10px;\n    display: block;\n}\n.user-profile .memberdiv[data-v-e7fa2372] {\n    width: 50%;\n    margin-left: 0;\n    margin-right: 0;\n}\n}\n.itemdiv > .body > .name > b[data-v-e7fa2372] {\n  color: #777;\n}\n.itemdiv.dialogdiv > .user > img[data-v-e7fa2372] {\n  border-color: #C9D6E5;\n}\n.itemdiv.memberdiv > .user > img[data-v-e7fa2372] {\n  border-color: #DCE3ED;\n}\n.itemdiv.memberdiv > .body > .name > a[data-v-e7fa2372] {\n  display: inline-block;\n  max-width: 100px;\n  max-height: 18px;\n  overflow: hidden;\n  text-overflow: ellipsis;\n  word-break: break-all;\n}\n.item-list > li[data-v-e7fa2372] {\n  padding: 9px;\n  background-color: #FFF;\n  margin-top: -1px;\n  position: relative;\n}\n.item-list > li label[data-v-e7fa2372] {\n  font-size: 13px;\n}\n.ace-thumbnails > li[data-v-e7fa2372],\n.ace-thumbnails > li[data-v-e7fa2372] > :first-child {\n  display: block;\n  position: relative;\n}\n.ace-thumbnails > li[data-v-e7fa2372] {\n  float: left;\n  overflow: hidden;\n  margin: 2px;\n  border: 2px solid #333;\n}\n.ace-thumbnails > li[data-v-e7fa2372] > :first-child:focus {\n  outline: 0;\n}\n.ace-thumbnails > li > .tools > a[data-v-e7fa2372],\n.ace-thumbnails > li > :first-child .inner a[data-v-e7fa2372] {\n  display: inline-block;\n  color: #FFF;\n  font-size: 18px;\n  font-weight: 400;\n  padding: 0 4px;\n}\n.ace-thumbnails > li > .tools > a[data-v-e7fa2372]:hover,\n.ace-thumbnails > li > :first-child .inner a[data-v-e7fa2372]:hover {\n  text-decoration: none;\n  color: #C9E2EA;\n}\n.ace-thumbnails > li .tools.tools-bottom > a[data-v-e7fa2372],\n.ace-thumbnails > li .tools.tools-top > a[data-v-e7fa2372] {\n  display: inline-block;\n}\n.tab-content[data-v-e7fa2372] {\n  background: #cfd4e7;\n  padding: 16px 12px;\n  position: relative;\n}\n.tab-content.padding-24[data-v-e7fa2372] {\n  padding: 24px 18px;\n}\n.tab-content.no-border.padding-24[data-v-e7fa2372] {\n  padding: 24px;\n}\n.nav-tabs > li > a[data-v-e7fa2372] {\n  padding: 7px 12px 8px;\n}\n.nav-tabs > li > a[data-v-e7fa2372],\n.nav-tabs > li > a[data-v-e7fa2372]:focus {\n  border-radius: 0 !important;\n  border-color: #C5D0DC;\n  background-color: #F9F9F9;\n  color: #999;\n  margin-right: -1px;\n  line-height: 18px;\n  position: relative;\n}\n.nav-tabs > li > a[data-v-e7fa2372]:hover {\n  background-color: #FFF;\n  color: #4C8FBD;\n  border-color: #C5D0DC;\n}\n.nav-tabs > li > a[data-v-e7fa2372]:active,\n.nav-tabs > li > a[data-v-e7fa2372]:focus {\n  outline: 0 !important;\n}\n.nav-tabs > li.active > a[data-v-e7fa2372],\n.nav-tabs > li.active > a[data-v-e7fa2372]:focus,\n.nav-tabs > li.active > a[data-v-e7fa2372]:hover {\n  color: #576373;\n  border-color: #C5D0DC #C5D0DC transparent;\n  border-top: 2px solid #4C8FBD;\n  background-color: #FFF;\n  z-index: 1;\n  line-height: 18px;\n  margin-top: -1px;\n  box-shadow: 0 -2px 3px 0 rgba(0, 0, 0, 0.15);\n}\n.tabs-below > .nav-tabs > li > a[data-v-e7fa2372],\n.tabs-below > .nav-tabs > li > a[data-v-e7fa2372]:focus,\n.tabs-below > .nav-tabs > li > a[data-v-e7fa2372]:hover {\n  border-color: #C5D0DC;\n}\n.tabs-below > .nav-tabs > li.active > a[data-v-e7fa2372],\n.tabs-below > .nav-tabs > li.active > a[data-v-e7fa2372]:focus,\n.tabs-below > .nav-tabs > li.active > a[data-v-e7fa2372]:hover {\n  border-color: transparent #C5D0DC #C5D0DC;\n  border-top-width: 1px;\n  border-bottom: 2px solid #4C8FBD;\n  margin-top: 0;\n  box-shadow: 0 2px 3px 0 rgba(0, 0, 0, 0.15);\n}\n.tabs-left > .nav-tabs > li > a[data-v-e7fa2372],\n.tabs-right > .nav-tabs > li > a[data-v-e7fa2372] {\n  min-width: 60px;\n}\n.tabs-left > .nav-tabs > li[data-v-e7fa2372] {\n  float: none !important;\n}\n.tabs-left > .nav-tabs > li > a[data-v-e7fa2372],\n.tabs-left > .nav-tabs > li > a[data-v-e7fa2372]:focus,\n.tabs-left > .nav-tabs > li > a[data-v-e7fa2372]:hover {\n  border-color: #C5D0DC;\n  margin: 0 -1px 0 0;\n}\n.tabs-left > .nav-tabs > li.active > a[data-v-e7fa2372],\n.tabs-left > .nav-tabs > li.active > a[data-v-e7fa2372]:focus,\n.tabs-left > .nav-tabs > li.active > a[data-v-e7fa2372]:hover {\n  border-color: #C5D0DC transparent #C5D0DC #C5D0DC;\n  border-top-width: 1px;\n  border-left: 2px solid #4C8FBD;\n  margin: 0 -1px;\n  box-shadow: -2px 0 3px 0 rgba(0, 0, 0, 0.15) !important;\n}\n.tabs-right > .nav-tabs > li[data-v-e7fa2372] {\n  float: none !important;\n}\n.tabs-right > .nav-tabs > li > a[data-v-e7fa2372],\n.tabs-right > .nav-tabs > li > a[data-v-e7fa2372]:focus,\n.tabs-right > .nav-tabs > li > a[data-v-e7fa2372]:hover {\n  border-color: #C5D0DC;\n  margin: 0 -1px;\n}\n.tabs-right > .nav-tabs > li.active > a[data-v-e7fa2372],\n.tabs-right > .nav-tabs > li.active > a[data-v-e7fa2372]:focus,\n.tabs-right > .nav-tabs > li.active > a[data-v-e7fa2372]:hover {\n  border-color: #C5D0DC #C5D0DC #C5D0DC transparent;\n  border-top-width: 1px;\n  border-right: 2px solid #4C8FBD;\n  margin: 0 -2px 0 -1px;\n  box-shadow: 2px 0 3px 0 rgba(0, 0, 0, 0.15);\n}\n.tabs-left .tab-content[data-v-e7fa2372],\n.tabs-right .tab-content[data-v-e7fa2372] {\n  overflow: auto;\n}\n.blue[data-v-e7fa2372] {\n  color: #478FCA !important;\n}", ""]);
+exports.push([module.i, ".background[data-v-e7fa2372] {\n  background: #8A2387;\n  /* fallback for old browsers */\n  /* Chrome 10-25, Safari 5.1-6 */\n  background: linear-gradient(to bottom, #F27121, #E94057, #8A2387);\n  /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */\n}\n.setting-bar[data-v-e7fa2372] {\n  width: 2rem;\n  height: 1rem;\n  cursor: pointer;\n}\n*[data-v-e7fa2372] {\n  box-sizing: border-box;\n}\nhtml[data-v-e7fa2372] {\n  font-size: 62.5%;\n}\nbody[data-v-e7fa2372] {\n  font-family: sans-serif;\n  line-height: 1.6;\n  margin: 0;\n  min-height: 100vh;\n  font-size: 1.6rem;\n}\nul[data-v-e7fa2372] {\n  margin: 0;\n  padding: 0;\n  list-style: none;\n}\nh1[data-v-e7fa2372], h2[data-v-e7fa2372], h3[data-v-e7fa2372], a[data-v-e7fa2372], p[data-v-e7fa2372] {\n  color: #34495e;\n}\na[data-v-e7fa2372] {\n  text-decoration: none;\n}\n.header__navbar[data-v-e7fa2372] {\n  padding: 1rem 0 1rem 0;\n  margin-bottom: 25px;\n  border: 1px solid #a2a2a2;\n  background-color: #f4f4f4;\n  box-shadow: 0px 0px 14px 0px rgba(0, 0, 0, 0.75);\n}\n.navbar[data-v-e7fa2372] {\n  max-width: 1366px;\n  margin: 0 auto;\n  padding: 0 0 0 2rem;\n}\n.navbar__logo[data-v-e7fa2372] {\n  margin: 0;\n  float: left;\n}\n.navbar__links[data-v-e7fa2372] {\n  float: right;\n  margin-top: 0rem;\n}\n.navbar__links a[data-v-e7fa2372]:not(last-child) {\n  padding-right: 2rem;\n}\n.navbar__links a[data-v-e7fa2372]:hover {\n  color: orangered;\n}\n.navbar__links li[data-v-e7fa2372] {\n  display: inline;\n}\n.navbar__logo a[data-v-e7fa2372], .navbar__links a[data-v-e7fa2372] {\n  text-transform: uppercase;\n}\nmain[data-v-e7fa2372] {\n  max-width: 136.6rem;\n  padding: 2rem;\n  margin: 0 auto;\n}\nmain a[data-v-e7fa2372] {\n  text-decoration: underline;\n}\n@media screen and (max-width: 36rem) {\n.header__navbar[data-v-e7fa2372] {\n    padding: 0 0 2rem 0;\n}\n.navbar[data-v-e7fa2372] {\n    padding: 0;\n    margin-bottom: 0px;\n}\n.navbar__logo[data-v-e7fa2372] {\n    text-align: center;\n    display: block;\n    float: none;\n    padding: 0;\n}\n.navbar__links[data-v-e7fa2372] {\n    float: none;\n}\n.navbar__links li[data-v-e7fa2372] {\n    display: block;\n    text-align: center;\n    padding-top: 1.5rem;\n}\n}\n.btn1[data-v-e7fa2372] {\n  margin: 2px;\n  border: none;\n  background-color: #1e7bca;\n  font-size: small;\n  border-radius: 3px;\n  color: white;\n  max-width: 90px;\n}\n.btn1[data-v-e7fa2372]:hover {\n  background-color: #09ff54;\n  color: #41ab6b;\n}\n.parent[data-v-e7fa2372] {\n  display: flex;\n  flex-direction: row;\n  flex-wrap: wrap;\n}\n.item[data-v-e7fa2372] {\n  width: auto;\n}\n.profile-user-info[data-v-e7fa2372] {\n  display: table;\n  width: 98%;\n  width: calc(100% - 24px);\n  margin: 0 auto;\n}\n.profile-info-row[data-v-e7fa2372] {\n  display: table-row;\n}\n.profile-info-name[data-v-e7fa2372],\n.profile-info-value[data-v-e7fa2372] {\n  display: table-cell;\n  border-top: 1px dotted #D5E4F1;\n}\n.profile-info-name[data-v-e7fa2372] {\n  text-align: right;\n  padding: 6px 10px 6px 4px;\n  font-weight: 400;\n  color: #667E99;\n  background-color: transparent;\n  width: 110px;\n  vertical-align: middle;\n}\n.profile-info-value[data-v-e7fa2372] {\n  padding: 6px 4px 6px 6px;\n}\n.profile-info-value > span + span[data-v-e7fa2372]:before {\n  display: inline;\n  content: \",\";\n  margin-left: 1px;\n  margin-right: 3px;\n  color: #666;\n  border-bottom: 1px solid #FFF;\n}\n.profile-info-row:first-child .profile-info-name[data-v-e7fa2372],\n.profile-info-row:first-child .profile-info-value[data-v-e7fa2372] {\n  border-top: none;\n}\n.profile-user-info-striped .profile-info-name[data-v-e7fa2372] {\n  color: #336199;\n  background-color: #EDF3F4;\n  border-top: 1px solid #F7FBFF;\n}\n.profile-user-info-striped .profile-info-value[data-v-e7fa2372] {\n  border-top: 1px dotted #DCEBF7;\n  padding-left: 12px;\n}\n.profile-picture[data-v-e7fa2372] {\n  border: 1px solid #CCC;\n  background-color: #FFF;\n  padding: 4px;\n  display: inline-block;\n  max-width: 57vh;\n  max-height: 48vh;\n  box-sizing: border-box;\n  box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.15);\n  -o-object-fit: cover;\n     object-fit: cover;\n}\n.profile-activity img[data-v-e7fa2372] {\n  border: 2px solid #C9D6E5;\n  border-radius: 100%;\n  max-width: 40px;\n  margin-right: 10px;\n  margin-left: 0;\n  box-shadow: none;\n}\n.user-profile .ace-thumbnails li[data-v-e7fa2372] {\n  border: 1px solid #CCC;\n  padding: 3px;\n  margin: 6px;\n}\n.profile-social-links > a[data-v-e7fa2372] {\n  text-decoration: none;\n  margin: 0 1px;\n}\n.profile-users .user img[data-v-e7fa2372] {\n  padding: 2px;\n  border-radius: 100%;\n  border: 1px solid #AAA;\n  max-width: none;\n  width: 64px;\n  transition: all 0.1s;\n}\n.profile-users .user img[data-v-e7fa2372]:hover {\n  box-shadow: 0 0 1px 1px rgba(0, 0, 0, 0.33);\n}\n.profile-users .memberdiv .tools > a[data-v-e7fa2372] {\n  margin: 0 2px;\n}\n@media only screen and (max-width: 480px) {\n.profile-info-name[data-v-e7fa2372] {\n    width: 80px;\n}\n.profile-user-info-striped .profile-info-name[data-v-e7fa2372] {\n    float: none;\n    width: auto;\n    text-align: left;\n    padding: 6px 4px 6px 10px;\n    display: block;\n}\n.profile-user-info-striped .profile-info-value[data-v-e7fa2372] {\n    margin-left: 10px;\n    display: block;\n}\n.user-profile .memberdiv[data-v-e7fa2372] {\n    width: 50%;\n    margin-left: 0;\n    margin-right: 0;\n}\n}\n.itemdiv > .body > .name > b[data-v-e7fa2372] {\n  color: #777;\n}\n.itemdiv.dialogdiv > .user > img[data-v-e7fa2372] {\n  border-color: #C9D6E5;\n}\n.itemdiv.memberdiv > .user > img[data-v-e7fa2372] {\n  border-color: #DCE3ED;\n}\n.itemdiv.memberdiv > .body > .name > a[data-v-e7fa2372] {\n  display: inline-block;\n  max-width: 100px;\n  max-height: 18px;\n  overflow: hidden;\n  text-overflow: ellipsis;\n  word-break: break-all;\n}\n.item-list > li[data-v-e7fa2372] {\n  padding: 9px;\n  background-color: #FFF;\n  margin-top: -1px;\n  position: relative;\n}\n.item-list > li label[data-v-e7fa2372] {\n  font-size: 13px;\n}\n.ace-thumbnails > li[data-v-e7fa2372],\n.ace-thumbnails > li[data-v-e7fa2372] > :first-child {\n  display: block;\n  position: relative;\n}\n.ace-thumbnails > li[data-v-e7fa2372] {\n  float: left;\n  overflow: hidden;\n  margin: 2px;\n  border: 2px solid #333;\n}\n.ace-thumbnails > li[data-v-e7fa2372] > :first-child:focus {\n  outline: 0;\n}\n.ace-thumbnails > li > .tools > a[data-v-e7fa2372],\n.ace-thumbnails > li > :first-child .inner a[data-v-e7fa2372] {\n  display: inline-block;\n  color: #FFF;\n  font-size: 18px;\n  font-weight: 400;\n  padding: 0 4px;\n}\n.ace-thumbnails > li > .tools > a[data-v-e7fa2372]:hover,\n.ace-thumbnails > li > :first-child .inner a[data-v-e7fa2372]:hover {\n  text-decoration: none;\n  color: #C9E2EA;\n}\n.ace-thumbnails > li .tools.tools-bottom > a[data-v-e7fa2372],\n.ace-thumbnails > li .tools.tools-top > a[data-v-e7fa2372] {\n  display: inline-block;\n}\n.tab-content[data-v-e7fa2372] {\n  background: #cfd4e7;\n  padding: 16px 12px;\n  position: relative;\n}\n.tab-content.padding-24[data-v-e7fa2372] {\n  padding: 24px 18px;\n}\n.tab-content.no-border.padding-24[data-v-e7fa2372] {\n  padding: 24px;\n}\n.nav-tabs > li > a[data-v-e7fa2372] {\n  padding: 7px 12px 8px;\n}\n.nav-tabs > li > a[data-v-e7fa2372],\n.nav-tabs > li > a[data-v-e7fa2372]:focus {\n  border-radius: 0 !important;\n  border-color: #C5D0DC;\n  background-color: #F9F9F9;\n  color: #999;\n  margin-right: -1px;\n  line-height: 18px;\n  position: relative;\n}\n.nav-tabs > li > a[data-v-e7fa2372]:hover {\n  background-color: #FFF;\n  color: #4C8FBD;\n  border-color: #C5D0DC;\n}\n.nav-tabs > li > a[data-v-e7fa2372]:active,\n.nav-tabs > li > a[data-v-e7fa2372]:focus {\n  outline: 0 !important;\n}\n.nav-tabs > li.active > a[data-v-e7fa2372],\n.nav-tabs > li.active > a[data-v-e7fa2372]:focus,\n.nav-tabs > li.active > a[data-v-e7fa2372]:hover {\n  color: #576373;\n  border-color: #C5D0DC #C5D0DC transparent;\n  border-top: 2px solid #4C8FBD;\n  background-color: #FFF;\n  z-index: 1;\n  line-height: 18px;\n  margin-top: -1px;\n  box-shadow: 0 -2px 3px 0 rgba(0, 0, 0, 0.15);\n}\n.tabs-below > .nav-tabs > li > a[data-v-e7fa2372],\n.tabs-below > .nav-tabs > li > a[data-v-e7fa2372]:focus,\n.tabs-below > .nav-tabs > li > a[data-v-e7fa2372]:hover {\n  border-color: #C5D0DC;\n}\n.tabs-below > .nav-tabs > li.active > a[data-v-e7fa2372],\n.tabs-below > .nav-tabs > li.active > a[data-v-e7fa2372]:focus,\n.tabs-below > .nav-tabs > li.active > a[data-v-e7fa2372]:hover {\n  border-color: transparent #C5D0DC #C5D0DC;\n  border-top-width: 1px;\n  border-bottom: 2px solid #4C8FBD;\n  margin-top: 0;\n  box-shadow: 0 2px 3px 0 rgba(0, 0, 0, 0.15);\n}\n.tabs-left > .nav-tabs > li > a[data-v-e7fa2372],\n.tabs-right > .nav-tabs > li > a[data-v-e7fa2372] {\n  min-width: 60px;\n}\n.tabs-left > .nav-tabs > li[data-v-e7fa2372] {\n  float: none !important;\n}\n.tabs-left > .nav-tabs > li > a[data-v-e7fa2372],\n.tabs-left > .nav-tabs > li > a[data-v-e7fa2372]:focus,\n.tabs-left > .nav-tabs > li > a[data-v-e7fa2372]:hover {\n  border-color: #C5D0DC;\n  margin: 0 -1px 0 0;\n}\n.tabs-left > .nav-tabs > li.active > a[data-v-e7fa2372],\n.tabs-left > .nav-tabs > li.active > a[data-v-e7fa2372]:focus,\n.tabs-left > .nav-tabs > li.active > a[data-v-e7fa2372]:hover {\n  border-color: #C5D0DC transparent #C5D0DC #C5D0DC;\n  border-top-width: 1px;\n  border-left: 2px solid #4C8FBD;\n  margin: 0 -1px;\n  box-shadow: -2px 0 3px 0 rgba(0, 0, 0, 0.15) !important;\n}\n.tabs-right > .nav-tabs > li[data-v-e7fa2372] {\n  float: none !important;\n}\n.tabs-right > .nav-tabs > li > a[data-v-e7fa2372],\n.tabs-right > .nav-tabs > li > a[data-v-e7fa2372]:focus,\n.tabs-right > .nav-tabs > li > a[data-v-e7fa2372]:hover {\n  border-color: #C5D0DC;\n  margin: 0 -1px;\n}\n.tabs-right > .nav-tabs > li.active > a[data-v-e7fa2372],\n.tabs-right > .nav-tabs > li.active > a[data-v-e7fa2372]:focus,\n.tabs-right > .nav-tabs > li.active > a[data-v-e7fa2372]:hover {\n  border-color: #C5D0DC #C5D0DC #C5D0DC transparent;\n  border-top-width: 1px;\n  border-right: 2px solid #4C8FBD;\n  margin: 0 -2px 0 -1px;\n  box-shadow: 2px 0 3px 0 rgba(0, 0, 0, 0.15);\n}\n.tabs-left .tab-content[data-v-e7fa2372],\n.tabs-right .tab-content[data-v-e7fa2372] {\n  overflow: auto;\n}\n.blue[data-v-e7fa2372] {\n  color: #478FCA !important;\n}", ""]);
 
 // exports
 
@@ -11281,7 +11315,7 @@ exports = module.exports = __webpack_require__(/*! ../../../../node_modules/css-
 
 
 // module
-exports.push([module.i, ".description[data-v-9f7d9f90] {\n  white-space: nowrap;\n  overflow: hidden;\n  text-overflow: ellipsis;\n}\n.card-title[data-v-9f7d9f90] {\n  font-size: smaller;\n  color: #0d47a1;\n}\n.btn-visit[data-v-9f7d9f90] {\n  border: 0px;\n  border-radius: 3px;\n  padding: 8px;\n}\n.btn-visit[data-v-9f7d9f90]:hover {\n  opacity: 4;\n}\n.btn1[data-v-9f7d9f90] {\n  border: 0px;\n  border-radius: 3px;\n  padding: 8px;\n}\n.btn1[data-v-9f7d9f90]:hover {\n  opacity: 4;\n}\n.card[data-v-9f7d9f90] {\n  margin-bottom: 1rem;\n}\n.list-view .row > [class*=col-][data-v-9f7d9f90] {\n  max-width: 100%;\n  flex: 0 0 100%;\n}\n.list-view .card[data-v-9f7d9f90] {\n  flex-direction: row;\n}\n@media (max-width: 575.98px) {\n.list-view .card[data-v-9f7d9f90] {\n    flex-direction: column;\n}\n}\n.list-view .card > .card-img-top[data-v-9f7d9f90] {\n  width: 200px;\n  height: 200px;\n  -o-object-fit: cover;\n     object-fit: cover;\n}\n.list-view .card .card-body[data-v-9f7d9f90] {\n  display: inline-block;\n}\n.codepen-container[data-v-9f7d9f90] {\n  padding: 3em;\n}\n.content-container[data-v-9f7d9f90] {\n  display: flex;\n  margin: 0 auto;\n  background-color: white;\n  max-width: 960px;\n  width: 100%;\n}\n.product-image--container[data-v-9f7d9f90] {\n  margin: 0 2em;\n}\n.triangle-topleft[data-v-9f7d9f90] {\n  position: relative;\n  width: 0;\n  height: 0;\n  border-top: 100px solid #FFC500;\n  border-right: 100px solid transparent;\n  transition: all ease 0.25s;\n}\n.triangle-topleft[data-v-9f7d9f90]:hover {\n  border-top: 100px solid #ffd54d;\n  transition: all ease 0.25s;\n}\n.back-arrow[data-v-9f7d9f90] {\n  cursor: pointer;\n  position: absolute;\n  top: -90px;\n  left: 15px;\n  background-image: url(\"https://cdn2.iconfinder.com/data/icons/freecns-cumulus/16/519627-127_ArrowLeft-128.png\");\n  background-size: 35px 35px;\n  background-repeat: no-repeat;\n  width: 40px;\n  height: 40px;\n}\n.product-image--featured[data-v-9f7d9f90] {\n  max-width: 451px;\n  width: 100%;\n  max-height: 310px;\n  height: 100%;\n  -o-object-fit: cover;\n     object-fit: cover;\n}\n.product-image--list[data-v-9f7d9f90] {\n  display: flex;\n  justify-content: space-between;\n  list-style-type: none;\n  padding: 0;\n}\n.product-image--list li[data-v-9f7d9f90] {\n  margin: 0 5px;\n  border: 2px solid #eaeaea;\n  border-radius: 5px;\n  transition: all ease 0.25s;\n}\n.product-image--list li.item-selected[data-v-9f7d9f90] {\n  box-shadow: 1px 1px 1px #888888;\n  border: 2px solid #FFC500;\n  transition: all ease 0.25s;\n}\n.product-image--item[data-v-9f7d9f90] {\n  cursor: pointer;\n  -o-object-fit: cover;\n     object-fit: cover;\n  max-width: 154px;\n  max-height: 104px;\n}\n.right-container[data-v-9f7d9f90] {\n  margin: 1em;\n}\n.title[data-v-9f7d9f90] {\n  margin: 0.5em 0 0 0;\n}\n.subtitle[data-v-9f7d9f90] {\n  font-size: 1.25em;\n}\n.subtitle-container[data-v-9f7d9f90] {\n  margin: 0.5em 0 0.5em 0;\n  opacity: 0.6;\n}\n.rating[data-v-9f7d9f90] {\n  overflow: hidden;\n  display: inline-block;\n  font-size: 0;\n  position: relative;\n}\n.rating-input[data-v-9f7d9f90] {\n  float: right;\n  width: 16px;\n  height: 16px;\n  padding: 0;\n  margin: 0 0 0 -16px;\n  opacity: 0;\n}\n.rating:hover .rating-star[data-v-9f7d9f90]:hover,\n.rating:hover .rating-star:hover ~ .rating-star[data-v-9f7d9f90],\n.rating-input:checked ~ .rating-star[data-v-9f7d9f90] {\n  background-position: 0 0;\n}\n.rating-star[data-v-9f7d9f90],\n.rating:hover .rating-star[data-v-9f7d9f90] {\n  position: relative;\n  float: right;\n  display: block;\n  width: 16px;\n  height: 16px;\n  background: url(\"http://kubyshkin.ru/samples/star-rating/star.png\") 0 -16px;\n}\n.reviews[data-v-9f7d9f90] {\n  text-decoration: none;\n}\na:hover.reviews[data-v-9f7d9f90] {\n  color: #365afc;\n  text-decoration: underline;\n}\n.emphasize[data-v-9f7d9f90] {\n  color: #b32600;\n  font-size: 1.5em;\n  letter-spacing: -2px;\n}\n.select-dropdown[data-v-9f7d9f90] {\n  max-width: 50px;\n  width: 100%;\n}\n.my-btn[data-v-9f7d9f90] {\n  background-color: #FFC500;\n  border-radius: 5px;\n  max-width: 275px;\n  width: 100%;\n  height: 50px;\n  transition: all ease 0.25s;\n}\n.my-btn[data-v-9f7d9f90]:hover {\n  box-shadow: 1px 1px 1px #888888;\n  background-color: #ffd54d;\n  transition: all ease 0.25s;\n}\n.flex-btn[data-v-9f7d9f90] {\n  display: flex;\n  align-items: center;\n}\n.cart-icon[data-v-9f7d9f90] {\n  margin: 2px;\n  width: 30px;\n  height: 30px;\n}\n.btn-text[data-v-9f7d9f90] {\n  font-weight: bold;\n  font-size: 1.5em;\n  margin: 0 auto;\n}", ""]);
+exports.push([module.i, ".card-title[data-v-9f7d9f90] {\n  font-size: smaller;\n  color: #0d47a1;\n}\n.btn-visit[data-v-9f7d9f90] {\n  border: 0px;\n  border-radius: 3px;\n  padding: 8px;\n}\n.btn-visit[data-v-9f7d9f90]:hover {\n  opacity: 4;\n}\n.btn1[data-v-9f7d9f90] {\n  border: 0px;\n  border-radius: 3px;\n  padding: 8px;\n}\n.btn1[data-v-9f7d9f90]:hover {\n  opacity: 4;\n}\n.card[data-v-9f7d9f90] {\n  margin-bottom: 1rem;\n}\n.list-view .row > [class*=col-][data-v-9f7d9f90] {\n  max-width: 100%;\n  flex: 0 0 100%;\n}\n.list-view .card[data-v-9f7d9f90] {\n  flex-direction: row;\n}\n@media (max-width: 575.98px) {\n.list-view .card[data-v-9f7d9f90] {\n    flex-direction: column;\n}\n}\n.list-view .card > .card-img-top[data-v-9f7d9f90] {\n  width: 200px;\n  height: 200px;\n  -o-object-fit: cover;\n     object-fit: cover;\n}\n.list-view .card .card-body[data-v-9f7d9f90] {\n  display: inline-block;\n}\n.codepen-container[data-v-9f7d9f90] {\n  padding: 3em;\n}\n.content-container[data-v-9f7d9f90] {\n  display: flex;\n  margin: 0 auto;\n  background-color: white;\n  max-width: 960px;\n  width: 100%;\n}\n.product-image--container[data-v-9f7d9f90] {\n  margin: 0 2em;\n}\n.triangle-topleft[data-v-9f7d9f90] {\n  position: relative;\n  width: 0;\n  height: 0;\n  border-top: 100px solid #FFC500;\n  border-right: 100px solid transparent;\n  transition: all ease 0.25s;\n}\n.triangle-topleft[data-v-9f7d9f90]:hover {\n  border-top: 100px solid #ffd54d;\n  transition: all ease 0.25s;\n}\n.back-arrow[data-v-9f7d9f90] {\n  cursor: pointer;\n  position: absolute;\n  top: -90px;\n  left: 15px;\n  background-image: url(\"https://cdn2.iconfinder.com/data/icons/freecns-cumulus/16/519627-127_ArrowLeft-128.png\");\n  background-size: 35px 35px;\n  background-repeat: no-repeat;\n  width: 40px;\n  height: 40px;\n}\n.product-image--featured[data-v-9f7d9f90] {\n  max-width: 451px;\n  width: 100%;\n  max-height: 310px;\n  height: 100%;\n  -o-object-fit: cover;\n     object-fit: cover;\n}\n.product-image--list[data-v-9f7d9f90] {\n  display: flex;\n  justify-content: space-between;\n  list-style-type: none;\n  padding: 0;\n}\n.product-image--list li[data-v-9f7d9f90] {\n  margin: 0 5px;\n  border: 2px solid #eaeaea;\n  border-radius: 5px;\n  transition: all ease 0.25s;\n}\n.product-image--list li.item-selected[data-v-9f7d9f90] {\n  box-shadow: 1px 1px 1px #888888;\n  border: 2px solid #FFC500;\n  transition: all ease 0.25s;\n}\n.product-image--item[data-v-9f7d9f90] {\n  cursor: pointer;\n  -o-object-fit: cover;\n     object-fit: cover;\n  max-width: 154px;\n  max-height: 104px;\n}\n.right-container[data-v-9f7d9f90] {\n  margin: 1em;\n}\n.title[data-v-9f7d9f90] {\n  margin: 0.5em 0 0 0;\n}\n.subtitle[data-v-9f7d9f90] {\n  font-size: 1.25em;\n}\n.subtitle-container[data-v-9f7d9f90] {\n  margin: 0.5em 0 0.5em 0;\n  opacity: 0.6;\n}\n.rating[data-v-9f7d9f90] {\n  overflow: hidden;\n  display: inline-block;\n  font-size: 0;\n  position: relative;\n}\n.rating-input[data-v-9f7d9f90] {\n  float: right;\n  width: 16px;\n  height: 16px;\n  padding: 0;\n  margin: 0 0 0 -16px;\n  opacity: 0;\n}\n.rating:hover .rating-star[data-v-9f7d9f90]:hover,\n.rating:hover .rating-star:hover ~ .rating-star[data-v-9f7d9f90],\n.rating-input:checked ~ .rating-star[data-v-9f7d9f90] {\n  background-position: 0 0;\n}\n.rating-star[data-v-9f7d9f90],\n.rating:hover .rating-star[data-v-9f7d9f90] {\n  position: relative;\n  float: right;\n  display: block;\n  width: 16px;\n  height: 16px;\n  background: url(\"http://kubyshkin.ru/samples/star-rating/star.png\") 0 -16px;\n}\n.reviews[data-v-9f7d9f90] {\n  text-decoration: none;\n}\na:hover.reviews[data-v-9f7d9f90] {\n  color: #365afc;\n  text-decoration: underline;\n}\n.emphasize[data-v-9f7d9f90] {\n  color: #b32600;\n  font-size: 1.5em;\n  letter-spacing: -2px;\n}\n.select-dropdown[data-v-9f7d9f90] {\n  max-width: 50px;\n  width: 100%;\n}\n.my-btn[data-v-9f7d9f90] {\n  background-color: #FFC500;\n  border-radius: 5px;\n  max-width: 275px;\n  width: 100%;\n  height: 50px;\n  transition: all ease 0.25s;\n}\n.my-btn[data-v-9f7d9f90]:hover {\n  box-shadow: 1px 1px 1px #888888;\n  background-color: #ffd54d;\n  transition: all ease 0.25s;\n}\n.flex-btn[data-v-9f7d9f90] {\n  display: flex;\n  align-items: center;\n}\n.cart-icon[data-v-9f7d9f90] {\n  margin: 2px;\n  width: 30px;\n  height: 30px;\n}\n.btn-text[data-v-9f7d9f90] {\n  font-weight: bold;\n  font-size: 1.5em;\n  margin: 0 auto;\n}", ""]);
 
 // exports
 
@@ -45774,6 +45808,8 @@ var render = function() {
               _vm._v(" "),
               _c("option", [_vm._v("Phnom Penh")]),
               _vm._v(" "),
+              _c("option", [_vm._v("Preah Vihear")]),
+              _vm._v(" "),
               _c("option", [_vm._v("Prey Veng")]),
               _vm._v(" "),
               _c("option", [_vm._v("Pursat")]),
@@ -47417,78 +47453,86 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", { staticClass: "container" }, [
-    _c("h2", [_vm._v("Category Result")]),
-    _vm._v(" "),
-    _c("div", { staticClass: "container mb-3 mt-3" }, [
-      _c(
-        "button",
-        {
-          staticClass: "btn1 btn-primary btn-grid",
-          staticStyle: { float: "right", "margin-right": "10px" },
-          on: { click: _vm.gridList }
-        },
-        [_vm._v("Grid View")]
-      ),
+  return _c(
+    "div",
+    [
+      _c("h2", [_vm._v("Category Result")]),
       _vm._v(" "),
-      _c(
-        "button",
-        {
-          staticClass: "btn1 btn-danger btn-list",
-          staticStyle: { float: "right", "margin-right": "10px" },
-          on: { click: _vm.showList }
-        },
-        [_vm._v("List View")]
-      )
-    ]),
-    _vm._v(" "),
-    _c("div", { staticClass: "container grid-container" }, [
-      _c(
-        "div",
-        { staticClass: "row" },
-        [
-          _vm._l(_vm.Result, function(item) {
-            return [
-              _c("div", { staticClass: "col-12 col-md-6 col-lg-4" }, [
-                _c("div", { staticClass: "card" }, [
-                  _c("img", {
-                    staticClass: "card-img-top",
-                    attrs: { src: item.images[0].image, alt: "Card image cap" }
-                  }),
-                  _vm._v(" "),
-                  _c("div", { staticClass: "card-body" }, [
-                    _c("h5", { staticClass: "card-title" }, [
-                      _vm._v(_vm._s(item.title))
-                    ]),
-                    _vm._v(" "),
-                    _c("span", [_vm._v("Price : " + _vm._s(item.price))]),
-                    _vm._v(" "),
-                    _c("p", { staticClass: "card-text" }, [
-                      _vm._v(_vm._s(item.description))
-                    ])
-                  ]),
-                  _vm._v(" "),
-                  _c(
-                    "button",
-                    {
-                      staticClass: "bnt btn-primary",
-                      on: {
-                        click: function($event) {
-                          return _vm.Detail(item.upId, item.cat_name)
-                        }
+      _c("div", { staticClass: "container mb-3 mt-3" }, [
+        _c(
+          "button",
+          {
+            staticClass: "btn1 btn-primary btn-grid",
+            staticStyle: { float: "right", "margin-right": "10px" },
+            on: { click: _vm.gridList }
+          },
+          [_vm._v("Grid View")]
+        ),
+        _vm._v(" "),
+        _c(
+          "button",
+          {
+            staticClass: "btn1 btn-danger btn-list",
+            staticStyle: { float: "right", "margin-right": "10px" },
+            on: { click: _vm.showList }
+          },
+          [_vm._v("List View")]
+        )
+      ]),
+      _vm._v(" "),
+      _c("div", { staticClass: "container grid-container" }, [
+        _c(
+          "div",
+          { staticClass: "row" },
+          [
+            _vm._l(_vm.Result, function(item) {
+              return [
+                _c(
+                  "div",
+                  {
+                    staticClass: "col-12 col-md-6 col-lg-4",
+                    staticStyle: { cursor: "pointer", "margin-top": "4vh" },
+                    on: {
+                      click: function($event) {
+                        return _vm.Detail(item.upId, item.cat_name)
                       }
-                    },
-                    [_vm._v(" View Detail")]
-                  )
-                ])
-              ])
-            ]
-          })
-        ],
-        2
-      )
-    ])
-  ])
+                    }
+                  },
+                  [
+                    _c("div", { staticClass: "card" }, [
+                      _c("img", {
+                        staticClass: "card-img-top",
+                        attrs: {
+                          src: item.images[0].image,
+                          alt: "Card image cap"
+                        }
+                      }),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "card-body" }, [
+                        _c("h5", { staticClass: "card-title" }, [
+                          _vm._v(_vm._s(item.title))
+                        ]),
+                        _vm._v(" "),
+                        _c("span", [_vm._v("Price : " + _vm._s(item.price))]),
+                        _vm._v(" "),
+                        _c("p", { staticClass: "card-text description" }, [
+                          _vm._v(_vm._s(item.description))
+                        ])
+                      ])
+                    ])
+                  ]
+                )
+              ]
+            })
+          ],
+          2
+        )
+      ]),
+      _vm._v(" "),
+      _c("footer-Page")
+    ],
+    1
+  )
 }
 var staticRenderFns = []
 render._withStripped = true
@@ -48056,156 +48100,168 @@ var render = function() {
         _vm._v(" "),
         _c("br"),
         _vm._v(" "),
-        _c("div", { staticClass: "form-group" }, [
-          _c("label", [_vm._v("Bedroom")]),
-          _vm._v(" "),
-          _c(
-            "select",
-            {
-              directives: [
+        _vm.data.bedroom !== null
+          ? _c("div", { staticClass: "form-group" }, [
+              _c("label", [_vm._v("Bedroom")]),
+              _vm._v(" "),
+              _c(
+                "select",
                 {
-                  name: "model",
-                  rawName: "v-model",
-                  value: _vm.data.bedroom,
-                  expression: "data.bedroom"
-                }
-              ],
-              staticClass: "form-control",
-              on: {
-                change: function($event) {
-                  var $$selectedVal = Array.prototype.filter
-                    .call($event.target.options, function(o) {
-                      return o.selected
-                    })
-                    .map(function(o) {
-                      var val = "_value" in o ? o._value : o.value
-                      return val
-                    })
-                  _vm.$set(
-                    _vm.data,
-                    "bedroom",
-                    $event.target.multiple ? $$selectedVal : $$selectedVal[0]
-                  )
-                }
-              }
-            },
-            [
-              _c("option", [_vm._v("1")]),
-              _vm._v(" "),
-              _c("option", [_vm._v("2")]),
-              _vm._v(" "),
-              _c("option", [_vm._v("3")]),
-              _vm._v(" "),
-              _c("option", [_vm._v("4")]),
-              _vm._v(" "),
-              _c("option", [_vm._v("5")])
-            ]
-          )
-        ]),
+                  directives: [
+                    {
+                      name: "model",
+                      rawName: "v-model",
+                      value: _vm.data.bedroom,
+                      expression: "data.bedroom"
+                    }
+                  ],
+                  staticClass: "form-control",
+                  on: {
+                    change: function($event) {
+                      var $$selectedVal = Array.prototype.filter
+                        .call($event.target.options, function(o) {
+                          return o.selected
+                        })
+                        .map(function(o) {
+                          var val = "_value" in o ? o._value : o.value
+                          return val
+                        })
+                      _vm.$set(
+                        _vm.data,
+                        "bedroom",
+                        $event.target.multiple
+                          ? $$selectedVal
+                          : $$selectedVal[0]
+                      )
+                    }
+                  }
+                },
+                [
+                  _c("option", [_vm._v("1")]),
+                  _vm._v(" "),
+                  _c("option", [_vm._v("2")]),
+                  _vm._v(" "),
+                  _c("option", [_vm._v("3")]),
+                  _vm._v(" "),
+                  _c("option", [_vm._v("4")]),
+                  _vm._v(" "),
+                  _c("option", [_vm._v("5")])
+                ]
+              )
+            ])
+          : _vm._e(),
         _vm._v(" "),
         _c("br"),
         _vm._v(" "),
-        _c("div", { staticClass: "form-group" }, [
-          _c("label", [_vm._v("Bathroom")]),
-          _vm._v(" "),
-          _c(
-            "select",
-            {
-              directives: [
+        _vm.data.bathroom !== null
+          ? _c("div", { staticClass: "form-group" }, [
+              _c("label", [_vm._v("Bathroom")]),
+              _vm._v(" "),
+              _c(
+                "select",
                 {
-                  name: "model",
-                  rawName: "v-model",
-                  value: _vm.data.bathroom,
-                  expression: "data.bathroom"
-                }
-              ],
-              staticClass: "form-control",
-              on: {
-                change: function($event) {
-                  var $$selectedVal = Array.prototype.filter
-                    .call($event.target.options, function(o) {
-                      return o.selected
-                    })
-                    .map(function(o) {
-                      var val = "_value" in o ? o._value : o.value
-                      return val
-                    })
-                  _vm.$set(
-                    _vm.data,
-                    "bathroom",
-                    $event.target.multiple ? $$selectedVal : $$selectedVal[0]
-                  )
-                }
-              }
-            },
-            [
-              _c("option", [_vm._v("1")]),
-              _vm._v(" "),
-              _c("option", [_vm._v("2")]),
-              _vm._v(" "),
-              _c("option", [_vm._v("3")]),
-              _vm._v(" "),
-              _c("option", [_vm._v("4")]),
-              _vm._v(" "),
-              _c("option", [_vm._v("5")])
-            ]
-          )
-        ]),
+                  directives: [
+                    {
+                      name: "model",
+                      rawName: "v-model",
+                      value: _vm.data.bathroom,
+                      expression: "data.bathroom"
+                    }
+                  ],
+                  staticClass: "form-control",
+                  on: {
+                    change: function($event) {
+                      var $$selectedVal = Array.prototype.filter
+                        .call($event.target.options, function(o) {
+                          return o.selected
+                        })
+                        .map(function(o) {
+                          var val = "_value" in o ? o._value : o.value
+                          return val
+                        })
+                      _vm.$set(
+                        _vm.data,
+                        "bathroom",
+                        $event.target.multiple
+                          ? $$selectedVal
+                          : $$selectedVal[0]
+                      )
+                    }
+                  }
+                },
+                [
+                  _c("option", [_vm._v("1")]),
+                  _vm._v(" "),
+                  _c("option", [_vm._v("2")]),
+                  _vm._v(" "),
+                  _c("option", [_vm._v("3")]),
+                  _vm._v(" "),
+                  _c("option", [_vm._v("4")]),
+                  _vm._v(" "),
+                  _c("option", [_vm._v("5")])
+                ]
+              )
+            ])
+          : _vm._e(),
         _vm._v(" "),
         _c("br"),
         _vm._v(" "),
-        _c("div", { staticClass: "form-group" }, [
-          _c("label", [_vm._v("Facing")]),
-          _vm._v(" "),
-          _c(
-            "select",
-            {
-              directives: [
+        _vm.data.facing !== null
+          ? _c("div", { staticClass: "form-group" }, [
+              _c("label", [_vm._v("Facing")]),
+              _vm._v(" "),
+              _c(
+                "select",
                 {
-                  name: "model",
-                  rawName: "v-model",
-                  value: _vm.data.facing,
-                  expression: "data.facing"
-                }
-              ],
-              staticClass: "form-control",
-              on: {
-                change: function($event) {
-                  var $$selectedVal = Array.prototype.filter
-                    .call($event.target.options, function(o) {
-                      return o.selected
-                    })
-                    .map(function(o) {
-                      var val = "_value" in o ? o._value : o.value
-                      return val
-                    })
-                  _vm.$set(
-                    _vm.data,
-                    "facing",
-                    $event.target.multiple ? $$selectedVal : $$selectedVal[0]
-                  )
-                }
-              }
-            },
-            [
-              _c("option", [_vm._v("East")]),
-              _vm._v(" "),
-              _c("option", [_vm._v("North")]),
-              _vm._v(" "),
-              _c("option", [_vm._v("Northeast")]),
-              _vm._v(" "),
-              _c("option", [_vm._v("Northwest")]),
-              _vm._v(" "),
-              _c("option", [_vm._v("South")]),
-              _vm._v(" "),
-              _c("option", [_vm._v("Southeast")]),
-              _vm._v(" "),
-              _c("option", [_vm._v("Southwest")]),
-              _vm._v(" "),
-              _c("option", [_vm._v("West")])
-            ]
-          )
-        ]),
+                  directives: [
+                    {
+                      name: "model",
+                      rawName: "v-model",
+                      value: _vm.data.facing,
+                      expression: "data.facing"
+                    }
+                  ],
+                  staticClass: "form-control",
+                  on: {
+                    change: function($event) {
+                      var $$selectedVal = Array.prototype.filter
+                        .call($event.target.options, function(o) {
+                          return o.selected
+                        })
+                        .map(function(o) {
+                          var val = "_value" in o ? o._value : o.value
+                          return val
+                        })
+                      _vm.$set(
+                        _vm.data,
+                        "facing",
+                        $event.target.multiple
+                          ? $$selectedVal
+                          : $$selectedVal[0]
+                      )
+                    }
+                  }
+                },
+                [
+                  _c("option", [_vm._v("East")]),
+                  _vm._v(" "),
+                  _c("option", [_vm._v("North")]),
+                  _vm._v(" "),
+                  _c("option", [_vm._v("Northeast")]),
+                  _vm._v(" "),
+                  _c("option", [_vm._v("Northwest")]),
+                  _vm._v(" "),
+                  _c("option", [_vm._v("South")]),
+                  _vm._v(" "),
+                  _c("option", [_vm._v("Southeast")]),
+                  _vm._v(" "),
+                  _c("option", [_vm._v("Southwest")]),
+                  _vm._v(" "),
+                  _c("option", [_vm._v("West")])
+                ]
+              )
+            ])
+          : _vm._e(),
         _vm._v(" "),
         _c("br"),
         _vm._v(" "),
@@ -50581,7 +50637,7 @@ var render = function() {
                               _c(
                                 "span",
                                 {
-                                  staticClass: "p-name",
+                                  staticClass: "p-name description",
                                   staticStyle: { color: "orange" }
                                 },
                                 [_vm._v(_vm._s(item.title))]
@@ -50594,7 +50650,7 @@ var render = function() {
                             _vm._v(" "),
                             _c("div", { staticClass: "a-size" }, [
                               _vm._v("Description : "),
-                              _c("span", { staticClass: "size" }, [
+                              _c("span", { staticClass: "size description" }, [
                                 _vm._v(_vm._s(item.description))
                               ])
                             ])
@@ -50702,7 +50758,7 @@ var render = function() {
                               _c(
                                 "span",
                                 {
-                                  staticClass: "p-name",
+                                  staticClass: "p-name description",
                                   staticStyle: { color: "orange" }
                                 },
                                 [_vm._v(_vm._s(item.title))]
@@ -50715,7 +50771,7 @@ var render = function() {
                             _vm._v(" "),
                             _c("div", { staticClass: "a-size" }, [
                               _vm._v("Description : "),
-                              _c("span", { staticClass: "size" }, [
+                              _c("span", { staticClass: "description size" }, [
                                 _vm._v(_vm._s(item.description))
                               ])
                             ])
@@ -50823,16 +50879,20 @@ var render = function() {
                                 _c(
                                   "span",
                                   {
-                                    staticClass: "p-name",
+                                    staticClass: "description p-name",
                                     staticStyle: { color: "orange" }
                                   },
                                   [_vm._v(_vm._s(item.title))]
-                                )
+                                ),
+                                _vm._v(" "),
+                                _c("span", { staticClass: "p-company" }, [
+                                  _vm._v(_vm._s(item.phone))
+                                ])
                               ]),
                               _vm._v(" "),
                               _c("div", { staticClass: "a-size" }, [
                                 _vm._v("Description : "),
-                                _c("span", { staticClass: "size" }, [
+                                _c("p", { staticClass: "size description" }, [
                                   _vm._v(_vm._s(item.description))
                                 ])
                               ])
@@ -51169,39 +51229,40 @@ var render = function() {
         [
           _vm._l(_vm.searchResult, function(item) {
             return [
-              _c("div", { staticClass: "col-12 col-md-6 col-lg-4" }, [
-                _c("div", { staticClass: "card" }, [
-                  _c("img", {
-                    staticClass: "card-img-top",
-                    attrs: { src: item.images[0].image, alt: "Card image cap" }
-                  }),
-                  _vm._v(" "),
-                  _c("div", { staticClass: "card-body" }, [
-                    _c("h5", { staticClass: "card-title" }, [
-                      _vm._v(_vm._s(item.title))
-                    ]),
-                    _vm._v(" "),
-                    _c("span", [_vm._v("Price : " + _vm._s(item.price))]),
-                    _vm._v(" "),
-                    _c("p", { staticClass: "card-text" }, [
-                      _vm._v(_vm._s(item.description))
-                    ])
-                  ]),
-                  _vm._v(" "),
-                  _c(
-                    "button",
-                    {
-                      staticClass: "bnt btn-primary",
-                      on: {
-                        click: function($event) {
-                          return _vm.Detail(item.upId)
-                        }
+              _c(
+                "div",
+                {
+                  staticClass: "col-12 col-md-6 col-lg-4",
+                  on: {
+                    click: function($event) {
+                      return _vm.Detail(item.upId, item.cat_name)
+                    }
+                  }
+                },
+                [
+                  _c("div", { staticClass: "card" }, [
+                    _c("img", {
+                      staticClass: "card-img-top",
+                      attrs: {
+                        src: item.images[0].image,
+                        alt: "Card image cap"
                       }
-                    },
-                    [_vm._v(" View Detail")]
-                  )
-                ])
-              ])
+                    }),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "card-body" }, [
+                      _c("h5", { staticClass: "card-title" }, [
+                        _vm._v(_vm._s(item.title))
+                      ]),
+                      _vm._v(" "),
+                      _c("span", [_vm._v("Price : $" + _vm._s(item.price))]),
+                      _vm._v(" "),
+                      _c("p", { staticClass: "card-text" }, [
+                        _vm._v(_vm._s(item.description))
+                      ])
+                    ])
+                  ])
+                ]
+              )
             ]
           })
         ],
@@ -51350,8 +51411,16 @@ var render = function() {
               _c("div", { staticClass: "dropdown-menu " }, [
                 _c(
                   "a",
-                  { staticClass: "dropdown-item", attrs: { href: "#" } },
-                  [_vm._v("Action")]
+                  {
+                    staticClass: "dropdown-item",
+                    attrs: {
+                      "data-toggle": "collapse",
+                      "data-target": "#collapseExample",
+                      "aria-expanded": "false",
+                      "aria-controls": "collapseExample"
+                    }
+                  },
+                  [_vm._v("Edit Profile")]
                 ),
                 _vm._v(" "),
                 _c(
@@ -51389,6 +51458,8 @@ var render = function() {
     _vm._v(" "),
     _c("div", { staticClass: "content" }, [
       _c("div", { staticClass: "container-fluid" }, [
+        _vm._m(0),
+        _vm._v(" "),
         _c(
           "div",
           { staticClass: "user-profile", attrs: { id: "user-profile-2" } },
@@ -51404,7 +51475,7 @@ var render = function() {
                         "div",
                         { staticClass: "col-xs-12 col-sm-3 center" },
                         [
-                          _vm._m(0),
+                          _vm._m(1),
                           _vm._v(" "),
                           _c("div", { staticClass: "space space-4" }),
                           _vm._v(" "),
@@ -51485,7 +51556,7 @@ var render = function() {
                             ])
                           ]),
                           _vm._v(" "),
-                          _vm._m(1)
+                          _vm._m(2)
                         ]),
                         _vm._v(" "),
                         _c("div", { staticClass: "hr hr-8 dotted" })
@@ -51546,11 +51617,8 @@ var render = function() {
                               }),
                               _vm._v(" "),
                               _c("p", { staticStyle: { color: "#2e7d32" } }, [
-                                _vm._v("Price :")
-                              ]),
-                              _vm._v(" "),
-                              _c("p", { staticClass: "card-text" }, [
-                                _vm._v(_vm._s(item.price) + "$")
+                                _vm._v("Price : "),
+                                _c("span", [_vm._v(_vm._s(item.price) + "$")])
                               ])
                             ])
                           ]
@@ -51596,11 +51664,8 @@ var render = function() {
                                 }),
                                 _vm._v(" "),
                                 _c("p", { staticStyle: { color: "#2e7d32" } }, [
-                                  _vm._v("Price :")
-                                ]),
-                                _vm._v(" "),
-                                _c("p", { staticClass: "card-text" }, [
-                                  _vm._v(_vm._s(item.price) + "$")
+                                  _vm._v("Price : "),
+                                  _c("span", [_vm._v(_vm._s(item.price) + "$")])
                                 ]),
                                 _vm._v(" "),
                                 _c("div", { staticClass: "btn-group" }, [
@@ -51697,7 +51762,7 @@ var render = function() {
                           },
                           [
                             _c("div", { staticClass: "modal-content" }, [
-                              _vm._m(2),
+                              _vm._m(3),
                               _vm._v(" "),
                               _c("div", { staticClass: "modal-body" }, [
                                 _vm._v(
@@ -51741,13 +51806,48 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("span", { staticClass: "profile-picture" }, [
+    return _c(
+      "div",
+      { staticClass: "collapse ", attrs: { id: "collapseExample" } },
+      [
+        _c("div", { staticClass: "card card-body background" }, [
+          _c(
+            "p",
+            {
+              staticStyle: {
+                cursor: "pointer",
+                color: "black",
+                "font-size": "medium"
+              },
+              attrs: {
+                "data-toggle": "collapse",
+                "data-target": "#collapseExample",
+                "aria-expanded": "false",
+                "aria-controls": "collapseExample"
+              }
+            },
+            [_vm._v("X")]
+          ),
+          _vm._v(" "),
+          _c("div", { staticClass: "container" }, [
+            _c("div", { staticClass: "row" })
+          ])
+        ])
+      ]
+    )
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "profile-picture" }, [
       _c("img", {
         staticClass: "editable img-responsive",
         attrs: {
           alt: " Avatar",
           id: "avatar2",
-          src: "http://bootdey.com/img/Content/avatar/avatar6.png"
+          src:
+            "https://cdn.fastly.picmonkey.com/contentful/h6goo9gw1hh6/2sNZtFAWOdP1lmQ33VwRN3/24e953b920a9cd0ff2e1d587742a2472/1-intro-photo-final.jpg?w=800&q=70"
         }
       })
     ])
@@ -51814,260 +51914,287 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("div", [
-    _c("div", { staticClass: "container" }, [
-      _c("div", { staticClass: "card" }, [
-        _c(
-          "div",
-          { staticClass: "container-fliud" },
-          [
+    _c(
+      "div",
+      { staticClass: "container" },
+      [
+        _c("div", { staticClass: "card" }, [
+          _c(
+            "div",
+            { staticClass: "container-fliud" },
             [
-              _c(
-                "div",
-                { staticClass: "wrapper row", attrs: { id: "detail" } },
-                [
-                  _c("div", { staticClass: "codepen-container" }, [
-                    _c(
-                      "div",
-                      { staticClass: "content-container" },
-                      [
-                        _c("div", { staticClass: "left-container" }, [
-                          _c(
-                            "div",
-                            { staticClass: "product-image--container" },
-                            [
-                              _c("img", {
-                                staticClass: "product-image--featured",
-                                attrs: {
-                                  id: "featured",
-                                  src: _vm.test_images[0].img_name,
-                                  alt: "toaster"
-                                }
-                              }),
-                              _vm._v(" "),
-                              _c(
-                                "ul",
-                                {
-                                  staticClass: "product-image--list",
-                                  attrs: { id: "gg" }
-                                },
-                                _vm._l(_vm.test_images, function(im, index) {
-                                  return _c(
-                                    "li",
-                                    { staticClass: "item-selected" },
-                                    [
-                                      _c("img", {
-                                        staticClass: "product-image--item",
-                                        attrs: { src: im.img_name },
-                                        on: { mouseover: _vm.myHover }
-                                      })
-                                    ]
-                                  )
-                                }),
-                                0
-                              )
-                            ]
-                          )
-                        ]),
-                        _vm._v(" "),
-                        _vm._l(_vm.allDetail, function(data) {
-                          return _c("div", { staticClass: "right-container" }, [
-                            _c("div", [
-                              _c("h6", { staticClass: "title" }, [
-                                _vm._v("Title")
-                              ]),
-                              _vm._v(" "),
-                              _c(
-                                "h6",
-                                { staticClass: "subtitle subtitle-container" },
-                                [_vm._v(_vm._s(data.title))]
-                              ),
-                              _vm._v(" "),
-                              _vm._m(0, true)
-                            ]),
-                            _vm._v(" "),
-                            _c("span", [
-                              _c("p", [
-                                _vm._v(
-                                  "Price:\n                                            "
-                                ),
-                                _c("span", { staticClass: "emphasize" }, [
-                                  _vm._v(_vm._s(data.price) + "$")
-                                ])
-                              ])
-                            ]),
-                            _vm._v(" "),
-                            _c("div", [
-                              _c("h5", { staticClass: "title" }, [
-                                _vm._v("Product Description")
-                              ]),
-                              _vm._v(" "),
-                              _c("div", { staticClass: "subtitle-container" }, [
-                                _c("span", [
-                                  _vm._v("Size: " + _vm._s(data.size))
-                                ]),
-                                _vm._v(" "),
-                                _c("span", [_vm._v("|")]),
-                                _vm._v(" "),
-                                _c("span", [
-                                  _vm._v("Bedroom : " + _vm._s(data.bedroom))
-                                ]),
-                                _vm._v(" "),
-                                _c("span", [_vm._v("|")]),
-                                _vm._v(" "),
-                                _c("span", [
-                                  _vm._v("Bathroom : " + _vm._s(data.bathroom))
-                                ])
-                              ]),
-                              _vm._v(" "),
-                              _c("br"),
-                              _vm._v(" "),
-                              _c("span", [
-                                _vm._v("Price : " + _vm._s(data.price) + "$")
-                              ]),
-                              _vm._v(" "),
-                              _c("br"),
-                              _vm._v(" "),
-                              _c("span", [
-                                _vm._v("Email : " + _vm._s(data.email))
-                              ]),
-                              _vm._v(" "),
-                              _c("br"),
-                              _vm._v(" "),
-                              _c("span", [
-                                _vm._v("Phone : " + _vm._s(data.phone))
-                              ]),
-                              _vm._v(" "),
-                              _c("br"),
-                              _vm._v(" "),
-                              _c("span", [
-                                _vm._v(
-                                  "Location : " + _vm._s(data.localdetail) + " "
-                                )
-                              ]),
-                              _vm._v(" "),
-                              _c("br"),
-                              _vm._v(" "),
-                              _c("span", [_vm._v("Description : ")]),
-                              _vm._v(" "),
-                              _c(
-                                "p",
-                                { staticStyle: { "text-align": "justify" } },
-                                [
-                                  _vm._v(
-                                    "\n                                            " +
-                                      _vm._s(data.description) +
-                                      "\n                                        "
-                                  )
-                                ]
-                              )
-                            ]),
-                            _vm._v(" "),
-                            _vm._m(1, true)
-                          ])
-                        })
-                      ],
-                      2
-                    )
-                  ])
-                ]
-              )
-            ]
-          ],
-          2
-        )
-      ]),
-      _vm._v(" "),
-      _c("hr"),
-      _vm._v(" "),
-      _c("h3", [_vm._v("Properties List")]),
-      _vm._v(" "),
-      _c("hr"),
-      _vm._v(" "),
-      _c("div", { staticClass: "container mb-3 mt-3" }, [
-        _c(
-          "button",
-          {
-            staticClass: "btn1 btn-primary btn-grid",
-            staticStyle: { float: "right", "margin-right": "10px" },
-            on: { click: _vm.gridList }
-          },
-          [_vm._v("Grid View")]
-        ),
-        _vm._v(" "),
-        _c(
-          "button",
-          {
-            staticClass: "btn1 btn-danger btn-list",
-            staticStyle: { float: "right", "margin-right": "10px" },
-            on: { click: _vm.showList }
-          },
-          [_vm._v("List View")]
-        )
-      ]),
-      _vm._v(" "),
-      _c("hr"),
-      _vm._v(" "),
-      _c("div", { staticClass: "container grid-container" }, [
-        _c(
-          "div",
-          { staticClass: "row" },
-          [
-            _vm._l(_vm.getproduct, function(item) {
-              return [
+              [
                 _c(
                   "div",
-                  {
-                    staticClass: "col-12 col-md-6 col-lg-3",
-                    staticStyle: { cursor: "pointer" }
-                  },
+                  { staticClass: "wrapper row", attrs: { id: "detail" } },
                   [
-                    _c(
-                      "div",
-                      {
-                        staticClass: "card",
-                        on: {
-                          click: function($event) {
-                            return _vm.Detail(item.upId, item.cat_name)
-                          }
-                        }
-                      },
-                      [
-                        _c("img", {
-                          staticClass: "card-img-top",
-                          attrs: {
-                            src: item.images[0].image,
-                            alt: "Card image cap"
-                          }
-                        }),
-                        _vm._v(" "),
-                        _c("div", { staticClass: "card-body" }, [
-                          _c("h5", { staticClass: "card-title" }, [
-                            _vm._v(" " + _vm._s(item.title))
-                          ]),
-                          _vm._v(" "),
-                          _c("span", [
-                            _vm._v("Price : " + _vm._s(item.price) + "$")
-                          ]),
-                          _vm._v(" "),
-                          _c("p", { staticClass: "card-text description" }, [
-                            _vm._v(
-                              "\n                                        " +
-                                _vm._s(item.description) +
-                                "\n                                    "
+                    _c("div", { staticClass: "codepen-container" }, [
+                      _c(
+                        "div",
+                        { staticClass: "content-container" },
+                        [
+                          _c("div", { staticClass: "left-container" }, [
+                            _c(
+                              "div",
+                              { staticClass: "product-image--container" },
+                              [
+                                _c("img", {
+                                  staticClass: "product-image--featured",
+                                  attrs: {
+                                    id: "featured",
+                                    src: _vm.test_images[0].img_name,
+                                    alt: "toaster"
+                                  }
+                                }),
+                                _vm._v(" "),
+                                _c(
+                                  "ul",
+                                  {
+                                    staticClass: "product-image--list",
+                                    attrs: { id: "gg" }
+                                  },
+                                  _vm._l(_vm.test_images, function(im, index) {
+                                    return _c(
+                                      "li",
+                                      { staticClass: "item-selected" },
+                                      [
+                                        _c("img", {
+                                          staticClass: "product-image--item",
+                                          attrs: { src: im.img_name },
+                                          on: { mouseover: _vm.myHover }
+                                        })
+                                      ]
+                                    )
+                                  }),
+                                  0
+                                )
+                              ]
                             )
-                          ])
-                        ])
-                      ]
-                    )
+                          ]),
+                          _vm._v(" "),
+                          _vm._l(_vm.allDetail, function(data) {
+                            return _c(
+                              "div",
+                              { staticClass: "right-container" },
+                              [
+                                _c("div", [
+                                  _c("h6", { staticClass: "title" }, [
+                                    _vm._v("Title")
+                                  ]),
+                                  _vm._v(" "),
+                                  _c(
+                                    "h6",
+                                    {
+                                      staticClass: "subtitle subtitle-container"
+                                    },
+                                    [_vm._v(_vm._s(data.title))]
+                                  ),
+                                  _vm._v(" "),
+                                  _vm._m(0, true)
+                                ]),
+                                _vm._v(" "),
+                                _c("span", [
+                                  _c("p", [
+                                    _vm._v(
+                                      "Price:\n                                            "
+                                    ),
+                                    _c("span", { staticClass: "emphasize" }, [
+                                      _vm._v(_vm._s(data.price) + "$")
+                                    ])
+                                  ])
+                                ]),
+                                _vm._v(" "),
+                                _c("div", [
+                                  _c("h5", { staticClass: "title" }, [
+                                    _vm._v("Product Description")
+                                  ]),
+                                  _vm._v(" "),
+                                  _c(
+                                    "div",
+                                    { staticClass: "subtitle-container" },
+                                    [
+                                      _c("span", [
+                                        _vm._v("Size: " + _vm._s(data.size))
+                                      ]),
+                                      _vm._v(" "),
+                                      _c("span", [_vm._v("|")]),
+                                      _vm._v(" "),
+                                      _c("span", [
+                                        _vm._v(
+                                          "Bedroom : " + _vm._s(data.bedroom)
+                                        )
+                                      ]),
+                                      _vm._v(" "),
+                                      _c("span", [_vm._v("|")]),
+                                      _vm._v(" "),
+                                      _c("span", [
+                                        _vm._v(
+                                          "Bathroom : " + _vm._s(data.bathroom)
+                                        )
+                                      ])
+                                    ]
+                                  ),
+                                  _vm._v(" "),
+                                  _c("br"),
+                                  _vm._v(" "),
+                                  _c("span", [
+                                    _vm._v(
+                                      "Price : " + _vm._s(data.price) + "$"
+                                    )
+                                  ]),
+                                  _vm._v(" "),
+                                  _c("br"),
+                                  _vm._v(" "),
+                                  _c("span", [
+                                    _vm._v("Email : " + _vm._s(data.email))
+                                  ]),
+                                  _vm._v(" "),
+                                  _c("br"),
+                                  _vm._v(" "),
+                                  _c("span", [
+                                    _vm._v("Phone : " + _vm._s(data.phone))
+                                  ]),
+                                  _vm._v(" "),
+                                  _c("br"),
+                                  _vm._v(" "),
+                                  _c("span", [
+                                    _vm._v(
+                                      "Location : " +
+                                        _vm._s(data.localdetail) +
+                                        " "
+                                    )
+                                  ]),
+                                  _vm._v(" "),
+                                  _c("br"),
+                                  _vm._v(" "),
+                                  _c("span", [_vm._v("Description : ")]),
+                                  _vm._v(" "),
+                                  _c(
+                                    "p",
+                                    {
+                                      staticStyle: { "text-align": "justify" }
+                                    },
+                                    [
+                                      _vm._v(
+                                        "\n                                            " +
+                                          _vm._s(data.description) +
+                                          "\n                                        "
+                                      )
+                                    ]
+                                  )
+                                ]),
+                                _vm._v(" "),
+                                _vm._m(1, true)
+                              ]
+                            )
+                          })
+                        ],
+                        2
+                      )
+                    ])
                   ]
                 )
               ]
-            })
-          ],
-          2
-        )
-      ])
-    ])
+            ],
+            2
+          )
+        ]),
+        _vm._v(" "),
+        _c("hr"),
+        _vm._v(" "),
+        _c("h3", [_vm._v("Properties List")]),
+        _vm._v(" "),
+        _c("hr"),
+        _vm._v(" "),
+        _c("div", { staticClass: "container mb-3 mt-3" }, [
+          _c(
+            "button",
+            {
+              staticClass: "btn1 btn-primary btn-grid",
+              staticStyle: { float: "right", "margin-right": "10px" },
+              on: { click: _vm.gridList }
+            },
+            [_vm._v("Grid View")]
+          ),
+          _vm._v(" "),
+          _c(
+            "button",
+            {
+              staticClass: "btn1 btn-danger btn-list",
+              staticStyle: { float: "right", "margin-right": "10px" },
+              on: { click: _vm.showList }
+            },
+            [_vm._v("List View")]
+          )
+        ]),
+        _vm._v(" "),
+        _c("hr"),
+        _vm._v(" "),
+        _c("div", { staticClass: "container grid-container" }, [
+          _c(
+            "div",
+            { staticClass: "row" },
+            [
+              _vm._l(_vm.getproduct, function(item) {
+                return [
+                  _c(
+                    "div",
+                    {
+                      staticClass: "col-12 col-md-6 col-lg-3",
+                      staticStyle: { cursor: "pointer" }
+                    },
+                    [
+                      _c(
+                        "div",
+                        {
+                          staticClass: "card",
+                          on: {
+                            click: function($event) {
+                              return _vm.Detail(item.upId, item.cat_name)
+                            }
+                          }
+                        },
+                        [
+                          _c("img", {
+                            staticClass: "card-img-top",
+                            attrs: {
+                              src: item.images[0].image,
+                              alt: "Card image cap"
+                            }
+                          }),
+                          _vm._v(" "),
+                          _c("div", { staticClass: "card-body" }, [
+                            _c("h5", { staticClass: "card-title" }, [
+                              _vm._v(" " + _vm._s(item.title))
+                            ]),
+                            _vm._v(" "),
+                            _c("span", [
+                              _vm._v("Price : " + _vm._s(item.price) + "$")
+                            ]),
+                            _vm._v(" "),
+                            _c("p", { staticClass: "card-text description" }, [
+                              _vm._v(
+                                "\n                                    " +
+                                  _vm._s(item.description) +
+                                  "\n                                "
+                              )
+                            ])
+                          ])
+                        ]
+                      )
+                    ]
+                  )
+                ]
+              })
+            ],
+            2
+          )
+        ]),
+        _vm._v(" "),
+        _c("footer-Page")
+      ],
+      1
+    )
   ])
 }
 var staticRenderFns = [
@@ -52134,74 +52261,6 @@ var staticRenderFns = [
               _c(
                 "div",
                 {
-                  staticClass: "f_widget company_widget wow fadeInLeft",
-                  staticStyle: {
-                    visibility: "visible",
-                    "animation-delay": "0.2s",
-                    "animation-name": "fadeInLeft"
-                  },
-                  attrs: { "data-wow-delay": "0.2s" }
-                },
-                [
-                  _c("h3", { staticClass: "f-title f_600 t_color f_size_18" }, [
-                    _vm._v("Get in Touch")
-                  ]),
-                  _vm._v(" "),
-                  _c("p", [
-                    _vm._v(
-                      "Don’t miss any updates of our new templates and extensions.!"
-                    )
-                  ]),
-                  _vm._v(" "),
-                  _c(
-                    "form",
-                    {
-                      staticClass: "f_subscribe_two mailchimp",
-                      attrs: {
-                        action: "#",
-                        method: "post",
-                        novalidate: "true",
-                        _lpchecked: "1"
-                      }
-                    },
-                    [
-                      _c("input", {
-                        staticClass: "form-control memail",
-                        attrs: {
-                          type: "text",
-                          name: "EMAIL",
-                          placeholder: "Email"
-                        }
-                      }),
-                      _vm._v(" "),
-                      _c(
-                        "button",
-                        {
-                          staticClass: "btn btn_get btn_get_two",
-                          attrs: { type: "submit" }
-                        },
-                        [_vm._v("Subscribe")]
-                      ),
-                      _vm._v(" "),
-                      _c("p", {
-                        staticClass: "mchimp-errmessage",
-                        staticStyle: { display: "none" }
-                      }),
-                      _vm._v(" "),
-                      _c("p", {
-                        staticClass: "mchimp-sucmessage",
-                        staticStyle: { display: "none" }
-                      })
-                    ]
-                  )
-                ]
-              )
-            ]),
-            _vm._v(" "),
-            _c("div", { staticClass: "col-lg-3 col-md-6" }, [
-              _c(
-                "div",
-                {
                   staticClass: "f_widget about-widget pl_70 wow fadeInLeft",
                   staticStyle: {
                     visibility: "visible",
@@ -52212,32 +52271,22 @@ var staticRenderFns = [
                 },
                 [
                   _c("h3", { staticClass: "f-title f_600 t_color f_size_18" }, [
-                    _vm._v("Download")
+                    _vm._v("Customer Service")
                   ]),
                   _vm._v(" "),
                   _c("ul", { staticClass: "list-unstyled f_list" }, [
                     _c("li", [
-                      _c("a", { attrs: { href: "#" } }, [_vm._v("Company")])
+                      _c("a", { attrs: { href: "#" } }, [_vm._v("Contact Us")])
                     ]),
                     _vm._v(" "),
                     _c("li", [
-                      _c("a", { attrs: { href: "#" } }, [_vm._v("Android App")])
+                      _c("a", { attrs: { href: "#" } }, [_vm._v("Promote Ad")])
                     ]),
                     _vm._v(" "),
                     _c("li", [
-                      _c("a", { attrs: { href: "#" } }, [_vm._v("ios App")])
-                    ]),
-                    _vm._v(" "),
-                    _c("li", [
-                      _c("a", { attrs: { href: "#" } }, [_vm._v("Desktop")])
-                    ]),
-                    _vm._v(" "),
-                    _c("li", [
-                      _c("a", { attrs: { href: "#" } }, [_vm._v("Projects")])
-                    ]),
-                    _vm._v(" "),
-                    _c("li", [
-                      _c("a", { attrs: { href: "#" } }, [_vm._v("My tasks")])
+                      _c("a", { attrs: { href: "#" } }, [
+                        _vm._v("Private Policy")
+                      ])
                     ])
                   ])
                 ]
@@ -52263,10 +52312,6 @@ var staticRenderFns = [
                   _vm._v(" "),
                   _c("ul", { staticClass: "list-unstyled f_list" }, [
                     _c("li", [
-                      _c("a", { attrs: { href: "#" } }, [_vm._v("FAQ")])
-                    ]),
-                    _vm._v(" "),
-                    _c("li", [
                       _c("a", { attrs: { href: "#" } }, [
                         _vm._v("Term & conditions")
                       ])
@@ -52274,22 +52319,6 @@ var staticRenderFns = [
                     _vm._v(" "),
                     _c("li", [
                       _c("a", { attrs: { href: "#" } }, [_vm._v("Reporting")])
-                    ]),
-                    _vm._v(" "),
-                    _c("li", [
-                      _c("a", { attrs: { href: "#" } }, [
-                        _vm._v("Documentation")
-                      ])
-                    ]),
-                    _vm._v(" "),
-                    _c("li", [
-                      _c("a", { attrs: { href: "#" } }, [
-                        _vm._v("Support Policy")
-                      ])
-                    ]),
-                    _vm._v(" "),
-                    _c("li", [
-                      _c("a", { attrs: { href: "#" } }, [_vm._v("Privacy")])
                     ])
                   ])
                 ]
@@ -52310,27 +52339,12 @@ var staticRenderFns = [
                 },
                 [
                   _c("h3", { staticClass: "f-title f_600 t_color f_size_18" }, [
-                    _vm._v("Team Solutions")
+                    _vm._v("Follow as")
                   ]),
                   _vm._v(" "),
                   _c("div", { staticClass: "f_social_icon" }, [
                     _c("a", {
                       staticClass: "fab fa-facebook",
-                      attrs: { href: "#" }
-                    }),
-                    _vm._v(" "),
-                    _c("a", {
-                      staticClass: "fab fa-twitter",
-                      attrs: { href: "#" }
-                    }),
-                    _vm._v(" "),
-                    _c("a", {
-                      staticClass: "fab fa-linkedin",
-                      attrs: { href: "#" }
-                    }),
-                    _vm._v(" "),
-                    _c("a", {
-                      staticClass: "fab fa-pinterest",
                       attrs: { href: "#" }
                     })
                   ])
