@@ -43,6 +43,7 @@ Route::get('macadd', 'PaymentCheckoutController@getMacAddress');
 Route::post('searchdata', 'API\V1\ProductController@search');
 Route::get('getcategory/{cat}', 'API\V1\ProductController@procategory');
 Route::get('promote', 'API\V1\ProductController@Promote');
+Route::post('UpdateProfile', 'API\V1\ProductController@UpdateProfile');
 
 Route::post('/checkout', 'PaymentCheckoutController@checkout');
 Route::post('getfavorite', 'API\V1\ProductController@getfavorite');

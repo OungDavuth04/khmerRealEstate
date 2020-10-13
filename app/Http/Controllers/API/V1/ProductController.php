@@ -20,6 +20,13 @@ use Stripe\ApiOperations\Create;
 
 class ProductController extends Controller
 {
+    public function UpdateProfile(Request $request){
+
+
+        return response()->json($request);
+    }
+
+
     public function viewerpromote($id){
         $vie = FeaturAd::where('UpId',$id)->get();
         foreach ($vie as $count){

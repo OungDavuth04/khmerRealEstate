@@ -32,7 +32,83 @@
                         <p data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample" style="cursor: pointer;color: black;font-size: medium">X</p>
                         <div class="container">
                             <div class="row">
+                                <div class="col-sm-6 form-group ">
+                                    <label for="name-f" class="text-white">Full Name</label>
+                                    <input type="text" class="form-control" v-model="data.name"  placeholder="Enter your first name." required>
+                                </div>
+                                <div class="col-sm-6 form-group">
+                                    <label for="email" class="text-white">Email</label>
+                                    <input type="email" class="form-control" v-model="data.email"  placeholder="Enter your email." required>
+                                </div>
+                                <div class="col-sm-6 form-group">
+                                    <label for="Country" class="text-white">City/Province</label>
+                                    <select class="form-control custom-select browser-default" v-model="data.province">
+                                        <option >Banteay Meanchey</option>
+                                        <option >Battambang</option>
+                                        <option >Kampong Cham</option>
+                                        <option >Kampong Chhnang</option>
+                                        <option >Kampong Speu</option>
+                                        <option >Kampong Thom</option>
+                                        <option >Kampot</option>
+                                        <option >Kandal</option>
+                                        <option >Koh Kong</option>
+                                        <option >Kratié</option>
+                                        <option >Mondulkiri</option>
+                                        <option >Phnom Penh</option>
+                                        <option >Preah Vihear</option>
+                                        <option >Prey Veng</option>
+                                        <option >Pursat</option>
+                                        <option >Ratanak Kiri</option>
+                                        <option >Siem Reap</option>
+                                        <option >Preah Sihanouk</option>
+                                        <option >Stung Treng</option>
+                                        <option >Svay Rieng</option>
+                                        <option >Takéo</option>
+                                        <option >Oddar Meanchey</option>
+                                        <option >Kep</option>
+                                        <option >Pailin</option>
+                                        <option >Tboung Khmum</option>
+                                    </select>
+                                </div>
+                                <div class="col-sm-6 form-group">
+                                    <label for="Date" class="text-white">Date Of Birth</label>
+                                    <input type="Date" name="dob" class="form-control" id="Date" placeholder="" required v-model="data.dob">
+                                </div>
+                                <div class="col-sm-6 form-group">
+                                    <label for="sex" class="text-white">Gender</label>
+                                    <select id="sex" class="form-control browser-default custom-select" v-model="data.gender">
+                                        <option value="male">Male</option>
+                                        <option value="female">Female</option>
+                                    </select>
+                                    <a class="text-white" @click="Reset()">Reset Password</a>
+                                </div>
+                                <div class="col-sm-4 form-group">
+                                    <label for="tel" class="text-white">Phone</label>
+                                    <input type="tel" name="phone" v-model="data.phone" class="form-control" id="tel" placeholder="Enter Your Contact Number." required>
+                                </div>
+                                <div class="col-sm-6 form-group" v-if="OldPassword === true">
+                                    <label for="pass" class="text-white">Enter Old Password</label>
+                                    <input type="Password" name="password"  class="form-control" id="pass" placeholder="Enter your password." required>
+                                </div>
+                                <div class="col-sm-6 form-group" v-if="ResetPassword === true">
+                                    <label for="pass2" class="text-white">Enter New Password</label>
+                                    <input type="Password" name="cnf-password"  class="form-control" id="pass2" placeholder="Re-enter your password." required>
+                                </div>
+                                <div class="col-sm-6 form-group">
+                                    <div class="photo-container"  >
+                                        <input multiple id="fileOpen" type="file" @change="previewImage" class="d-none">
+                                        <div class="img-container one" @click="openFileExplore">
+                                            <span>Add Profile</span>
+                                        </div>
+                                        <div class="img-container" v-if="data1.temp.length > 0" v-for="t in data1.temp" @click.prevent="removeImagePreview(t)">
+                                            <img :src="t.img" >
+                                        </div>
+                                    </div>
+                                </div>
 
+                                <div class="col-sm-12 form-group mb-0">
+                                    <button class="btn btn-primary float-right" @click="editProfile" >Update</button>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -73,12 +149,10 @@
 
                                                 <div class="profile-info-value">
                                                     <span>{{phone}}</span>
-
                                                 </div>
                                             </div>
                                             <div class="profile-info-row">
                                                 <div class="profile-info-name"> Date Of Birth </div>
-
                                                 <div class="profile-info-value">
                                                     <span>{{dob}}</span>
                                                 </div>
@@ -87,13 +161,6 @@
                                                 <div class="profile-info-name"> Joined </div>
                                                 <div class="profile-info-value">
                                                     <span>{{newJoin}}</span>
-                                                </div>
-                                            </div>
-                                            <div class="profile-info-row">
-                                                <div class="profile-info-name"> Last Online </div>
-
-                                                <div class="profile-info-value">
-                                                    <span>3 hours ago</span>
                                                 </div>
                                             </div>
                                         </div>
@@ -183,6 +250,8 @@
     export default {
         data(){
             return{
+                ResetPassword:false,
+                OldPassword:false,
                 name: "",
                 uid: this.$store.getters.getId,
                 email:'',
@@ -201,14 +270,57 @@
                 newJoin:'',
                 pagination:[],
                 url:'api/getpost',
+                data:{
+                    name: '',
+                    email:'',
+                    password:'',
+                    province:'',
+                    dob:'',
+                    gender:'',
+                    phone:'',
+                    profile:''
+                },
+                data1: {
+                    temp: [],
+                    temp_id: 0,
+                    removed_image_array: [],
+                },
             }
         },
         mounted() {
             this.GetUserInfor();
         },
         methods:{
+            openFileExplore(){
+                $('#fileOpen').click();
+            },
+            previewImage(e){
+                if(e.target.files[0] && !e.files){
+                    let image = e.target.files[0];
+                    let reader = new FileReader();
+                    reader.readAsDataURL(image);
+                    reader.onload = e =>{
+                        //this.employeeData.photo = e.target.result;
+                        this.data1.temp.push({id: this.data.temp_id, img: e.target.result, isNew: true});
+                        this.data1.temp_id++;
+                    }
+                }
+            },
+            removeImagePreview(e){
+                this.data1.temp.splice(this.data1.temp.findIndex(v => v.id === e.id), 1);
+                this.data1.removed_image_array.push({image_name: e.img});
+            },
+            Reset(){
+                this.ResetPassword = true
+                this.OldPassword = true
+            },
             editProfile(){
-
+                this.data.profile = this.data1.temp
+                axios.post('api/UpdateProfile',this.data).then(response =>{
+                    console.log(response.data);
+                }).catch(err =>{
+                    console.error(err);
+                });
             },
             GetPost(){
                 const trustClientToken = window.localStorage.getItem('userAccessToken');
@@ -219,7 +331,7 @@
                 });
             },
             getPromote(){
-                axios.get('api/a').then(response =>{
+                axios.get('api/getpromote').then(response =>{
                     this.promoteData = response.data;
                 }).catch(err =>{
                     //console.error(err);
@@ -249,6 +361,7 @@
                 axios.defaults.headers.common['Authorization'] = 'Bearer '+ trustClientToken;
               await  axios.get('api/user').then(response => {
                     // console.log(response.data);
+                    this.data = response.data
                     this.name = response.data.name;
                     this.level = response.data.user_lavel;
                     this.uid = response.data.id;
@@ -292,6 +405,31 @@
 </script>
 
 <style scoped lang="scss">
+    .photo-container{
+        display: flex;
+        flex-direction: row;
+    }
+    .one{
+        span{
+            font-size: 15px;
+        }
+
+    }
+    .img-container{
+        width: 200px;
+        margin: 10px;
+        overflow: hidden;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        cursor: pointer;
+        background: dodgerblue;
+        border: solid #d9e0e7 2px;
+    }
+    .text-white{
+        color: white;
+        cursor: pointer;
+    }
     .background{
         background: #8A2387;  /* fallback for old browsers */
         background: -webkit-linear-gradient(to bottom, #F27121, #E94057, #8A2387);  /* Chrome 10-25, Safari 5.1-6 */

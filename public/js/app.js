@@ -3809,22 +3809,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "EditPost",
@@ -3897,8 +3881,6 @@ __webpack_require__.r(__webpack_exports__);
       }
     })["catch"](function (err) {})["finally"](function () {}); //console.log(this.allData)
   },
-  created: function created() {// console.log(this.$store.getters.getEditId);
-  },
   methods: {
     getDistricts: function getDistricts(e) {
       var _this2 = this;
@@ -3911,7 +3893,7 @@ __webpack_require__.r(__webpack_exports__);
           _this2.loadingDistricts = false;
         }
       })["catch"](function (errors) {
-        //console.log("Errors ", errors.response);
+        console.log("Errors ", errors.response);
         _this2.loadingDistricts = false;
       });
     },
@@ -3926,7 +3908,7 @@ __webpack_require__.r(__webpack_exports__);
           _this3.progressing.loadingCommunes = false;
         }
       })["catch"](function (errors) {
-        //console.log("Errors ", errors.response);
+        console.log("Errors ", errors.response);
         _this3.progressing.loadingCommunes = false;
       });
     },
@@ -3954,7 +3936,6 @@ __webpack_require__.r(__webpack_exports__);
       }
     },
     removeImagePreview: function removeImagePreview(e) {
-      //console.log(e.id);
       this.data1.temp.splice(this.data1.temp.findIndex(function (v) {
         return v.id === e.id;
       }), 1);
@@ -3970,12 +3951,11 @@ __webpack_require__.r(__webpack_exports__);
       this.data.removed_image_array = this.data1.removed_image_array;
       this.data.up_id = this.$store.getters.getEditId;
       axios.post('api/update_post', this.data).then(function (response) {
-        console.log(response);
-
         _this5.$emit('changeForm', {
           formName: 'userpagemaster.user'
         });
-      })["catch"](function (err) {//console.error(err);
+      })["catch"](function (err) {
+        console.error(err);
       });
     }
   }
@@ -6135,9 +6115,78 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
+      ResetPassword: false,
+      OldPassword: false,
       name: "",
       uid: this.$store.getters.getId,
       email: '',
@@ -6155,28 +6204,85 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       id: '',
       newJoin: '',
       pagination: [],
-      url: 'api/getpost'
+      url: 'api/getpost',
+      data: {
+        name: '',
+        email: '',
+        password: '',
+        province: '',
+        dob: '',
+        gender: '',
+        phone: '',
+        profile: ''
+      },
+      data1: {
+        temp: [],
+        temp_id: 0,
+        removed_image_array: []
+      }
     };
   },
   mounted: function mounted() {
     this.GetUserInfor();
   },
   methods: {
-    editProfile: function editProfile() {},
-    GetPost: function GetPost() {
+    openFileExplore: function openFileExplore() {
+      $('#fileOpen').click();
+    },
+    previewImage: function previewImage(e) {
       var _this = this;
+
+      if (e.target.files[0] && !e.files) {
+        var image = e.target.files[0];
+        var reader = new FileReader();
+        reader.readAsDataURL(image);
+
+        reader.onload = function (e) {
+          //this.employeeData.photo = e.target.result;
+          _this.data1.temp.push({
+            id: _this.data.temp_id,
+            img: e.target.result,
+            isNew: true
+          });
+
+          _this.data1.temp_id++;
+        };
+      }
+    },
+    removeImagePreview: function removeImagePreview(e) {
+      this.data1.temp.splice(this.data1.temp.findIndex(function (v) {
+        return v.id === e.id;
+      }), 1);
+      this.data1.removed_image_array.push({
+        image_name: e.img
+      });
+    },
+    Reset: function Reset() {
+      this.ResetPassword = true;
+      this.OldPassword = true;
+    },
+    editProfile: function editProfile() {
+      this.data.profile = this.data1.temp;
+      axios.post('api/UpdateProfile', this.data).then(function (response) {
+        console.log(response.data);
+      })["catch"](function (err) {
+        console.error(err);
+      });
+    },
+    GetPost: function GetPost() {
+      var _this2 = this;
 
       var trustClientToken = window.localStorage.getItem('userAccessToken');
       axios.defaults.headers.common['Authorization'] = 'Bearer ' + trustClientToken;
       axios.get('api/getpost').then(function (response) {
-        _this.upload = response.data;
+        _this2.upload = response.data;
       })["catch"](function (err) {});
     },
     getPromote: function getPromote() {
-      var _this2 = this;
+      var _this3 = this;
 
-      axios.get('api/a').then(function (response) {
-        _this2.promoteData = response.data;
+      axios.get('api/getpromote').then(function (response) {
+        _this3.promoteData = response.data;
       })["catch"](function (err) {//console.error(err);
       });
     },
@@ -6184,11 +6290,11 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       this.id = id;
     },
     Do_delete: function Do_delete(id) {
-      var _this3 = this;
+      var _this4 = this;
 
       axios.post('api/delete_post/' + id).then(function (response) {
         // console.log(response.data);
-        _this3.$emit('changeForm', {
+        _this4.$emit('changeForm', {
           formName: 'userpagemaster.user'
         });
       })["catch"](function (err) {//
@@ -6207,7 +6313,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       });
     },
     GetUserInfor: function GetUserInfor() {
-      var _this4 = this;
+      var _this5 = this;
 
       return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee() {
         var trustClientToken;
@@ -6220,27 +6326,28 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                 _context.next = 4;
                 return axios.get('api/user').then(function (response) {
                   // console.log(response.data);
-                  _this4.name = response.data.name;
-                  _this4.level = response.data.user_lavel;
-                  _this4.uid = response.data.id;
-                  _this4.email = response.data.email;
-                  _this4.location = response.data.province;
-                  _this4.dob = response.data.dob;
-                  _this4.phone = response.data.phone;
-                  _this4.join = response.data.updated_at;
-                  var currentDate = new Date(_this4.join);
+                  _this5.data = response.data;
+                  _this5.name = response.data.name;
+                  _this5.level = response.data.user_lavel;
+                  _this5.uid = response.data.id;
+                  _this5.email = response.data.email;
+                  _this5.location = response.data.province;
+                  _this5.dob = response.data.dob;
+                  _this5.phone = response.data.phone;
+                  _this5.join = response.data.updated_at;
+                  var currentDate = new Date(_this5.join);
                   var date = currentDate.getDate();
                   var month = currentDate.getMonth(); //Be careful! January is 0 not 1
 
                   var year = currentDate.getFullYear();
                   var dateString = date + "-" + (month + 1) + "-" + year;
-                  _this4.newJoin = dateString;
+                  _this5.newJoin = dateString;
                 })["catch"](function (err) {
                   console.log(err);
                 })["finally"](function () {
-                  _this4.GetPost();
+                  _this5.GetPost();
 
-                  _this4.getPromote();
+                  _this5.getPromote();
                 });
 
               case 4:
@@ -6252,7 +6359,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       }))();
     },
     logout: function logout() {
-      var _this5 = this;
+      var _this6 = this;
 
       var trustClientToken = window.localStorage.getItem('userAccessToken');
       axios.defaults.headers.common['Authorization'] = 'Bearer ' + trustClientToken;
@@ -6265,7 +6372,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
           window.localStorage.removeItem('catName');
           window.localStorage.removeItem('province');
 
-          _this5.$router.push({
+          _this6.$router.push({
             name: 'login'
           });
         }
@@ -11296,7 +11403,7 @@ exports = module.exports = __webpack_require__(/*! ../../../../node_modules/css-
 
 
 // module
-exports.push([module.i, ".background[data-v-e7fa2372] {\n  background: #8A2387;\n  /* fallback for old browsers */\n  /* Chrome 10-25, Safari 5.1-6 */\n  background: linear-gradient(to bottom, #F27121, #E94057, #8A2387);\n  /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */\n}\n.setting-bar[data-v-e7fa2372] {\n  width: 2rem;\n  height: 1rem;\n  cursor: pointer;\n}\n*[data-v-e7fa2372] {\n  box-sizing: border-box;\n}\nhtml[data-v-e7fa2372] {\n  font-size: 62.5%;\n}\nbody[data-v-e7fa2372] {\n  font-family: sans-serif;\n  line-height: 1.6;\n  margin: 0;\n  min-height: 100vh;\n  font-size: 1.6rem;\n}\nul[data-v-e7fa2372] {\n  margin: 0;\n  padding: 0;\n  list-style: none;\n}\nh1[data-v-e7fa2372], h2[data-v-e7fa2372], h3[data-v-e7fa2372], a[data-v-e7fa2372], p[data-v-e7fa2372] {\n  color: #34495e;\n}\na[data-v-e7fa2372] {\n  text-decoration: none;\n}\n.header__navbar[data-v-e7fa2372] {\n  padding: 1rem 0 1rem 0;\n  margin-bottom: 25px;\n  border: 1px solid #a2a2a2;\n  background-color: #f4f4f4;\n  box-shadow: 0px 0px 14px 0px rgba(0, 0, 0, 0.75);\n}\n.navbar[data-v-e7fa2372] {\n  max-width: 1366px;\n  margin: 0 auto;\n  padding: 0 0 0 2rem;\n}\n.navbar__logo[data-v-e7fa2372] {\n  margin: 0;\n  float: left;\n}\n.navbar__links[data-v-e7fa2372] {\n  float: right;\n  margin-top: 0rem;\n}\n.navbar__links a[data-v-e7fa2372]:not(last-child) {\n  padding-right: 2rem;\n}\n.navbar__links a[data-v-e7fa2372]:hover {\n  color: orangered;\n}\n.navbar__links li[data-v-e7fa2372] {\n  display: inline;\n}\n.navbar__logo a[data-v-e7fa2372], .navbar__links a[data-v-e7fa2372] {\n  text-transform: uppercase;\n}\nmain[data-v-e7fa2372] {\n  max-width: 136.6rem;\n  padding: 2rem;\n  margin: 0 auto;\n}\nmain a[data-v-e7fa2372] {\n  text-decoration: underline;\n}\n@media screen and (max-width: 36rem) {\n.header__navbar[data-v-e7fa2372] {\n    padding: 0 0 2rem 0;\n}\n.navbar[data-v-e7fa2372] {\n    padding: 0;\n    margin-bottom: 0px;\n}\n.navbar__logo[data-v-e7fa2372] {\n    text-align: center;\n    display: block;\n    float: none;\n    padding: 0;\n}\n.navbar__links[data-v-e7fa2372] {\n    float: none;\n}\n.navbar__links li[data-v-e7fa2372] {\n    display: block;\n    text-align: center;\n    padding-top: 1.5rem;\n}\n}\n.btn1[data-v-e7fa2372] {\n  margin: 2px;\n  border: none;\n  background-color: #1e7bca;\n  font-size: small;\n  border-radius: 3px;\n  color: white;\n  max-width: 90px;\n}\n.btn1[data-v-e7fa2372]:hover {\n  background-color: #09ff54;\n  color: #41ab6b;\n}\n.parent[data-v-e7fa2372] {\n  display: flex;\n  flex-direction: row;\n  flex-wrap: wrap;\n}\n.item[data-v-e7fa2372] {\n  width: auto;\n}\n.profile-user-info[data-v-e7fa2372] {\n  display: table;\n  width: 98%;\n  width: calc(100% - 24px);\n  margin: 0 auto;\n}\n.profile-info-row[data-v-e7fa2372] {\n  display: table-row;\n}\n.profile-info-name[data-v-e7fa2372],\n.profile-info-value[data-v-e7fa2372] {\n  display: table-cell;\n  border-top: 1px dotted #D5E4F1;\n}\n.profile-info-name[data-v-e7fa2372] {\n  text-align: right;\n  padding: 6px 10px 6px 4px;\n  font-weight: 400;\n  color: #667E99;\n  background-color: transparent;\n  width: 110px;\n  vertical-align: middle;\n}\n.profile-info-value[data-v-e7fa2372] {\n  padding: 6px 4px 6px 6px;\n}\n.profile-info-value > span + span[data-v-e7fa2372]:before {\n  display: inline;\n  content: \",\";\n  margin-left: 1px;\n  margin-right: 3px;\n  color: #666;\n  border-bottom: 1px solid #FFF;\n}\n.profile-info-row:first-child .profile-info-name[data-v-e7fa2372],\n.profile-info-row:first-child .profile-info-value[data-v-e7fa2372] {\n  border-top: none;\n}\n.profile-user-info-striped .profile-info-name[data-v-e7fa2372] {\n  color: #336199;\n  background-color: #EDF3F4;\n  border-top: 1px solid #F7FBFF;\n}\n.profile-user-info-striped .profile-info-value[data-v-e7fa2372] {\n  border-top: 1px dotted #DCEBF7;\n  padding-left: 12px;\n}\n.profile-picture[data-v-e7fa2372] {\n  border: 1px solid #CCC;\n  background-color: #FFF;\n  padding: 4px;\n  display: inline-block;\n  max-width: 57vh;\n  max-height: 48vh;\n  box-sizing: border-box;\n  box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.15);\n  -o-object-fit: cover;\n     object-fit: cover;\n}\n.profile-activity img[data-v-e7fa2372] {\n  border: 2px solid #C9D6E5;\n  border-radius: 100%;\n  max-width: 40px;\n  margin-right: 10px;\n  margin-left: 0;\n  box-shadow: none;\n}\n.user-profile .ace-thumbnails li[data-v-e7fa2372] {\n  border: 1px solid #CCC;\n  padding: 3px;\n  margin: 6px;\n}\n.profile-social-links > a[data-v-e7fa2372] {\n  text-decoration: none;\n  margin: 0 1px;\n}\n.profile-users .user img[data-v-e7fa2372] {\n  padding: 2px;\n  border-radius: 100%;\n  border: 1px solid #AAA;\n  max-width: none;\n  width: 64px;\n  transition: all 0.1s;\n}\n.profile-users .user img[data-v-e7fa2372]:hover {\n  box-shadow: 0 0 1px 1px rgba(0, 0, 0, 0.33);\n}\n.profile-users .memberdiv .tools > a[data-v-e7fa2372] {\n  margin: 0 2px;\n}\n@media only screen and (max-width: 480px) {\n.profile-info-name[data-v-e7fa2372] {\n    width: 80px;\n}\n.profile-user-info-striped .profile-info-name[data-v-e7fa2372] {\n    float: none;\n    width: auto;\n    text-align: left;\n    padding: 6px 4px 6px 10px;\n    display: block;\n}\n.profile-user-info-striped .profile-info-value[data-v-e7fa2372] {\n    margin-left: 10px;\n    display: block;\n}\n.user-profile .memberdiv[data-v-e7fa2372] {\n    width: 50%;\n    margin-left: 0;\n    margin-right: 0;\n}\n}\n.itemdiv > .body > .name > b[data-v-e7fa2372] {\n  color: #777;\n}\n.itemdiv.dialogdiv > .user > img[data-v-e7fa2372] {\n  border-color: #C9D6E5;\n}\n.itemdiv.memberdiv > .user > img[data-v-e7fa2372] {\n  border-color: #DCE3ED;\n}\n.itemdiv.memberdiv > .body > .name > a[data-v-e7fa2372] {\n  display: inline-block;\n  max-width: 100px;\n  max-height: 18px;\n  overflow: hidden;\n  text-overflow: ellipsis;\n  word-break: break-all;\n}\n.item-list > li[data-v-e7fa2372] {\n  padding: 9px;\n  background-color: #FFF;\n  margin-top: -1px;\n  position: relative;\n}\n.item-list > li label[data-v-e7fa2372] {\n  font-size: 13px;\n}\n.ace-thumbnails > li[data-v-e7fa2372],\n.ace-thumbnails > li[data-v-e7fa2372] > :first-child {\n  display: block;\n  position: relative;\n}\n.ace-thumbnails > li[data-v-e7fa2372] {\n  float: left;\n  overflow: hidden;\n  margin: 2px;\n  border: 2px solid #333;\n}\n.ace-thumbnails > li[data-v-e7fa2372] > :first-child:focus {\n  outline: 0;\n}\n.ace-thumbnails > li > .tools > a[data-v-e7fa2372],\n.ace-thumbnails > li > :first-child .inner a[data-v-e7fa2372] {\n  display: inline-block;\n  color: #FFF;\n  font-size: 18px;\n  font-weight: 400;\n  padding: 0 4px;\n}\n.ace-thumbnails > li > .tools > a[data-v-e7fa2372]:hover,\n.ace-thumbnails > li > :first-child .inner a[data-v-e7fa2372]:hover {\n  text-decoration: none;\n  color: #C9E2EA;\n}\n.ace-thumbnails > li .tools.tools-bottom > a[data-v-e7fa2372],\n.ace-thumbnails > li .tools.tools-top > a[data-v-e7fa2372] {\n  display: inline-block;\n}\n.tab-content[data-v-e7fa2372] {\n  background: #cfd4e7;\n  padding: 16px 12px;\n  position: relative;\n}\n.tab-content.padding-24[data-v-e7fa2372] {\n  padding: 24px 18px;\n}\n.tab-content.no-border.padding-24[data-v-e7fa2372] {\n  padding: 24px;\n}\n.nav-tabs > li > a[data-v-e7fa2372] {\n  padding: 7px 12px 8px;\n}\n.nav-tabs > li > a[data-v-e7fa2372],\n.nav-tabs > li > a[data-v-e7fa2372]:focus {\n  border-radius: 0 !important;\n  border-color: #C5D0DC;\n  background-color: #F9F9F9;\n  color: #999;\n  margin-right: -1px;\n  line-height: 18px;\n  position: relative;\n}\n.nav-tabs > li > a[data-v-e7fa2372]:hover {\n  background-color: #FFF;\n  color: #4C8FBD;\n  border-color: #C5D0DC;\n}\n.nav-tabs > li > a[data-v-e7fa2372]:active,\n.nav-tabs > li > a[data-v-e7fa2372]:focus {\n  outline: 0 !important;\n}\n.nav-tabs > li.active > a[data-v-e7fa2372],\n.nav-tabs > li.active > a[data-v-e7fa2372]:focus,\n.nav-tabs > li.active > a[data-v-e7fa2372]:hover {\n  color: #576373;\n  border-color: #C5D0DC #C5D0DC transparent;\n  border-top: 2px solid #4C8FBD;\n  background-color: #FFF;\n  z-index: 1;\n  line-height: 18px;\n  margin-top: -1px;\n  box-shadow: 0 -2px 3px 0 rgba(0, 0, 0, 0.15);\n}\n.tabs-below > .nav-tabs > li > a[data-v-e7fa2372],\n.tabs-below > .nav-tabs > li > a[data-v-e7fa2372]:focus,\n.tabs-below > .nav-tabs > li > a[data-v-e7fa2372]:hover {\n  border-color: #C5D0DC;\n}\n.tabs-below > .nav-tabs > li.active > a[data-v-e7fa2372],\n.tabs-below > .nav-tabs > li.active > a[data-v-e7fa2372]:focus,\n.tabs-below > .nav-tabs > li.active > a[data-v-e7fa2372]:hover {\n  border-color: transparent #C5D0DC #C5D0DC;\n  border-top-width: 1px;\n  border-bottom: 2px solid #4C8FBD;\n  margin-top: 0;\n  box-shadow: 0 2px 3px 0 rgba(0, 0, 0, 0.15);\n}\n.tabs-left > .nav-tabs > li > a[data-v-e7fa2372],\n.tabs-right > .nav-tabs > li > a[data-v-e7fa2372] {\n  min-width: 60px;\n}\n.tabs-left > .nav-tabs > li[data-v-e7fa2372] {\n  float: none !important;\n}\n.tabs-left > .nav-tabs > li > a[data-v-e7fa2372],\n.tabs-left > .nav-tabs > li > a[data-v-e7fa2372]:focus,\n.tabs-left > .nav-tabs > li > a[data-v-e7fa2372]:hover {\n  border-color: #C5D0DC;\n  margin: 0 -1px 0 0;\n}\n.tabs-left > .nav-tabs > li.active > a[data-v-e7fa2372],\n.tabs-left > .nav-tabs > li.active > a[data-v-e7fa2372]:focus,\n.tabs-left > .nav-tabs > li.active > a[data-v-e7fa2372]:hover {\n  border-color: #C5D0DC transparent #C5D0DC #C5D0DC;\n  border-top-width: 1px;\n  border-left: 2px solid #4C8FBD;\n  margin: 0 -1px;\n  box-shadow: -2px 0 3px 0 rgba(0, 0, 0, 0.15) !important;\n}\n.tabs-right > .nav-tabs > li[data-v-e7fa2372] {\n  float: none !important;\n}\n.tabs-right > .nav-tabs > li > a[data-v-e7fa2372],\n.tabs-right > .nav-tabs > li > a[data-v-e7fa2372]:focus,\n.tabs-right > .nav-tabs > li > a[data-v-e7fa2372]:hover {\n  border-color: #C5D0DC;\n  margin: 0 -1px;\n}\n.tabs-right > .nav-tabs > li.active > a[data-v-e7fa2372],\n.tabs-right > .nav-tabs > li.active > a[data-v-e7fa2372]:focus,\n.tabs-right > .nav-tabs > li.active > a[data-v-e7fa2372]:hover {\n  border-color: #C5D0DC #C5D0DC #C5D0DC transparent;\n  border-top-width: 1px;\n  border-right: 2px solid #4C8FBD;\n  margin: 0 -2px 0 -1px;\n  box-shadow: 2px 0 3px 0 rgba(0, 0, 0, 0.15);\n}\n.tabs-left .tab-content[data-v-e7fa2372],\n.tabs-right .tab-content[data-v-e7fa2372] {\n  overflow: auto;\n}\n.blue[data-v-e7fa2372] {\n  color: #478FCA !important;\n}", ""]);
+exports.push([module.i, ".photo-container[data-v-e7fa2372] {\n  display: flex;\n  flex-direction: row;\n}\n.one span[data-v-e7fa2372] {\n  font-size: 15px;\n}\n.img-container[data-v-e7fa2372] {\n  width: 200px;\n  margin: 10px;\n  overflow: hidden;\n  display: flex;\n  justify-content: center;\n  align-items: center;\n  cursor: pointer;\n  background: dodgerblue;\n  border: solid #d9e0e7 2px;\n}\n.text-white[data-v-e7fa2372] {\n  color: white;\n  cursor: pointer;\n}\n.background[data-v-e7fa2372] {\n  background: #8A2387;\n  /* fallback for old browsers */\n  /* Chrome 10-25, Safari 5.1-6 */\n  background: linear-gradient(to bottom, #F27121, #E94057, #8A2387);\n  /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */\n}\n.setting-bar[data-v-e7fa2372] {\n  width: 2rem;\n  height: 1rem;\n  cursor: pointer;\n}\n*[data-v-e7fa2372] {\n  box-sizing: border-box;\n}\nhtml[data-v-e7fa2372] {\n  font-size: 62.5%;\n}\nbody[data-v-e7fa2372] {\n  font-family: sans-serif;\n  line-height: 1.6;\n  margin: 0;\n  min-height: 100vh;\n  font-size: 1.6rem;\n}\nul[data-v-e7fa2372] {\n  margin: 0;\n  padding: 0;\n  list-style: none;\n}\nh1[data-v-e7fa2372], h2[data-v-e7fa2372], h3[data-v-e7fa2372], a[data-v-e7fa2372], p[data-v-e7fa2372] {\n  color: #34495e;\n}\na[data-v-e7fa2372] {\n  text-decoration: none;\n}\n.header__navbar[data-v-e7fa2372] {\n  padding: 1rem 0 1rem 0;\n  margin-bottom: 25px;\n  border: 1px solid #a2a2a2;\n  background-color: #f4f4f4;\n  box-shadow: 0px 0px 14px 0px rgba(0, 0, 0, 0.75);\n}\n.navbar[data-v-e7fa2372] {\n  max-width: 1366px;\n  margin: 0 auto;\n  padding: 0 0 0 2rem;\n}\n.navbar__logo[data-v-e7fa2372] {\n  margin: 0;\n  float: left;\n}\n.navbar__links[data-v-e7fa2372] {\n  float: right;\n  margin-top: 0rem;\n}\n.navbar__links a[data-v-e7fa2372]:not(last-child) {\n  padding-right: 2rem;\n}\n.navbar__links a[data-v-e7fa2372]:hover {\n  color: orangered;\n}\n.navbar__links li[data-v-e7fa2372] {\n  display: inline;\n}\n.navbar__logo a[data-v-e7fa2372], .navbar__links a[data-v-e7fa2372] {\n  text-transform: uppercase;\n}\nmain[data-v-e7fa2372] {\n  max-width: 136.6rem;\n  padding: 2rem;\n  margin: 0 auto;\n}\nmain a[data-v-e7fa2372] {\n  text-decoration: underline;\n}\n@media screen and (max-width: 36rem) {\n.header__navbar[data-v-e7fa2372] {\n    padding: 0 0 2rem 0;\n}\n.navbar[data-v-e7fa2372] {\n    padding: 0;\n    margin-bottom: 0px;\n}\n.navbar__logo[data-v-e7fa2372] {\n    text-align: center;\n    display: block;\n    float: none;\n    padding: 0;\n}\n.navbar__links[data-v-e7fa2372] {\n    float: none;\n}\n.navbar__links li[data-v-e7fa2372] {\n    display: block;\n    text-align: center;\n    padding-top: 1.5rem;\n}\n}\n.btn1[data-v-e7fa2372] {\n  margin: 2px;\n  border: none;\n  background-color: #1e7bca;\n  font-size: small;\n  border-radius: 3px;\n  color: white;\n  max-width: 90px;\n}\n.btn1[data-v-e7fa2372]:hover {\n  background-color: #09ff54;\n  color: #41ab6b;\n}\n.parent[data-v-e7fa2372] {\n  display: flex;\n  flex-direction: row;\n  flex-wrap: wrap;\n}\n.item[data-v-e7fa2372] {\n  width: auto;\n}\n.profile-user-info[data-v-e7fa2372] {\n  display: table;\n  width: 98%;\n  width: calc(100% - 24px);\n  margin: 0 auto;\n}\n.profile-info-row[data-v-e7fa2372] {\n  display: table-row;\n}\n.profile-info-name[data-v-e7fa2372],\n.profile-info-value[data-v-e7fa2372] {\n  display: table-cell;\n  border-top: 1px dotted #D5E4F1;\n}\n.profile-info-name[data-v-e7fa2372] {\n  text-align: right;\n  padding: 6px 10px 6px 4px;\n  font-weight: 400;\n  color: #667E99;\n  background-color: transparent;\n  width: 110px;\n  vertical-align: middle;\n}\n.profile-info-value[data-v-e7fa2372] {\n  padding: 6px 4px 6px 6px;\n}\n.profile-info-value > span + span[data-v-e7fa2372]:before {\n  display: inline;\n  content: \",\";\n  margin-left: 1px;\n  margin-right: 3px;\n  color: #666;\n  border-bottom: 1px solid #FFF;\n}\n.profile-info-row:first-child .profile-info-name[data-v-e7fa2372],\n.profile-info-row:first-child .profile-info-value[data-v-e7fa2372] {\n  border-top: none;\n}\n.profile-user-info-striped .profile-info-name[data-v-e7fa2372] {\n  color: #336199;\n  background-color: #EDF3F4;\n  border-top: 1px solid #F7FBFF;\n}\n.profile-user-info-striped .profile-info-value[data-v-e7fa2372] {\n  border-top: 1px dotted #DCEBF7;\n  padding-left: 12px;\n}\n.profile-picture[data-v-e7fa2372] {\n  border: 1px solid #CCC;\n  background-color: #FFF;\n  padding: 4px;\n  display: inline-block;\n  max-width: 57vh;\n  max-height: 48vh;\n  box-sizing: border-box;\n  box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.15);\n  -o-object-fit: cover;\n     object-fit: cover;\n}\n.profile-activity img[data-v-e7fa2372] {\n  border: 2px solid #C9D6E5;\n  border-radius: 100%;\n  max-width: 40px;\n  margin-right: 10px;\n  margin-left: 0;\n  box-shadow: none;\n}\n.user-profile .ace-thumbnails li[data-v-e7fa2372] {\n  border: 1px solid #CCC;\n  padding: 3px;\n  margin: 6px;\n}\n.profile-social-links > a[data-v-e7fa2372] {\n  text-decoration: none;\n  margin: 0 1px;\n}\n.profile-users .user img[data-v-e7fa2372] {\n  padding: 2px;\n  border-radius: 100%;\n  border: 1px solid #AAA;\n  max-width: none;\n  width: 64px;\n  transition: all 0.1s;\n}\n.profile-users .user img[data-v-e7fa2372]:hover {\n  box-shadow: 0 0 1px 1px rgba(0, 0, 0, 0.33);\n}\n.profile-users .memberdiv .tools > a[data-v-e7fa2372] {\n  margin: 0 2px;\n}\n@media only screen and (max-width: 480px) {\n.profile-info-name[data-v-e7fa2372] {\n    width: 80px;\n}\n.profile-user-info-striped .profile-info-name[data-v-e7fa2372] {\n    float: none;\n    width: auto;\n    text-align: left;\n    padding: 6px 4px 6px 10px;\n    display: block;\n}\n.profile-user-info-striped .profile-info-value[data-v-e7fa2372] {\n    margin-left: 10px;\n    display: block;\n}\n.user-profile .memberdiv[data-v-e7fa2372] {\n    width: 50%;\n    margin-left: 0;\n    margin-right: 0;\n}\n}\n.itemdiv > .body > .name > b[data-v-e7fa2372] {\n  color: #777;\n}\n.itemdiv.dialogdiv > .user > img[data-v-e7fa2372] {\n  border-color: #C9D6E5;\n}\n.itemdiv.memberdiv > .user > img[data-v-e7fa2372] {\n  border-color: #DCE3ED;\n}\n.itemdiv.memberdiv > .body > .name > a[data-v-e7fa2372] {\n  display: inline-block;\n  max-width: 100px;\n  max-height: 18px;\n  overflow: hidden;\n  text-overflow: ellipsis;\n  word-break: break-all;\n}\n.item-list > li[data-v-e7fa2372] {\n  padding: 9px;\n  background-color: #FFF;\n  margin-top: -1px;\n  position: relative;\n}\n.item-list > li label[data-v-e7fa2372] {\n  font-size: 13px;\n}\n.ace-thumbnails > li[data-v-e7fa2372],\n.ace-thumbnails > li[data-v-e7fa2372] > :first-child {\n  display: block;\n  position: relative;\n}\n.ace-thumbnails > li[data-v-e7fa2372] {\n  float: left;\n  overflow: hidden;\n  margin: 2px;\n  border: 2px solid #333;\n}\n.ace-thumbnails > li[data-v-e7fa2372] > :first-child:focus {\n  outline: 0;\n}\n.ace-thumbnails > li > .tools > a[data-v-e7fa2372],\n.ace-thumbnails > li > :first-child .inner a[data-v-e7fa2372] {\n  display: inline-block;\n  color: #FFF;\n  font-size: 18px;\n  font-weight: 400;\n  padding: 0 4px;\n}\n.ace-thumbnails > li > .tools > a[data-v-e7fa2372]:hover,\n.ace-thumbnails > li > :first-child .inner a[data-v-e7fa2372]:hover {\n  text-decoration: none;\n  color: #C9E2EA;\n}\n.ace-thumbnails > li .tools.tools-bottom > a[data-v-e7fa2372],\n.ace-thumbnails > li .tools.tools-top > a[data-v-e7fa2372] {\n  display: inline-block;\n}\n.tab-content[data-v-e7fa2372] {\n  background: #cfd4e7;\n  padding: 16px 12px;\n  position: relative;\n}\n.tab-content.padding-24[data-v-e7fa2372] {\n  padding: 24px 18px;\n}\n.tab-content.no-border.padding-24[data-v-e7fa2372] {\n  padding: 24px;\n}\n.nav-tabs > li > a[data-v-e7fa2372] {\n  padding: 7px 12px 8px;\n}\n.nav-tabs > li > a[data-v-e7fa2372],\n.nav-tabs > li > a[data-v-e7fa2372]:focus {\n  border-radius: 0 !important;\n  border-color: #C5D0DC;\n  background-color: #F9F9F9;\n  color: #999;\n  margin-right: -1px;\n  line-height: 18px;\n  position: relative;\n}\n.nav-tabs > li > a[data-v-e7fa2372]:hover {\n  background-color: #FFF;\n  color: #4C8FBD;\n  border-color: #C5D0DC;\n}\n.nav-tabs > li > a[data-v-e7fa2372]:active,\n.nav-tabs > li > a[data-v-e7fa2372]:focus {\n  outline: 0 !important;\n}\n.nav-tabs > li.active > a[data-v-e7fa2372],\n.nav-tabs > li.active > a[data-v-e7fa2372]:focus,\n.nav-tabs > li.active > a[data-v-e7fa2372]:hover {\n  color: #576373;\n  border-color: #C5D0DC #C5D0DC transparent;\n  border-top: 2px solid #4C8FBD;\n  background-color: #FFF;\n  z-index: 1;\n  line-height: 18px;\n  margin-top: -1px;\n  box-shadow: 0 -2px 3px 0 rgba(0, 0, 0, 0.15);\n}\n.tabs-below > .nav-tabs > li > a[data-v-e7fa2372],\n.tabs-below > .nav-tabs > li > a[data-v-e7fa2372]:focus,\n.tabs-below > .nav-tabs > li > a[data-v-e7fa2372]:hover {\n  border-color: #C5D0DC;\n}\n.tabs-below > .nav-tabs > li.active > a[data-v-e7fa2372],\n.tabs-below > .nav-tabs > li.active > a[data-v-e7fa2372]:focus,\n.tabs-below > .nav-tabs > li.active > a[data-v-e7fa2372]:hover {\n  border-color: transparent #C5D0DC #C5D0DC;\n  border-top-width: 1px;\n  border-bottom: 2px solid #4C8FBD;\n  margin-top: 0;\n  box-shadow: 0 2px 3px 0 rgba(0, 0, 0, 0.15);\n}\n.tabs-left > .nav-tabs > li > a[data-v-e7fa2372],\n.tabs-right > .nav-tabs > li > a[data-v-e7fa2372] {\n  min-width: 60px;\n}\n.tabs-left > .nav-tabs > li[data-v-e7fa2372] {\n  float: none !important;\n}\n.tabs-left > .nav-tabs > li > a[data-v-e7fa2372],\n.tabs-left > .nav-tabs > li > a[data-v-e7fa2372]:focus,\n.tabs-left > .nav-tabs > li > a[data-v-e7fa2372]:hover {\n  border-color: #C5D0DC;\n  margin: 0 -1px 0 0;\n}\n.tabs-left > .nav-tabs > li.active > a[data-v-e7fa2372],\n.tabs-left > .nav-tabs > li.active > a[data-v-e7fa2372]:focus,\n.tabs-left > .nav-tabs > li.active > a[data-v-e7fa2372]:hover {\n  border-color: #C5D0DC transparent #C5D0DC #C5D0DC;\n  border-top-width: 1px;\n  border-left: 2px solid #4C8FBD;\n  margin: 0 -1px;\n  box-shadow: -2px 0 3px 0 rgba(0, 0, 0, 0.15) !important;\n}\n.tabs-right > .nav-tabs > li[data-v-e7fa2372] {\n  float: none !important;\n}\n.tabs-right > .nav-tabs > li > a[data-v-e7fa2372],\n.tabs-right > .nav-tabs > li > a[data-v-e7fa2372]:focus,\n.tabs-right > .nav-tabs > li > a[data-v-e7fa2372]:hover {\n  border-color: #C5D0DC;\n  margin: 0 -1px;\n}\n.tabs-right > .nav-tabs > li.active > a[data-v-e7fa2372],\n.tabs-right > .nav-tabs > li.active > a[data-v-e7fa2372]:focus,\n.tabs-right > .nav-tabs > li.active > a[data-v-e7fa2372]:hover {\n  border-color: #C5D0DC #C5D0DC #C5D0DC transparent;\n  border-top-width: 1px;\n  border-right: 2px solid #4C8FBD;\n  margin: 0 -2px 0 -1px;\n  box-shadow: 2px 0 3px 0 rgba(0, 0, 0, 0.15);\n}\n.tabs-left .tab-content[data-v-e7fa2372],\n.tabs-right .tab-content[data-v-e7fa2372] {\n  overflow: auto;\n}\n.blue[data-v-e7fa2372] {\n  color: #478FCA !important;\n}", ""]);
 
 // exports
 
@@ -51458,7 +51565,433 @@ var render = function() {
     _vm._v(" "),
     _c("div", { staticClass: "content" }, [
       _c("div", { staticClass: "container-fluid" }, [
-        _vm._m(0),
+        _c(
+          "div",
+          { staticClass: "collapse ", attrs: { id: "collapseExample" } },
+          [
+            _c("div", { staticClass: "card card-body background" }, [
+              _c(
+                "p",
+                {
+                  staticStyle: {
+                    cursor: "pointer",
+                    color: "black",
+                    "font-size": "medium"
+                  },
+                  attrs: {
+                    "data-toggle": "collapse",
+                    "data-target": "#collapseExample",
+                    "aria-expanded": "false",
+                    "aria-controls": "collapseExample"
+                  }
+                },
+                [_vm._v("X")]
+              ),
+              _vm._v(" "),
+              _c("div", { staticClass: "container" }, [
+                _c("div", { staticClass: "row" }, [
+                  _c("div", { staticClass: "col-sm-6 form-group " }, [
+                    _c(
+                      "label",
+                      { staticClass: "text-white", attrs: { for: "name-f" } },
+                      [_vm._v("Full Name")]
+                    ),
+                    _vm._v(" "),
+                    _c("input", {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.data.name,
+                          expression: "data.name"
+                        }
+                      ],
+                      staticClass: "form-control",
+                      attrs: {
+                        type: "text",
+                        placeholder: "Enter your first name.",
+                        required: ""
+                      },
+                      domProps: { value: _vm.data.name },
+                      on: {
+                        input: function($event) {
+                          if ($event.target.composing) {
+                            return
+                          }
+                          _vm.$set(_vm.data, "name", $event.target.value)
+                        }
+                      }
+                    })
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "col-sm-6 form-group" }, [
+                    _c(
+                      "label",
+                      { staticClass: "text-white", attrs: { for: "email" } },
+                      [_vm._v("Email")]
+                    ),
+                    _vm._v(" "),
+                    _c("input", {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.data.email,
+                          expression: "data.email"
+                        }
+                      ],
+                      staticClass: "form-control",
+                      attrs: {
+                        type: "email",
+                        placeholder: "Enter your email.",
+                        required: ""
+                      },
+                      domProps: { value: _vm.data.email },
+                      on: {
+                        input: function($event) {
+                          if ($event.target.composing) {
+                            return
+                          }
+                          _vm.$set(_vm.data, "email", $event.target.value)
+                        }
+                      }
+                    })
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "col-sm-6 form-group" }, [
+                    _c(
+                      "label",
+                      { staticClass: "text-white", attrs: { for: "Country" } },
+                      [_vm._v("City/Province")]
+                    ),
+                    _vm._v(" "),
+                    _c(
+                      "select",
+                      {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.data.province,
+                            expression: "data.province"
+                          }
+                        ],
+                        staticClass:
+                          "form-control custom-select browser-default",
+                        on: {
+                          change: function($event) {
+                            var $$selectedVal = Array.prototype.filter
+                              .call($event.target.options, function(o) {
+                                return o.selected
+                              })
+                              .map(function(o) {
+                                var val = "_value" in o ? o._value : o.value
+                                return val
+                              })
+                            _vm.$set(
+                              _vm.data,
+                              "province",
+                              $event.target.multiple
+                                ? $$selectedVal
+                                : $$selectedVal[0]
+                            )
+                          }
+                        }
+                      },
+                      [
+                        _c("option", [_vm._v("Banteay Meanchey")]),
+                        _vm._v(" "),
+                        _c("option", [_vm._v("Battambang")]),
+                        _vm._v(" "),
+                        _c("option", [_vm._v("Kampong Cham")]),
+                        _vm._v(" "),
+                        _c("option", [_vm._v("Kampong Chhnang")]),
+                        _vm._v(" "),
+                        _c("option", [_vm._v("Kampong Speu")]),
+                        _vm._v(" "),
+                        _c("option", [_vm._v("Kampong Thom")]),
+                        _vm._v(" "),
+                        _c("option", [_vm._v("Kampot")]),
+                        _vm._v(" "),
+                        _c("option", [_vm._v("Kandal")]),
+                        _vm._v(" "),
+                        _c("option", [_vm._v("Koh Kong")]),
+                        _vm._v(" "),
+                        _c("option", [_vm._v("Kratié")]),
+                        _vm._v(" "),
+                        _c("option", [_vm._v("Mondulkiri")]),
+                        _vm._v(" "),
+                        _c("option", [_vm._v("Phnom Penh")]),
+                        _vm._v(" "),
+                        _c("option", [_vm._v("Preah Vihear")]),
+                        _vm._v(" "),
+                        _c("option", [_vm._v("Prey Veng")]),
+                        _vm._v(" "),
+                        _c("option", [_vm._v("Pursat")]),
+                        _vm._v(" "),
+                        _c("option", [_vm._v("Ratanak Kiri")]),
+                        _vm._v(" "),
+                        _c("option", [_vm._v("Siem Reap")]),
+                        _vm._v(" "),
+                        _c("option", [_vm._v("Preah Sihanouk")]),
+                        _vm._v(" "),
+                        _c("option", [_vm._v("Stung Treng")]),
+                        _vm._v(" "),
+                        _c("option", [_vm._v("Svay Rieng")]),
+                        _vm._v(" "),
+                        _c("option", [_vm._v("Takéo")]),
+                        _vm._v(" "),
+                        _c("option", [_vm._v("Oddar Meanchey")]),
+                        _vm._v(" "),
+                        _c("option", [_vm._v("Kep")]),
+                        _vm._v(" "),
+                        _c("option", [_vm._v("Pailin")]),
+                        _vm._v(" "),
+                        _c("option", [_vm._v("Tboung Khmum")])
+                      ]
+                    )
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "col-sm-6 form-group" }, [
+                    _c(
+                      "label",
+                      { staticClass: "text-white", attrs: { for: "Date" } },
+                      [_vm._v("Date Of Birth")]
+                    ),
+                    _vm._v(" "),
+                    _c("input", {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.data.dob,
+                          expression: "data.dob"
+                        }
+                      ],
+                      staticClass: "form-control",
+                      attrs: {
+                        type: "Date",
+                        name: "dob",
+                        id: "Date",
+                        placeholder: "",
+                        required: ""
+                      },
+                      domProps: { value: _vm.data.dob },
+                      on: {
+                        input: function($event) {
+                          if ($event.target.composing) {
+                            return
+                          }
+                          _vm.$set(_vm.data, "dob", $event.target.value)
+                        }
+                      }
+                    })
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "col-sm-6 form-group" }, [
+                    _c(
+                      "label",
+                      { staticClass: "text-white", attrs: { for: "sex" } },
+                      [_vm._v("Gender")]
+                    ),
+                    _vm._v(" "),
+                    _c(
+                      "select",
+                      {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.data.gender,
+                            expression: "data.gender"
+                          }
+                        ],
+                        staticClass:
+                          "form-control browser-default custom-select",
+                        attrs: { id: "sex" },
+                        on: {
+                          change: function($event) {
+                            var $$selectedVal = Array.prototype.filter
+                              .call($event.target.options, function(o) {
+                                return o.selected
+                              })
+                              .map(function(o) {
+                                var val = "_value" in o ? o._value : o.value
+                                return val
+                              })
+                            _vm.$set(
+                              _vm.data,
+                              "gender",
+                              $event.target.multiple
+                                ? $$selectedVal
+                                : $$selectedVal[0]
+                            )
+                          }
+                        }
+                      },
+                      [
+                        _c("option", { attrs: { value: "male" } }, [
+                          _vm._v("Male")
+                        ]),
+                        _vm._v(" "),
+                        _c("option", { attrs: { value: "female" } }, [
+                          _vm._v("Female")
+                        ])
+                      ]
+                    ),
+                    _vm._v(" "),
+                    _c(
+                      "a",
+                      {
+                        staticClass: "text-white",
+                        on: {
+                          click: function($event) {
+                            return _vm.Reset()
+                          }
+                        }
+                      },
+                      [_vm._v("Reset Password")]
+                    )
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "col-sm-4 form-group" }, [
+                    _c(
+                      "label",
+                      { staticClass: "text-white", attrs: { for: "tel" } },
+                      [_vm._v("Phone")]
+                    ),
+                    _vm._v(" "),
+                    _c("input", {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.data.phone,
+                          expression: "data.phone"
+                        }
+                      ],
+                      staticClass: "form-control",
+                      attrs: {
+                        type: "tel",
+                        name: "phone",
+                        id: "tel",
+                        placeholder: "Enter Your Contact Number.",
+                        required: ""
+                      },
+                      domProps: { value: _vm.data.phone },
+                      on: {
+                        input: function($event) {
+                          if ($event.target.composing) {
+                            return
+                          }
+                          _vm.$set(_vm.data, "phone", $event.target.value)
+                        }
+                      }
+                    })
+                  ]),
+                  _vm._v(" "),
+                  _vm.OldPassword === true
+                    ? _c("div", { staticClass: "col-sm-6 form-group" }, [
+                        _c(
+                          "label",
+                          { staticClass: "text-white", attrs: { for: "pass" } },
+                          [_vm._v("Enter Old Password")]
+                        ),
+                        _vm._v(" "),
+                        _c("input", {
+                          staticClass: "form-control",
+                          attrs: {
+                            type: "Password",
+                            name: "password",
+                            id: "pass",
+                            placeholder: "Enter your password.",
+                            required: ""
+                          }
+                        })
+                      ])
+                    : _vm._e(),
+                  _vm._v(" "),
+                  _vm.ResetPassword === true
+                    ? _c("div", { staticClass: "col-sm-6 form-group" }, [
+                        _c(
+                          "label",
+                          {
+                            staticClass: "text-white",
+                            attrs: { for: "pass2" }
+                          },
+                          [_vm._v("Enter New Password")]
+                        ),
+                        _vm._v(" "),
+                        _c("input", {
+                          staticClass: "form-control",
+                          attrs: {
+                            type: "Password",
+                            name: "cnf-password",
+                            id: "pass2",
+                            placeholder: "Re-enter your password.",
+                            required: ""
+                          }
+                        })
+                      ])
+                    : _vm._e(),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "col-sm-6 form-group" }, [
+                    _c(
+                      "div",
+                      { staticClass: "photo-container" },
+                      [
+                        _c("input", {
+                          staticClass: "d-none",
+                          attrs: { multiple: "", id: "fileOpen", type: "file" },
+                          on: { change: _vm.previewImage }
+                        }),
+                        _vm._v(" "),
+                        _c(
+                          "div",
+                          {
+                            staticClass: "img-container one",
+                            on: { click: _vm.openFileExplore }
+                          },
+                          [_c("span", [_vm._v("Add Profile")])]
+                        ),
+                        _vm._v(" "),
+                        _vm._l(_vm.data1.temp, function(t) {
+                          return _vm.data1.temp.length > 0
+                            ? _c(
+                                "div",
+                                {
+                                  staticClass: "img-container",
+                                  on: {
+                                    click: function($event) {
+                                      $event.preventDefault()
+                                      return _vm.removeImagePreview(t)
+                                    }
+                                  }
+                                },
+                                [_c("img", { attrs: { src: t.img } })]
+                              )
+                            : _vm._e()
+                        })
+                      ],
+                      2
+                    )
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "col-sm-12 form-group mb-0" }, [
+                    _c(
+                      "button",
+                      {
+                        staticClass: "btn btn-primary float-right",
+                        on: { click: _vm.editProfile }
+                      },
+                      [_vm._v("Update")]
+                    )
+                  ])
+                ])
+              ])
+            ])
+          ]
+        ),
         _vm._v(" "),
         _c(
           "div",
@@ -51475,7 +52008,7 @@ var render = function() {
                         "div",
                         { staticClass: "col-xs-12 col-sm-3 center" },
                         [
-                          _vm._m(1),
+                          _vm._m(0),
                           _vm._v(" "),
                           _c("div", { staticClass: "space space-4" }),
                           _vm._v(" "),
@@ -51554,9 +52087,7 @@ var render = function() {
                             _c("div", { staticClass: "profile-info-value" }, [
                               _c("span", [_vm._v(_vm._s(_vm.newJoin))])
                             ])
-                          ]),
-                          _vm._v(" "),
-                          _vm._m(2)
+                          ])
                         ]),
                         _vm._v(" "),
                         _c("div", { staticClass: "hr hr-8 dotted" })
@@ -51762,7 +52293,7 @@ var render = function() {
                           },
                           [
                             _c("div", { staticClass: "modal-content" }, [
-                              _vm._m(3),
+                              _vm._m(1),
                               _vm._v(" "),
                               _c("div", { staticClass: "modal-body" }, [
                                 _vm._v(
@@ -51806,40 +52337,6 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c(
-      "div",
-      { staticClass: "collapse ", attrs: { id: "collapseExample" } },
-      [
-        _c("div", { staticClass: "card card-body background" }, [
-          _c(
-            "p",
-            {
-              staticStyle: {
-                cursor: "pointer",
-                color: "black",
-                "font-size": "medium"
-              },
-              attrs: {
-                "data-toggle": "collapse",
-                "data-target": "#collapseExample",
-                "aria-expanded": "false",
-                "aria-controls": "collapseExample"
-              }
-            },
-            [_vm._v("X")]
-          ),
-          _vm._v(" "),
-          _c("div", { staticClass: "container" }, [
-            _c("div", { staticClass: "row" })
-          ])
-        ])
-      ]
-    )
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
     return _c("div", { staticClass: "profile-picture" }, [
       _c("img", {
         staticClass: "editable img-responsive",
@@ -51850,20 +52347,6 @@ var staticRenderFns = [
             "https://cdn.fastly.picmonkey.com/contentful/h6goo9gw1hh6/2sNZtFAWOdP1lmQ33VwRN3/24e953b920a9cd0ff2e1d587742a2472/1-intro-photo-final.jpg?w=800&q=70"
         }
       })
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "profile-info-row" }, [
-      _c("div", { staticClass: "profile-info-name" }, [
-        _vm._v(" Last Online ")
-      ]),
-      _vm._v(" "),
-      _c("div", { staticClass: "profile-info-value" }, [
-        _c("span", [_vm._v("3 hours ago")])
-      ])
     ])
   },
   function() {

@@ -126,9 +126,7 @@ class UserController extends Controller
         });
         return response()->json(['Logout Successfully'], 200);
     }
-
     public function register(Request $request){
-
         User::create([
             'name' => $request->username,
             'email'=> $request->email,
@@ -138,7 +136,6 @@ class UserController extends Controller
             'phone' => $request->phone,
             'gender' => $request->gender,
         ]);
-
         return response()->json($request);
     }
     public function upload(Request $request){
@@ -176,12 +173,9 @@ class UserController extends Controller
                 'image' => $photo,
             ]);
         }
-
         return response()->json($request);
     }
-
     public function update(Request $request){
-        $postId = 1;
         $photo = null;
         foreach ($request->temp as $item){
             if($item["isNew"]){
@@ -204,8 +198,6 @@ class UserController extends Controller
             $getImageNameOnly = explode('/', $img['image_name']);
             Storage::delete("/public/images/".$getImageNameOnly[2]);
         }
-
-
         Upload::where('UpId', $request->up_id)->
         update([
             'title' => $request->title,
@@ -224,8 +216,6 @@ class UserController extends Controller
             'district' => $request->district,
             'commune' => $request->commune
         ]);
-
-
         return response()->json($request);
     }
 

@@ -1,9 +1,7 @@
 <template>
     <div>
-
         <div class="create-store-panel p-5 shadow mx-auto">
             <p class="h4 text-center mb-4">Complete your Information</p>
-
             <!-- Default input name -->
             <label class="grey-text">Title</label>
             <input type="text"  class="form-control" v-model="data.title">
@@ -49,14 +47,10 @@
                 <input type="text"  class="form-control" v-model="data.size">
             </div>
             <br>
-
-
             <!-- Default input subject -->
             <label  class="grey-text">Price($)</label>
             <input type="text" v-model="data.price" class="form-control">
-
             <br>
-
             <!-- Default textarea message -->
             <label  class="grey-text">Description</label>
             <textarea type="text"  class="form-control" rows="8" v-model="data.description"></textarea>
@@ -66,7 +60,6 @@
                     <div class="col-md-4">
                         <label for="provinces">Province / City</label>
                         <select v-model="data.provinceSelected" id="provinces" class="form-control" @change="getDistricts">
-
                             <option v-for="province in allProvinces" :value="province.pro_id">{{ province.ProvinceName }}</option>
                         </select>
                     </div>
@@ -93,18 +86,14 @@
                         <select v-if="!progressing.loadingCommunes && data.districtSelected" v-model="data.communeSelected "id="communes" class="form-control">
                             <option v-for="commune in allCommunes" :value="commune.com_id">{{ commune.CommuneName }}</option>
                         </select>
-
                     </div>
-
                 </div>
             </div>
             <div class="photo-container"  >
                 <input multiple id="fileOpen" type="file" @change="previewImage" class="d-none">
-
                 <div class="img-container one" @click="openFileExplore">
                     <p>+</p>
                 </div>
-
                 <div class="img-container" v-if="data1.temp.length > 0" v-for="t in data1.temp" @click.prevent="removeImagePreview(t)">
                     <img :src="t.img" >
 
@@ -115,11 +104,9 @@
             </div>
             <label  class="grey-text">Email</label>
             <input type="text" v-model="data.email" class="form-control">
-
             <br>
             <label  class="grey-text">Phone Number</label>
             <input type="text" v-model="data.phone" class="form-control" placeholder="010 xxx xxx / 012 xxx xxx">
-
             <br>
             <label class="grey-text">Location Details*</label>
             <textarea type="text"  class="form-control" rows="4" v-model="data.localdetail"></textarea>
@@ -128,10 +115,7 @@
             </g_map>
             <div style="width: 100%; margin-top: 15px;"></div>
             <button class="btn btn-primary" @click="updateDB" style="">Update</button >
-
         </div>
-
-
     </div>
 </template>
 
@@ -167,7 +151,6 @@
                     cat_name: this.$store.getters.categoryName,
                 },
                 data1: {
-
                     temp: [],
                     temp_id: 0,
                     removed_image_array: [],
@@ -179,9 +162,6 @@
                 allDistricts: [],
                 allCommunes: [],
                 loadingDistricts: false,
-
-
-
             }
         },
         mounted() {
@@ -190,13 +170,11 @@
             axios.get('api/province').then(response => {
                 if(response.status === 200){
                     this.allProvinces = response.data;
-
                     //console.log(response);
                 }
             }).catch(err => {
 
             }).finally(() => {
-
             });
             axios.get('api/getupdate/'+this.$store.getters.getEditId).then(response => {
                 if(response.status === 200){
@@ -211,17 +189,10 @@
                     });
                 }
             }).catch(err => {
-
             }).finally(() => {
-
-
             });
             //console.log(this.allData)
         },
-        created() {
-            // console.log(this.$store.getters.getEditId);
-
-            },
         methods:{
             getDistricts(e){
                 this.loadingDistricts = true;
@@ -232,12 +203,11 @@
                         this.loadingDistricts = false;
                     }
                 }).catch(errors => {
-                    //console.log("Errors ", errors.response);
+                    console.log("Errors ", errors.response);
                     this.loadingDistricts = false;
                 });
             },
             getCommunes(e){
-
                 this.progressing.loadingCommunes = true;
                 axios.get('api/communes/'+ e.target.value).then(response => {
                     if(response.status === 200){
@@ -246,7 +216,7 @@
                         this.progressing.loadingCommunes = false;
                     }
                 }).catch(errors => {
-                    //console.log("Errors ", errors.response);
+                    console.log("Errors ", errors.response);
                     this.progressing.loadingCommunes= false;
                 });
             },
@@ -267,7 +237,6 @@
                 }
             },
             removeImagePreview(e){
-                //console.log(e.id);
                 this.data1.temp.splice(this.data1.temp.findIndex(v => v.id === e.id), 1);
                 this.data1.removed_image_array.push({image_name: e.img});
             },
@@ -278,10 +247,9 @@
                 this.data.removed_image_array = this.data1.removed_image_array;
                 this.data.up_id =  this.$store.getters.getEditId;
                 axios.post('api/update_post', this.data).then(response =>{
-                    console.log(response);
                     this.$emit('changeForm', {formName: 'userpagemaster.user'});
                 }).catch(err =>{
-                    //console.error(err);
+                    console.error(err);
                 });
             }
         },
