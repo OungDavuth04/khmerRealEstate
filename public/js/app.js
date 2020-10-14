@@ -3835,9 +3835,8 @@ __webpack_require__.r(__webpack_exports__);
         phone: '',
         email: '',
         localDetail: '',
-        glat: '213131',
-        glng: '313133',
-        cat_name: this.$store.getters.categoryName
+        glat: '',
+        glng: ''
       },
       data1: {
         temp: [],
@@ -3856,11 +3855,9 @@ __webpack_require__.r(__webpack_exports__);
   mounted: function mounted() {
     var _this = this;
 
-    console.log(this.$store.getters.getEditId); //this.gettingImage();
-
     axios.get('api/province').then(function (response) {
       if (response.status === 200) {
-        _this.allProvinces = response.data; //console.log(response);
+        _this.allProvinces = response.data;
       }
     })["catch"](function (err) {})["finally"](function () {});
     axios.get('api/getupdate/' + this.$store.getters.getEditId).then(function (response) {
@@ -3924,7 +3921,6 @@ __webpack_require__.r(__webpack_exports__);
         reader.readAsDataURL(image);
 
         reader.onload = function (e) {
-          //this.employeeData.photo = e.target.result;
           _this4.data1.temp.push({
             id: _this4.data.temp_id,
             img: e.target.result,
@@ -6196,6 +6192,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         home_forSell: 'HomeSell',
         home_forRent: 'HomeRent'
       },
+      profile: '',
       upload: [],
       promoteData: [],
       dob: '',
@@ -6204,8 +6201,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       id: '',
       newJoin: '',
       pagination: [],
-      url: 'api/getpost',
       data: {
+        uid: '',
         name: '',
         email: '',
         password: '',
@@ -6246,6 +6243,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
           });
 
           _this.data1.temp_id++;
+          $('#file').hide();
         };
       }
     },
@@ -6256,6 +6254,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       this.data1.removed_image_array.push({
         image_name: e.img
       });
+      $('#file').show();
     },
     Reset: function Reset() {
       this.ResetPassword = true;
@@ -6265,6 +6264,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       this.data.profile = this.data1.temp;
       axios.post('api/UpdateProfile', this.data).then(function (response) {
         console.log(response.data);
+        window.location.reload();
       })["catch"](function (err) {
         console.error(err);
       });
@@ -6325,7 +6325,15 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                 axios.defaults.headers.common['Authorization'] = 'Bearer ' + trustClientToken;
                 _context.next = 4;
                 return axios.get('api/user').then(function (response) {
-                  // console.log(response.data);
+                  console.log(response.data.profile);
+
+                  if (response.data.profile !== null) {
+                    _this5.profile = response.data.profile;
+                  } else {
+                    _this5.profile = 'https://upload.wikimedia.org/wikipedia/commons/thumb/7/7e/Circle-icons-profile.svg/1024px-Circle-icons-profile.svg.png';
+                  }
+
+                  _this5.data.uid = response.data.id;
                   _this5.data = response.data;
                   _this5.name = response.data.name;
                   _this5.level = response.data.user_lavel;
@@ -51936,44 +51944,44 @@ var render = function() {
                     : _vm._e(),
                   _vm._v(" "),
                   _c("div", { staticClass: "col-sm-6 form-group" }, [
+                    _c("div", { attrs: { id: "file" } }, [
+                      _c("input", {
+                        staticClass: "d-none",
+                        attrs: { multiple: "", id: "fileOpen", type: "file" },
+                        on: { change: _vm.previewImage }
+                      }),
+                      _vm._v(" "),
+                      _c(
+                        "div",
+                        {
+                          staticClass: "img-container one",
+                          on: { click: _vm.openFileExplore }
+                        },
+                        [_c("span", [_vm._v("Add Profile")])]
+                      )
+                    ]),
+                    _vm._v(" "),
                     _c(
                       "div",
                       { staticClass: "photo-container" },
-                      [
-                        _c("input", {
-                          staticClass: "d-none",
-                          attrs: { multiple: "", id: "fileOpen", type: "file" },
-                          on: { change: _vm.previewImage }
-                        }),
-                        _vm._v(" "),
-                        _c(
-                          "div",
-                          {
-                            staticClass: "img-container one",
-                            on: { click: _vm.openFileExplore }
-                          },
-                          [_c("span", [_vm._v("Add Profile")])]
-                        ),
-                        _vm._v(" "),
-                        _vm._l(_vm.data1.temp, function(t) {
-                          return _vm.data1.temp.length > 0
-                            ? _c(
-                                "div",
-                                {
-                                  staticClass: "img-container",
-                                  on: {
-                                    click: function($event) {
-                                      $event.preventDefault()
-                                      return _vm.removeImagePreview(t)
-                                    }
+                      _vm._l(_vm.data1.temp, function(t) {
+                        return _vm.data1.temp.length > 0
+                          ? _c(
+                              "div",
+                              {
+                                staticClass: "img-container",
+                                on: {
+                                  click: function($event) {
+                                    $event.preventDefault()
+                                    return _vm.removeImagePreview(t)
                                   }
-                                },
-                                [_c("img", { attrs: { src: t.img } })]
-                              )
-                            : _vm._e()
-                        })
-                      ],
-                      2
+                                }
+                              },
+                              [_c("img", { attrs: { src: t.img } })]
+                            )
+                          : _vm._e()
+                      }),
+                      0
                     )
                   ]),
                   _vm._v(" "),
@@ -52008,7 +52016,16 @@ var render = function() {
                         "div",
                         { staticClass: "col-xs-12 col-sm-3 center" },
                         [
-                          _vm._m(0),
+                          _c("div", { staticClass: "profile-picture" }, [
+                            _c("img", {
+                              staticClass: "editable img-responsive",
+                              attrs: {
+                                alt: " Avatar",
+                                id: "avatar2",
+                                src: _vm.profile
+                              }
+                            })
+                          ]),
                           _vm._v(" "),
                           _c("div", { staticClass: "space space-4" }),
                           _vm._v(" "),
@@ -52293,7 +52310,7 @@ var render = function() {
                           },
                           [
                             _c("div", { staticClass: "modal-content" }, [
-                              _vm._m(1),
+                              _vm._m(0),
                               _vm._v(" "),
                               _c("div", { staticClass: "modal-body" }, [
                                 _vm._v(
@@ -52333,22 +52350,6 @@ var render = function() {
   ])
 }
 var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "profile-picture" }, [
-      _c("img", {
-        staticClass: "editable img-responsive",
-        attrs: {
-          alt: " Avatar",
-          id: "avatar2",
-          src:
-            "https://cdn.fastly.picmonkey.com/contentful/h6goo9gw1hh6/2sNZtFAWOdP1lmQ33VwRN3/24e953b920a9cd0ff2e1d587742a2472/1-intro-photo-final.jpg?w=800&q=70"
-        }
-      })
-    ])
-  },
   function() {
     var _vm = this
     var _h = _vm.$createElement

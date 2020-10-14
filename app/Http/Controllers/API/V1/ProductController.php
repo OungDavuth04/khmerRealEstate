@@ -7,12 +7,14 @@ use App\Events\PaymentSummited;
 use App\FeaturAd;
 use App\Province;
 use App\Upload_Images;
+use App\User;
 use App\UserData;
 use App\ViewProduct;
 use Carbon\Carbon;
 use App\Http\Controllers\Controller;
 use http\Env\Response;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 use phpDocumentor\Reflection\DocBlock\Tags\Reference\Url;
 use phpseclib\Crypt\Random;
 use App\Upload;
@@ -21,9 +23,33 @@ use Stripe\ApiOperations\Create;
 class ProductController extends Controller
 {
     public function UpdateProfile(Request $request){
+        $photo = null;
+        foreach ($request->profile as $item) {
+            if ($item["isNew"]) {
+                $explodeRawImage = explode(',', $item['img']);
+                $decodedImage = base64_decode($explodeRawImage[1]);
+                $generateRandomNumberForFileName = explode(" ", microtime());
+                $imageNameWithExtension = $generateRandomNumberForFileName[0] . '.' . explode('/', explode(':', substr($item['img'], 0, strpos($item['img'], ';')))[1])[1];
+                $saveDirectory = storage_path() . '/app/public/profile/' . $imageNameWithExtension;
+                file_put_contents($saveDirectory, $decodedImage);
+                $photo = 'storage/profile/' . $imageNameWithExtension;
+                User::where('id',$request->id)->update([
+                    'name' => $request->name,
+                    'dob' => $request->dob,
+                    'phone' => $request->phone,
+                    'gender' => $request->gender,
+                    'profile' => $photo
+                ]);
+            }
+        }
 
+//            $delete = User::where('id', $request->id)->get();
+//            foreach ($delete as $remove){
+//                $getImageNameOnly = explode('/', $remove->profile);
+//                Storage::delete("/public/profile/".$getImageNameOnly[1]);
+//            }
 
-        return response()->json($request);
+        return response()-> json($photo);
     }
 
 

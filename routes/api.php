@@ -24,7 +24,7 @@ Route::post('login', 'API\V1\UserController@login');
 Route::post('register', 'API\V1\UserController@register');
 Route::middleware('auth:api')->get('logout', 'API\V1\UserController@logout');
 
-Route::get('getupdate/{id}', 'API\V1\UserController@getdata');
+Route::get('getupdate/{id}', 'API\V1\UserController@getupdate');
 Route::post('update_post', 'API\V1\UserController@update');
 Route::post('delete_post/{id}', 'API\V1\UserController@delete');
 

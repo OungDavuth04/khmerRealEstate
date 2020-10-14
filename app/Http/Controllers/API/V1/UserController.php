@@ -20,12 +20,11 @@ use Illuminate\Support\Facades\Storage;
 
 class UserController extends Controller
 {
-    public function getdata($id){
+    public function getupdate($id){
         $data_text = Upload::where('UpId', $id)->get();
         $data_img = Upload_Images::where('UpId', $id)->get();
         $data = array();
         foreach ( $data_text as $value){
-
             $store = New NewData();
             $store->title = $value->title;
             $store->bedroom = $value->bedroom;
@@ -34,8 +33,8 @@ class UserController extends Controller
             $store->size = $value->size;
             $store->price = $value->price;
             $store->description = $value->description;
-            $store->glat = $value->glat;
-            $store->glng = $value->glng;
+            $store->glat = $value->map_lat;
+            $store->glng = $value->map_lng;
             $store->localdetail = $value->localdetail;
             $store->email = $value->email;
             $store->phone = $value->phone;
@@ -45,7 +44,6 @@ class UserController extends Controller
             $store->images = $data_img;
             array_push($data,  $store);
         }
-
 
         return response()->json($data);
     }
@@ -188,11 +186,10 @@ class UserController extends Controller
                 $photo = 'storage/images/'.$imageNameWithExtension;
                 Upload_Images::create([
                     'UpId' => $request->up_id,
-                    'image' => $photo,
+                    'image' => $photo
                 ]);
             }
         }
-
         foreach ($request->removed_image_array as $img){
             Upload_Images::where('UpId', $request->up_id)->where('image', $img['image_name'])->delete();
             $getImageNameOnly = explode('/', $img['image_name']);
@@ -207,8 +204,8 @@ class UserController extends Controller
             'size' => $request->size,
             'price' => $request->price,
             'description' => $request->description,
-            'glat' => $request->glat,
-            'glng' => $request->glng,
+            'map_lat' => $request->glat,
+            'map_lng' => $request->glng,
             'localdetail' => $request->localdetail,
             'email' => $request->email,
             'phone' => $request->phone,
@@ -218,14 +215,11 @@ class UserController extends Controller
         ]);
         return response()->json($request);
     }
-
     public function getprovince(){
-
         $data = Province::all();
         return response()->json($data);
     }
     public function getdistricts ($id){
-
         $data = District::all()->where('pro_id',$id);
         return response()->json($data);
     }
@@ -233,8 +227,6 @@ class UserController extends Controller
         $data = Commune::all()->where('dis_id',$dis_id);
         return response()->json($data);
     }
-
-
 }
 
 class NewData{

@@ -146,9 +146,8 @@
                     phone: '',
                     email:'',
                     localDetail:'',
-                    glat:'213131',
-                    glng:'313133',
-                    cat_name: this.$store.getters.categoryName,
+                    glat:'',
+                    glng:'',
                 },
                 data1: {
                     temp: [],
@@ -165,12 +164,9 @@
             }
         },
         mounted() {
-            console.log(this.$store.getters.getEditId);
-            //this.gettingImage();
             axios.get('api/province').then(response => {
                 if(response.status === 200){
                     this.allProvinces = response.data;
-                    //console.log(response);
                 }
             }).catch(err => {
 
@@ -220,7 +216,6 @@
                     this.progressing.loadingCommunes= false;
                 });
             },
-
             openFileExplore(){
                 $('#fileOpen').click();
             },
@@ -230,7 +225,6 @@
                     let reader = new FileReader();
                     reader.readAsDataURL(image);
                     reader.onload = e =>{
-                        //this.employeeData.photo = e.target.result;
                         this.data1.temp.push({id: this.data.temp_id, img: e.target.result, isNew: true});
                         this.data1.temp_id++;
                     }
@@ -240,14 +234,13 @@
                 this.data1.temp.splice(this.data1.temp.findIndex(v => v.id === e.id), 1);
                 this.data1.removed_image_array.push({image_name: e.img});
             },
-
             updateDB(){
                 this.data.temp = this.data1.temp;
                 this.data.temp_id = this.data1.temp_id;
                 this.data.removed_image_array = this.data1.removed_image_array;
                 this.data.up_id =  this.$store.getters.getEditId;
                 axios.post('api/update_post', this.data).then(response =>{
-                    this.$emit('changeForm', {formName: 'userpagemaster.user'});
+                   this.$emit('changeForm', {formName: 'userpagemaster.user'});
                 }).catch(err =>{
                     console.error(err);
                 });

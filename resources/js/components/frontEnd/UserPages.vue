@@ -95,17 +95,18 @@
                                     <input type="Password" name="cnf-password"  class="form-control" id="pass2" placeholder="Re-enter your password." required>
                                 </div>
                                 <div class="col-sm-6 form-group">
-                                    <div class="photo-container"  >
+                                    <div id="file">
                                         <input multiple id="fileOpen" type="file" @change="previewImage" class="d-none">
                                         <div class="img-container one" @click="openFileExplore">
                                             <span>Add Profile</span>
                                         </div>
+                                    </div>
+                                    <div class="photo-container"  >
                                         <div class="img-container" v-if="data1.temp.length > 0" v-for="t in data1.temp" @click.prevent="removeImagePreview(t)">
-                                            <img :src="t.img" >
+                                            <img :src="t.img">
                                         </div>
                                     </div>
                                 </div>
-
                                 <div class="col-sm-12 form-group mb-0">
                                     <button class="btn btn-primary float-right" @click="editProfile" >Update</button>
                                 </div>
@@ -120,7 +121,8 @@
                                 <div class="row">
                                     <div class="col-xs-12 col-sm-3 center">
                                         <div class="profile-picture">
-                                            <img class="editable img-responsive" alt=" Avatar" id="avatar2" src="https://cdn.fastly.picmonkey.com/contentful/h6goo9gw1hh6/2sNZtFAWOdP1lmQ33VwRN3/24e953b920a9cd0ff2e1d587742a2472/1-intro-photo-final.jpg?w=800&q=70">
+                                            <img class="editable img-responsive" alt=" Avatar" id="avatar2"
+                                                 :src="profile">
                                         </div>
                                         <div class="space space-4"></div>
                                         <router-link to="/admin" class=" btn btn-primary" v-if="level === 'admin'"  style="margin: 10px;">
@@ -146,7 +148,6 @@
                                             </div>
                                             <div class="profile-info-row">
                                                 <div class="profile-info-name"> Phone  </div>
-
                                                 <div class="profile-info-value">
                                                     <span>{{phone}}</span>
                                                 </div>
@@ -165,7 +166,6 @@
                                             </div>
                                         </div>
                                         <div class="hr hr-8 dotted"></div>
-
                                     </div><!-- /.col -->
                                 </div><!-- /.row -->
                                 <div class="space-20"></div>
@@ -261,6 +261,7 @@
                     home_forSell:'HomeSell',
                     home_forRent:'HomeRent',
                 },
+                profile:'',
                 upload: [],
                 promoteData:[],
                 dob:'',
@@ -269,8 +270,8 @@
                 id:'',
                 newJoin:'',
                 pagination:[],
-                url:'api/getpost',
                 data:{
+                    uid:'',
                     name: '',
                     email:'',
                     password:'',
@@ -303,12 +304,14 @@
                         //this.employeeData.photo = e.target.result;
                         this.data1.temp.push({id: this.data.temp_id, img: e.target.result, isNew: true});
                         this.data1.temp_id++;
+                        $('#file').hide();
                     }
                 }
             },
             removeImagePreview(e){
                 this.data1.temp.splice(this.data1.temp.findIndex(v => v.id === e.id), 1);
                 this.data1.removed_image_array.push({image_name: e.img});
+                $('#file').show();
             },
             Reset(){
                 this.ResetPassword = true
@@ -318,6 +321,7 @@
                 this.data.profile = this.data1.temp
                 axios.post('api/UpdateProfile',this.data).then(response =>{
                     console.log(response.data);
+                   window.location.reload();
                 }).catch(err =>{
                     console.error(err);
                 });
@@ -360,7 +364,14 @@
                 const trustClientToken = window.localStorage.getItem('userAccessToken');
                 axios.defaults.headers.common['Authorization'] = 'Bearer '+ trustClientToken;
               await  axios.get('api/user').then(response => {
-                    // console.log(response.data);
+                    console.log(response.data.profile);
+
+                   if(response.data.profile !== null){
+                       this.profile = response.data.profile
+                   }else{
+                       this.profile = 'https://upload.wikimedia.org/wikipedia/commons/thumb/7/7e/Circle-icons-profile.svg/1024px-Circle-icons-profile.svg.png'
+                   }
+                    this.data.uid = response.data.id
                     this.data = response.data
                     this.name = response.data.name;
                     this.level = response.data.user_lavel;
