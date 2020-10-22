@@ -16,7 +16,7 @@
                             <div class="card-body">
                                 <h5 class="card-title">{{item.title}}</h5>
                                 <span>Price : ${{item.price}}</span>
-                                <p class="card-text">{{item.description}}</p>
+                                <p class="card-text text-overflow">{{item.description}}</p>
                             </div>
                         </div>
                     </div>
@@ -91,7 +91,12 @@
     .card {
         margin-bottom: 1rem;
     }
-
+    .text-overflow{
+        white-space: nowrap;
+        width: 100%;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
     .list-view {
     .row {
     > [class*='col-'] {

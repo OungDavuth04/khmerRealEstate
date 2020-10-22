@@ -6,6 +6,10 @@
             <div class="container mt-4">
                 <div class="card mb-4">
                     <div class="card-body">
+                        <div class="form-group has-search">
+                            <span class="fa fa-search form-control-feedback"></span>
+                            <input type="text" class="form-control" placeholder="Search" v-model="searchbox"  @change="Userlist">
+                        </div>
                         <table class="table table-striped">
                             <!--Table head-->
                             <thead>
@@ -36,7 +40,7 @@
                                     </td>
                                     <td>
                                         <label class="toggleSwitch nolabel" >
-                                            <input :id="`${list.id}`" type="checkbox"  @click="check(list.id)" :checked="`${list.disable=='true'?true:false}`">
+                                            <input :id="`${list.id}`" type="checkbox"  @click="check(list.id)" :checked="`${list.disable=='true'?false:true}`">
                                             <span>
                                             <span>OFF</span>
                                             <span>ON</span>
@@ -77,16 +81,15 @@
             return{
                 UserList:[],
                 list:[],
-                id:''
+                id:'',
+                searchbox:''
             }
         },
-        created() {
-
-        },
-        mounted() {
-            this.Userlist()
-        },
         methods:{
+            test(event){
+
+                console.log( event.target.value)
+            },
             getId(id){
                 this.id = id;
             },
@@ -106,13 +109,11 @@
                     console.log(err);
                 });
             },
-            async Userlist(){
-                await axios.get('api/userlist').then(response => {
+            async Userlist(event){
+                await axios.get('api/userlist/'+ event.target.value).then(response => {
                     if(response.status === 200){
                         this.UserList = response.data;
-                    }
-                    else{
-
+                        console.log(response.data)
                     }
                 }).catch(err => {
                     console.log(err);
@@ -130,6 +131,23 @@
 </script>
 
 <style scoped lang="scss">
+    .has-search .form-control {
+        padding-left: 2.375rem;
+    }
+
+    .has-search .form-control-feedback {
+        position: absolute;
+        z-index: 2;
+        display: block;
+        width: 2.375rem;
+        height: 2.375rem;
+        line-height: 2.375rem;
+        text-align: center;
+        pointer-events: none;
+        color: #aaa;
+    }
+
+
     .delete{
         margin-left: 17px;
         cursor: pointer;

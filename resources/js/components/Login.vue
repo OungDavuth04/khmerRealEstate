@@ -7,6 +7,7 @@
                 <form>
                     <input placeholder="Email" type="email" v-model="data.email">
                     <input placeholder="Password" type="password" v-model="data.password">
+                    <small v-if="errLogIn === true" class="form-text text-muted" style="color: #0d47a1">Log In Fail...</small>
                     <span style="color: orange; font-size: 12px">{{messageErr}}</span>
                     <button @click="login">Login</button>
 
@@ -16,6 +17,13 @@
                     <router-link to="/register">
                         <p style="color: #0b75c9; font-size: 12px" >Register</p>
                     </router-link>
+                        <p style="color: #0b75c9; font-size: 12px">Reset the Password
+                            <span style="font-size: 12px">
+                                <router-link to="/resetNewPassword">
+                                   <strong style="color: white">  here</strong>
+                                </router-link>
+                            </span>
+                        </p>
                 </form>
             </div>
         </div>
@@ -26,6 +34,7 @@
     export default {
         data(){
             return{
+                errLogIn:false,
                 data: {
                     email: '',
                     password: '',
@@ -37,9 +46,6 @@
             if(window.localStorage.getItem('userAccessToken') !== null){
                 this.$router.push({name:'userpage'})
             }
-        },
-        computed() {
-
         },
         methods:{
             login(){
@@ -53,17 +59,16 @@
                         this.queryUserInfo();
                     }).catch(err => {
                         console.log(err);
+                        this.errLogIn = true
                     });
                 }else {
                     this.messageErr = 'Invalid File....!!!'
                 }
-
             },
             queryUserInfo(){
                 const trustClientToken = window.localStorage.getItem('userAccessToken');
                 axios.defaults.headers.common['Authorization'] = 'Bearer '+ trustClientToken;
                 axios.get('api/user').then(response => {
-                    console.log(response.data);
                     window.localStorage.setItem('user_lavel', response.data.user_lavel);
                     this.$store.commit('setName', response.data.name);
                     this.$store.commit('setID', response.data.id);
@@ -72,8 +77,6 @@
                     }else {
                         this.$router.push({name:'admin'});
                     }
-
-
                 }).catch(err => {
                     console.log(err);
                 })

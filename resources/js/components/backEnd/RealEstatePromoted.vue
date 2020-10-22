@@ -6,15 +6,19 @@
             <div class="container mt-4">
                 <div class="card mb-4">
                     <div class="card-body">
+                        <div class="form-group has-search">
+                            <span class="fa fa-search form-control-feedback"></span>
+                            <input type="text" class="form-control" placeholder="Search" v-model="searchbox"  @change="Promotelist">
+                        </div>
                         <table class="table table-striped">
-                            <!--Table head-->
                             <thead>
                             <tr>
                                 <th>ID</th>
-                                <th>UpID</th>
+                                <th>Upload ID</th>
                                 <th>Price</th>
                                 <th>Day</th>
                                 <th>Viewer</th>
+                                <th>Expire Date</th>
                                 <th>Action</th>
                                 <th>Disable</th>
                             </tr>
@@ -26,9 +30,10 @@
                                 <tr>
                                     <th scope="row">{{list.promoteId}}</th>
                                     <td>{{list.UpId}}</td>
-                                    <td>{{list.price}}</td>
+                                    <td>${{list.price}}</td>
                                     <td>{{list.day}}</td>
                                     <td>{{list.viewer}}</td>
+                                    <td>{{list.expire}}</td>
                                     <td>
                                         <a href="#popup" @click="getId(list.promoteId)">
                                             <i class="fas fa-trash-alt delete" ></i>
@@ -43,6 +48,9 @@
                                             </span>
                                             <a></a>
                                         </label>
+                                    </td>
+                                    <td v-if="statusDisable !== ''">
+                                        <span>{{statusDisable}}</span>
                                     </td>
                                 </tr>
                             </template>
@@ -77,14 +85,11 @@
             return{
                 Promoted:[],
                 list:[],
-                id:''
-            }
-        },
-        created() {
+                id:'',
+                searchbox:'',
+                statusDisable:''
 
-        },
-        mounted() {
-            this.Promotelist()
+            }
         },
         methods:{
             getId(id){
@@ -106,9 +111,11 @@
                     console.log(err);
                 });
             },
-            async Promotelist(){
-                await axios.get('api/EstatePromoted').then(response => {
+            async Promotelist(event){
+                await axios.get('api/EstatePromoted/'+event.target.value).then(response => {
                     if(response.status === 200){
+                        console.log(response.data)
+                        this.statusDisable = response.data.message
                         this.Promoted = response.data;
                     }
                 }).catch(err => {
@@ -120,6 +127,20 @@
 </script>
 
 <style scoped lang="scss">
+    .has-search .form-control {
+        padding-left: 2.375rem;
+    }
+    .has-search .form-control-feedback {
+        position: absolute;
+        z-index: 2;
+        display: block;
+        width: 2.375rem;
+        height: 2.375rem;
+        line-height: 2.375rem;
+        text-align: center;
+        pointer-events: none;
+        color: #aaa;
+    }
     .delete{
         margin-left: 17px;
         cursor: pointer;

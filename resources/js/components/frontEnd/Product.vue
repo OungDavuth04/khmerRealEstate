@@ -445,7 +445,6 @@
                         })
                     }else {
                         axios.get('api/AdvertiseDefault').then(response => {
-
                             if(response.status === 200){
                                 this.advertise = response.data
                             }

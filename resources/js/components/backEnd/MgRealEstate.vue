@@ -6,10 +6,10 @@
             <div class="container mt-4">
                 <div class="card mb-4">
                     <div class="card-body">
-                        <!-- Grid row -->
-
-                        <!-- Grid row -->
-                        <!--Table-->
+                        <div class="form-group has-search">
+                            <span class="fa fa-search form-control-feedback"></span>
+                            <input type="text" class="form-control" placeholder="Search" v-model="searchbox"  @change="estatelist">
+                        </div>
                         <table class="table table-striped">
                             <!--Table head-->
                             <thead>
@@ -81,11 +81,10 @@
             return{
                 UserList:[],
                 list:[],
-                id:''
+                id:'',
+                searchbox:''
+
             }
-        },
-        mounted() {
-            this.Userlist()
         },
         methods:{
             getId(id){
@@ -94,7 +93,7 @@
             Dodelete(id){
                 axios.get('api/deletepro/'+id).then(response => {
                     console.log(response.data)
-                    this.Userlist()
+                    this.estatelist()
                 }).catch(err => {
                     console.log(err);
                 });
@@ -107,19 +106,10 @@
                     console.log(err);
                 });
             },
-            Userlist(){
-                axios.get('api/estatelist').then(response => {
+            estatelist(e){
+                axios.get('api/estatelist/'+e.target.value).then(response => {
+                    console.log(response.data)
                     this.list = response.data;
-                    // response.data.forEach((valueList)=>{
-                    //     if(valueList.disable == 'true'){
-                    //         const checkbox = document.getElementById(`${valueList.id}`)
-                    //         console.log(checkbox.checked)
-                    //     }else{
-                    //         const checkbox = document.getElementById(`${valueList.id}`)
-                    //         checkbox.checked = false
-                    //     }
-                    // })
-
                 }).catch(err => {
                     console.log(err);
                 });
@@ -136,6 +126,20 @@
 </script>
 
 <style scoped lang="scss">
+    .has-search .form-control {
+        padding-left: 2.375rem;
+    }
+    .has-search .form-control-feedback {
+        position: absolute;
+        z-index: 2;
+        display: block;
+        width: 2.375rem;
+        height: 2.375rem;
+        line-height: 2.375rem;
+        text-align: center;
+        pointer-events: none;
+        color: #aaa;
+    }
     .delete{
         margin-left: 17px;
         cursor: pointer;

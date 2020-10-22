@@ -156,9 +156,7 @@
 </template>
 
 <script>
-
     import { createToken } from "vue-stripe-elements-plus";
-
     export default {
         data() {
             return {
@@ -172,10 +170,8 @@
                 phone:'',
                 day:'',
                 id: this.$store.getters.getPro
-
             }
         },
-
         methods: {
             pay() {
                 // createToken returns a Promise which resolves in a result object with
@@ -183,7 +179,6 @@
                 // See https://stripe.com/docs/api#tokens for the token object.
                 // See https://stripe.com/docs/api#errors for the error object.
                 // More general https://stripe.com/docs/stripe.js#stripe-create-token.
-
                 var options = {
                     name: this.name_on_card,
                     address: this.address,
@@ -197,11 +192,8 @@
                         hiddenInput.setAttribute('name', 'stripeToken');
                         hiddenInput.setAttribute('value', result.token.id);
                         form.appendChild(hiddenInput);
-                        // Submit the form
                         form.submit();
-
                     }
-                   // this.$emit('changeForm', {formName: 'user_post'});
                 });
             }
         },

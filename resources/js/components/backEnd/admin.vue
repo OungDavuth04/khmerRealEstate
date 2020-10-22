@@ -1,110 +1,72 @@
 <template>
     <div >
-        <nav class="navbar navbar-dark sticky-top flex-md-nowrap p-0">
-            <a class="navbar-brand col-sm-3 col-md-2 mr-0" href="#">Company name</a>
-            <input class="form-control form-control-dark w-100" type="text" placeholder="Search" aria-label="Search">
-            <ul class="navbar-nav px-3">
-                <li class="nav-item text-nowrap">
-                    <a class="nav-link" href="#">Sign out</a>
+        <div class="sidebar-container">
+            <div class="sidebar-logo">
+                Kh Real Estate
+            </div>
+            <ul class="sidebar-navigation">
+                <li class="header">Navigation</li>
+                <li>
+                    <router-link to="/admin">
+<!--                        <i class="fa fa-tachometer" aria-hidden="true"></i>-->
+                        Dashboard
+                    </router-link>
+                </li>
+                <li>
+                    <router-link to="/mgUser">
+<!--                        <i class="fa  fa-users" aria-hidden="true"></i>-->
+                        Manage User
+                    </router-link>
+                </li>
+                <li class="header">Another Menu</li>
+                <li>
+                    <router-link to="/mgRealEstate">
+<!--                        <i class="fa fa-home  " aria-hidden="true"></i> -->
+                        Manage Real Estate
+                    </router-link>
+                </li>
+                <li>
+                    <router-link to="/doReport">
+<!--                        <i class="fa fa-cog" aria-hidden="true"></i> -->
+                        Reports
+                    </router-link>
+                </li>
+                <li>
+                    <router-link to="/promoted">
+<!--                        <i class="fa fa-info-circle" aria-hidden="true"></i> -->
+                        Estate Promoted
+                    </router-link>
                 </li>
             </ul>
-        </nav>
-        <div class="container-fluid">
-            <div class="row">
-                <nav class="col-md-2 d-none d-md-block sidebar">
-                    <div class="sidebar-sticky">
-                        <ul class="nav flex-column">
-                            <router-link to="/admin">
-                                <li class="nav-item">
-                                    <a class="nav-link active" href="#">
-                                        <i class="zmdi zmdi-widgets"></i>
-                                        Dashboard <span class="sr-only">(current)</span>
-                                    </a>
-                                </li>
-                            </router-link>
-                            <router-link to="/mgUser">
-                                <li class="nav-item" >
-                                    <a class="nav-link" href="#">
-                                        <i class="zmdi zmdi-file-text"></i>
-                                        Manage User
-                                    </a>
-                                </li>
-                            </router-link>
-                            <router-link to="/mgRealEstate">
-                                <li class="nav-item">
-                                    <a class="nav-link" href="#">
-                                        <i class="zmdi zmdi-shopping-cart"></i>
-                                        Manage Real Estate
-                                    </a>
-                                </li>
-                            </router-link>
-                            <router-link to="/doReport">
-                                <li class="nav-item">
-                                    <a class="nav-link" href="#">
-                                        <i class="zmdi zmdi-chart"></i>
-                                        Reports
-                                    </a>
-                                </li>
-                            </router-link>
+        </div>
+        <div class="content-container">
+            <div class="header">
+                <nav class="navbar">
+                    <div class="container">
 
-                            <router-link to="/promoted">
-                                <li class="nav-item">
-                                    <a class="nav-link" href="#">
-                                        <i class="zmdi zmdi-layers"></i>
-                                        Real Estate Promoted
-                                    </a>
-                                </li>
-                            </router-link>
-                            <router-link to="/paylist">
-                                <li class="nav-item">
-                                    <a class="nav-link" href="#">
-                                        <i class="zmdi zmdi-layers"></i>
-                                        Payment List
-                                    </a>
-                                </li>
-                            </router-link>
-
-                        </ul>
-
-<!--                        <h6 class="sidebar-heading d-flex justify-content-between align-items-center pl-3 mt-4 mb-1 text-muted">-->
-<!--                            <span>Saved reports</span>-->
-<!--                            <a class="d-flex align-items-center text-muted" href="#">-->
-<!--                                <i class="zmdi zmdi-plus-circle-o"></i>-->
-<!--                            </a>-->
-<!--                        </h6>-->
-<!--                        <ul class="nav flex-column mb-2">-->
-<!--                            <li class="nav-item">-->
-<!--                                <a class="nav-link" href="#">-->
-<!--                                    <i class="zmdi zmdi-file-text"></i>-->
-<!--                                    Current month-->
-<!--                                </a>-->
-<!--                            </li>-->
-<!--                            <li class="nav-item">-->
-<!--                                <a class="nav-link" href="#">-->
-<!--                                    <i class="zmdi zmdi-file-text"></i>-->
-<!--                                    Last quarter-->
-<!--                                </a>-->
-<!--                            </li>-->
-<!--                            <li class="nav-item">-->
-<!--                                <a class="nav-link" href="#">-->
-<!--                                    <i class="zmdi zmdi-file-text"></i>-->
-<!--                                    Social engagement-->
-<!--                                </a>-->
-<!--                            </li>-->
-<!--                            <li class="nav-item">-->
-<!--                                <a class="nav-link" href="#">-->
-<!--                                    <i class="zmdi zmdi-file-text"></i>-->
-<!--                                    Year-end sale-->
-<!--                                </a>-->
-<!--                            </li>-->
-<!--                        </ul>-->
+                        <div class="navbar-header">
+                            <button class="navbar-toggler" data-toggle="open-navbar1">
+                                <span></span>
+                                <span></span>
+                                <span></span>
+                            </button>
+                            <a href="#">
+                                <h4>Khmer Real<span> Estate</span></h4>
+                            </a>
+                        </div>
+                        <div class="navbar-menu" id="open-navbar1">
+                            <ul class="navbar-nav">
+                                <li class="active"><a href="#">Home</a></li>
+                                <li><a @click="logout">Sign Out</a></li>
+                            </ul>
+                        </div>
                     </div>
                 </nav>
-                <main role="main" class="col-md-9 ml-sm-auto col-lg-10 my-3">
+            </div>
+            <div class="container-fluid" style="padding-top: 2rem">
+                <div class="container">
                     <router-view></router-view>
-                </main>
-
-
+                </div>
             </div>
         </div>
     </div>
@@ -118,20 +80,12 @@
         name: "admin",
         data(){
             return{
-
-
             }
         },
-        mounted() {
-
-        },
         components:{
-
             'mguser':ManageUser
-
         },
         methods: {
-
             logout(){
                 const trustClientToken = window.localStorage.getItem('userAccessToken');
                 axios.defaults.headers.common['Authorization'] = 'Bearer '+ trustClientToken;
@@ -150,405 +104,332 @@
 </script>
 
 <style scoped lang="scss">
-    .checkbox {
-        display: none;
+    @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500&display=swap');
+
+    $font-family: 'Roboto', sans-serif;
+    $font-size-base: 0.925rem;
+    $base-color: #66f;
+    $text-dark: #3c4250;
+    $border-color: #ececec;
+
+    $navbar-body-color: #fff;
+    $navbar-link-hover: $base-color;
+    $navbar-dropdown-separator-color: #eee;
+    $navbar-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.035);
+
+    * {
+        box-sizing: border-box;
+        padding: 0;
+        margin: 0;
     }
 
-    .switch {
-        align-items: center;
-        background-color: gray;
-        border-radius: 500px;
-        cursor: pointer;
-        display: flex;
-        height: 30px;
-        justify-content: space-between;
-        padding: 0 10px;
-        position: relative;
-        user-select: none;
-        width: 80px;
+    body {
+        font-family: $font-family;
+        font-size: $font-size-base;
     }
 
-    .checkbox:checked ~ .switch {
-        background-color: blue;
-    }
-
-    .checkbox:not(:checked) ~ .switch {
-        background-color: gray;
-    }
-
-    .switch__left,
-    .switch__right {
-        color: white;
-        font-weight: bold;
-        text-transform: uppercase;
-    }
-
-    .checkbox:checked ~ .switch .switch__left {
-        visibility: hidden;
-    }
-
-    .checkbox:not(:checked) ~ .switch .switch__right {
-        visibility: hidden;
-    }
-
-    .switch__circle {
-        height: 30px;
-        padding: 5px;
-        position: absolute;
-        transition: all 0.1s linear;
-        width: 30px;
-    }
-
-    .checkbox:checked ~ .switch .switch__circle {
-        left: 0;
-        right: calc(100% - 40px);
-    }
-
-    .checkbox:not(:checked) ~ .switch .switch__circle {
-        left: calc(100% - 40px);
-        right: 0;
-    }
-
-    .switch__circle-inner {
-        background-color: white;
-        border-radius: 50%;
-        display: block;
-        height: 100%;
-        width: 100%;
-    }
-
-
-    @import "https://s3-us-west-2.amazonaws.com/s.cdpn.io/584938/dashboard.scss";
-    $bg: #1b2431;
-    $light-text: #738297;
-    $dark-text: #273142;
-    $light-bg: #313D4F;
-
-    // global stuff
-       body {
-           background-color: $bg;
-           color: #202020;
-           font-family: "Montserrat", "Helvetica", "Open Sans", "Arial";
-           font-size: 13px;
-       }
-
-    a:hover {
+    a {
         text-decoration: none;
     }
 
-    p,
-    figure {
-        margin: 0;
-        padding: 0;
+    .container {
+        width: 1170px;
+        position: relative;
+        margin: {
+            left: auto;
+            right: auto;
+        }
+        padding: {
+            left: 15px;
+            right: 15px;
+        }
     }
 
-    @mixin clear() {
-    &:before,
-    &:after {
-         content: " ";
-         display: table;
-     }
+    // Start navbar
 
-    &:after {
-         clear: both;
-     }
+    .navbar,
+    .navbar .container {
+        width: 100%;
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        justify-content: space-between;
+        @media (max-width: 768px) {
+            display: block;
+        }
     }
 
     .navbar {
-        background-color: $bg;
+        padding: 1.15rem 1rem;
+        box-shadow: $navbar-shadow;
+        background-color: $navbar-body-color;
+
+        .container {
+            @media (min-width: 576px) {
+                max-width: 540px;
+            }
+            @media (min-width: 768px) {
+                max-width: 720px;
+            }
+            @media (min-width: 992px) {
+                max-width: 960px;
+            }
+            @media (min-width: 1200px) {
+                max-width: 1140px;
+            }
+        }
+
+        /*
+        |-----------------------------------
+        | Start navbar logo or brand etc..
+        |-----------------------------------
+        */
+        .navbar-header {
+            display: flex;
+            align-items: center;
+
+            @media (max-width: 768px) {
+                width: 100%;
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                flex-direction: row-reverse;
+            }
+
+            .navbar-toggler {
+                border-radius: 5px;
+                background-color: transparent;
+                cursor: pointer;
+                border: none;
+                display: none;
+                outline: none;
+
+                @media (max-width: 768px) { display: block }
+
+                span {
+                    height: 2px;
+                    width: 22px;
+                    background-color: lighten($text-dark, 35%);
+                    display: block;
+                }
+                span:not(:last-child) {
+                    margin-bottom: 0.2rem;
+                }
+            }
+
+            > a {
+                font-weight: 500;
+                color: $text-dark;
+            }
+        }
+
+        /*
+        |-----------------------------------
+        | Start navbar menu
+        |-----------------------------------
+        */
+        .navbar-menu {
+            display: flex;
+            flex-basis: auto;
+            flex-grow: 1;
+            align-items: center;
+
+            @media (max-width: 768px) {
+                display: none;
+                text-align: center;
+            }
+
+            // Ul
+            .navbar-nav {
+                margin-left: auto;
+                flex-direction: row;
+                display: flex;
+                padding-left: 0;
+                margin-bottom: 0;
+                list-style: none;
+
+                @media (max-width: 768px) {
+                    width: 100%;
+                    display: block;
+                    border-top: 1px solid #EEE;
+                    margin-top: 1rem;
+                }
+
+                > li {
+                    > a {
+                        color: $text-dark;
+                        text-decoration: none;
+                        display: inline-block;
+                        padding: 0.5rem 1rem;
+                        &:hover {
+                            color: $navbar-link-hover;
+                        }
+                        @media (max-width: 768px) {
+                            border-bottom: 1px solid #EEE;
+                        }
+                    }
+                    &.active {
+                        a {
+                            color: $base-color;
+                        }
+                    }
+                }
+
+                .navbar-dropdown {
+                    .dropdown {
+                        list-style: none;
+                        position: absolute;
+                        top: 150%;
+                        left: 0;
+                        background-color: #fff;
+                        padding: 0.5rem 0;
+                        min-width: 160px;
+                        width: auto;
+                        white-space: nowrap;
+                        box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.1);
+                        z-index: 99999;
+                        border-radius: 0.75rem;
+                        display: none;
+                        @media (max-width: 768px) {
+                            position: relative;
+                            box-shadow: none;
+                        }
+                        li {
+                            a {
+                                color: $text-dark;
+                                padding: 0.25rem 1rem;
+                                display: block;
+                            }
+                        }
+                        &.show {
+                            display: block !important;
+                        }
+                    }
+                }
+
+                .dropdown > .separator {
+                    height: 1px;
+                    width: 100%;
+                    margin: 9px 0;
+                    background-color: $navbar-dropdown-separator-color;
+                }
+            }
+        }
+
+        .navbar-dropdown {
+            position: relative;
+        }
     }
 
-    .sidebar {
-        background-color: $bg;
-        box-shadow: none;
 
-    .nav-link {
-        border-left: 5px solid transparent;
-        color: $light-text;
-        padding: .5rem .75rem;
-
-    &:hover {
-         color: white;
-     }
-
-    &.active {
-         border-left: 5px solid $light-text;
-         color: white;
-     }
+    // Custom
+    .navbar .navbar-header > a span {
+        color: $base-color;
+    }
+    .navbar .navbar-header h4 {
+        font-weight: 500;
+        font-size: 1.25rem;
+        @media (max-width: 768px) {
+            font-size: 1.05rem;
+        }
     }
 
-    .zmdi {
-        display: inline-block;
-        font-size: 1.35rem;
-        margin-right: 5px;
-        min-width: 25px;
-    }
-    }
-
-    .card-list {
-    @include clear();
+    .header{
+        display: flex;
+        flex-direction: row;
         width: 100%;
+        background: #0c7cd5;
+        padding: 2px;
+        -webkit-box-shadow: 0px 0px 14px 0px rgba(0,0,0,0.75);
+        -moz-box-shadow: 0px 0px 14px 0px rgba(0,0,0,0.75);
+        box-shadow: 0px 0px 14px 0px rgba(0,0,0,0.75);
     }
-
-    .card {
-        border-radius: 8px;
-        color: white;
-        padding: 10px;
-        position: relative;
-
-    .zmdi {
-        color: white;
-        font-size: 28px;
-        opacity: 0.3;
-        position: absolute;
-        right: 13px;
-        top: 13px;
-    }
-
-    .stat {
-        border-top: 1px solid rgba(255, 255, 255, 0.3);
-        font-size: 8px;
-        margin-top: 25px;
-        padding: 10px 10px 0;
-        text-transform: uppercase;
-    }
-
-    .title {
-        display: inline-block;
-        font-size: 8px;
-        padding: 10px 10px 0;
-        text-transform: uppercase;
-    }
-
-    .value {
-        font-size: 28px;
-        padding: 0 10px;
-    }
-
-    &.blue {
-         background-color: #2298F1;
-     }
-
-    &.green {
-         background-color: #66B92E;
-     }
-
-    &.orange {
-         background-color: #DA932C;
-     }
-
-    &.red {
-         background-color: #D65B4A;
-     }
-    }
-
-    .projects {
-        background-color: $dark-text;
-        border: 1px solid $light-bg;
-        overflow-x: auto;
-        width: 100%;
-
-    &-inner {
-         border-radius: 4px;
-     }
-    }
-
-    .projects-header {
-        color: white;
-        padding: 22px;
-
-    .count,
-    .title {
-        display: inline-block;
-    }
-
-    .count {
-        color: #738297;
-    }
-
-    .zmdi {
-        cursor: pointer;
+    .icon-menu{
+        font-size: 30px;
         float: right;
-        font-size: 16px;
-        margin: 5px 0;
+    }
+    .sidebar-container {
+        position: fixed;
+        width: 220px;
+        height: 100%;
+        left: 0;
+        overflow-x: hidden;
+        overflow-y: auto;
+        background: #1a1a1a;
+        color: #fff;
     }
 
-    .title {
-        font-size: 21px;
-
-    + .count {
-        margin-left: 5px;
-    }
-    }
+    .content-container {
+        //padding-top: 20px;
     }
 
-    .projects-table {
-        background: #273142;
-        width: 100%;
-
-    td,
-    th {
-        color: white;
-        padding: 10px 22px;
-        vertical-align: middle;
-    }
-
-    td p {
-        font-size: 12px;
-
-    &:last-of-type {
-         color: $light-text;
-         font-size: 11px;
-     }
-    }
-
-    th {
-        background-color: $light-bg;
-    }
-
-    tr {
-    &:hover {
-         background-color: lighten($dark-text, 5%);
-     }
-
-    &:not(:last-of-type) {
-         border-bottom: 1px solid $light-bg;
-     }
-    }
-
-    .member {
-    figure,
-    .member-info {
-        display: inline-block;
-        vertical-align: top;
-    }
-
-    figure + .member-info {
-        margin-left: 7px;
-    }
-
-    img {
-        border-radius: 50%;
-        height: 32px;
-        width: 32px;
-    }
-    }
-
-    .status > form {
-        float: right;
-    }
-
-    .status-text {
-        display: inline-block;
-        font-size: 12px;
-        margin: 11px 0;
-        padding-left: 20px;
-        position: relative;
-
-    &:before {
-         border: 3px solid;
-         border-radius: 50%;
-         content: "";
-         height: 14px;
-         left: 0;
-         position: absolute;
-         top: 1px;
-         width: 14px;
-     }
-
-    &.status-blue:before {
-         border-color: #1C93ED;
-     }
-
-    &.status-green:before {
-         border-color: #66B92E;
-     }
-
-    &.status-orange:before {
-         border-color: #DA932C;
-     }
-
-    &.status-red:before {
-         border-color: #D65B4A;
-     }
-    }
-    }
-    // selectric plugin styling
-       .selectric {
-           background-color: transparent;
-           border-color: $light-bg;
-           border-radius: 4px;
-    .label {
-        color: $light-text;
-        line-height: 34px;
-        margin-right: 10px;
-        text-align: left;
-    }
-    &-wrapper {
-         float: right;
-         width: 150px;
-     }
-    }
-    // charts
-       .chart {
-           border-radius: 3px;
-       // box-shadow: 0 0 10px -3px black;
-           border: 1px solid $light-bg;
-           color: white;
-           padding: 10px;
-           position: relative;
-           text-align: center;
-
-    canvas {
-        height: 400px;
-        margin: 20px 0;
-        width: 100%;
-    }
-
-    .actions {
-        margin: 15px;
-        position: absolute;
-        right: 0;
-        top: 0;
-
-    span {
-        cursor: pointer;
-        display: inline-block;
+    .sidebar-logo {
+        padding: 28px 28px 18px 23px;
         font-size: 20px;
-        margin: 5px;
-        padding: 4px;
+        background-color: #0c7cd5;
     }
 
-    .btn-link {
-        color: white;
-
-    i {
-        font-size: 1.75rem;
-    }
-    }
-    }
-
-    .title {
-        font-size: 18px;
+    .sidebar-navigation {
+        padding: 0;
         margin: 0;
-        padding: 15px 0 5px;
-    + .tagline {
-        margin-top: 10px;
-    }
+        list-style-type: none;
+        position: relative;
     }
 
-    .tagline {
+    .sidebar-navigation li {
+        background-color: transparent;
+        position: relative;
+        display: inline-block;
+        width: 100%;
+        line-height: 20px;
+    }
+
+    .sidebar-navigation li a {
+        padding: 10px 15px 10px 30px;
+        display: block;
+        color: #fff;
+    }
+
+    .sidebar-navigation li .fa {
+        margin-right: 10px;
+    }
+
+    .sidebar-navigation li a:active,
+    .sidebar-navigation li a:hover,
+    .sidebar-navigation li a:focus {
+        text-decoration: none;
+        outline: none;
+    }
+
+    .sidebar-navigation li::before {
+        background-color: #2574A9;
+        position: absolute;
+        content: '';
+        height: 100%;
+        left: 0;
+        top: 0;
+        -webkit-transition: width 0.2s ease-in;
+        transition: width 0.2s ease-in;
+        width: 3px;
+        z-index: -1;
+    }
+
+    .sidebar-navigation li:hover::before {
+        width: 100%;
+    }
+
+    .sidebar-navigation .header {
         font-size: 12px;
-    }
-    }
-
-    .danger-item {
-        border-left: 4px solid #A84D43;
+        text-transform: uppercase;
+        background-color: #151515;
+        padding: 10px 15px 10px 30px;
     }
 
-    .zmdi {
-        line-height: 1;
-        vertical-align: middle;
+    .sidebar-navigation .header::before {
+        background-color: transparent;
     }
 
+    .content-container {
+        padding-left: 220px;
+    }
 </style>

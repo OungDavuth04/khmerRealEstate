@@ -1,128 +1,41 @@
 <template>
     <div>
-
-
-            <div class="card-list">
-                <div class="row">
-                    <div class="col-12 col-md-6 col-lg-4 col-xl-3 mb-4">
-                        <div class="card blue">
-                            <div class="title">List Real Estate</div>
-                            <i class="zmdi zmdi-upload"></i>
-                            <div class="value">89</div>
-                            <div class="stat"><b>13</b>% increase</div>
-                        </div>
-                    </div>
-                    <div class="col-12 col-md-6 col-lg-4 col-xl-3 mb-4">
-                        <div class="card green">
-                            <div class="title">All User</div>
-                            <i class="zmdi zmdi-upload"></i>
-                            <div class="value">5,990</div>
-                            <div class="stat"><b>4</b>% increase</div>
-                        </div>
-                    </div>
-                    <div class="col-12 col-md-6 col-lg-4 col-xl-3 mb-4">
-                        <div class="card orange">
-                            <div class="title">total budget</div>
-                            <i class="zmdi zmdi-download"></i>
-                            <div class="value">$80,990</div>
-                            <div class="stat"><b>13</b>% decrease</div>
-                        </div>
-                    </div>
-                    <div class="col-12 col-md-6 col-lg-4 col-xl-3 mb-4">
-                        <div class="card red">
-                            <div class="title">new customers</div>
-                            <i class="zmdi zmdi-download"></i>
-                            <div class="value">3</div>
-                            <div class="stat"><b>13</b>% decrease</div>
-                        </div>
+        <div class="card-list">
+            <div class="row">
+                <div class="col-12 col-md-6 col-lg-4 col-xl-3 mb-4">
+                    <div class="card blue">
+                        <div class="title">List Real Estate</div>
+                        <i class="zmdi zmdi-upload"></i>
+                        <div class="value">{{allEstate}}</div>
+                        <div class="stat">Khmer Real Estate</div>
                     </div>
                 </div>
-            </div>
-
-            <div class="projects mb-4">
-                <div class="projects-inner">
-                    <header class="projects-header">
-                        <div class="title">User List</div>
-                        <div class="count">| 32 Projects</div>
+                <div class="col-12 col-md-6 col-lg-4 col-xl-3 mb-4">
+                    <div class="card green">
+                        <div class="title">All User</div>
+                        <i class="zmdi zmdi-upload"></i>
+                        <div class="value">{{allUser}}</div>
+                        <div class="stat">Khmer Real Estate</div>
+                    </div>
+                </div>
+                <div class="col-12 col-md-6 col-lg-4 col-xl-3 mb-4">
+                    <div class="card orange">
+                        <div class="title">total Payment</div>
                         <i class="zmdi zmdi-download"></i>
-                    </header>
+                        <div class="value">${{Amount}}</div>
+                        <div class="stat">Khmer Real Estate</div>
+                    </div>
                 </div>
-            </div>
-        <body class="hm-gradient">
-
-        <main>
-            <!--MDB Tables-->
-            <div class="container mt-4">
-                <div class="card mb-4">
-                    <div class="card-body">
-                        <!-- Grid row -->
-
-                        <!-- Grid row -->
-                        <!--Table-->
-                        <table class="table table-striped">
-                            <!--Table head-->
-                            <thead>
-                            <tr>
-                                <th>ID</th>
-                                <th>Name</th>
-                                <th>Email</th>
-                                <th>Province</th>
-                                <th>Phone</th>
-                                <th>Action</th>
-                                <th>Disable</th>
-                            </tr>
-                            </thead>
-                            <!--Table head-->
-                            <!--Table body-->
-                            <tbody >
-                            <template v-for="list in UserList ">
-                                <tr>
-                                    <th scope="row">{{list.id}}</th>
-                                    <td>{{list.name}}</td>
-                                    <td>{{list.email}}</td>
-                                    <td>{{list.province}}</td>
-                                    <td>{{list.phone}}</td>
-                                    <td>
-                                        <a href="#popup" @click="getId(list.id)">
-                                            <i class="fas fa-trash-alt" style="margin-right: 20px; cursor: pointer" ></i>
-                                        </a>
-                                    </td>
-                                    <td>
-                                        <label class="toggleSwitch nolabel" >
-                                            <input :id="`${list.id}`" type="checkbox"  @click="check(list.id)" :checked="`${list.disable=='true'?true:false}`">
-                                            <span>
-                                            <span>OFF</span>
-                                            <span>ON</span>
-                                            </span>
-                                            <a></a>
-                                        </label>
-                                    </td>
-                                </tr>
-                            </template>
-
-                            <div id="popup" class="overlay">
-                                <div class="popup">
-                                    <h6>Are Your Sure to delete!!!!!</h6>
-                                    <a href="#admin">
-                                        <button type="button" class="btn btn-primary btn-sm" @click="Dodelete(id)">Delete</button>
-                                    </a>
-                                    <a class="close" href="#admin">&times;</a>
-                                </div>
-                            </div>
-                            </tbody>
-                            <!--Table body-->
-                        </table>
-                        <!--Table-->
+                <div class="col-12 col-md-6 col-lg-4 col-xl-3 mb-4">
+                    <div class="card red">
+                        <div class="title">Promoted</div>
+                        <i class="zmdi zmdi-download"></i>
+                        <div class="value">{{Promoted}}</div>
+                        <div class="stat">Khmer Real Estate</div>
                     </div>
                 </div>
             </div>
-            <!--MDB Tables-->
-
-        </main>
-
-        </body>
-
-
+        </div>
     </div>
 </template>
 
@@ -132,52 +45,26 @@
             return{
                 UserList:[],
                 list:[],
-                id:''
+                id:'',
+                allEstate:'',
+                allUser:'',
+                Amount:'',
+                Promoted:''
             }
         },
         mounted() {
-            this.Userlist()
+            this.Dashboard()
         },
         methods:{
-            getId(id){
-                this.id = id;
-            },
-            Dodelete(id){
-                axios.get('api/DeleteUser/'+id).then(response => {
-                    console.log(response.data)
-                    this.Userlist()
-                }).catch(err => {
-                    console.log(err);
-                });
-            },
-            check(id){
-                const checkbox = document.getElementById(`${id}`)
-                axios.get('api/disable/'+id+'/'+checkbox.checked).then(response => {
-                    console.log(response.data)
-                }).catch(err => {
-                    console.log(err);
-                });
-            },
-            Userlist(){
-                axios.get('api/userlist').then(response => {
-                     this.UserList = response.data;
-                    response.data.forEach((valueList)=>{
-                        if(valueList.disable == 'true'){
-                            const checkbox = document.getElementById(`${valueList.id}`)
-                            console.log(checkbox.checked)
-                        }else{
-                            const checkbox = document.getElementById(`${valueList.id}`)
-                            checkbox.checked = false
-                        }
-                    })
-
-                }).catch(err => {
-                    console.log(err);
-                });
-            },
-            deleteuser(id){
-                axios.get('api/userlist/'+id).then(response => {
-                   console.log(response.data)
+            Dashboard(){
+                axios.get('api/Dashboard').then(response => {
+                    if (response.status == 200 ){
+                        console.log(response.data)
+                        this.allEstate = response.data.allEstate
+                        this.allUser = response.data.allUser
+                        this.Amount = response.data.allAmount
+                        this.Promoted = response.data.allPromoted
+                    }
                 }).catch(err => {
                     console.log(err);
                 });

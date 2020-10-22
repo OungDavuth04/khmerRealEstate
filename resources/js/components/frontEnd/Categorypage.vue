@@ -13,9 +13,9 @@
                         <div class="card">
                             <img class="card-img-top" :src="item.images[0].image" alt="Card image cap">
                             <div class="card-body">
-                                <h5 class="card-title">{{item.title}}</h5>
-                                <span>Price : {{item.price}}</span>
-                                <p class="card-text description">{{item.description}}</p>
+                                <h5 class="card-title text-overflow">{{item.title}}</h5>
+                                <span>Price :${{item.price}}</span>
+                                <p class="card-text text-overflow">{{item.description}}</p>
                             </div>
                         </div>
                     </div>
@@ -72,6 +72,12 @@
 </script>
 
 <<style scoped lang="scss">
+    .text-overflow{
+        white-space: nowrap;
+        width: 100%;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
     .card {
         margin-bottom: 1rem;
     }

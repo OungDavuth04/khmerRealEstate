@@ -241,6 +241,7 @@
                 this.data.up_id =  this.$store.getters.getEditId;
                 axios.post('api/update_post', this.data).then(response =>{
                    this.$emit('changeForm', {formName: 'userpagemaster.user'});
+                    window.location.reload();
                 }).catch(err =>{
                     console.error(err);
                 });

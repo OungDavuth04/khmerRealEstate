@@ -1,14 +1,8 @@
 <template>
     <div class="container-md">
-
-
-
-
         <!-- Default form contact -->
             <div class="create-store-panel p-5 shadow mx-auto">
-
                 <p class="h4 text-center mb-4">Complete your Information</p>
-
                 <!-- Default input name -->
                 <label class="grey-text">Title</label>
                 <input type="text"  class="form-control" v-model="data.title">
@@ -61,7 +55,6 @@
                 <input type="number" v-model="data.price" class="form-control">
 
                 <br>
-
                 <!-- Default textarea message -->
                 <label  class="grey-text">Description</label>
                 <textarea type="text"  class="form-control" rows="8" v-model="data.description"></textarea>

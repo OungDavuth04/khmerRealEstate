@@ -26,6 +26,7 @@ import MgRealEstate from "../components/backEnd/MgRealEstate";
 import Report from "../components/backEnd/Report";
 import RealEstatePromoted from "../components/backEnd/RealEstatePromoted";
 import PaymentList from "../components/backEnd/PaymentList";
+import ResetNewPassword from "../components/ResetNewPassword";
 
 
 const routes = [
@@ -146,7 +147,6 @@ const routes = [
 
         ]
     },
-
     {
         path:'/login',
         name:'login',
@@ -158,13 +158,15 @@ const routes = [
         component: Register
     },
     {
+        path:'/resetNewPassword',
+        name:'resetnewpassword',
+        component:ResetNewPassword
+    },
+    {
         path:'/edit_post',
         name:'edit_post',
         component: EditPost
     }
-    ,
-
-
 ];
 
 // 3. Create the router instance and pass the `routes` option

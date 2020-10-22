@@ -23,33 +23,54 @@ use Stripe\ApiOperations\Create;
 class ProductController extends Controller
 {
     public function UpdateProfile(Request $request){
-        $photo = null;
-        foreach ($request->profile as $item) {
-            if ($item["isNew"]) {
-                $explodeRawImage = explode(',', $item['img']);
-                $decodedImage = base64_decode($explodeRawImage[1]);
-                $generateRandomNumberForFileName = explode(" ", microtime());
-                $imageNameWithExtension = $generateRandomNumberForFileName[0] . '.' . explode('/', explode(':', substr($item['img'], 0, strpos($item['img'], ';')))[1])[1];
-                $saveDirectory = storage_path() . '/app/public/profile/' . $imageNameWithExtension;
-                file_put_contents($saveDirectory, $decodedImage);
-                $photo = 'storage/profile/' . $imageNameWithExtension;
-                User::where('id',$request->id)->update([
-                    'name' => $request->name,
-                    'dob' => $request->dob,
-                    'phone' => $request->phone,
-                    'gender' => $request->gender,
-                    'profile' => $photo
-                ]);
+        $delete = User::where('id', $request->id)->get();
+            foreach ($delete as $remove){
+                if($remove->profile == ""){
+                    $photo = null;
+                    foreach ($request->profile as $item) {
+                        if ($item["isNew"]) {
+                            $explodeRawImage = explode(',', $item['img']);
+                            $decodedImage = base64_decode($explodeRawImage[1]);
+                            $generateRandomNumberForFileName = explode(" ", microtime());
+                            $imageNameWithExtension = $generateRandomNumberForFileName[0] . '.' . explode('/', explode(':', substr($item['img'], 0, strpos($item['img'], ';')))[1])[1];
+                            $saveDirectory = storage_path() . '/app/public/profile/' . $imageNameWithExtension;
+                            file_put_contents($saveDirectory, $decodedImage);
+                            $photo = 'storage/profile/' . $imageNameWithExtension;
+                            User::where('id',$request->id)->update([
+                                'name' => $request->name,
+                                'dob' => $request->dob,
+                                'phone' => $request->phone,
+                                'gender' => $request->gender,
+                                'profile' => $photo
+                            ]);
+                        }
+                    }
+                    return response()-> json(['Message' => 'successful'],200);
+                }else{
+                    $getImageNameOnly = explode('/', $remove->profile);
+                    Storage::delete("/public/profile/".$getImageNameOnly[2]);
+                    $photo = null;
+                    foreach ($request->profile as $item) {
+                        if ($item["isNew"]) {
+                            $explodeRawImage = explode(',', $item['img']);
+                            $decodedImage = base64_decode($explodeRawImage[1]);
+                            $generateRandomNumberForFileName = explode(" ", microtime());
+                            $imageNameWithExtension = $generateRandomNumberForFileName[0] . '.' . explode('/', explode(':', substr($item['img'], 0, strpos($item['img'], ';')))[1])[1];
+                            $saveDirectory = storage_path() . '/app/public/profile/' . $imageNameWithExtension;
+                            file_put_contents($saveDirectory, $decodedImage);
+                            $photo = 'storage/profile/' . $imageNameWithExtension;
+                            User::where('id',$request->id)->update([
+                                'name' => $request->name,
+                                'dob' => $request->dob,
+                                'phone' => $request->phone,
+                                'gender' => $request->gender,
+                                'profile' => $photo
+                            ]);
+                        }
+                    }
+                    return response()-> json(['Message' => 'successful'],200);
+                }
             }
-        }
-
-//            $delete = User::where('id', $request->id)->get();
-//            foreach ($delete as $remove){
-//                $getImageNameOnly = explode('/', $remove->profile);
-//                Storage::delete("/public/profile/".$getImageNameOnly[1]);
-//            }
-
-        return response()-> json($photo);
     }
 
 
@@ -108,8 +129,8 @@ class ProductController extends Controller
                 $store->commune = $data->commune;
                 $store->images = $imag;
                 $store->upId = $data->UpId;
-                $store->cat_name = $data->cat_nam;
-                $store->timer = $data->created_at->diffForHumans();
+                $store->cat_name = $data->cat_name;
+                $store->timer = $value->created_at->diffForHumans();
                 $store->viewers = $value->viewer;
                 array_push($export,$store);
             }
@@ -152,7 +173,7 @@ class ProductController extends Controller
         return response()->json($export);
     }
     public  function getfavorite(Request $request){
-        $data = UserData::where('uid',$request->uid)->orderBy('dataId','DESC')->limit(3)->get();
+        $data = UserData::where('uid',$request->uid)->orderBy('dataId','DESC')->limit(12)->get();
         foreach ($data as $value){
            $resp = Upload::where('cat_name',$value->catName)->get();
         }
@@ -419,7 +440,7 @@ class ProductController extends Controller
         foreach ($data as $set){
          array_push($UpId,$set->UpId );
         }
-        $random = array_rand($UpId,4);
+        $random = array_rand($UpId,12);
         foreach ($random as $item) {
             array_push($alldata,$UpId[$item]) ;
         }
@@ -427,6 +448,18 @@ class ProductController extends Controller
             ->orWhere('UpId',$alldata[1])
             ->orWhere('UpId',$alldata[2])
             ->orWhere('UpId',$alldata[3])
+            ->orWhere('UpId',$alldata[4])
+            ->orWhere('UpId',$alldata[5])
+           ->orWhere('UpId',$alldata[6])
+           ->orWhere('UpId',$alldata[7])
+            ->orWhere('UpId',$alldata[8])
+            ->orWhere('UpId',$alldata[9])
+            ->orWhere('UpId',$alldata[10])
+           ->orWhere('UpId',$alldata[11])
+//           ->orWhere('UpId',$alldata[12])
+//            ->orWhere('UpId',$alldata[13])
+//            ->orWhere('UpId',$alldata[14])
+//            ->orWhere('UpId',$alldata[15])
             ->get();
         $all = array();
         foreach ( $data as $value){
@@ -463,7 +496,7 @@ class ProductController extends Controller
 
     public function viewerAvg(){
         $all = array();
-        $topViewer = ViewProduct::orderBy('viewer','DESC')->get();
+        $topViewer = ViewProduct::orderBy('viewer','DESC')->limit(12)->get();
         foreach ($topViewer as $get ){
             $up = Upload::where('UpId',$get->UpId)->get();
             foreach ($up as $value){

@@ -22,3 +22,8 @@ Route::get('/', function () {
     return view('welcome');
 });
 Route::get('importExportView', 'ReportController@export');
+
+
+Route::post('send-token', 'ResetPassword@sendToken');
+Route::post('valid-token', 'ResetPassword@validateToken');
+Route::post('reset-password', 'ResetPassword@resetPassword');

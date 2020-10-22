@@ -15,7 +15,7 @@ class Kernel extends ConsoleKernel
      * @var array
      */
     protected $commands = [
-        Commands\DisableFeature::class,
+        Commands\Feature::class,
     ];
 
     /**

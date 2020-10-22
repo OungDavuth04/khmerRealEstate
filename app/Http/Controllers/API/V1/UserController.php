@@ -89,14 +89,11 @@ class UserController extends Controller
     }
 
     public function login(Request $request){
-
         $request->validate([
             'email' => 'required|string|max:255',
             'password' => 'required|string|min:8',
         ]);
-
         $http = new \GuzzleHttp\Client;
-
         try{
             $response = $http->post(config('services.passport.login_end_point'),[
                 'form_params' => [
@@ -133,6 +130,7 @@ class UserController extends Controller
             'dob' => $request->dob,
             'phone' => $request->phone,
             'gender' => $request->gender,
+            'profile' => ''
         ]);
         return response()->json($request);
     }

@@ -3,12 +3,11 @@
         <card
             class="stripe-card"
             :class="{ complete }"
-            stripe="pk_test_51HBICnJudq0GhlmS69eyMnAa2TBxToPoZtLBmLkVHPYihlhfHMXrt2K8uSr5KsKXW7OSaMqW78aUaEqeeCKMOQuC00G4Wbuh1D"
+            stripe="pk_test_51HehSjAvH7knuOVMsPp3z9E17ESbUPmubLDz5vwGTe38LD1M6Vcl9P7SB0UCxsmeW3BT1xIL5F47K5hxWURMMKUG00Mw46M7NI"
             :options="stripeOptions"
             @change="change($event)"
 
         />
-
         <!-- Used to display form errors. -->
         <div id="card-errors" role="alert" v-text="errorMessage"></div>
     </div>

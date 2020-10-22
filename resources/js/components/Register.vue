@@ -73,10 +73,10 @@
                 <div class="col-sm-12 form-group mb-0">
                     <button class="btn btn-primary float-right" @click="register()">Register</button>
                     <router-link to="/">
-                        <h5 style="color: #0d47a1;">Back Home To Page</h5>
+                        <h5 >Back Home To Page</h5>
                     </router-link>
                     <router-link to="/login">
-                        <h5 style="color: #0d47a1;">Log In</h5>
+                        <h5 >Log In</h5>
                     </router-link>
                 </div>
             </div>
@@ -127,18 +127,21 @@
                         this.message = false;
                         console.log('no mach');
                     }
-
-
                 }else {
                     this.messageErr = false;
                 }
             }
         }
-
     }
 </script>
 
 <style scoped>
+    label{
+        color: white;
+    }
+    h5{
+        color:#1d91e8 ;
+    }
     .container{
         margin:0 auto;
 

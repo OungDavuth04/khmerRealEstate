@@ -59,18 +59,21 @@ Route::get('viewer/avg', 'API\V1\ProductController@viewerAvg');
 Route::get('viewerpromote/{id}', 'API\V1\ProductController@viewerpromote');
 
 ///Admin
-Route::get('userlist', 'AdminController@UserList');
+Route::get('userlist/{search}', 'AdminController@UserList');
 Route::get('disable/{id}/{disable}', 'AdminController@disable');
 Route::get('disablepro/{id}/{disable}', 'AdminController@disablepro');
 Route::get('DeleteUser/{id}', 'AdminController@DeleteUser');
 Route::get('deletepro/{id}', 'AdminController@deletepro');
-Route::get('estatelist', 'AdminController@estatelist');
-Route::get('EstatePromoted', 'AdminController@EstatePromoted');
+Route::get('estatelist/{search}', 'AdminController@estatelist');
+Route::get('EstatePromoted/{search}', 'AdminController@EstatePromoted');
 Route::get('DeletePromote/{id}', 'AdminController@DeletePromote');
 Route::get('disablePromote/{id}/{disable}', 'AdminController@disablePromote');
+Route::get('paymentlist/{search}', 'AdminController@paymentlist');
 
 
 Route::get('test', 'AdminController@test');
+Route::get('Dashboard', 'AdminController@Dashboard');
 
 //Report Export
-Route::get('export', 'AdminController@exportExcel');
+Route::post('export', 'AdminController@exportExcel');
+Route::post('ChangePass', 'ResetPassword@ChangePassword');

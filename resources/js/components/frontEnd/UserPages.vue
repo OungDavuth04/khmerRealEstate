@@ -14,14 +14,45 @@
                             <i class="fas fa-align-justify setting-bar dropleft" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></i>
                             <div class="dropdown-menu ">
                                 <a class="dropdown-item" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">Edit Profile</a>
-                                <a class="dropdown-item" href="#">Another action</a>
-                                <a class="dropdown-item" href="#">Something else here</a>
+                                <a class="dropdown-item" data-toggle="modal" data-target="#EditPassword">Change Password</a>
                                 <div class="dropdown-divider"></div>
                                 <a class="dropdown-item" @click="logout()">Log Out</a>
                             </div>
                         </div>
                     </li>
                 </ul>
+            </div>
+            <!-- Modal -->
+            <div class="modal fade" id="EditPassword" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" >Change Password</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="card login-form">
+                                <div class="card-body">
+                                    <div class="card-text">
+                                        <div class="form-group">
+                                            <div class="alert alert-warning" role="alert" v-if="MessageError !== ''">
+                                                {{MessageError}}
+                                            </div>
+                                            <input type="password" class="form-control form-control-sm" v-model="ChangePass.CurrentPass" placeholder="Current Password">
+                                            <input type="password" class="form-control form-control-sm" v-model="ChangePass.NewPass" placeholder="New Password">
+                                            <input type="password" class="form-control form-control-sm" v-model="ChangePass.RetypePass" placeholder="Re-Type New Password">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-primary" @click="ChangePassword">Save changes</button>
+                        </div>
+                    </div>
+                </div>
             </div>
         </header>
 
@@ -35,10 +66,6 @@
                                 <div class="col-sm-6 form-group ">
                                     <label for="name-f" class="text-white">Full Name</label>
                                     <input type="text" class="form-control" v-model="data.name"  placeholder="Enter your first name." required>
-                                </div>
-                                <div class="col-sm-6 form-group">
-                                    <label for="email" class="text-white">Email</label>
-                                    <input type="email" class="form-control" v-model="data.email"  placeholder="Enter your email." required>
                                 </div>
                                 <div class="col-sm-6 form-group">
                                     <label for="Country" class="text-white">City/Province</label>
@@ -80,21 +107,10 @@
                                         <option value="male">Male</option>
                                         <option value="female">Female</option>
                                     </select>
-                                    <a class="text-white" @click="Reset()">Reset Password</a>
                                 </div>
                                 <div class="col-sm-4 form-group">
                                     <label for="tel" class="text-white">Phone</label>
                                     <input type="tel" name="phone" v-model="data.phone" class="form-control" id="tel" placeholder="Enter Your Contact Number." required>
-                                </div>
-                                <div class="col-sm-6 form-group" v-if="OldPassword === true">
-                                    <label for="pass" class="text-white">Enter Old Password</label>
-                                    <input type="Password" name="password"  class="form-control" id="pass" placeholder="Enter your password." required>
-                                </div>
-                                <div class="col-sm-6 form-group" v-if="ResetPassword === true">
-                                    <label for="pass2" class="text-white">Enter New Password</label>
-                                    <input type="Password" name="cnf-password"  class="form-control" id="pass2" placeholder="Re-enter your password." required>
-                                </div>
-                                <div class="col-sm-6 form-group">
                                     <div id="file">
                                         <input multiple id="fileOpen" type="file" @change="previewImage" class="d-none">
                                         <div class="img-container one" @click="openFileExplore">
@@ -106,6 +122,15 @@
                                             <img :src="t.img">
                                         </div>
                                     </div>
+                                </div>
+                                <br>
+                                <div class="col-sm-6 form-group" v-if="OldPassword === true">
+                                    <label for="pass" class="text-white">Enter Old Password</label>
+                                    <input type="Password" name="password"  class="form-control" id="pass" placeholder="Enter your password." required>
+                                </div>
+                                <div class="col-sm-6 form-group" v-if="ResetPassword === true">
+                                    <label for="pass2" class="text-white">Enter New Password</label>
+                                    <input type="Password" name="cnf-password"  class="form-control" id="pass2" placeholder="Re-enter your password." required>
                                 </div>
                                 <div class="col-sm-12 form-group mb-0">
                                     <button class="btn btn-primary float-right" @click="editProfile" >Update</button>
@@ -188,7 +213,7 @@
                                         <div class="card" style="width: 16.4rem; margin: 5px;">
                                             <img class="card-img-top":src="item.images.length>0?item.images[0].image:''" alt="Card image cap">
                                             <div class="card-body">
-                                                <h5 class="card-title" v-text="item.title" style="color:#0b75c9; ;"></h5>
+                                                <h5 class="card-title text-overflow" v-text="item.title" style="color:#0b75c9; ;"></h5>
                                                 <p style="color: #2e7d32;">Price : <span>{{item.price}}$</span></p>
                                             </div>
                                         </div>
@@ -201,7 +226,7 @@
                                             <div class="card" style="width: 16.4rem; margin: 5px;">
                                                 <img class="card-img-top":src="item.images.length>0?item.images[0].image:''" alt="Card image cap">
                                                 <div class="card-body">
-                                                    <h5 class="card-title" v-text="item.title" style="color:#0b75c9; ;"></h5>
+                                                    <h5 class="card-title text-overflow" v-text="item.title" style="color:#0b75c9; ;"></h5>
                                                     <p style="color: #2e7d32;">Price : <span>{{item.price}}$</span></p>
                                                     <div class="btn-group">
                                                         <button type="button" class=" btn1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" >
@@ -250,6 +275,8 @@
     export default {
         data(){
             return{
+                uPassword:'',
+                alertErr:false,
                 ResetPassword:false,
                 OldPassword:false,
                 name: "",
@@ -286,12 +313,37 @@
                     temp_id: 0,
                     removed_image_array: [],
                 },
+                ChangePass:{
+                    CurrentPass:'',
+                    NewPass:'',
+                    RetypePass:'',
+                    emailUser:'',
+                    user_id:''
+                },
+                MessageError:''
             }
         },
         mounted() {
             this.GetUserInfor();
         },
         methods:{
+            ChangePassword(){
+                if(this.ChangePass.CurrentPass !== '' && this.ChangePass.NewPass !== '' && this.ChangePass.RetypePass !== ''){
+                    axios.post('api/ChangePass', this.ChangePass).then(response => {
+                        console.log(response.data)
+                        if(response.data.Message === 'Changed'){
+                            window.location.reload();
+                        }else {
+                            this.MessageError = response.data.Message
+                        }
+                    }).catch(err => {
+                        console.log(err);
+                        this.alertErr = true
+                    });
+                }else {
+                    this.alertErr = true
+                }
+            },
             openFileExplore(){
                 $('#fileOpen').click();
             },
@@ -321,7 +373,7 @@
                 this.data.profile = this.data1.temp
                 axios.post('api/UpdateProfile',this.data).then(response =>{
                     console.log(response.data);
-                   window.location.reload();
+                  window.location.reload();
                 }).catch(err =>{
                     console.error(err);
                 });
@@ -338,7 +390,7 @@
                 axios.get('api/getpromote').then(response =>{
                     this.promoteData = response.data;
                 }).catch(err =>{
-                    //console.error(err);
+                    console.error(err);
                 });
             },
             getId(id){
@@ -364,19 +416,22 @@
                 const trustClientToken = window.localStorage.getItem('userAccessToken');
                 axios.defaults.headers.common['Authorization'] = 'Bearer '+ trustClientToken;
               await  axios.get('api/user').then(response => {
-                    console.log(response.data.profile);
+                    console.log(response.data);
 
-                   if(response.data.profile !== null){
+                   if(response.data.profile !== ''){
                        this.profile = response.data.profile
                    }else{
-                       this.profile = 'https://upload.wikimedia.org/wikipedia/commons/thumb/7/7e/Circle-icons-profile.svg/1024px-Circle-icons-profile.svg.png'
+                       this.profile = 'https://www.kindpng.com/picc/m/495-4952535_create-digital-profile-icon-blue-user-profile-icon.png'
                    }
+                    this.uPassword = response.data.password
                     this.data.uid = response.data.id
                     this.data = response.data
                     this.name = response.data.name;
                     this.level = response.data.user_lavel;
                     this.uid = response.data.id;
                     this.email = response.data.email;
+                    this.ChangePass.emailUser = response.data.email
+                    this.ChangePass.user_id = response.data.id
                     this.location = response.data.province;
                     this.dob = response.data.dob;
                     this.phone = response.data.phone;
@@ -416,6 +471,15 @@
 </script>
 
 <style scoped lang="scss">
+    input[type='password']{
+        margin: 6px;
+    }
+    .text-overflow{
+        white-space: nowrap;
+        width: 100%;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
     .photo-container{
         display: flex;
         flex-direction: row;

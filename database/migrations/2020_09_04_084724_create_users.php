@@ -25,6 +25,7 @@ class CreateUsers extends Migration
             $table->string('gender');
             $table->string('disable')->default('true');
             $table->string('user_lavel')->default('user');
+            $table->string('profile');
             $table->timestamp('email_verified_at')->nullable();
             $table->rememberToken();
             $table->timestamps();

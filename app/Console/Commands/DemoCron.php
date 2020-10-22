@@ -8,7 +8,7 @@ use Illuminate\Console\Command;
 use Illuminate\Support\Carbon;
 
 
-class DisableFeature extends Command
+class Feature extends Command
 {
     /**
      * The name and signature of the console command.

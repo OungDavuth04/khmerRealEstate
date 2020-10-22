@@ -1,11 +1,44 @@
 <template>
     <div>
-        <download-excel :data="report"
-                        :fields = "json_fields"
-                        worksheet = "My Worksheet"
-                        name    = "filename.xls">
-            Download Data
-        </download-excel>
+        <div class="container">
+            <div class="row">
+                <div class="form-group" style="display: flex;flex-direction: row">
+                    <div style="width: 40%;margin-right: 1rem">
+                        <label for="Report"> Report</label>
+                        <select class="form-control" id="Report" v-model="data.select">
+                            <option value="DailyReport">Daily Report</option>
+                            <option value="WeekReport">Week Report</option>
+                        </select>
+                    </div>
+                    <div style="margin-right: 1rem">
+                        <label > Filter Date</label>
+                        <input type="Date" class="form-control" v-model="data.filter">
+                    </div>
+                    <div style="width: 40%;margin-right: 1rem" >
+                        <button type="submit" class="btn" @click="Export" >Save</button>
+                    </div>
+                    <div style="width: 40%;margin-right: 1rem" id="print">
+                        <download-excel class="btn1" @click="errorMessage"
+                            :data="report"
+                            :fields = "json_fields"
+                            worksheet = "My Worksheet"
+                            name = "filename.xls">
+                            Print Report
+                        </download-excel>
+                    </div>
+
+                </div>
+
+            </div>
+            <div class="error" v-if="error === true">
+                <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                    <strong>Warning!</strong> The Report Out Of Date...
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+            </div>
+        </div>
     </div>
 </template>
 
@@ -14,29 +47,21 @@
         name: "Report",
         data(){
           return{
+              error:false,
+              data:{
+                  filter:'',
+                  select:'',
+              },
               report:[],
               json_fields: {
-                  'promoteId': 'promoteId',
+                  'PromoteId': 'promoteId',
                   'UpId': 'UpId',
-                  'price': 'price',
-                  'Day' : 'day'
+                  'Price': 'price',
+                  'Day' : 'day',
+                  'Expire' :'expire' ,
+                  'Disable':'disable',
+                  'Promoted Viewer':'viewer'
               },
-              json_data: [
-                  {
-                      'name': 'Tony Peña',
-                      'city': 'New York',
-                      'country': 'United States',
-                      'birthdate': '1978-03-15',
-
-                  },
-                  {
-                      'name': 'Thessaloniki',
-                      'city': 'Athens',
-                      'country': 'Greece',
-                      'birthdate': '1987-11-23',
-
-                  }
-              ],
               json_meta: [
                   [
                       {
@@ -48,21 +73,54 @@
           }
         },
         mounted() {
-            this.Export()
+            $('#print').hide()
         },
         methods:{
+            errorMessage(){
+
+            },
             Export(){
-                axios.get('api/export').then(response => {
-                 console.log(response.data)
-                    this.report = response.data
-                }).catch(err => {
-                    console.log(err);
-                });
+                    axios.post('api/export',this.data).then(response => {
+                        console.log(response.data)
+                        this.report = response.data
+                        if (this.report.length < 1 || this.report === undefined){
+                            this.error = true
+                            $('#print').hide()
+                        }else {
+                            this.error = false
+                            $('#print').show()
+                        }
+
+                    }).catch(err => {
+                        console.log(err);
+                    });
+
             }
         }
     }
 </script>
 
 <style scoped>
-
+    .btn{
+        background: #0c7cd5;
+        width: 140px;
+        height: 38px;
+        margin-top: 20px;
+    }
+    .btn1{
+        cursor: pointer;
+        background: #6cb2eb;
+        width: 140px;
+        height: 38px;
+        margin-top: 20px;
+    }
+    .row{
+        padding: 2%;
+        background: #ffffff;
+        width: 100%;
+    }
+    .error{
+        padding: 1%;
+        width: 100%;
+    }
 </style>

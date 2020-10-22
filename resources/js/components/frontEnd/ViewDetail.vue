@@ -55,11 +55,6 @@
                                                 {{data.description}}
                                             </p>
                                         </div>
-                                        <div>
-                                            <button class="btn btn-primary">
-                                                Visit User Upload
-                                            </button>
-                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -82,11 +77,11 @@
                             <div class="card" @click="Detail(item.upId,item.cat_name)" >
                                 <img class="card-img-top" :src="item.images[0].image" alt="Card image cap">
                                 <div class="card-body">
-                                    <h5 class="card-title"> {{item.title}}</h5>
+                                    <h5 class="card-title text-overflow"> {{item.title}}</h5>
                                     <span>Price : {{item.price}}$</span>
-                                    <p class="card-text description">
+                                    <div class="card-text text-overflow">
                                         {{item.description}}
-                                    </p>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -190,7 +185,12 @@
 
 <style lang="scss" scoped>
 
-
+    .text-overflow{
+        white-space: nowrap;
+        width: 100%;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
     .card-title{
         font-size: smaller ;
         color: #0d47a1;
